@@ -1,7 +1,7 @@
 package Test;
 
-import Game.HexPos;
-import Game.HexDir;
+import Games.HexPos;
+import Games.HexDir;
 
 import org.junit.jupiter.api.Test;
 

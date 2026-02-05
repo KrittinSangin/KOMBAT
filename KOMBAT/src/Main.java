@@ -1,4 +1,4 @@
-import Game.*;
+import Games.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,8 +26,7 @@ public class Main
 		);
 
 		Game instance = new Game(info);
-
-
+		instance.start();
     }
 
 	private void populateConfig()

@@ -1,4 +1,4 @@
-package Game;
+package Games;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -60,6 +60,11 @@ public class Game
 			turn = 0;
 		}
 
+		@Override
+		public String toString()
+		{
+			return "StartState";
+		}
 	}
 
 	private class BuyState extends AbstractState
@@ -113,7 +118,13 @@ public class Game
 		@Override
 		public State nextState()
 		{
-			return resign? new Game.Game.EndState(this) : new ExecuteState(this);
+			return resign? new EndState(this) : new ExecuteState(this);
+		}
+
+		@Override
+		public String toString()
+		{
+			return "BuyState(" + (hexBought? "Hex" : "Minion") + ")";
 		}
 	}
 
@@ -148,6 +159,12 @@ public class Game
 		{
 			return endStateCondition()? new EndState(this) : new BuyState(this);
 		}
+
+		@Override
+		public String toString()
+		{
+			return "ExecuteState";
+		}
 	}
 
 	private class EndState extends AbstractState
@@ -179,6 +196,12 @@ public class Game
 		public State nextState()
 		{
 			return null;
+		}
+
+		@Override
+		public String toString()
+		{
+			return "EndState";
 		}
 	}
 
@@ -235,6 +258,11 @@ public class Game
 	public List<Minion> getMinions()
 	{
 		return storage.getIf((x)->true);
+	}
+
+	public String getStateString()
+	{
+		return gameState.toString();
 	}
 
 	public void start()
