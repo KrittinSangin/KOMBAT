@@ -9,6 +9,8 @@ public class HexMap
 	private final int width;
 	private final int height;
 
+
+
 	public HexMap(int w, int h)
 {
 		this.width = w;

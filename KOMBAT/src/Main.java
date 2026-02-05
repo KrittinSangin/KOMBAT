@@ -40,8 +40,10 @@ public class Main
 			 if (ipm.readInput(sc.nextLine()))
 			 {
 				 instance.update(ipm.getIntent());
+//				 instance.update(PlayerIntent.RESIGN);
 			 }
 			 cv.draw();
+
 		}
     }
 

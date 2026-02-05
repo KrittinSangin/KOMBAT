@@ -30,7 +30,7 @@ public class ConsoleInputManager implements InputManager
 			col = Integer.parseInt(split[2]);
 			idx = Integer.parseInt(split[3]);
 
-			newIntent = new PlayerIntent(PlayerIntent.Intent.buyHex,new HexPos(row,col),idx);
+			newIntent = new PlayerIntent(PlayerIntent.Intent.buyMinion,new HexPos(row,col),idx);
 		}
 
 		intent = newIntent;

@@ -13,6 +13,7 @@ public class Budget
 	{
 		budget += Config.TURN_BUDGET + interest(turn);
 	}
+	public double getBudget() {return budget;}
 
 	private double interest(int turn)
 	{

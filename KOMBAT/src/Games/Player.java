@@ -48,6 +48,8 @@ public class Player
 		return deck;
 	}
 
+	public PlayerInfo getPlayerInfo() {return info;}
+
 	public Minion getDeckMinion(int idx)
 	{
 		return deck.get(idx);

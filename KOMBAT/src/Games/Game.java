@@ -8,8 +8,11 @@ public class Game
 	private interface State
 	{
 		void resolve(PlayerIntent intent);
+
 		void exit();
+
 		boolean checkSwitchState();
+
 		State nextState();
 	}
 
@@ -20,7 +23,9 @@ public class Game
 			prev.exit();
 		}
 
-		public AbstractState(){};
+		public AbstractState() {}
+
+		;
 	}
 
 	private class StartState extends AbstractState
@@ -30,7 +35,9 @@ public class Game
 			super(prev);
 		}
 
-		public StartState(){};
+		public StartState() {}
+
+		;
 
 		@Override
 		public void resolve(PlayerIntent intent)
@@ -81,7 +88,9 @@ public class Game
 			super(state);
 		}
 
-		public BuyState(){};
+		public BuyState() {}
+
+		;
 
 		@Override
 		public void resolve(PlayerIntent intent)
@@ -124,13 +133,13 @@ public class Game
 		@Override
 		public State nextState()
 		{
-			return resign? new EndState(this) : new ExecuteState(this);
+			return resign ? new EndState(this) : new ExecuteState(this);
 		}
 
 		@Override
 		public String toString()
 		{
-			return "BuyState(" + (hexBought? "Hex" : "Minion") + ")";
+			return "BuyState(" + (hexBought ? "Hex" : "Minion") + ")";
 		}
 	}
 
@@ -163,7 +172,7 @@ public class Game
 		@Override
 		public State nextState()
 		{
-			return endStateCondition()? new EndState(this) : new BuyState(this);
+			return endStateCondition() ? new EndState(this) : new BuyState(this);
 		}
 
 		@Override
@@ -239,14 +248,14 @@ public class Game
 		Player p1 = new Player(info.info1(), new Budget(), info.deck1());
 		p1.initialize(storage, merchant, map);
 		for (HexPos pos : Config.START_HEX_POS_P1)
-			p1.buyHex(map.get(pos),true);
+			p1.buyHex(map.get(pos), true);
 
 		players.add(p1);
 
 		Player p2 = new Player(info.info2(), new Budget(), info.deck2());
 		p2.initialize(storage, merchant, map);
 		for (HexPos pos : Config.START_HEX_POS_P2)
-			p1.buyHex(map.get(pos),true);
+			p1.buyHex(map.get(pos), true);
 
 		players.add(p2);
 	}
@@ -269,6 +278,16 @@ public class Game
 	public String getStateString()
 	{
 		return gameState.toString();
+	}
+
+	public int getTurn()
+	{
+		return turn;
+	}
+
+	public int getRound()
+	{
+		return round;
 	}
 
 	public void start()
@@ -304,6 +323,5 @@ public class Game
 	{
 		return gameState.toString().equals("EndState");
 	}
-
 
 }
