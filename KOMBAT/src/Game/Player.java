@@ -58,28 +58,31 @@ public class Player
 		budget.income(turn);
 	}
 
-	public void buyHex(Hex h)
+	public boolean buyHex(Hex h)
 	{
-		Hex hex = merchant.buyHex(this, h);
-		if (hex == null) return;
+		return buyHex(h, true);
+	}
+
+	public boolean buyHex(Hex h, boolean bypass)
+	{
+		//owner guard
+		if (h.haveOwner()) return false;
+
+		//pay guard
+		Hex hex = bypass ? h : merchant.buyHex(this, h);
+		if (hex == null) return false;
 
 		territories.add(hex);
 		hex.setOwner(this);
+		return true;
 	}
 
 	public boolean spawnMinion(Hex hex, Minion m)
 	{
-		//owner guard
-		if (!hex.isOwner(this)) return false;
-
-		//budget guard
-		Minion minion = merchant.buyMinion(this, m);
-		if (minion == null) return false;
-
-		return spawnMinionFree(hex, m);
+		return spawnMinion(hex, m, false);
 	}
 
-	public boolean spawnMinionFree(Hex hex, Minion m)
+	public boolean spawnMinion(Hex hex, Minion m, boolean bypass)
 	{
 		//spawn count guard
 		if (spawnCount == Config.MAX_SPAWNS) return false;
@@ -87,22 +90,34 @@ public class Player
 		//owner guard
 		if (!hex.isOwner(this)) return false;
 
-		Minion clone = m.prototypeClone();
+		//budget guard
+		Minion minion = bypass ? m : merchant.buyMinion(this, m);
+		if (minion == null) return false;
 
+		//clone from prototype (deck)
+		Minion clone = minion.prototypeClone();
+
+		//handle instances
 		storage.add(clone);
 		spawns.add(clone);
 		map.put(hex.Pos, m);
 
+		//handle minion
 		m.setHex(hex);
 
 		//m.addListener(onMinionDead);
 
+		//update count
 		spawnCount++;
+
 		return true;
 	}
+
 
 	private void onMinionDead(Minion m)
 	{
 		spawns.remove(m);
 	}
+
+	public int getMinionCount() {return spawns.size();}
 }

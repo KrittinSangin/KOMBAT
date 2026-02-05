@@ -15,4 +15,6 @@ public class Config
 	//additional config
 	public static int MAP_WIDTH;
 	public static int MAP_HEIGHT;
+	public static HexPos[] START_HEX_POS_P1;
+	public static HexPos[] START_HEX_POS_P2;
 }

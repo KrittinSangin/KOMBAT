@@ -19,9 +19,14 @@ public class Budget
 		return budget * Config.INTEREST_PCT * Math.log10(budget) * Math.log(turn) / 100;
 	}
 
+	public boolean enough(int price)
+	{
+		return budget > price;
+	}
+
 	public boolean pay(int price)
 	{
-		if (budget - price > 0)
+		if (enough(price))
 		{
 			budget -= price;
 			return true;
