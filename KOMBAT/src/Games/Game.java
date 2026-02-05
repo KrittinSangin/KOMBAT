@@ -90,8 +90,6 @@ public class Game
 
 		public BuyState() {currentPlayer().onTurnStart(round);}
 
-		;
-
 		@Override
 		public void resolve(PlayerIntent intent)
 		{
@@ -101,8 +99,15 @@ public class Game
 				return;
 			}
 
+
 			if (!hexBought)
 			{
+				if (intent.intent().equals(PlayerIntent.Intent.skip))
+				{
+					hexBought = true;
+					return;
+				}
+
 				if (intent.intent().equals(PlayerIntent.Intent.buyHex))
 					currentPlayer().buyHex(map.get(intent.hex()));
 				hexBought = true;
@@ -111,6 +116,12 @@ public class Game
 
 			if (!minionBought)
 			{
+				if (intent.intent().equals(PlayerIntent.Intent.skip))
+				{
+					minionBought = true;
+					return;
+				}
+
 				if (intent.intent().equals(PlayerIntent.Intent.buyMinion))
 					currentPlayer().spawnMinion(
 						map.get(intent.hex()),
@@ -255,7 +266,7 @@ public class Game
 		Player p2 = new Player(info.info2(), new Budget(), info.deck2());
 		p2.initialize(storage, merchant, map);
 		for (HexPos pos : Config.START_HEX_POS_P2)
-			p1.buyHex(map.get(pos), true);
+			p2.buyHex(map.get(pos), true);
 
 		players.add(p2);
 	}

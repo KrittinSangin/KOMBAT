@@ -11,11 +11,15 @@ public class ConsoleInputManager implements InputManager
 		PlayerIntent newIntent = null;
 		if (input.isBlank())
 		{
-			newIntent = new PlayerIntent(PlayerIntent.Intent.empty,null,null);
+			newIntent = PlayerIntent.EMPTY();
 		}
 		else if (input.matches("resign|quit"))
 		{
-			newIntent = new PlayerIntent(PlayerIntent.Intent.resign,null,null);
+			newIntent = PlayerIntent.RESIGN();
+		}
+		else if (input.matches("continue|skip"))
+		{
+			newIntent = PlayerIntent.SKIP();
 		}
 		else if (input.matches("hex \\d+ \\d+"))
 		{

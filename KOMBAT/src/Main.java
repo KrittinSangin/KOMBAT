@@ -15,11 +15,11 @@ public class Main
 		PlayerInfo p2info = new PlayerInfo("Hadena (Hue) Iroai", 1);
 
 		List<Minion> universalDeck = new ArrayList<>();
+		universalDeck.add(new Minion("0", (int) Config.INIT_HP, 10, new Strategy()));
 		universalDeck.add(new Minion("1", (int) Config.INIT_HP, 10, new Strategy()));
 		universalDeck.add(new Minion("2", (int) Config.INIT_HP, 10, new Strategy()));
 		universalDeck.add(new Minion("3", (int) Config.INIT_HP, 10, new Strategy()));
 		universalDeck.add(new Minion("4", (int) Config.INIT_HP, 10, new Strategy()));
-		universalDeck.add(new Minion("5", (int) Config.INIT_HP, 10, new Strategy()));
 		StartInfo info = new StartInfo(
 			p1info,
 			p2info,
@@ -44,6 +44,15 @@ public class Main
 		injection.add("hex 6 8");
 		injection.add("min 6 8 1");
 		injection.add(" ");
+		injection.add("min 6 8 1");
+		injection.add("skip");
+		injection.add("min 2 2 4");
+		injection.add(" ");
+		injection.add("skip");
+		injection.add("skip");
+		injection.add("skip");
+		injection.add(" ");
+		injection.add("resign");
 
 		cv.draw();
 		for (var ij : injection)
