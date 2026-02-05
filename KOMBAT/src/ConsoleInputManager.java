@@ -9,7 +9,11 @@ public class ConsoleInputManager implements InputManager
 	public boolean readInput(String input)
 	{
 		PlayerIntent newIntent = null;
-		if (input.matches("resign|quit"))
+		if (input.isBlank())
+		{
+			newIntent = new PlayerIntent(PlayerIntent.Intent.empty,null,null);
+		}
+		else if (input.matches("resign|quit"))
 		{
 			newIntent = new PlayerIntent(PlayerIntent.Intent.resign,null,null);
 		}

@@ -67,7 +67,6 @@ public class Game
 		@Override
 		public void exit()
 		{
-			round = 0;
 		}
 
 		@Override
@@ -172,7 +171,7 @@ public class Game
 		@Override
 		public State nextState()
 		{
-			return endStateCondition() ? new EndState(this) : new BuyState(this);
+			return endStateCondition()? new EndState(this) : new BuyState(this);
 		}
 
 		@Override
