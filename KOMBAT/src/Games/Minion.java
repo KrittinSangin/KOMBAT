@@ -31,6 +31,8 @@ public class Minion
 		this.hex = value;
 	}
 
+	public String getName() {return name;}
+
 	public boolean Move(HexDir dir)
 	{
 		HexMap map = hex.Map;

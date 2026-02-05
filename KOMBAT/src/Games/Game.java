@@ -85,9 +85,10 @@ public class Game
 		public BuyState(State state)
 		{
 			super(state);
+			currentPlayer().onTurnStart(round);
 		}
 
-		public BuyState() {}
+		public BuyState() {currentPlayer().onTurnStart(round);}
 
 		;
 

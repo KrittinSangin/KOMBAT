@@ -19,6 +19,8 @@ public class ConsoleCanvas
 	private static final int P1_COL_OFFSET = 2;
 	private static final int P2_COL_OFFSET = 108;
 
+	private static final boolean DO_DRAW_NUMBER = false;
+
 	private final Game game;
 	private char[][] canvas = new char[CANVAS_HEIGHT][CANVAS_WIDTH];
 
@@ -63,26 +65,30 @@ public class ConsoleCanvas
 		StringBuilder sb = new StringBuilder();
 
 		//draw numbers
-		sb.append(' ');
-		for (int i = 1; i < CANVAS_WIDTH; i++)
-			sb.append(i/100 == 0 ? " " : i / 100);
-		IO.println(sb.toString());
-
-		sb = new StringBuilder();
-		sb.append(' ');
-		for (int i = 1; i < CANVAS_WIDTH; i++)
+		if (DO_DRAW_NUMBER)
 		{
-			if (i/10 >= 10) sb.append((i - 100) / 10);
-			else sb.append(i/10 == 0 ? " " : i / 10);
+			sb.append(' ');
+			for (int i = 1; i < CANVAS_WIDTH; i++)
+				sb.append(i/100 == 0 ? " " : i / 100);
+			IO.println(sb.toString());
 
+			sb = new StringBuilder();
+			sb.append(' ');
+			for (int i = 1; i < CANVAS_WIDTH; i++)
+			{
+				if (i/10 >= 10) sb.append((i - 100) / 10);
+				else sb.append(i/10 == 0 ? " " : i / 10);
+
+			}
+			IO.println(sb.toString());
+
+			sb = new StringBuilder();
+			for (int i = 0; i < CANVAS_WIDTH; i++)
+				sb.append(i%10);
+			IO.println(sb.toString());
 		}
-		IO.println(sb.toString());
 
-		sb = new StringBuilder();
-		for (int i = 0; i < CANVAS_WIDTH; i++)
-			sb.append(i%10);
-		IO.println(sb.toString());
-
+		//draw hexs
 		for (int r = 0; r < CANVAS_HEIGHT; r++)
 		{
 			sb = new StringBuilder();
@@ -170,15 +176,25 @@ public class ConsoleCanvas
 		//draw actual hex
 		for (var p : traversalPos)
 		{
+			//initialize vars
 			int r, c;
 			r = p.fst();
 			c = p.snd();
+			Hex hex = game.getMap().get(new HexPos(r,c));
 			boolean isEvenCol = c % 2 == 0;
 
 			//parameter use to tune the hex
 			r = sr + (r * 3 - 2) - 1;
+			r = isEvenCol ? r : r + 1;
 			c = sc + (c * 8 - 3) - 5;
-			drawHex(isEvenCol ? r : r + 1, c);
+
+			//minion and ower handle
+			char owner = ' ';
+			char minion = ' ';
+			if (hex.haveOwner()) owner =  hex.getOwner().getPlayerInfo().name().toUpperCase().toCharArray()[0];
+			if (hex.haveMinion()) minion =  hex.getMinion().getName().toCharArray()[0];
+
+			drawHex(r, c,owner,minion);
 		}
 
 	}
@@ -188,16 +204,16 @@ public class ConsoleCanvas
 	<...>
 	.\=/.
 	*/
-	private void drawHex(int r, int c)
+	private void drawHex(int r, int c, char owner, char minion)
 	{
 		Map<Pair<Integer, Integer>, Character> hexASCII = new HashMap<>();
 		hexASCII.put(new Pair<>(r + 0, c + 1), '/');
 		hexASCII.put(new Pair<>(r + 0, c + 2), '=');
 		hexASCII.put(new Pair<>(r + 0, c + 3), '\\');
 		hexASCII.put(new Pair<>(r + 1, c + 0), '<');
-		hexASCII.put(new Pair<>(r + 1, c + 1), ' ');
-		hexASCII.put(new Pair<>(r + 1, c + 2), ' ');
-		hexASCII.put(new Pair<>(r + 1, c + 3), ' ');
+		hexASCII.put(new Pair<>(r + 1, c + 1), owner);
+		hexASCII.put(new Pair<>(r + 1, c + 2), minion);
+		hexASCII.put(new Pair<>(r + 1, c + 3), owner);
 		hexASCII.put(new Pair<>(r + 1, c + 4), '>');
 		hexASCII.put(new Pair<>(r + 2, c + 1), '\\');
 		hexASCII.put(new Pair<>(r + 2, c + 2), '=');

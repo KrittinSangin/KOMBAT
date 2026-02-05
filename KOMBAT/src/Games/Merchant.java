@@ -10,7 +10,7 @@ public class Merchant
 
 	public Minion buyMinion(Player p, Minion m)
 	{
-		if (p.getBudget().pay((int) Config.MAX_SPAWNS)) return m;
+		if (p.getBudget().pay((int) Config.SPAWN_COST)) return m;
 		return null;
 	}
 }

@@ -11,8 +11,8 @@ public class Main
 	{
 		populateConfig();
 
-		PlayerInfo p1info = new PlayerInfo("a", 0);
-		PlayerInfo p2info = new PlayerInfo("a", 1);
+		PlayerInfo p1info = new PlayerInfo("Rosmia Eifri", 0);
+		PlayerInfo p2info = new PlayerInfo("Hadena (Hue) Iroai", 1);
 
 		List<Minion> universalDeck = new ArrayList<>();
 		universalDeck.add(new Minion("1", (int) Config.INIT_HP, 10, new Strategy()));
@@ -34,18 +34,36 @@ public class Main
 		InputManager ipm = new ConsoleInputManager();
 		ConsoleCanvas cv = new ConsoleCanvas(instance);
 
+		//inject value
+		List<String> injection = new ArrayList<>();
+		injection.add("min 1 1 1");
+		injection.add("min 8 8 1");
+		injection.add("hex 1 4");
+		injection.add("min 1 2 1");
+		injection.add(" ");
+		injection.add("hex 6 8");
+		injection.add("min 6 8 1");
+		injection.add(" ");
 
-		//input
-		while (!instance.isOver())
+		cv.draw();
+		for (var ij : injection)
 		{
-			if (ipm.readInput(sc.nextLine()))
-			{
-				instance.update(ipm.getIntent());
-//				 instance.update(PlayerIntent.RESIGN);
-			}
+			ipm.readInput(ij);
+			instance.update(ipm.getIntent());
 			cv.draw();
-
 		}
+
+		//play by hand
+//		//input
+//		while (!instance.isOver())
+//		{
+//			if (ipm.readInput(sc.nextLine()))
+//			{
+//				instance.update(ipm.getIntent());
+////				 instance.update(PlayerIntent.RESIGN);
+//			}
+//			cv.draw();
+//		}
 	}
 
 	private void populateConfig()

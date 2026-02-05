@@ -62,7 +62,7 @@ public class Player
 
 	public boolean buyHex(Hex h)
 	{
-		return buyHex(h, true);
+		return buyHex(h, false);
 	}
 
 	public boolean buyHex(Hex h, boolean bypass)
