@@ -2,6 +2,7 @@ import Games.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
 public class Main
 {
@@ -27,6 +28,21 @@ public class Main
 
 		Game instance = new Game(info);
 		instance.start();
+
+		Scanner sc = new Scanner(System.in);
+		InputManager ipm = new ConsoleInputManager();
+		ConsoleCanvas cv = new ConsoleCanvas(instance);
+
+
+		//input
+		while(!instance.isOver())
+		{
+			 if (ipm.readInput(sc.nextLine()))
+			 {
+				 instance.update(ipm.getIntent());
+			 }
+			 cv.draw();
+		}
     }
 
 	private void populateConfig()

@@ -37,7 +37,10 @@ public class Game
 		{
 			if (intent.intent() == PlayerIntent.Intent.buyMinion)
 			{
-				players.get(turn).spawnMinion(intent.hex(),intent.minion(), true);
+				currentPlayer().spawnMinion(
+					map.get(intent.hex()),
+					currentPlayer().getDeckMinion(intent.minion()),
+					true);
 				nextTurn();
 			}
 		}
@@ -92,7 +95,7 @@ public class Game
 			if (!hexBought)
 			{
 				if (intent.intent().equals(PlayerIntent.Intent.buyHex))
-					players.get(turn).buyHex(intent.hex());
+					currentPlayer().buyHex(map.get(intent.hex()));
 				hexBought = true;
 				return;
 			}
@@ -100,7 +103,10 @@ public class Game
 			if (!minionBought)
 			{
 				if (intent.intent().equals(PlayerIntent.Intent.buyMinion))
-					players.get(turn).spawnMinion(intent.hex(),intent.minion());
+					currentPlayer().spawnMinion(
+						map.get(intent.hex()),
+						currentPlayer().getDeckMinion(intent.minion())
+					);
 				minionBought = true;
 				return;
 			}
@@ -277,7 +283,7 @@ public class Game
 
 	private void nextTurn()
 	{
-		if (++turn > players.size())
+		if (++turn >= players.size())
 		{
 			turn = 0;
 			round++;
@@ -286,7 +292,17 @@ public class Game
 
 	private boolean endStateCondition()
 	{
-		return players.get(turn).getMinionCount() == 0;
+		return currentPlayer().getMinionCount() == 0;
+	}
+
+	private Player currentPlayer()
+	{
+		return players.get(turn);
+	}
+
+	public boolean isOver()
+	{
+		return gameState.toString().equals("EndState");
 	}
 
 

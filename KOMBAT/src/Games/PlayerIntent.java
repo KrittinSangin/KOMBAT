@@ -1,6 +1,6 @@
 package Games;
 
-public record PlayerIntent(Intent intent, Hex hex, Minion minion)
+public record PlayerIntent(Intent intent, HexPos hex, Integer minion)
 {
 	public enum Intent
 	{
