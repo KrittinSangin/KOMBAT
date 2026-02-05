@@ -115,9 +115,6 @@ public class ConsoleCanvas
 		drawString("Player",sr++,sc);
 		drawString(p.getPlayerInfo().name(),sr++,sc);
 		drawString("Budget " + Integer.toString((int)p.getBudget().getBudget()),sr++,sc);
-
-		//draw state
-		drawString(game.getStateString(),sr++,sc);
 	}
 
 

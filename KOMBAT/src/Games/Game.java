@@ -67,7 +67,7 @@ public class Game
 		@Override
 		public void exit()
 		{
-			turn = 0;
+			round = 0;
 		}
 
 		@Override
@@ -139,7 +139,7 @@ public class Game
 		@Override
 		public String toString()
 		{
-			return "BuyState(" + (hexBought ? "Hex" : "Minion") + ")";
+			return "BuyState(" + (hexBought ? "Minion" : "Hex") + ")";
 		}
 	}
 
@@ -298,6 +298,9 @@ public class Game
 	public void update(PlayerIntent intent)
 	{
 		gameState.resolve(intent);
+
+		if (gameState.checkSwitchState())
+			gameState = gameState.nextState();
 	}
 
 	private void nextTurn()
