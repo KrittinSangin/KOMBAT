@@ -13,7 +13,7 @@ public class Minion
 	private int hp;
 	private final int def;
 
-	public UnaryEvent<Minion> OnDead;
+	public UnaryEvent<Minion> OnDead = new UnaryEvent<Minion>();
 
 	public Minion(String name, int hp, int def, Strategy strat)
 	{
