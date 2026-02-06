@@ -99,15 +99,16 @@ public class Player
 		//clone from prototype (deck)
 		Minion clone = minion.prototypeClone();
 
+		//handle minion
+		clone.setHex(hex);
+		clone.setOwner(this);
+
 		//handle instances
 		storage.add(clone);
 		spawns.add(clone);
-		map.put(hex.Pos, m);
+		map.put(hex.Pos, clone);
 
-		//handle minion
-		m.setHex(hex);
-
-		//m.addListener(onMinionDead);
+		//clone.addListener(onMinionDead);
 
 		//update count
 		spawnCount++;

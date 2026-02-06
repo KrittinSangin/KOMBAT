@@ -12,7 +12,7 @@ public class MinionStorage
 	{
 		boolean result = storage.add(m);
 		// if (result) m.addListener(OnMinionDead);
-		return storage.add(m);
+		return result;
 	}
 
 	public List<Minion> getIf(Predicate<Minion> pred)

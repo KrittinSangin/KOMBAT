@@ -9,8 +9,6 @@ public class HexMap
 	private final int width;
 	private final int height;
 
-
-
 	public HexMap(int w, int h)
 {
 		this.width = w;
@@ -52,7 +50,9 @@ public class HexMap
 
 	public boolean put(HexPos pos, Minion m)
 	{
-		return hexMap.get(pos).put(m);
+		Hex hex = hexMap.get(pos);
+		if (hex == null) return false;
+		return hex.put(m);
 	}
 
 	public boolean remove(HexPos pos)

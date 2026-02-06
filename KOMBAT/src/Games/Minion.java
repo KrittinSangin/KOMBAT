@@ -33,7 +33,11 @@ public class Minion
 
 	public String getName() {return name;}
 
-	public boolean Move(HexDir dir)
+	public Player getOwner() {return owner;}
+
+	public void setOwner(Player value) {owner = value;}
+
+	public boolean move(HexDir dir)
 	{
 		HexMap map = hex.Map;
 		HexPos dest = hex.Pos.nextInDir(dir);
@@ -67,7 +71,7 @@ public class Minion
 
 	public void takeDamage(int dam)
 	{
-		hp = Math.max(hp - Math.max(1,dam - def), 0);
+		hp = Math.max(hp - Math.max(1, dam - def), 0);
 		if (hp < 1)
 			die();
 	}

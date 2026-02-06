@@ -50,17 +50,25 @@ public class Main
 		injection.add(" ");
 		injection.add("skip");
 		injection.add("skip");
-		injection.add("skip");
 		injection.add(" ");
-		injection.add("resign");
 
 		cv.draw();
 		for (var ij : injection)
 		{
+			IO.println(ij);
 			ipm.readInput(ij);
 			instance.update(ipm.getIntent());
 			cv.draw();
 		}
+
+		Minion minion = instance.getMinions().get(4);
+		minion.move(HexDir.downRight); cv.draw();
+		minion.move(HexDir.downRight); cv.draw();
+		minion.move(HexDir.downRight); cv.draw();
+		minion.move(HexDir.downLeft); cv.draw();
+		minion.move(HexDir.down); cv.draw();
+		minion.move(HexDir.upLeft); cv.draw();
+
 
 		//play by hand
 //		//input

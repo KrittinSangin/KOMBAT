@@ -34,7 +34,7 @@ public class ConsoleCanvas implements Canvas
 	public void draw()
 	{
 		//clear to black
-		fillCanvas('.');
+		fillCanvas(' ');
 
 		drawHexMap(game.getMap(), HEX_MAP_START_ROW, HEX_MAP_START_COL);
 
@@ -192,10 +192,12 @@ public class ConsoleCanvas implements Canvas
 			//minion and ower handle
 			char owner = ' ';
 			char minion = ' ';
+			char minionOwner = ' ';
 			if (hex.haveOwner()) owner =  hex.getOwner().getPlayerInfo().name().toUpperCase().toCharArray()[0];
 			if (hex.haveMinion()) minion =  hex.getMinion().getName().toCharArray()[0];
+			if (hex.haveMinion()) minionOwner =  hex.getMinion().getOwner().getPlayerInfo().name().toLowerCase().toCharArray()[0];
 
-			drawHex(r, c,owner,minion);
+			drawHex(r, c,owner,minion,minionOwner);
 		}
 	}
 
@@ -204,7 +206,7 @@ public class ConsoleCanvas implements Canvas
 	<...>
 	.\=/.
 	*/
-	private void drawHex(int r, int c, char owner, char minion)
+	private void drawHex(int r, int c, char owner, char minion, char minionOwner)
 	{
 		Map<Pair<Integer, Integer>, Character> hexASCII = new HashMap<>();
 		hexASCII.put(new Pair<>(r + 0, c + 1), '/');
@@ -213,7 +215,7 @@ public class ConsoleCanvas implements Canvas
 		hexASCII.put(new Pair<>(r + 1, c + 0), '<');
 		hexASCII.put(new Pair<>(r + 1, c + 1), owner);
 		hexASCII.put(new Pair<>(r + 1, c + 2), minion);
-		hexASCII.put(new Pair<>(r + 1, c + 3), owner);
+		hexASCII.put(new Pair<>(r + 1, c + 3), minionOwner);
 		hexASCII.put(new Pair<>(r + 1, c + 4), '>');
 		hexASCII.put(new Pair<>(r + 2, c + 1), '\\');
 		hexASCII.put(new Pair<>(r + 2, c + 2), '=');

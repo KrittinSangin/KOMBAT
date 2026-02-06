@@ -25,6 +25,12 @@ public class Game
 
 		public AbstractState() {}
 
+		@Override
+		public void resolve(PlayerIntent intent)
+		{
+			IO.println("intent %s not resolve".formatted(intent));
+		}
+
 		;
 	}
 
@@ -50,6 +56,8 @@ public class Game
 					true);
 				nextTurn();
 			}
+
+			super.resolve(intent);
 		}
 
 		@Override
@@ -99,7 +107,6 @@ public class Game
 				return;
 			}
 
-
 			if (!hexBought)
 			{
 				if (intent.intent().equals(PlayerIntent.Intent.skip))
@@ -109,12 +116,13 @@ public class Game
 				}
 
 				if (intent.intent().equals(PlayerIntent.Intent.buyHex))
+				{
 					currentPlayer().buyHex(map.get(intent.hex()));
-				hexBought = true;
-				return;
+					hexBought = true;
+					return;
+				}
 			}
-
-			if (!minionBought)
+			else if (!minionBought)
 			{
 				if (intent.intent().equals(PlayerIntent.Intent.skip))
 				{
@@ -123,13 +131,16 @@ public class Game
 				}
 
 				if (intent.intent().equals(PlayerIntent.Intent.buyMinion))
+				{
 					currentPlayer().spawnMinion(
 						map.get(intent.hex()),
 						currentPlayer().getDeckMinion(intent.minion())
 					);
 				minionBought = true;
 				return;
+				}
 			}
+			super.resolve(intent);
 		}
 
 		@Override
@@ -166,6 +177,7 @@ public class Game
 		public void resolve(PlayerIntent intent)
 		{
 			//resolve execution
+			IO.println("method not implemented [Game.ExecuteState.resolve(PlayerIntent intent)]");
 		}
 
 		@Override
@@ -203,7 +215,7 @@ public class Game
 		@Override
 		public void resolve(PlayerIntent intent)
 		{
-
+			super.resolve(intent);
 		}
 
 		@Override
