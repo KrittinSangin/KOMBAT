@@ -2,11 +2,20 @@ package Games;
 
 public record HexPos(int row, int col)
 {
+	/**
+	 * get the next HexPos in direction dir
+	 */
 	public HexPos nextInDir(HexDir dir)
 	{
 		return nextInDir(this, dir);
 	}
 
+	/**
+	 * get the next HexPos from pos in direction dir
+	 *
+	 * @param pos non-null
+	 * @param dir non-null
+	 */
 	public static HexPos nextInDir(HexPos pos, HexDir dir)
 	{
 		HexPos nextPos = null;

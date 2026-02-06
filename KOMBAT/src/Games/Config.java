@@ -18,6 +18,9 @@ public class Config
 	public static HexPos[] START_HEX_POS_P1;
 	public static HexPos[] START_HEX_POS_P2;
 
+	/**
+	 * Set all Config field to preset default value
+	 */
 	public static void useDefaultConfig()
 	{
 		Config.SPAWN_COST = 100;

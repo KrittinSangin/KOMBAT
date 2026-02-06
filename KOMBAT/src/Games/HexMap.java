@@ -9,8 +9,14 @@ public class HexMap
 	private final int width;
 	private final int height;
 
+	/**
+	 * create rectangular hexagon map of width and height
+	 *
+	 * @param w width
+	 * @param h height
+	 */
 	public HexMap(int w, int h)
-{
+	{
 		this.width = w;
 		this.height = h;
 
@@ -43,11 +49,21 @@ public class HexMap
 		return height;
 	}
 
+	/**
+	 * get Hex at pos
+	 *
+	 * @return hex at pos or null if pos out of range
+	 */
 	public Hex get(HexPos pos)
 	{
 		return hexMap.get(pos);
 	}
 
+	/**
+	 * place minion m at pos
+	 *
+	 * @return true if successfully place minion m at pos
+	 */
 	public boolean put(HexPos pos, Minion m)
 	{
 		Hex hex = hexMap.get(pos);
@@ -55,11 +71,21 @@ public class HexMap
 		return hex.put(m);
 	}
 
+	/**
+	 * remove minion from pos
+	 *
+	 * @return true if there is a minion removal
+	 */
 	public boolean remove(HexPos pos)
 	{
 		return hexMap.get(pos).remove();
 	}
 
+	/**
+	 * check if this hex at pos have minion?
+	 *
+	 * @return true if there is minion.
+	 */
 	public boolean isOccupy(HexPos pos)
 	{
 		return hexMap.get(pos).haveMinion();

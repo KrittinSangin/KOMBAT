@@ -39,16 +39,15 @@ public class ConsoleCanvas implements Canvas
 		drawHexMap(game.getMap(), HEX_MAP_START_ROW, HEX_MAP_START_COL);
 
 		var players = game.getPlayers();
-		drawPlayerStatus(players.get(0),4,P1_COL_OFFSET);
-		drawPlayerStatus(players.get(1),4,P2_COL_OFFSET);
+		drawPlayerStatus(players.get(0), 4, P1_COL_OFFSET);
+		drawPlayerStatus(players.get(1), 4, P2_COL_OFFSET);
 
 		if (game.getTurn() == 0)
 		{
-			drawDiamond(P1_TURN_INDICATOR_ROW,P1_TURN_INDICATOR_COL);
-		}
-		else
+			drawDiamond(P1_TURN_INDICATOR_ROW, P1_TURN_INDICATOR_COL);
+		} else
 		{
-			drawDiamond(P2_TURN_INDICATOR_ROW,P2_TURN_INDICATOR_COL);
+			drawDiamond(P2_TURN_INDICATOR_ROW, P2_TURN_INDICATOR_COL);
 		}
 
 		//draw game state
@@ -58,7 +57,7 @@ public class ConsoleCanvas implements Canvas
 			game.getStateString()
 		);
 
-		drawString(gameStateString,0,0);
+		drawString(gameStateString, 0, 0);
 
 		//////////////////
 		//draw to screen//
@@ -70,22 +69,22 @@ public class ConsoleCanvas implements Canvas
 		{
 			sb.append(' ');
 			for (int i = 1; i < CANVAS_WIDTH; i++)
-				sb.append(i/100 == 0 ? " " : i / 100);
+				sb.append(i / 100 == 0 ? " " : i / 100);
 			IO.println(sb.toString());
 
 			sb = new StringBuilder();
 			sb.append(' ');
 			for (int i = 1; i < CANVAS_WIDTH; i++)
 			{
-				if (i/10 >= 10) sb.append((i - 100) / 10);
-				else sb.append(i/10 == 0 ? " " : i / 10);
+				if (i / 10 >= 10) sb.append((i - 100) / 10);
+				else sb.append(i / 10 == 0 ? " " : i / 10);
 
 			}
 			IO.println(sb.toString());
 
 			sb = new StringBuilder();
 			for (int i = 0; i < CANVAS_WIDTH; i++)
-				sb.append(i%10);
+				sb.append(i % 10);
 			IO.println(sb.toString());
 		}
 
@@ -119,9 +118,9 @@ public class ConsoleCanvas implements Canvas
 
 	private void drawPlayerStatus(Player p, int sr, int sc)
 	{
-		drawString("Player",sr++,sc);
-		drawString(p.getPlayerInfo().name(),sr++,sc);
-		drawString("Budget " + Integer.toString((int)p.getBudget().getBudget()),sr++,sc);
+		drawString("Player", sr++, sc);
+		drawString(p.getPlayerInfo().name(), sr++, sc);
+		drawString("Budget " + Integer.toString((int) p.getBudget().getBudget()), sr++, sc);
 	}
 
 
@@ -181,7 +180,7 @@ public class ConsoleCanvas implements Canvas
 			int r, c;
 			r = p.fst();
 			c = p.snd();
-			Hex hex = game.getMap().get(new HexPos(r,c));
+			Hex hex = game.getMap().get(new HexPos(r, c));
 			boolean isEvenCol = c % 2 == 0;
 
 			//parameter use to tune the hex
@@ -193,11 +192,12 @@ public class ConsoleCanvas implements Canvas
 			char owner = ' ';
 			char minion = ' ';
 			char minionOwner = ' ';
-			if (hex.haveOwner()) owner =  hex.getOwner().getPlayerInfo().name().toUpperCase().toCharArray()[0];
-			if (hex.haveMinion()) minion =  hex.getMinion().getName().toCharArray()[0];
-			if (hex.haveMinion()) minionOwner =  hex.getMinion().getOwner().getPlayerInfo().name().toLowerCase().toCharArray()[0];
+			if (hex.haveOwner()) owner = hex.getOwner().getPlayerInfo().name().toUpperCase().toCharArray()[0];
+			if (hex.haveMinion()) minion = hex.getMinion().getName().toCharArray()[0];
+			if (hex.haveMinion())
+				minionOwner = hex.getMinion().getOwner().getPlayerInfo().name().toLowerCase().toCharArray()[0];
 
-			drawHex(r, c,owner,minion,minionOwner);
+			drawHex(r, c, owner, minion, minionOwner);
 		}
 	}
 
@@ -254,10 +254,10 @@ public class ConsoleCanvas implements Canvas
 	private void drawString(String s, int r, int c)
 	{
 		char[] chs = s.toCharArray();
-		Map<Pair<Integer,Integer>,Character> stringASCII = new HashMap<>();
+		Map<Pair<Integer, Integer>, Character> stringASCII = new HashMap<>();
 		for (var ch : chs)
 		{
-			stringASCII.put(new Pair<>(r,c++),ch);
+			stringASCII.put(new Pair<>(r, c++), ch);
 		}
 
 		paintCanvas(stringASCII);

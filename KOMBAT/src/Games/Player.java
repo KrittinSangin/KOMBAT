@@ -26,6 +26,9 @@ public class Player
 		territories = new ArrayList<>();
 	}
 
+	/**
+	 * Initialize some of the player's field by Game
+	 */
 	public void initialize(MinionStorage mst, Merchant mch, HexMap map)
 	{
 		storage = mst;
@@ -50,21 +53,44 @@ public class Player
 
 	public PlayerInfo getPlayerInfo() {return info;}
 
+	/**
+	 * Get minion from the deck at index idx
+	 *
+	 * @param idx index < deck.Size()
+	 */
 	public Minion getDeckMinion(int idx)
 	{
 		return deck.get(idx);
 	}
 
+	/**
+	 * Player action on turn start, that is the income increase.
+	 *
+	 * @param turn
+	 */
 	public void onTurnStart(int turn)
 	{
 		budget.income(turn);
 	}
 
+	/**
+	 * Try to buy hex h
+	 *
+	 * @param h hex to buy
+	 * @return true if successfully buy hex
+	 */
 	public boolean buyHex(Hex h)
 	{
 		return buyHex(h, false);
 	}
 
+	/**
+	 * Try to buy hex h
+	 *
+	 * @param h      hex to buy
+	 * @param bypass if true, player does not have to pay the price
+	 * @return true if successfully buy hex
+	 */
 	public boolean buyHex(Hex h, boolean bypass)
 	{
 		//owner guard
@@ -79,11 +105,26 @@ public class Player
 		return true;
 	}
 
+	/**
+	 * spawn minion m on hex h.
+	 *
+	 * @param hex hex to spawn minion
+	 * @param m   minion to spawn
+	 * @return true if player able to buy a minion m on hex h
+	 */
 	public boolean spawnMinion(Hex hex, Minion m)
 	{
 		return spawnMinion(hex, m, false);
 	}
 
+	/**
+	 * spawn minion m on hex h.
+	 *
+	 * @param hex    hex to spawn minion
+	 * @param m      minion to spawn
+	 * @param bypass if true, player does not have to pay the price
+	 * @return true if player able to buy a minion m on hex h
+	 */
 	public boolean spawnMinion(Hex hex, Minion m, boolean bypass)
 	{
 		//spawn count guard
@@ -122,5 +163,10 @@ public class Player
 		spawns.remove(m);
 	}
 
+	/**
+	 * get spawn minion list's size
+	 *
+	 * @return
+	 */
 	public int getMinionCount() {return spawns.size();}
 }

@@ -132,8 +132,7 @@ public class Game
 					hexBought = true;
 					return;
 				}
-			}
-			else if (!minionBought)
+			} else if (!minionBought)
 			{
 				if (intent.intent().equals(PlayerIntent.Intent.skip))
 				{
@@ -147,8 +146,8 @@ public class Game
 						map.get(intent.hex()),
 						currentPlayer().getDeckMinion(intent.minion())
 					);
-				minionBought = true;
-				return;
+					minionBought = true;
+					return;
 				}
 			}
 			super.resolve(intent);
@@ -172,7 +171,7 @@ public class Game
 		@Override
 		public String toString()
 		{
-			return hexBought? BUY_STATE_HEX : BUY_STATE_MINION;
+			return hexBought ? BUY_STATE_HEX : BUY_STATE_MINION;
 		}
 	}
 
@@ -206,7 +205,7 @@ public class Game
 		@Override
 		public State nextState()
 		{
-			return endStateCondition()? new EndState(this) : new BuyState(this);
+			return endStateCondition() ? new EndState(this) : new BuyState(this);
 		}
 
 		@Override
@@ -266,6 +265,11 @@ public class Game
 	private int turn;
 	private int round;
 
+	/**
+	 * Create an instance of a game with StartInfo
+	 *
+	 * @param info info and all of its field aren't null
+	 */
 	public Game(StartInfo info)
 	{
 		executor = new StrategyExecutor();
@@ -325,14 +329,20 @@ public class Game
 		return round;
 	}
 
-	public boolean isStart() {return isGameStart; }
+	public boolean isStart() {return isGameStart;}
 
+	/**
+	 * Start the game
+	 */
 	public void start()
 	{
 		gameState = new StartState();
 		isGameStart = true;
 	}
 
+	/**
+	 * Update the game with PlayerIntent
+	 */
 	public void update(PlayerIntent intent)
 	{
 		gameState.resolve(intent);

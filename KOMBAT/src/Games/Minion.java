@@ -21,6 +21,18 @@ public class Minion
 		this.strat = strat;
 	}
 
+	//Copy Constructure
+	public Minion(Minion other)
+	{
+		name = other.name;
+		hp = other.hp;
+		def = other.def;
+		strat = other.strat;
+
+		hex = other.hex;
+		owner = other.owner;
+	}
+
 	public Hex getHex()
 	{
 		return hex;
@@ -37,6 +49,12 @@ public class Minion
 
 	public void setOwner(Player value) {owner = value;}
 
+	/**
+	 * move minion to new hex in direction. Minion cannot move to hex occupied hex and out of the map.
+	 *
+	 * @param dir direction minion want to move
+	 * @return true if minion moves.
+	 */
 	public boolean move(HexDir dir)
 	{
 		HexMap map = hex.Map;
@@ -53,6 +71,13 @@ public class Minion
 		}
 	}
 
+	/**
+	 * try attack minion in dir direction with dam damage.
+	 *
+	 * @param dir direction to attack
+	 * @param dam damage to attack
+	 * @return true if there is another minion get attack.
+	 */
 	public boolean Attack(HexDir dir, int dam)
 	{
 		HexMap map = hex.Map;
@@ -69,6 +94,11 @@ public class Minion
 		}
 	}
 
+	/**
+	 * take damage from the attack. If damage reduce hp to < 1, minion dies.
+	 *
+	 * @param dam damage receive
+	 */
 	public void takeDamage(int dam)
 	{
 		hp = Math.max(hp - Math.max(1, dam - def), 0);
@@ -81,8 +111,11 @@ public class Minion
 		//OnDead?.Invoke();
 	}
 
+	/**
+	 * Create a new minion with the same field value of this one.
+	 */
 	public Minion prototypeClone()
 	{
-		return new Minion(name, hp, def, strat);
+		return new Minion(this);
 	}
 }

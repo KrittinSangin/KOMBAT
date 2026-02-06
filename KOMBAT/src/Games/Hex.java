@@ -24,6 +24,9 @@ public class Hex
 		return owner;
 	}
 
+	/**
+	 * Is player p the owner
+	 */
 	public boolean isOwner(Player p)
 	{
 		return p.equals(owner);
@@ -44,6 +47,11 @@ public class Hex
 		return minion != null;
 	}
 
+	/**
+	 * try let minion m occupy this hex
+	 *
+	 * @return true if success
+	 */
 	public boolean put(Minion m)
 	{
 		if (haveMinion()) return false;
@@ -52,6 +60,11 @@ public class Hex
 		return true;
 	}
 
+	/**
+	 * try remove minion from this hex
+	 *
+	 * @return true if success
+	 */
 	public boolean remove()
 	{
 		if (!haveMinion()) return false;

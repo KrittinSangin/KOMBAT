@@ -8,6 +8,12 @@ public class MinionStorage
 {
 	private final List<Minion> storage = new ArrayList<>();
 
+	/**
+	 * Add minion to storage.
+	 *
+	 * @param m minion to add, non null.
+	 * @return true if add success
+	 */
 	public boolean add(Minion m)
 	{
 		boolean result = storage.add(m);
@@ -15,6 +21,12 @@ public class MinionStorage
 		return result;
 	}
 
+	/**
+	 * get minions from the list that pass the give predicate
+	 *
+	 * @param pred predicate to test
+	 * @return a list of minion that pass predicate
+	 */
 	public List<Minion> getIf(Predicate<Minion> pred)
 	{
 		List<Minion> out = new ArrayList<>();
