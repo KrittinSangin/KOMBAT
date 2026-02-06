@@ -17,4 +17,38 @@ public class Config
 	public static int MAP_HEIGHT;
 	public static HexPos[] START_HEX_POS_P1;
 	public static HexPos[] START_HEX_POS_P2;
+
+	public static void useDefaultConfig()
+	{
+		Config.SPAWN_COST = 100;
+		Config.HEX_PURCHASE_COST = 100;
+		Config.INIT_BUDGET = 1000;
+		Config.INIT_HP = 100;
+		Config.TURN_BUDGET = 100;
+		Config.MAX_BUDGET = 10000;
+		Config.INTEREST_PCT = 10;
+		Config.MAX_TURNS = 10;
+		Config.MAX_SPAWNS = 20;
+
+		Config.MAP_WIDTH = 8;
+		Config.MAP_HEIGHT = 8;
+
+		Config.START_HEX_POS_P1 = new HexPos[]
+			{
+				new HexPos(1, 1),
+				new HexPos(1, 2),
+				new HexPos(1, 3),
+				new HexPos(2, 1),
+				new HexPos(2, 2),
+			};
+
+		Config.START_HEX_POS_P2 = new HexPos[]
+			{
+				new HexPos(7, 7),
+				new HexPos(7, 8),
+				new HexPos(8, 6),
+				new HexPos(8, 7),
+				new HexPos(8, 8),
+			};
+	}
 }

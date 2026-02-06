@@ -30,7 +30,7 @@ public class ConsoleInputManager implements InputManager
 
 			newIntent = new PlayerIntent(PlayerIntent.Intent.buyHex,new HexPos(row,col),null);
 		}
-		else if (input.matches("min \\d+ \\d+ [12345]"))
+		else if (input.matches("min \\d+ \\d+ \\d+"))
 		{
 			String[] split = input.split(" ");
 			int row, col, idx;

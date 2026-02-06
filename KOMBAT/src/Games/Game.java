@@ -5,8 +5,14 @@ import java.util.List;
 
 public class Game
 {
-	private interface State
+	public interface State
 	{
+		public static String START_STATE = "StartState";
+		public static String BUY_STATE_HEX = "BuyState(Hex)";
+		public static String BUY_STATE_MINION = "BuyState(Hex)";
+		public static String EXECUTION_STATE = "ExecuteState";
+		public static String END_STATE = "EndState";
+
 		void resolve(PlayerIntent intent);
 
 		void exit();
@@ -85,7 +91,7 @@ public class Game
 		@Override
 		public String toString()
 		{
-			return "StartState";
+			return START_STATE;
 		}
 	}
 
@@ -166,7 +172,7 @@ public class Game
 		@Override
 		public String toString()
 		{
-			return "BuyState(" + (hexBought ? "Minion" : "Hex") + ")";
+			return hexBought? BUY_STATE_HEX : BUY_STATE_MINION;
 		}
 	}
 
@@ -206,7 +212,7 @@ public class Game
 		@Override
 		public String toString()
 		{
-			return "ExecuteState";
+			return EXECUTION_STATE;
 		}
 	}
 
@@ -244,7 +250,7 @@ public class Game
 		@Override
 		public String toString()
 		{
-			return "EndState";
+			return END_STATE;
 		}
 	}
 
@@ -255,6 +261,7 @@ public class Game
 	private final HexMap map;
 
 	private State gameState;
+	private boolean isGameStart = false;
 
 	private int turn;
 	private int round;
@@ -318,9 +325,12 @@ public class Game
 		return round;
 	}
 
+	public boolean isStart() {return isGameStart; }
+
 	public void start()
 	{
 		gameState = new StartState();
+		isGameStart = true;
 	}
 
 	public void update(PlayerIntent intent)
