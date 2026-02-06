@@ -2,7 +2,7 @@ package Parser.AST;
 
 import Games.ExecutionInstance;
 
-public record Assign(String name, Expr val) implements Stment
+public record AST_If(Expr cond_, Stment then_, Stment else_) implements Stment
 {
 	@Override
 	public void execute(ExecutionInstance instance)

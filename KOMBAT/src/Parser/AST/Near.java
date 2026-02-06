@@ -1,13 +1,14 @@
 package Parser.AST;
 
 import Games.ExecutionInstance;
+import Games.HexDir;
 
-public record Assign(String name, Expr val) implements Stment
+public record Near(HexDir dir) implements Expr
 {
 	@Override
-	public void execute(ExecutionInstance instance)
+	public int eval(ExecutionInstance instance)
 	{
-
+		return 0;
 	}
 
 	@Override

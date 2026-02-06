@@ -2,12 +2,14 @@ package Parser.AST;
 
 import Games.ExecutionInstance;
 
-public record Assign(String name, Expr val) implements Stment
+import java.util.Map;
+
+public record Mod(Expr l, Expr r) implements Expr
 {
 	@Override
-	public void execute(ExecutionInstance instance)
+	public int eval(ExecutionInstance instance)
 	{
-
+		return 0;
 	}
 
 	@Override

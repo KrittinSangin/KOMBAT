@@ -1,8 +1,9 @@
 package Parser.AST;
 
 import Games.ExecutionInstance;
+import Games.HexDir;
 
-public record Assign(String name, Expr val) implements Stment
+public record Shoot(HexDir dir, Expr expend) implements Stment
 {
 	@Override
 	public void execute(ExecutionInstance instance)
