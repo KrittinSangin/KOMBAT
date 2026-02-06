@@ -188,7 +188,7 @@ public class ConsoleCanvas implements Canvas
 			r = isEvenCol ? r : r + 1;
 			c = sc + (c * 8 - 3) - 5;
 
-			//minion and ower handle
+			//minion and owner handle
 			char owner = ' ';
 			char minion = ' ';
 			char minionOwner = ' ';
