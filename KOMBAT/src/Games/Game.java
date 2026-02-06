@@ -7,6 +7,7 @@ public class Game
 {
 	public interface State
 	{
+		public static String EMPTY_STATE = "EmptyState";
 		public static String START_STATE = "StartState";
 		public static String BUY_STATE_HEX = "BuyState(Hex)";
 		public static String BUY_STATE_MINION = "BuyState(Hex)";
@@ -38,6 +39,34 @@ public class Game
 		}
 
 		;
+	}
+
+	private class EmptyState extends AbstractState
+	{
+
+		@Override
+		public void exit()
+		{
+
+		}
+
+		@Override
+		public boolean checkSwitchState()
+		{
+			return false;
+		}
+
+		@Override
+		public State nextState()
+		{
+			return null;
+		}
+
+		@Override
+		public String toString()
+		{
+			return EMPTY_STATE;
+		}
 	}
 
 	private class StartState extends AbstractState
@@ -259,7 +288,7 @@ public class Game
 	private final List<Player> players;
 	private final HexMap map;
 
-	private State gameState;
+	private State gameState = new EmptyState();
 	private boolean isGameStart = false;
 
 	private int turn;

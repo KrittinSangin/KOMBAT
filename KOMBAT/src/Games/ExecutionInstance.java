@@ -2,6 +2,7 @@ package Games;
 
 import java.time.LocalTime;
 import java.util.*;
+import java.util.function.Predicate;
 
 public record ExecutionInstance(Minion minion, Map<String,Integer> localVar)
 {
@@ -55,40 +56,15 @@ public record ExecutionInstance(Minion minion, Map<String,Integer> localVar)
 
 	public int opponent()
 	{
-		HexMap map = minion.getHex().Map;
-		HexPos stratPos = minion.getHex().Pos;
-		HexPos it = new HexPos(stratPos.row(),stratPos.col());
-
-		List<Integer> found = new ArrayList<>();
-
-		for (int dir = 1; dir <= 6; dir++)
-		{
-			int dist = 1;
-			while (map.get(it.nextInDir(HexDir.toHexDir(dir))) != null) //iterate to not null
-			{
-				it = map.get(it.nextInDir(HexDir.toHexDir(dir))).Pos; // assign iterator
-				if (map.isOccupy(it)) //check ownership
-				{
-					//minion difference owner
-					boolean isOpponent = !minion.getOwner().equals(map.get(it).getMinion().getOwner());
-
-					//add to list
-					if (isOpponent)
-					{
-						found.add(dist * 10 + dir);
-						break;
-					}
-				}
-				dist++;
-			}
-		}
-
-		//find min from list
-		int min = found.stream().min(Integer::compareTo).isPresent() ? found.stream().min(Integer::compareTo).get() : 0;
-		return min;
+		return closetMinionInSight(false);
 	}
 
 	public int ally()
+	{
+		return closetMinionInSight(true);
+	}
+
+	private int closetMinionInSight(boolean isAlly)
 	{
 		HexMap map = minion.getHex().Map;
 		HexPos stratPos = minion.getHex().Pos;
@@ -98,6 +74,7 @@ public record ExecutionInstance(Minion minion, Map<String,Integer> localVar)
 
 		for (int dir = 1; dir <= 6; dir++)
 		{
+			it = stratPos;
 			int dist = 1;
 			while (map.get(it.nextInDir(HexDir.toHexDir(dir))) != null) //iterate to not null
 			{
@@ -105,10 +82,10 @@ public record ExecutionInstance(Minion minion, Map<String,Integer> localVar)
 				if (map.isOccupy(it)) //check ownership
 				{
 					//minion same owner
-					boolean isAlly = minion.getOwner().equals(map.get(it).getMinion().getOwner());
+					boolean same = isSameOwner(minion,map.get(it).getMinion());
 
 					//add to list
-					if (isAlly)
+					if (isAlly == same)
 					{
 						found.add(dist * 10 + dir);
 						break;
@@ -143,7 +120,9 @@ public record ExecutionInstance(Minion minion, Map<String,Integer> localVar)
 				y = numberOfDigits(found.getDef());
 				z = dist;
 
-				return 100*x + 10*y + 1*z;
+				int out = 100*x + 10*y + 1*z;
+				out = isSameOwner(minion,found)? -out : out;
+				return out;
 			}
 
 			dist++;
@@ -154,5 +133,10 @@ public record ExecutionInstance(Minion minion, Map<String,Integer> localVar)
 	private int numberOfDigits(int n)
 	{
 		return n == 0 ? 1 : (int)Math.floor(Math.log10(Math.abs(n))) + 1;
+	}
+
+	private boolean isSameOwner(Minion l, Minion r)
+	{
+		return l.getOwner().equals(r.getOwner());
 	}
 }
