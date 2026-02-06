@@ -32,7 +32,7 @@ public class Main
 
 		Scanner sc = new Scanner(System.in);
 		InputManager ipm = new ConsoleInputManager();
-		ConsoleCanvas cv = new ConsoleCanvas(instance);
+		Canvas cv = new ConsoleCanvas(instance);
 
 		//inject value
 		List<String> injection = new ArrayList<>();

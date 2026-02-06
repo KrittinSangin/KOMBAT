@@ -3,7 +3,7 @@ import Games.*;
 import java.util.*;
 import java.util.function.Function;
 
-public class ConsoleCanvas
+public class ConsoleCanvas implements Canvas
 {
 	private static final int CANVAS_WIDTH = 151;
 	private static final int CANVAS_HEIGHT = 26;
@@ -30,6 +30,7 @@ public class ConsoleCanvas
 		this.game = instance;
 	}
 
+	@Override
 	public void draw()
 	{
 		//clear to black
@@ -196,7 +197,6 @@ public class ConsoleCanvas
 
 			drawHex(r, c,owner,minion);
 		}
-
 	}
 
 	/*
