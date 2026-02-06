@@ -67,8 +67,8 @@ public class Minion
 
 	public void takeDamage(int dam)
 	{
-		hp = Math.max(hp - dam, 0);
-		if (hp == 0)
+		hp = Math.max(hp - Math.max(1,dam - def), 0);
+		if (hp < 1)
 			die();
 	}
 
