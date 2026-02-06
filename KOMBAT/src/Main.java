@@ -8,6 +8,12 @@ public class Main
 {
 	void main()
 	{
+
+//		runGame();
+	}
+
+	private void runGame()
+	{
 		populateConfig();
 
 		PlayerInfo p1info = new PlayerInfo("Rosmia Eifri", 0);
