@@ -1,5 +1,5 @@
 package Tuples;
 
-public record Pair<T,U>(T fst,U snd)
+public record Pair<T, U>(T fst, U snd)
 {
 }
