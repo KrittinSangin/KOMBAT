@@ -49,6 +49,9 @@ public class Minion
 
 	public Player getOwner() {return owner;}
 
+	public int getHp() {return hp;}
+	public int getDef() {return def;}
+
 	public void setOwner(Player value) {owner = value;}
 
 	/**
