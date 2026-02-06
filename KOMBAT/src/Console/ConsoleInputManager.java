@@ -1,5 +1,8 @@
+package Console;
+
 import Games.HexPos;
 import Games.PlayerIntent;
+import MVC.InputManager;
 
 public class ConsoleInputManager implements InputManager<String>
 {

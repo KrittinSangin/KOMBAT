@@ -1,4 +1,8 @@
+import Console.ConsoleCanvas;
+import Console.ConsoleInputManager;
 import Games.*;
+import MVC.Canvas;
+import MVC.InputManager;
 
 import java.util.ArrayList;
 import java.util.List;

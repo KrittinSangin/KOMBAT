@@ -1,3 +1,5 @@
+package MVC;
+
 public interface Canvas
 {
 	/**

@@ -1,4 +1,7 @@
+package Console;
+
 import Games.*;
+import MVC.Canvas;
 import Tuples.Pair;
 
 import java.util.*;

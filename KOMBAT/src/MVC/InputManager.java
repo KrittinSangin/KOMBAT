@@ -1,5 +1,5 @@
-import Games.Hex;
-import Games.Minion;
+package MVC;
+
 import Games.PlayerIntent;
 
 public interface InputManager<T>

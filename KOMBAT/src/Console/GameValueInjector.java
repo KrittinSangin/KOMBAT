@@ -1,4 +1,7 @@
+package Console;
+
 import Games.Game;
+import MVC.InputManager;
 
 import java.util.*;
 
