@@ -149,7 +149,8 @@ public class Player
 		spawns.add(clone);
 		map.put(hex.Pos, clone);
 
-		//clone.addListener(onMinionDead);
+		//attach listener
+		clone.OnDead.subscribe(this::onMinionDead);
 
 		//update count
 		spawnCount++;

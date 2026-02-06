@@ -1,5 +1,7 @@
 package Games;
 
+import Event.UnaryEvent;
+
 public class Minion
 {
 	private final String name;
@@ -11,7 +13,7 @@ public class Minion
 	private int hp;
 	private final int def;
 
-	//Event<void> onDead;
+	public UnaryEvent<Minion> OnDead;
 
 	public Minion(String name, int hp, int def, Strategy strat)
 	{
@@ -108,7 +110,9 @@ public class Minion
 
 	private void die()
 	{
-		//OnDead?.Invoke();
+		OnDead.invoke(this);
+
+		hex.Map.remove(hex.Pos);
 	}
 
 	/**

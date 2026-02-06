@@ -1,7 +1,9 @@
 import Games.*;
+import Tuples.Pair;
 
 import java.util.*;
 import java.util.function.Function;
+
 
 public class ConsoleCanvas implements Canvas
 {

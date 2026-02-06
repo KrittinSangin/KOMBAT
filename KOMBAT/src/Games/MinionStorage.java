@@ -16,9 +16,11 @@ public class MinionStorage
 	 */
 	public boolean add(Minion m)
 	{
-		boolean result = storage.add(m);
-		// if (result) m.addListener(OnMinionDead);
-		return result;
+		if (m == null) return false;
+
+		storage.add(m);
+		m.OnDead.subscribe(this::OnMinionDead);
+		return true;
 	}
 
 	/**

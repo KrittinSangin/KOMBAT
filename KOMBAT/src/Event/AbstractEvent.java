@@ -7,7 +7,7 @@ public abstract class AbstractEvent<Func> implements Event<Func>
 	protected List<Func> listeners;
 
 	@Override
-	public void addListener(Func f)
+	public void subscribe(Func f)
 	{
 		listeners.add(f);
 	}
@@ -19,7 +19,7 @@ public abstract class AbstractEvent<Func> implements Event<Func>
 	}
 
 	@Override
-	public void removeAllListener()
+	public void removeAllSubscriber()
 	{
 		listeners.clear();
 	}

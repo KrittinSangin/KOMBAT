@@ -2,8 +2,17 @@ package Event;
 
 public interface Event<Func>
 {
-	void addListener(Func f);
+	/**
+	 * Add function as listener
+	 */
+	void subscribe(Func f);
+
 	boolean haveListener();
+
+	/**
+	 * Invoke all subscriber function
+	 */
 	void invoke(Object... arg);
-	void removeAllListener();
+
+	void removeAllSubscriber();
 }
