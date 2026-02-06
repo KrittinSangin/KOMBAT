@@ -50,11 +50,16 @@ public class Game
 		{
 			if (intent.intent() == PlayerIntent.Intent.buyMinion)
 			{
-				currentPlayer().spawnMinion(
-					map.get(intent.hex()),
-					currentPlayer().getDeckMinion(intent.minion()),
-					true);
-				nextTurn();
+				Hex hex = map.get(intent.hex());
+				Minion minion = currentPlayer().getDeckMinion(intent.minion());
+
+				if (hex == null || minion == null) return;
+
+				if (currentPlayer().spawnMinion(hex, minion, true))
+				{
+					nextTurn();
+					return;
+				}
 			}
 
 			super.resolve(intent);
