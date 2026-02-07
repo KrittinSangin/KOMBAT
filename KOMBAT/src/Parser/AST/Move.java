@@ -14,6 +14,8 @@ public record Move(HexDir dir) implements Stment
 	@Override
 	public void prettyPrint(StringBuilder sb)
 	{
-
+		sb.append("move ");
+		sb.append(dir);
+		sb.append("\n");
 	}
 }

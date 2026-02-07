@@ -15,6 +15,9 @@ public record Pow(Expr base, Expr pow) implements Expr
 	@Override
 	public void prettyPrint(StringBuilder sb)
 	{
-
+		base.prettyPrint(sb);
+		sb.append("^(");
+		pow.prettyPrint(sb);
+		sb.append(")");
 	}
 }

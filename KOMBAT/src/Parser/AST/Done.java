@@ -13,6 +13,6 @@ public record Done() implements Stment
 	@Override
 	public void prettyPrint(StringBuilder sb)
 	{
-
+		sb.append("done\n");
 	}
 }

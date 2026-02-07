@@ -15,6 +15,6 @@ public record Num(int val) implements Expr
 	@Override
 	public void prettyPrint(StringBuilder sb)
 	{
-
+		sb.append(val);
 	}
 }

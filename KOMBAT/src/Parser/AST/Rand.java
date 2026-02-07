@@ -13,6 +13,6 @@ public record Rand() implements Expr
 	@Override
 	public void prettyPrint(StringBuilder sb)
 	{
-
+		sb.append("random");
 	}
 }

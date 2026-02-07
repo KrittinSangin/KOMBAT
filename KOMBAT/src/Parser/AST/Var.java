@@ -15,6 +15,6 @@ public record Var(String name) implements Expr
 	@Override
 	public void prettyPrint(StringBuilder sb)
 	{
-
+		sb.append(name);
 	}
 }

@@ -13,6 +13,6 @@ public record Ally() implements Expr
 	@Override
 	public void prettyPrint(StringBuilder sb)
 	{
-
+		sb.append("ally");
 	}
 }
