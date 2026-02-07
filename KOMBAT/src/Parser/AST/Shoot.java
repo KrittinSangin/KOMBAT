@@ -3,7 +3,7 @@ package Parser.AST;
 import Games.ExecutionInstance;
 import Games.HexDir;
 
-public record Shoot(HexDir dir, Expr expend) implements Stment
+public record Shoot(HexDir dir, Expr cost) implements Stment
 {
 	@Override
 	public void execute(ExecutionInstance instance)

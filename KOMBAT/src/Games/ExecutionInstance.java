@@ -64,7 +64,7 @@ public record ExecutionInstance(Minion minion, Map<String,Integer> localVar)
 		return closetMinionInSight(true);
 	}
 
-	private int closetMinionInSight(boolean isAlly)
+	private int closetMinionInSight(boolean targetAlly)
 	{
 		HexMap map = minion.getHex().Map;
 		HexPos stratPos = minion.getHex().Pos;
@@ -85,7 +85,7 @@ public record ExecutionInstance(Minion minion, Map<String,Integer> localVar)
 					boolean same = isSameOwner(minion,map.get(it).getMinion());
 
 					//add to list
-					if (isAlly == same)
+					if (targetAlly == same)
 					{
 						found.add(dist * 10 + dir);
 						break;
