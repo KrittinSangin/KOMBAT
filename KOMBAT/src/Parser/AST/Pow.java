@@ -16,8 +16,8 @@ public record Pow(Expr base, Expr pow) implements Expr
 	public void prettyPrint(StringBuilder sb)
 	{
 		base.prettyPrint(sb);
-		sb.append("^(");
+		sb.append(" ^ ( ");
 		pow.prettyPrint(sb);
-		sb.append(")");
+		sb.append(" )");
 	}
 }

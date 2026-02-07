@@ -15,10 +15,10 @@ public record Add(Expr l, Expr r) implements Expr
 	@Override
 	public void prettyPrint(StringBuilder sb)
 	{
-		sb.append("(");
+		sb.append("( ");
 		l.prettyPrint(sb);
-		sb.append("+");
+		sb.append(" + ");
 		r.prettyPrint(sb);
-		sb.append(")");
+		sb.append(" )");
 	}
 }

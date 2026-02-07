@@ -12,7 +12,7 @@ public class LL1StrategyParser implements Parser<Strategy>
 	private static final String[] RESERVE_WORDS =
 		new String[]{"ally", "done", "down", "downleft", "downright", "else", "if", "move", "nearby", "opponent", "shoot", "then", "up", "upleft", "upright", "while"};
 	private static final String[] DIR_WORDS =
-		new String[]{"up", "upleft", "upRight", "down", "downLeft", "downRight"};
+		new String[]{"up", "upleft", "upright", "down", "downleft", "downright"};
 	private static final Map<String, HexDir> DIR_WORDS_MAP = new HashMap<>();
 
 
@@ -27,11 +27,11 @@ public class LL1StrategyParser implements Parser<Strategy>
 	private void populateDIR_WORDS()
 	{
 		DIR_WORDS_MAP.put("up",HexDir.up);
-		DIR_WORDS_MAP.put("upRight",HexDir.upRight);
-		DIR_WORDS_MAP.put("downRight",HexDir.downRight);
+		DIR_WORDS_MAP.put("upright",HexDir.upRight);
+		DIR_WORDS_MAP.put("downright",HexDir.downRight);
 		DIR_WORDS_MAP.put("down",HexDir.down);
-		DIR_WORDS_MAP.put("downLeft",HexDir.downLeft);
-		DIR_WORDS_MAP.put("upLeft",HexDir.upLeft);
+		DIR_WORDS_MAP.put("downleft",HexDir.downLeft);
+		DIR_WORDS_MAP.put("upleft",HexDir.upLeft);
 	}
 
 	@Override
@@ -96,6 +96,7 @@ public class LL1StrategyParser implements Parser<Strategy>
 	{
 		if (tkz.peek("done"))
 		{
+			tkz.consume("done");
 			return new Done();
 		}
 		else if (tkz.peek("move"))
@@ -200,6 +201,7 @@ public class LL1StrategyParser implements Parser<Strategy>
 			}
 			else if (tkz.peek("%"))
 			{
+				tkz.consume();
 				v = new Mod(v,parseF());
 			}
 		}
@@ -211,6 +213,7 @@ public class LL1StrategyParser implements Parser<Strategy>
 		Expr v = parseP();
 		while (tkz.peek("^"))
 		{
+			tkz.consume();
 			v = new Pow(parseP(),v);
 		}
 		return v;
@@ -219,7 +222,7 @@ public class LL1StrategyParser implements Parser<Strategy>
 	private Expr parseP() throws SyntaxError
 	{
 		if (tkz.peek().matches("\\d+")) return new Num(Integer.parseInt(tkz.consume()));
-		else if (isIdentifier(tkz.peek())) return new  Var(tkz.consume());
+		else if (isIdentifier(tkz.peek())) return new Var(tkz.consume());
 		else if (tkz.peek("("))
 		{
 			tkz.consume("(");

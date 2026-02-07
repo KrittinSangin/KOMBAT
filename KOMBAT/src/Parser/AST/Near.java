@@ -14,7 +14,7 @@ public record Near(HexDir dir) implements Expr
 	@Override
 	public void prettyPrint(StringBuilder sb)
 	{
-		sb.append("nearby");
+		sb.append("nearby ");
 		sb.append(dir);
 	}
 }

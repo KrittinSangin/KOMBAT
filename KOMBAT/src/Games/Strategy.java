@@ -4,12 +4,6 @@ import Parser.AST.Stment;
 
 import java.util.List;
 
-public class Strategy
+public record Strategy(List<Stment> stments)
 {
-	List<Stment> stments;
-
-	public Strategy(List<Stment> stments)
-	{
-		stments = stments;
-	}
 }

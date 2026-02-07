@@ -13,11 +13,11 @@ public record AST_If(Expr cond_, Stment then_, Stment else_) implements Stment
 	@Override
 	public void prettyPrint(StringBuilder sb)
 	{
-		sb.append("if ");
+		sb.append("\nif ");
 		cond_.prettyPrint(sb);
-		sb.append("\nthen\n");
+		sb.append("\nthen ");
 		then_.prettyPrint(sb);
-		sb.append("\nelse\n");
+		sb.append("\nelse ");
 		else_.prettyPrint(sb);
 	}
 }

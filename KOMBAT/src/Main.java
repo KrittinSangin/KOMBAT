@@ -3,18 +3,24 @@ import Console.ConsoleInputManager;
 import Games.*;
 import MVC.Canvas;
 import MVC.InputManager;
+import Parser.LL1StrategyParser;
+import Parser.StrategyTokenizer;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.*;
 
 public class Main
 {
 	void main()
 	{
-
-		runGame();
+		ReadFile();
+//		runGame();
 	}
+
+
 
 	private void runGame()
 	{
@@ -94,5 +100,27 @@ public class Main
 	private void populateConfig()
 	{
 		Config.useDefaultConfig();
+	}
+
+
+	private static void ReadFile() {
+		String filename = "sample strategy no comment";
+		String path = "data/%s.txt".formatted(filename);
+
+		try (BufferedReader br = new BufferedReader(new FileReader(path)))
+		{
+			Strategy strat = new LL1StrategyParser(new StrategyTokenizer(br.readAllAsString())).parse();
+
+			for (var stment : strat.stments())
+			{
+				StringBuilder sb = new StringBuilder();
+				stment.prettyPrint(sb);
+				IO.print(sb.toString());
+			}
+		}
+		catch (IOException e)
+		{
+			System.err.format("%s%n", e);
+		}
 	}
 }

@@ -10,7 +10,7 @@ public class StrategyTokenizer implements Tokenizer
 	private String next;
 
 	private final String STRAT_REGEX = "\\d+|[\\p{Alpha}_]+|[+\\-*/%()^{}=]";
-	private final String VALIDATION_REGEX = "[\\p{Alnum}\\s+\\-*/%()^{}=_\n]*";
+	private final String VALIDATION_REGEX = "[\\p{Alnum}\\s+\\-*/%()^{}=_\n\t]*";
 
 	private final Matcher matcher;
 
