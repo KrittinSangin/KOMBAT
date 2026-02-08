@@ -7,7 +7,7 @@ public record Ally() implements Expr
 	@Override
 	public int eval(ExecutionInstance instance)
 	{
-		return 0;
+		return instance.ally();
 	}
 
 	@Override

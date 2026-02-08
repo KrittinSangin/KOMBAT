@@ -9,10 +9,6 @@ import java.util.*;
 
 public class LL1StrategyParser implements Parser<Strategy>
 {
-	private static final String[] RESERVE_WORDS =
-		new String[]{"ally", "done", "down", "downleft", "downright", "else", "if", "move", "nearby", "opponent", "shoot", "then", "up", "upleft", "upright", "while"};
-	private static final String[] DIR_WORDS =
-		new String[]{"up", "upleft", "upright", "down", "downleft", "downright"};
 	private static final Map<String, HexDir> DIR_WORDS_MAP = new HashMap<>();
 
 
@@ -214,7 +210,7 @@ public class LL1StrategyParser implements Parser<Strategy>
 		while (tkz.peek("^"))
 		{
 			tkz.consume();
-			v = new Pow(parseP(),v);
+			v = new Pow(parseF(),v);
 		}
 		return v;
 	}
@@ -266,7 +262,7 @@ public class LL1StrategyParser implements Parser<Strategy>
 
 	private boolean isIdentifier(String s)
 	{
-		return Character.isAlphabetic(s.toCharArray()[0]) && Arrays.stream(RESERVE_WORDS).noneMatch((key) -> key.equals(s));
+		return Character.isAlphabetic(s.toCharArray()[0]) && Arrays.stream(Strategy.RESERVE_WORDS).noneMatch((key) -> key.equals(s));
 	}
 
 

@@ -2,22 +2,26 @@ package Games;
 
 import java.time.LocalTime;
 import java.util.*;
-import java.util.function.Predicate;
 
-public record ExecutionInstance(Minion minion, Map<String,Integer> localVar)
+public record ExecutionInstance(Minion minion, Map<String,Integer> local)
 {
 	private static final Random RAND = new Random(LocalTime.now().toNanoOfDay());
 	private static final Map<Player,Map<String,Integer>> GLOBAL_VARS_STORE = new HashMap<>();
 
-	public ExecutionInstance(Minion minion, Map<String,Integer> localVar)
+	public ExecutionInstance(Minion minion, Map<String,Integer> local)
 	{
 		this.minion = minion;
-		this.localVar = localVar;
+		this.local = local;
 
 		if (!GLOBAL_VARS_STORE.containsKey(minion.getOwner()))
 		{
 			GLOBAL_VARS_STORE.put(minion.getOwner(),new HashMap<>());
 		}
+	}
+
+	public Map<String,Integer> global()
+	{
+		return GLOBAL_VARS_STORE.get(minion.getOwner());
 	}
 
 	public int row()
@@ -29,6 +33,11 @@ public record ExecutionInstance(Minion minion, Map<String,Integer> localVar)
 	{
 
 		return minion.getHex().Pos.col();
+	}
+
+	public int Int()
+	{
+		return (int)minion.getOwner().getBudget().getInterestRatePercentage();
 	}
 
 	public int Budget()
@@ -130,6 +139,11 @@ public record ExecutionInstance(Minion minion, Map<String,Integer> localVar)
 		return 0;
 	}
 
+	public boolean pay(int price)
+	{
+		return minion.getOwner().getBudget().pay(price);
+	}
+
 	private int numberOfDigits(int n)
 	{
 		return n == 0 ? 1 : (int)Math.floor(Math.log10(Math.abs(n))) + 1;
@@ -138,5 +152,20 @@ public record ExecutionInstance(Minion minion, Map<String,Integer> localVar)
 	private boolean isSameOwner(Minion l, Minion r)
 	{
 		return l.getOwner().equals(r.getOwner());
+	}
+
+	public boolean isGlobal(String name)
+	{
+		return Character.isUpperCase(name.toCharArray()[0]);
+	}
+
+	public boolean isLocal(String name)
+	{
+		return Character.isUpperCase(name.toCharArray()[0]);
+	}
+
+	public boolean isSpecial(String name)
+	{
+		return Arrays.asList(Strategy.SPECIAL_VARS).contains(name);
 	}
 }

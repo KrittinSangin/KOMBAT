@@ -9,7 +9,7 @@ public record Num(int val) implements Expr
 	@Override
 	public int eval(ExecutionInstance instance)
 	{
-		return 0;
+		return val;
 	}
 
 	@Override

@@ -9,7 +9,7 @@ public record Oppo() implements Expr
 	@Override
 	public int eval(ExecutionInstance instance)
 	{
-		return 0;
+		return instance.opponent();
 	}
 
 	@Override

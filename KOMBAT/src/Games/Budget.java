@@ -3,6 +3,8 @@ package Games;
 public class Budget
 {
 	private double budget;
+	private double interestRatePercentage;
+
 
 	public Budget()
 	{
@@ -15,16 +17,22 @@ public class Budget
 	 */
 	public void income(int turn)
 	{
+		calculateInterestRatePercentage(turn);
 		budget += Config.TURN_BUDGET + interest(turn);
 	}
 
 	public double getBudget() {return budget;}
+	public double getInterestRatePercentage() {return interestRatePercentage;}
 
 	private double interest(int turn)
 	{
-		return budget * Config.INTEREST_PCT * Math.log10(budget) * Math.log(turn) / 100;
+		return budget * interestRatePercentage / 100;
 	}
 
+	private void calculateInterestRatePercentage(int turn)
+	{
+		interestRatePercentage = Config.INTEREST_PCT * Math.log10(budget) * Math.log(turn);
+	}
 	/**
 	 * have enough budget for this price
 	 * @param price price >= 0

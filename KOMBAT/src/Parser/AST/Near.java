@@ -8,7 +8,7 @@ public record Near(HexDir dir) implements Expr
 	@Override
 	public int eval(ExecutionInstance instance)
 	{
-		return 0;
+		return instance.nearby(dir);
 	}
 
 	@Override

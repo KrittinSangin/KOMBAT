@@ -9,7 +9,7 @@ public record Mul(Expr l, Expr r) implements Expr
 	@Override
 	public int eval(ExecutionInstance instance)
 	{
-		return 0;
+		return l.eval(instance) + r.eval(instance);
 	}
 
 	@Override

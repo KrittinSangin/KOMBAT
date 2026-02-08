@@ -83,7 +83,7 @@ public class Minion
 	 * @param dam damage to attack
 	 * @return true if there is another minion get attack.
 	 */
-	public boolean Attack(HexDir dir, int dam)
+	public boolean shoot(HexDir dir, int dam)
 	{
 		HexMap map = hex.Map;
 		HexPos dest = hex.Pos.nextInDir(dir);
