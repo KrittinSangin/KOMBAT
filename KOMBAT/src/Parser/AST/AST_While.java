@@ -10,13 +10,9 @@ public record AST_While(Expr cond, Stment body) implements Stment
 		for (int i = 0; i < 10000; i++)
 		{
 			if (cond.eval(instance) > 0)
-			{
 				body.execute(instance);
-			}
 			else
-			{
 				break;
-			}
 		}
 	}
 

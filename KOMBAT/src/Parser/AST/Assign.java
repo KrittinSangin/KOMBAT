@@ -10,8 +10,8 @@ public record Assign(String name, Expr val) implements Stment
 	public void execute(ExecutionInstance instance)
 	{
 		if (instance.isSpecial(name)) return;
-		else if (instance.isLocal(name)) instance.local().put(name,val.eval(instance));
-		else if (instance.isGlobal(name)) instance.global().put(name,val.eval(instance));
+		else if (instance.isLocal(name)) instance.local().put(name, val.eval(instance));
+		else if (instance.isGlobal(name)) instance.global().put(name, val.eval(instance));
 		else throw new HaltExecutionException("invalid assignment");
 	}
 
