@@ -21,7 +21,6 @@ public class Main
 	}
 
 
-
 	private void runGame()
 	{
 		populateConfig();
@@ -103,7 +102,8 @@ public class Main
 	}
 
 
-	private static void ReadFile() {
+	private static void ReadFile()
+	{
 		String filename = "sample strategy no comment";
 		String path = "data/%s.txt".formatted(filename);
 
@@ -117,8 +117,7 @@ public class Main
 				stment.prettyPrint(sb);
 				IO.print(sb.toString());
 			}
-		}
-		catch (IOException e)
+		} catch (IOException e)
 		{
 			System.err.format("%s%n", e);
 		}

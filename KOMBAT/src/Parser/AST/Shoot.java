@@ -11,8 +11,8 @@ public record Shoot(HexDir dir, Expr cost) implements Stment
 	{
 		int cost_v = cost.eval(instance);
 
-		if (instance.minion().getOwner().getBudget().pay(cost_v+1))
-			instance.minion().shoot(dir,cost_v);
+		if (instance.minion().getOwner().getBudget().pay(cost_v + 1))
+			instance.minion().shoot(dir, cost_v);
 		else
 			throw new HaltExecutionException("insufficient shoot budget");
 

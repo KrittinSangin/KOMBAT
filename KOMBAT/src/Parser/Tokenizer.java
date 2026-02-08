@@ -2,8 +2,10 @@ package Parser;
 
 public interface Tokenizer
 {
-	/** Returns true if there is
-	 *  more token */
+	/**
+	 * Returns true if there is
+	 * more token
+	 */
 	boolean hasNextToken();
 
 	/**
@@ -12,10 +14,12 @@ public interface Tokenizer
 	 */
 	String peek();
 
-	/** Consumes the next token
-	 *  from the input stream
-	 *  and returns it.
-	 *  effects: removes the next token
-	 *           from the input stream */
+	/**
+	 * Consumes the next token
+	 * from the input stream
+	 * and returns it.
+	 * effects: removes the next token
+	 * from the input stream
+	 */
 	String consume();
 }

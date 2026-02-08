@@ -3,6 +3,7 @@ package Parser;
 import java.util.NoSuchElementException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
 import Parser.Exceptions.*;
 
 public class StrategyTokenizer implements Tokenizer
@@ -26,7 +27,8 @@ public class StrategyTokenizer implements Tokenizer
 		return next != null;
 	}
 
-	public void checkNextToken() {
+	public void checkNextToken()
+	{
 		if (!hasNextToken()) throw new NoSuchElementException("no more tokens");
 	}
 
@@ -65,10 +67,9 @@ public class StrategyTokenizer implements Tokenizer
 		if (matcher.find())
 		{
 			String next = matcher.group();
-			if (!next.matches(VALIDATION_REGEX)) throw new LexicalError(next + " contains unknow character(s)") ;
+			if (!next.matches(VALIDATION_REGEX)) throw new LexicalError(next + " contains unknow character(s)");
 			this.next = next;
-		}
-		else
+		} else
 			next = null;
 	}
 }

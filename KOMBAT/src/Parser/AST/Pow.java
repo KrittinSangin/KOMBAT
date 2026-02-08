@@ -11,7 +11,7 @@ public record Pow(Expr base, Expr pow) implements Expr
 	{
 		int pow_v = pow.eval(instance);
 		int base_v = base.eval(instance);
-		return Math.powExact(base_v,pow_v);
+		return Math.powExact(base_v, pow_v);
 	}
 
 	@Override

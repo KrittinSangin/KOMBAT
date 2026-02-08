@@ -22,12 +22,12 @@ public class LL1StrategyParser implements Parser<Strategy>
 
 	private void populateDIR_WORDS()
 	{
-		DIR_WORDS_MAP.put("up",HexDir.up);
-		DIR_WORDS_MAP.put("upright",HexDir.upRight);
-		DIR_WORDS_MAP.put("downright",HexDir.downRight);
-		DIR_WORDS_MAP.put("down",HexDir.down);
-		DIR_WORDS_MAP.put("downleft",HexDir.downLeft);
-		DIR_WORDS_MAP.put("upleft",HexDir.upLeft);
+		DIR_WORDS_MAP.put("up", HexDir.up);
+		DIR_WORDS_MAP.put("upright", HexDir.upRight);
+		DIR_WORDS_MAP.put("downright", HexDir.downRight);
+		DIR_WORDS_MAP.put("down", HexDir.down);
+		DIR_WORDS_MAP.put("downleft", HexDir.downLeft);
+		DIR_WORDS_MAP.put("upleft", HexDir.upLeft);
 	}
 
 	@Override
@@ -53,16 +53,13 @@ public class LL1StrategyParser implements Parser<Strategy>
 		if (tkz.peek("if"))
 		{
 			return parseIf();
-		}
-		else if (tkz.peek("while"))
+		} else if (tkz.peek("while"))
 		{
 			return parseWhile();
-		}
-		else if (tkz.peek("{"))
+		} else if (tkz.peek("{"))
 		{
 			return parseStmentBk();
-		}
-		else
+		} else
 		{
 			return parseCommand();
 		}
@@ -73,8 +70,7 @@ public class LL1StrategyParser implements Parser<Strategy>
 		if (isIdentifier(tkz.peek()))
 		{
 			return parseAssign();
-		}
-		else
+		} else
 		{
 			return parseAction();
 		}
@@ -85,7 +81,7 @@ public class LL1StrategyParser implements Parser<Strategy>
 		String name = tkz.consume();
 		tkz.consume("=");
 		Expr val = parseE();
-		return new Assign(name,val);
+		return new Assign(name, val);
 	}
 
 	private Stment parseAction() throws SyntaxError
@@ -94,12 +90,10 @@ public class LL1StrategyParser implements Parser<Strategy>
 		{
 			tkz.consume("done");
 			return new Done();
-		}
-		else if (tkz.peek("move"))
+		} else if (tkz.peek("move"))
 		{
 			return parseMove();
-		}
-		else if (tkz.peek("shoot"))
+		} else if (tkz.peek("shoot"))
 		{
 			return parseShoot();
 		}
@@ -119,7 +113,7 @@ public class LL1StrategyParser implements Parser<Strategy>
 		tkz.consume("shoot");
 		HexDir dir = parseDir();
 		Expr cost = parseE();
-		return new Shoot(dir,cost);
+		return new Shoot(dir, cost);
 	}
 
 	private Stment parseStmentBk() throws SyntaxError
@@ -145,7 +139,7 @@ public class LL1StrategyParser implements Parser<Strategy>
 		tkz.consume("else");
 		Stment else_ = parstStment();
 
-		return new AST_If(cond,then_,else_);
+		return new AST_If(cond, then_, else_);
 	}
 
 	private Stment parseWhile() throws SyntaxError
@@ -167,12 +161,11 @@ public class LL1StrategyParser implements Parser<Strategy>
 			if (tkz.peek("+"))
 			{
 				tkz.consume();
-				v = new Add(v,parseT());
-			}
-			else if (tkz.peek("-"))
+				v = new Add(v, parseT());
+			} else if (tkz.peek("-"))
 			{
 				tkz.consume();
-				v = new Sub(v,parseT());
+				v = new Sub(v, parseT());
 			}
 		}
 		return v;
@@ -188,17 +181,15 @@ public class LL1StrategyParser implements Parser<Strategy>
 			if (tkz.peek("*"))
 			{
 				tkz.consume();
-				v = new Mul(v,parseF());
-			}
-			else if (tkz.peek("/"))
+				v = new Mul(v, parseF());
+			} else if (tkz.peek("/"))
 			{
 				tkz.consume();
-				v = new Div(v,parseF());
-			}
-			else if (tkz.peek("%"))
+				v = new Div(v, parseF());
+			} else if (tkz.peek("%"))
 			{
 				tkz.consume();
-				v = new Mod(v,parseF());
+				v = new Mod(v, parseF());
 			}
 		}
 		return v;
@@ -210,7 +201,7 @@ public class LL1StrategyParser implements Parser<Strategy>
 		while (tkz.peek("^"))
 		{
 			tkz.consume();
-			v = new Pow(parseF(),v);
+			v = new Pow(parseF(), v);
 		}
 		return v;
 	}
@@ -225,8 +216,7 @@ public class LL1StrategyParser implements Parser<Strategy>
 			Expr v = parseE();
 			tkz.consume(")");
 			return v;
-		}
-		else
+		} else
 		{
 			return parseInfo();
 		}
@@ -238,13 +228,11 @@ public class LL1StrategyParser implements Parser<Strategy>
 		{
 			tkz.consume("ally");
 			return new Ally();
-		}
-		else if (tkz.peek("opponent"))
+		} else if (tkz.peek("opponent"))
 		{
 			tkz.consume("opponent");
 			return new Oppo();
-		}
-		else if (tkz.peek("nearby"))
+		} else if (tkz.peek("nearby"))
 		{
 			tkz.consume("nearby");
 			HexDir dir = parseDir();
@@ -262,9 +250,8 @@ public class LL1StrategyParser implements Parser<Strategy>
 
 	private boolean isIdentifier(String s)
 	{
-		return Character.isAlphabetic(s.toCharArray()[0]) && Arrays.stream(Strategy.RESERVE_WORDS).noneMatch((key) -> key.equals(s));
+		return Character.isAlphabetic(s.toCharArray()[0]) && Arrays.stream(Strategy.RESERVE_WORDS).noneMatch((key)->key.equals(s));
 	}
-
 
 
 }
