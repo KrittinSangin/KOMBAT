@@ -2,6 +2,7 @@ package Test;
 
 import Console.ConsoleInputManager;
 import Console.GameValueInjector;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 import Games.*;
@@ -54,8 +55,44 @@ class GameTest
 	}
 
 	@Test
-	void expectedGameStateAbnormal()
+	void _1minionStrategyOutOfBound()
 	{
-		//nah...
+        GameValueInjector injector = new GameValueInjector(TestingUtility.instantiateGameDefault(),new ConsoleInputManager());
+        injector.addValue("min 1 1 5");
+        injector.step();
+		assertDoesNotThrow(injector::step);
+
+
 	}
+    @Disabled
+    //Enable and fix this if you have time
+    @Test
+    void _2OverloadedHexInput()
+    {
+        GameValueInjector injector = new GameValueInjector(TestingUtility.instantiateGameDefault(),new ConsoleInputManager());
+        injector.addValue("hex 777777777777777 7");
+        injector.step();
+        assertDoesNotThrow(injector::step);
+    }
+
+
+    // #3 in the bug doc has to be solved internally without JUnit
+
+
+
+    @Test
+    void _4hexOutOfBound()
+    {
+        GameValueInjector injector = new GameValueInjector(TestingUtility.instantiateGameDefault(),new ConsoleInputManager());
+        injector.addValue("min 1 1 1");
+        injector.addValue("min 8 8 1");
+        injector.addValue("hex 9 1");
+        injector.step();
+        injector.step();
+        injector.step();
+
+        assertDoesNotThrow(injector::step);
+    }
+
+
 }

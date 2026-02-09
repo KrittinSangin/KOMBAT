@@ -16,8 +16,8 @@ public class Main
 {
 	void main()
 	{
-		ReadFile();
-//		runGame();
+//		ReadFile();
+		runGame();
 	}
 
 
@@ -49,31 +49,42 @@ public class Main
 		Canvas cv = new ConsoleCanvas(instance);
 
 		//inject value
-		List<String> injection = new ArrayList<>();
-		injection.add("min 1 1 1");
-		injection.add("min 8 8 1");
-		injection.add("hex 1 4");
-		injection.add("min 1 2 1");
-		injection.add(" ");
-		injection.add("hex 6 8");
-		injection.add("min 6 8 1");
-		injection.add(" ");
-		injection.add("min 6 8 1");
-		injection.add("skip");
-		injection.add("min 2 2 4");
-		injection.add(" ");
-		injection.add("skip");
-		injection.add("skip");
-		injection.add(" ");
+//		List<String> injection = new ArrayList<>();
+//		injection.add("min 1 1 1");
+//		injection.add("min 8 8 1");
+//		injection.add("hex 1 4");
+//		injection.add("min 1 2 1");
+//		injection.add(" ");
+//		injection.add("hex 6 8");
+//		injection.add("min 6 8 1");
+//		injection.add(" ");
+//		injection.add("min 6 8 1");
+//		injection.add("skip");
+//		injection.add("min 2 2 4");
+//		injection.add(" ");
+//		injection.add("skip");
+//		injection.add("skip");
+//		injection.add(" ");
+//
+     // ---- Ghost hex ----- //
+//		List<String> injection = new ArrayList<>();
+//		injection.add("min 1 1 1");
+//		injection.add("min 8 8 1");
+//		injection.add("hex 4 8");
+//		injection.add("hex 5 1");
+//		injection.add("skip");
+//		injection.add("hex 8 4");
+//		injection.add("hex 8 4");
+//		injection.add(" ");
 
-		cv.draw();
-		for (var ij : injection)
-		{
-			IO.println(ij);
-			ipm.readInput(ij);
-			instance.update(ipm.getIntent());
-			cv.draw();
-		}
+//		cv.draw();
+//		for (var ij : injection)
+//		{
+//			IO.println(ij);
+//			ipm.readInput(ij);
+//			instance.update(ipm.getIntent());
+//			cv.draw();
+//		}
 
 //		Minion minion = instance.getMinions().get(4);
 //		minion.move(HexDir.downRight); cv.draw();
@@ -85,15 +96,15 @@ public class Main
 
 		//play by hand
 //		//input
-//		while (!instance.isOver())
-//		{
-//			if (ipm.readInput(sc.nextLine()))
-//			{
-//				instance.update(ipm.getIntent());
-////				 instance.update(PlayerIntent.RESIGN);
-//			}
-//			cv.draw();
-//		}
+		while (!instance.isOver())
+		{
+			if (ipm.readInput(sc.nextLine()))
+			{
+				instance.update(ipm.getIntent());
+//				 instance.update(PlayerIntent.RESIGN);
+			}
+			cv.draw();
+		}
 	}
 
 	private void populateConfig()
