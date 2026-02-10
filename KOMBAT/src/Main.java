@@ -10,14 +10,15 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.file.Path;
 import java.util.*;
 
 public class Main
 {
 	void main()
 	{
-		ReadFile();
-//		runGame();
+//		ReadFile();
+		runGame();
 	}
 
 
@@ -25,15 +26,17 @@ public class Main
 	{
 		populateConfig();
 
+		Map<String,Strategy> strategyStorage = parseStrategy(List.of("sample strategy no comment"));
+
 		PlayerInfo p1info = new PlayerInfo("Rosmia Eifri", 0);
 		PlayerInfo p2info = new PlayerInfo("Hadena (Hue) Iroai", 1);
 
 		List<Minion> universalDeck = new ArrayList<>();
-		universalDeck.add(new Minion("0", (int) Config.INIT_HP, 10, new Strategy(null)));
-		universalDeck.add(new Minion("1", (int) Config.INIT_HP, 10, new Strategy(null)));
-		universalDeck.add(new Minion("2", (int) Config.INIT_HP, 10, new Strategy(null)));
-		universalDeck.add(new Minion("3", (int) Config.INIT_HP, 10, new Strategy(null)));
-		universalDeck.add(new Minion("4", (int) Config.INIT_HP, 10, new Strategy(null)));
+		universalDeck.add(new Minion("0", (int) Config.INIT_HP, 10, strategyStorage.get("sample strategy no comment")));
+		universalDeck.add(new Minion("1", (int) Config.INIT_HP, 10, strategyStorage.get("sample strategy no comment")));
+		universalDeck.add(new Minion("2", (int) Config.INIT_HP, 10, strategyStorage.get("sample strategy no comment")));
+		universalDeck.add(new Minion("3", (int) Config.INIT_HP, 10, strategyStorage.get("sample strategy no comment")));
+		universalDeck.add(new Minion("4", (int) Config.INIT_HP, 10, strategyStorage.get("sample strategy no comment")));
 		StartInfo info = new StartInfo(
 			p1info,
 			p2info,
@@ -53,7 +56,7 @@ public class Main
 		injection.add("min 1 1 1");
 		injection.add("min 8 8 1");
 		injection.add("hex 1 4");
-		injection.add("min 1 2 1");
+		injection.add("min 1 2 2");
 		injection.add(" ");
 		injection.add("hex 6 8");
 		injection.add("min 6 8 1");
@@ -101,11 +104,33 @@ public class Main
 		Config.useDefaultConfig();
 	}
 
+	private Map<String,Strategy> parseStrategy(List<String> filenames)
+	{
+		Map<String,Strategy> out = new HashMap<>();
+		for (String name : filenames)
+		{
+			String path = "data/Strategy/%s.txt".formatted(name);
+
+			try (BufferedReader br = new BufferedReader(new FileReader(path)))
+			{
+				Strategy strat = new LL1StrategyParser(new StrategyTokenizer(br.readAllAsString())).parse();
+				out.put(name,strat);
+				IO.println("Strategy %s parse successfully".formatted(name));
+
+			} catch (IOException e)
+			{
+				System.err.format("%s%n", e);
+			}
+		}
+
+		return out;
+	}
+
 
 	private static void ReadFile()
 	{
 		String filename = "sample strategy no comment";
-		String path = "data/%s.txt".formatted(filename);
+		String path = "data/Strategy/%s.txt".formatted(filename);
 
 		try (BufferedReader br = new BufferedReader(new FileReader(path)))
 		{

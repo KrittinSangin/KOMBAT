@@ -7,6 +7,8 @@ import MVC.Canvas;
 import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.Test;
 
+import java.util.HashMap;
+
 class ExecutionInstanceTest
 {
 
@@ -203,5 +205,35 @@ class ExecutionInstanceTest
 
 		ExecutionInstance instance = new ExecutionInstance(m,null);
 		assertEquals(-323, instance.nearby(HexDir.downRight));
+	}
+
+	@Test
+	void isGlobal()
+	{
+		Game game = TestingUtility.instantiateGameDefault();
+
+		Minion dummy = TestingUtility.forcePlaceControllableMinion(game);
+
+		ExecutionInstance instance = new ExecutionInstance(dummy,new HashMap<>());
+
+		assertTrue(instance.isGlobal("A"));
+		assertFalse(instance.isGlobal("a"));
+		assertTrue(instance.isGlobal("Aa"));
+		assertFalse(instance.isGlobal("aA"));
+	}
+
+	@Test
+	void isLocal()
+	{
+		Game game = TestingUtility.instantiateGameDefault();
+
+		Minion dummy = TestingUtility.forcePlaceControllableMinion(game);
+
+		ExecutionInstance instance = new ExecutionInstance(dummy,new HashMap<>());
+
+		assertFalse(instance.isLocal("A"));
+		assertTrue(instance.isLocal("a"));
+		assertFalse(instance.isLocal("Aa"));
+		assertTrue(instance.isLocal("aA"));
 	}
 }

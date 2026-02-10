@@ -161,7 +161,7 @@ public record ExecutionInstance(Minion minion, Map<String,Integer> local)
 
 	public boolean isLocal(String name)
 	{
-		return Character.isUpperCase(name.toCharArray()[0]);
+		return Character.isLowerCase(name.toCharArray()[0]);
 	}
 
 	public boolean isSpecial(String name)

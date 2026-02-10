@@ -9,7 +9,7 @@ public record Sub(Expr l, Expr r) implements Expr
 	@Override
 	public int eval(ExecutionInstance instance)
 	{
-		return l.eval(instance) + r.eval(instance);
+		return l.eval(instance) - r.eval(instance);
 	}
 
 	@Override

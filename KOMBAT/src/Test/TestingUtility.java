@@ -49,7 +49,7 @@ public class TestingUtility
 
 	public static Minion forcePlaceControllableMinion(Game game)
 	{
-		return TestingUtility.forcePlaceControllableMinion(game,0,0);
+		return TestingUtility.forcePlaceControllableMinion(game,1,1);
 	}
 
 	public static Minion forcePlaceControllableMinion(Game game, int row, int col)

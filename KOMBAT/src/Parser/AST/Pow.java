@@ -1,6 +1,7 @@
 package Parser.AST;
 
 import Games.ExecutionInstance;
+import Parser.Exceptions.HaltExecutionException;
 
 import java.util.Map;
 
@@ -11,7 +12,14 @@ public record Pow(Expr base, Expr pow) implements Expr
 	{
 		int pow_v = pow.eval(instance);
 		int base_v = base.eval(instance);
-		return Math.powExact(base_v, pow_v);
+		try
+		{
+			return Math.powExact(base_v, pow_v);
+		}
+		catch (ArithmeticException e)
+		{
+			throw new HaltExecutionException(e.getMessage());
+		}
 	}
 
 	@Override

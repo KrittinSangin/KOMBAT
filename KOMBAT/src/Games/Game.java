@@ -7,12 +7,12 @@ public class Game
 {
 	public interface State
 	{
-		public static String EMPTY_STATE = "EmptyState";
-		public static String START_STATE = "StartState";
-		public static String BUY_STATE_HEX = "BuyState(Hex)";
-		public static String BUY_STATE_MINION = "BuyState(Hex)";
-		public static String EXECUTION_STATE = "ExecuteState";
-		public static String END_STATE = "EndState";
+		public static final String EMPTY_STATE = "EmptyState";
+		public static final String START_STATE = "StartState";
+		public static final String BUY_STATE_HEX = "BuyState(Hex)";
+		public static final String BUY_STATE_MINION = "BuyState(Hex)";
+		public static final String EXECUTION_STATE = "ExecuteState";
+		public static final String END_STATE = "EndState";
 
 		void resolve(PlayerIntent intent);
 
@@ -210,13 +210,14 @@ public class Game
 		public ExecuteState(State state)
 		{
 			super(state);
+			executor.queueExecution(storage.getIf((m) -> m.getOwner().equals(currentPlayer())));
 		}
 
 		@Override
 		public void resolve(PlayerIntent intent)
 		{
-			//resolve execution
-			IO.println("method not implemented [Game.ExecuteState.resolve(PlayerIntent intent)]");
+			//any intent, must be change later
+			executor.executeAll();
 		}
 
 		@Override
@@ -249,6 +250,7 @@ public class Game
 		public EndState(State state)
 		{
 			super(state);
+			IO.println("Game End");
 		}
 
 		@Override
@@ -391,7 +393,7 @@ public class Game
 
 	private boolean endStateCondition()
 	{
-		return currentPlayer().getMinionCount() == 0;
+		return currentPlayer().getMinionCount() == 0 && round > Config.MAX_TURNS;
 	}
 
 	private Player currentPlayer()

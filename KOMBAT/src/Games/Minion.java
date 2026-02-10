@@ -53,6 +53,8 @@ public class Minion
 
 	public int getDef() {return def;}
 
+	public Strategy getStrategy() {return strat;}
+
 	public void setOwner(Player value) {owner = value;}
 
 	/**
@@ -63,6 +65,7 @@ public class Minion
 	 */
 	public boolean move(HexDir dir)
 	{
+		IO.println("move in %s".formatted(dir));
 		HexMap map = hex.Map;
 		HexPos dest = hex.Pos.nextInDir(dir);
 
@@ -86,6 +89,8 @@ public class Minion
 	 */
 	public boolean shoot(HexDir dir, int dam)
 	{
+		IO.println("shoot in %s with %d".formatted(dir,dam));
+
 		HexMap map = hex.Map;
 		HexPos dest = hex.Pos.nextInDir(dir);
 
