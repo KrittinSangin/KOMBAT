@@ -157,8 +157,8 @@ public class Game
 
 				if (intent.intent().equals(PlayerIntent.Intent.buyHex))
 				{
-					currentPlayer().buyHex(map.get(intent.hex()));
-					hexBought = true;
+					if (currentPlayer().buyHex(map.get(intent.hex())))
+						hexBought = true;
 					return;
 				}
 			} else if (!minionBought)
@@ -171,11 +171,11 @@ public class Game
 
 				if (intent.intent().equals(PlayerIntent.Intent.buyMinion))
 				{
-					currentPlayer().spawnMinion(
+					if (currentPlayer().spawnMinion(
 						map.get(intent.hex()),
-						currentPlayer().getDeckMinion(intent.minion())
-					);
-					minionBought = true;
+						currentPlayer().getDeckMinion(intent.minion()))
+					)
+						minionBought = true;
 					return;
 				}
 			}

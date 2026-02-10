@@ -11,8 +11,7 @@ public class LL1StrategyParser implements Parser<Strategy>
 {
 	private static final Map<String, HexDir> DIR_WORDS_MAP = new HashMap<>();
 
-
-	StrategyTokenizer tkz;
+	private StrategyTokenizer tkz;
 
 	public LL1StrategyParser(StrategyTokenizer tkz)
 	{
@@ -182,11 +181,13 @@ public class LL1StrategyParser implements Parser<Strategy>
 			{
 				tkz.consume();
 				v = new Mul(v, parseF());
-			} else if (tkz.peek("/"))
+			}
+			else if (tkz.peek("/"))
 			{
 				tkz.consume();
 				v = new Div(v, parseF());
-			} else if (tkz.peek("%"))
+			}
+			else if (tkz.peek("%"))
 			{
 				tkz.consume();
 				v = new Mod(v, parseF());

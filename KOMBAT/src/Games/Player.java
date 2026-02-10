@@ -93,8 +93,14 @@ public class Player
 	 */
 	public boolean buyHex(Hex h, boolean bypass)
 	{
-		//owner guard
-		if (h.haveOwner()) return false;
+		if (!bypass)
+		{
+			//owner guard
+			if (h.haveOwner()) return false;
+
+			//adjacency guard
+			if (!h.isAdjacentToTerritory(this)) return false;
+		}
 
 		//pay guard
 		Hex hex = bypass ? h : merchant.buyHex(this, h);

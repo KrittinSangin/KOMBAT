@@ -72,4 +72,24 @@ public class Hex
 		minion = null;
 		return true;
 	}
+
+	public boolean isAdjacentToTerritory()
+	{
+		return isAdjacentToTerritory(owner);
+	}
+
+	public boolean isAdjacentToTerritory(Player player)
+	{
+		for (int i = 1; i <= 6; i++)
+		{
+			HexPos pos = HexPos.nextInDir(Pos,HexDir.toHexDir(i));
+			Hex check = Map.get(pos);
+
+			if (check == null) continue;
+
+			if (player.equals(check.getOwner())) return true;
+		}
+		return false;
+	}
+
 }
