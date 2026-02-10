@@ -92,4 +92,26 @@ public class Hex
 		return false;
 	}
 
+	@Override
+	public int hashCode()
+	{
+		// Map --> (Hex) --> Minion
+		int hash = 23;
+		hash = 31 * hash + Pos.hashCode();
+		hash = hash + owner.getPlayerInfo().team();
+		hash = 31 * hash + minion.hashCode();
+		return hash;
+	}
+
+	@Override
+	public boolean equals(Object o)
+	{
+		if (this == o) return true;
+		if (!(o instanceof Hex other)) return false;
+
+		return Pos.equals(other.Pos)
+			&& owner.getPlayerInfo().team() == other.owner.getPlayerInfo().team()
+			&& minion.equals(other.minion);
+	}
+
 }

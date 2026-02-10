@@ -15,11 +15,11 @@ public class TestingUtility
 		PlayerInfo p2info = new PlayerInfo("B", 1);
 
 		List<Minion> universalDeck = new ArrayList<>();
-		universalDeck.add(new Minion("0", (int) Config.INIT_HP, 10, new Strategy(null)));
-		universalDeck.add(new Minion("1", (int) Config.INIT_HP, 10, new Strategy(null)));
-		universalDeck.add(new Minion("2", (int) Config.INIT_HP, 10, new Strategy(null)));
-		universalDeck.add(new Minion("3", (int) Config.INIT_HP, 10, new Strategy(null)));
-		universalDeck.add(new Minion("4", (int) Config.INIT_HP, 10, new Strategy(null)));
+		universalDeck.add(new Minion("0", (int) Config.INIT_HP, 10, new Strategy()));
+		universalDeck.add(new Minion("1", (int) Config.INIT_HP, 10, new Strategy()));
+		universalDeck.add(new Minion("2", (int) Config.INIT_HP, 10, new Strategy()));
+		universalDeck.add(new Minion("3", (int) Config.INIT_HP, 10, new Strategy()));
+		universalDeck.add(new Minion("4", (int) Config.INIT_HP, 10, new Strategy()));
 		StartInfo info = new StartInfo(
 			p1info,
 			p2info,

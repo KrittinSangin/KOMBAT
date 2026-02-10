@@ -136,7 +136,7 @@ public class Main
 		{
 			Strategy strat = new LL1StrategyParser(new StrategyTokenizer(br.readAllAsString())).parse();
 
-			for (var stment : strat.stments())
+			for (var stment : strat.stments)
 			{
 				StringBuilder sb = new StringBuilder();
 				stment.prettyPrint(sb);

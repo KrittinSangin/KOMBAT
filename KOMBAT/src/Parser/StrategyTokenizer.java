@@ -8,6 +8,7 @@ import Parser.Exceptions.*;
 
 public class StrategyTokenizer implements Tokenizer
 {
+	private String raw;
 	private String next;
 
 	private final String STRAT_REGEX = "\\d+|[\\p{Alpha}_]+|[+\\-*/%()^{}=]";
@@ -17,9 +18,12 @@ public class StrategyTokenizer implements Tokenizer
 
 	public StrategyTokenizer(String src)
 	{
+		raw = src;
 		matcher = Pattern.compile(STRAT_REGEX).matcher(src);
 		computeNext();
 	}
+
+	public String getRawString() {return raw;}
 
 	@Override
 	public boolean hasNextToken()

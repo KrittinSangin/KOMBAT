@@ -44,7 +44,7 @@ public class LL1StrategyParser implements Parser<Strategy>
 			stments.add(parstStment());
 		}
 
-		return new Strategy(stments);
+		return new Strategy(tkz.getRawString(),stments);
 	}
 
 	private Stment parstStment() throws SyntaxError

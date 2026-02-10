@@ -2,6 +2,8 @@ package Games;
 
 import Event.UnaryEvent;
 
+import java.util.Objects;
+
 public class Minion
 {
 	private final String name;
@@ -132,6 +134,29 @@ public class Minion
 		return new Minion(this);
 	}
 
+	@Override
+	public int hashCode()
+	{
+		// Map --> Hex --> (Minion)
+		int hash = 17;
+		hash = 34 * hash + name.hashCode();
+		hash = owner.getPlayerInfo().team();
+		hash = 34 * hash + hp;
+		hash = 34 * hash + def;
+		return hash;
+	}
 
+	@Override
+	public boolean equals(Object o)
+	{
+		if (this == o) return true;
+		if (!(o instanceof Minion other)) return false;
+
+		return name.equals(other.name)
+			&& owner.getPlayerInfo().team() == other.owner.getPlayerInfo().team()
+			&& strat.equals(other.strat)
+			&& hp == other.hp
+			&& def == other.def;
+	}
 
 }

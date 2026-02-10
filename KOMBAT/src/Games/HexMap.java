@@ -91,4 +91,25 @@ public class HexMap
 		return hexMap.get(pos).haveMinion();
 	}
 
+
+	@Override
+	public int hashCode()
+	{
+		// (Map) --> Hex --> Minion
+		int acc = 0;
+
+		for (var hex : hexMap.entrySet())
+			acc += hex.getValue().hashCode();
+
+		return acc;
+	}
+
+	@Override
+	public boolean equals(Object o)
+	{
+		if (this == o) return true;
+		if (!(o instanceof HexMap other)) return false;
+
+		return hexMap.equals(other.hexMap);
+	}
 }
