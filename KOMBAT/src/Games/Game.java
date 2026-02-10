@@ -376,6 +376,8 @@ public class Game
 	 */
 	public void update(PlayerIntent intent)
 	{
+		if (validateIntent(intent)) return;
+
 		gameState.resolve(intent);
 
 		if (gameState.checkSwitchState())
@@ -404,6 +406,11 @@ public class Game
 	public boolean isOver()
 	{
 		return gameState.toString().equals("EndState");
+	}
+
+	private boolean validateIntent(PlayerIntent intent)
+	{
+		return intent.minion() < currentPlayer().getDeck().size() - 1 && map.get(intent.hex()) != null;
 	}
 
 }
