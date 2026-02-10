@@ -11,6 +11,11 @@ public class Budget
 		budget = Config.INIT_BUDGET;
 	}
 
+	public Budget(int initBudge)
+	{
+		budget = initBudge;
+	}
+
 	/**
 	 * gain budget according to design doc.
 	 * @param turn

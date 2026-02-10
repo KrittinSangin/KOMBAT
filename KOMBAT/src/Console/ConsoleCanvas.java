@@ -199,8 +199,7 @@ public class ConsoleCanvas implements Canvas
 			char minionOwner = ' ';
 			if (hex.haveOwner()) owner = hex.getOwner().getPlayerInfo().name().toUpperCase().toCharArray()[0];
 			if (hex.haveMinion()) minion = hex.getMinion().getName().toCharArray()[0];
-			if (hex.haveMinion())
-				minionOwner = hex.getMinion().getOwner().getPlayerInfo().name().toLowerCase().toCharArray()[0];
+			if (hex.haveMinion()) minionOwner = hex.getMinion().getOwner().getPlayerInfo().name().toLowerCase().toCharArray()[0];
 
 			drawHex(r, c, owner, minion, minionOwner);
 		}

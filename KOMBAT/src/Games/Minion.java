@@ -140,7 +140,7 @@ public class Minion
 		// Map --> Hex --> (Minion)
 		int hash = 17;
 		hash = 34 * hash + name.hashCode();
-		hash = owner.getPlayerInfo().team();
+		hash = owner == null? 0 : owner.getPlayerInfo().team();
 		hash = 34 * hash + hp;
 		hash = 34 * hash + def;
 		return hash;
@@ -153,7 +153,7 @@ public class Minion
 		if (!(o instanceof Minion other)) return false;
 
 		return name.equals(other.name)
-			&& owner.getPlayerInfo().team() == other.owner.getPlayerInfo().team()
+			&& (owner == null || other.owner == null? owner == other.owner : owner.getPlayerInfo().team() == other.owner.getPlayerInfo().team())
 			&& strat.equals(other.strat)
 			&& hp == other.hp
 			&& def == other.def;

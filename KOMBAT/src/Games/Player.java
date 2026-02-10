@@ -16,7 +16,7 @@ public class Player
 
 	private int spawnCount = 0;
 
-	Player(PlayerInfo info, Budget budget, List<Minion> deck)
+	public Player(PlayerInfo info, Budget budget, List<Minion> deck)
 	{
 		this.info = info;
 		this.budget = budget;
@@ -93,7 +93,7 @@ public class Player
 	 * Try to buy hex h
 	 *
 	 * @param h      hex to buy
-	 * @param bypass if true, player does not have to pay the price
+	 * @param bypass if true, bypass all guards
 	 * @return true if successfully buy hex
 	 */
 	public boolean buyHex(Hex h, boolean bypass)
@@ -133,16 +133,20 @@ public class Player
 	 *
 	 * @param hex    hex to spawn minion
 	 * @param m      minion to spawn
-	 * @param bypass if true, player does not have to pay the price
+	 * @param bypass if true, bypass all guards
 	 * @return true if player able to buy a minion m on hex h
 	 */
 	public boolean spawnMinion(Hex hex, Minion m, boolean bypass)
 	{
-		//spawn count guard
-		if (spawnCount == Config.MAX_SPAWNS) return false;
+		if (bypass)
+		{
+			//spawn count guard
+			if (spawnCount == Config.MAX_SPAWNS) return false;
 
-		//owner guard
-		if (!hex.isOwner(this)) return false;
+			//owner guard
+			if (!hex.isOwner(this)) return false;
+
+		}
 
 		//budget guard
 		Minion minion = bypass ? m : merchant.buyMinion(this, m);

@@ -4,6 +4,7 @@ import Games.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.Executor;
 
 public class TestingUtility
 {
@@ -84,4 +85,32 @@ public class TestingUtility
 		HexPos pos = new HexPos(row,col);
 		map.remove(pos);
 	}
+
+	public static void injectMinion(Game game, Minion m, int row, int col)
+	{
+		HexMap map = TestingUtility.extractHexMap(game);
+		HexPos pos = new HexPos(row,col);
+
+		Minion inject = m.prototypeClone();
+		inject.setHex(map.get(pos));
+
+		map.put(pos,inject);
+	}
+
+	public static void forceExecuteAll(Game game)
+	{
+		StrategyExecutor exe = game.getExecutor();
+		List<Minion> ls = game.getMap().getMap().values().stream().filter(Hex::haveMinion).map(Hex::getMinion).toList();
+		exe.queueExecution(ls);
+		exe.executeAll();
+	}
+
+	public static void forceExecuteOne(Game game,Minion target)
+	{
+		StrategyExecutor exe = game.getExecutor();
+		List<Minion> ls = game.getMap().getMap().values().stream().filter(Hex::haveMinion).map(Hex::getMinion).filter((m)->m.equals(target)).toList();
+		exe.queueExecution(ls);
+		exe.executeAll();
+	}
+
 }

@@ -373,6 +373,8 @@ public class Game
 
 	public Player getWinner() {return winner;}
 
+	public StrategyExecutor getExecutor() {return executor;}
+
 	/**
 	 * Start the game
 	 */

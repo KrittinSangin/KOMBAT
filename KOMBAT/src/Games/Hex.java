@@ -98,8 +98,10 @@ public class Hex
 		// Map --> (Hex) --> Minion
 		int hash = 23;
 		hash = 31 * hash + Pos.hashCode();
-		hash = hash + owner.getPlayerInfo().team();
-		hash = 31 * hash + minion.hashCode();
+		if (owner != null)
+			hash = hash + owner.getPlayerInfo().team();
+		if (minion != null)
+			hash = 31 * hash + minion.hashCode();
 		return hash;
 	}
 
@@ -110,8 +112,8 @@ public class Hex
 		if (!(o instanceof Hex other)) return false;
 
 		return Pos.equals(other.Pos)
-			&& owner.getPlayerInfo().team() == other.owner.getPlayerInfo().team()
-			&& minion.equals(other.minion);
+			&& (owner == null || other.owner == null? owner == other.owner : owner.getPlayerInfo().team() == other.owner.getPlayerInfo().team())
+			&& (minion == null || other.minion == null? minion == other.minion : minion.equals(other.minion));
 	}
 
 }

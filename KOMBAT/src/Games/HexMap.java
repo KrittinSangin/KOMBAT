@@ -49,6 +49,8 @@ public class HexMap
 		return height;
 	}
 
+	public Map<HexPos, Hex> getMap() {return hexMap;}
+
 	/**
 	 * get Hex at pos
 	 *
