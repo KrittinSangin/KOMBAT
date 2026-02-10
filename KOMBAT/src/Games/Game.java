@@ -128,7 +128,6 @@ public class Game
 	{
 		private boolean hexBought = false;
 		private boolean minionBought = false;
-		private boolean resign = false;
 
 		public BuyState(State state)
 		{
@@ -143,7 +142,7 @@ public class Game
 		{
 			if (intent.intent().equals(PlayerIntent.Intent.resign))
 			{
-				resign = true;
+				isGameResign = true;
 				return;
 			}
 
@@ -188,13 +187,13 @@ public class Game
 		@Override
 		public boolean checkSwitchState()
 		{
-			return (hexBought && minionBought) || resign;
+			return (hexBought && minionBought) || isGameResign;
 		}
 
 		@Override
 		public State nextState()
 		{
-			return resign ? new EndState(this) : new ExecuteState(this);
+			return isGameResign ? new EndState(this) : new ExecuteState(this);
 		}
 
 		@Override
@@ -210,7 +209,7 @@ public class Game
 		public ExecuteState(State state)
 		{
 			super(state);
-			executor.queueExecution(storage.getIf((m) -> m.getOwner().equals(currentPlayer())));
+			executor.queueExecution(storage.getIf((m)->m.getOwner().equals(currentPlayer())));
 		}
 
 		@Override
@@ -251,6 +250,8 @@ public class Game
 		{
 			super(state);
 			IO.println("Game End");
+			isGameOver = true;
+			winner = calculateWinner();
 		}
 
 		@Override
@@ -292,6 +293,10 @@ public class Game
 
 	private State gameState = new EmptyState();
 	private boolean isGameStart = false;
+	private boolean isGameOver = false;
+	private boolean isGameResign = false;
+	private boolean isGameDraw = false;
+	private Player winner = null;
 
 	private int turn;
 	private int round;
@@ -360,7 +365,13 @@ public class Game
 		return round;
 	}
 
-	public boolean isStart() {return isGameStart;}
+	public boolean isStarted() {return isGameStart;}
+
+	public boolean isResigned() {return isGameResign;}
+
+	public boolean isDraw() {return isGameDraw;}
+
+	public Player getWinner() {return winner;}
 
 	/**
 	 * Start the game
@@ -376,7 +387,7 @@ public class Game
 	 */
 	public void update(PlayerIntent intent)
 	{
-		if (validateIntent(intent)) return;
+		if (!validateIntent(intent)) return;
 
 		gameState.resolve(intent);
 
@@ -398,27 +409,71 @@ public class Game
 		return currentPlayer().getMinionCount() == 0 && round > Config.MAX_TURNS;
 	}
 
+	private Player calculateWinner()
+	{
+		if (isGameResign) return otherPlayer();
+
+		Player p1 = players.get(0);
+		Player p2 = players.get(1);
+
+		//win by minion count
+		if (p1.getMinionCount() == p2.getMinionCount())
+		{
+			//win by sum of hp
+			int sumhpP1 = p1.getSpawns().stream().map(Minion::getHp).reduce(Integer::sum).get();
+			int sumhpP2 = p2.getSpawns().stream().map(Minion::getHp).reduce(Integer::sum).get();
+			if (sumhpP1 == sumhpP2)
+			{
+				//win by budget
+				if (p1.getBudget().getBudget() == p2.getBudget().getBudget())
+				{
+					//draw
+					isGameDraw = true;
+					return null;
+				} else
+				{
+					return p1.getBudget().getBudget() > p2.getBudget().getBudget() ? p1 : p2;
+				}
+			} else
+			{
+				return sumhpP1 > sumhpP2 ? p1 : p2;
+			}
+		} else
+		{
+			return p1.getMinionCount() > p2.getMinionCount() ? p1 : p2;
+		}
+	}
+
 	private Player currentPlayer()
 	{
 		return players.get(turn);
 	}
 
+	private Player otherPlayer()
+	{
+		int other = turn == 0 ? 1 : 0;
+		return players.get(other);
+	}
+
 	public boolean isOver()
 	{
-		return gameState.toString().equals("EndState");
+		return gameState.toString().equals(State.END_STATE);
 	}
 
 	private boolean validateIntent(PlayerIntent intent)
 	{
+		//buy hex, validate only hex
 		if (intent.intent() == PlayerIntent.Intent.buyHex)
-			if (intent.hex() != null) if (map.get(intent.hex()) != null) return false;
+			if (intent.hex() != null) if (map.get(intent.hex()) == null) return false;
 
-
+		//buy minion, validate hex and minion
 		if (intent.intent() == PlayerIntent.Intent.buyMinion)
 		{
-			if (intent.hex() != null) if (map.get(intent.hex()) != null) return false;
-			if (intent.minion() != null) if (intent.minion() < currentPlayer().getDeck().size() - 1) return false;
+			if (intent.hex() != null) if (map.get(intent.hex()) == null) return false;
+			if (intent.minion() != null) if (intent.minion() >= currentPlayer().getDeck().size()) return false;
 		}
+
+		//otherwise, ignore value.
 		return true;
 	}
 

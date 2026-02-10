@@ -11,9 +11,6 @@ import java.util.List;
 
 class GameTest
 {
-
-	
-	
 	@Test
 	void expectedGameStateNormal()
 	{

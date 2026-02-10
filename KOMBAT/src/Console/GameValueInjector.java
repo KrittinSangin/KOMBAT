@@ -34,7 +34,7 @@ public class GameValueInjector
 	 */
 	public Game step()
 	{
-		if (!instance.isStart()) instance.start();
+		if (!instance.isStarted()) instance.start();
 		else
 		{
 			ipm.readInput(values.poll());

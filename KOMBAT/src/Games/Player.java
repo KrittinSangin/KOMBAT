@@ -51,6 +51,11 @@ public class Player
 		return deck;
 	}
 
+	public List<Minion> getSpawns()
+	{
+		return spawns;
+	}
+
 	public PlayerInfo getPlayerInfo() {return info;}
 
 	/**
