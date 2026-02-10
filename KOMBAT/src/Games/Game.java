@@ -410,8 +410,15 @@ public class Game
 
 	private boolean validateIntent(PlayerIntent intent)
 	{
-		if (intent.minion() != null) if (intent.minion() < currentPlayer().getDeck().size() - 1) return false;
-		if (intent.hex() != null) if (map.get(intent.hex()) != null) return false;
+		if (intent.intent() == PlayerIntent.Intent.buyHex)
+			if (intent.hex() != null) if (map.get(intent.hex()) != null) return false;
+
+
+		if (intent.intent() == PlayerIntent.Intent.buyMinion)
+		{
+			if (intent.hex() != null) if (map.get(intent.hex()) != null) return false;
+			if (intent.minion() != null) if (intent.minion() < currentPlayer().getDeck().size() - 1) return false;
+		}
 		return true;
 	}
 
