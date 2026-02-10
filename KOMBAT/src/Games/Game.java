@@ -10,7 +10,7 @@ public class Game
 		public static final String EMPTY_STATE = "EmptyState";
 		public static final String START_STATE = "StartState";
 		public static final String BUY_STATE_HEX = "BuyState(Hex)";
-		public static final String BUY_STATE_MINION = "BuyState(Hex)";
+		public static final String BUY_STATE_MINION = "BuyState(Minion)";
 		public static final String EXECUTION_STATE = "ExecuteState";
 		public static final String END_STATE = "EndState";
 
@@ -200,7 +200,7 @@ public class Game
 		@Override
 		public String toString()
 		{
-			return hexBought ? BUY_STATE_HEX : BUY_STATE_MINION;
+			return hexBought ? BUY_STATE_MINION : BUY_STATE_HEX;
 		}
 	}
 
