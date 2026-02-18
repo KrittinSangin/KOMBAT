@@ -140,7 +140,7 @@ public class Minion
 		// Map --> Hex --> (Minion)
 		int hash = 17;
 		hash = 34 * hash + name.hashCode();
-		hash = owner == null? 0 : owner.getPlayerInfo().team();
+		hash = owner == null? 0 : hash + owner.getPlayerInfo().team();
 		hash = 34 * hash + hp;
 		hash = 34 * hash + def;
 		return hash;

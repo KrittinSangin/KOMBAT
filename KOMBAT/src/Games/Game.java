@@ -37,8 +37,6 @@ public class Game
 		{
 			IO.println("intent %s not resolve".formatted(intent));
 		}
-
-		;
 	}
 
 	private class EmptyState extends AbstractState
@@ -77,8 +75,6 @@ public class Game
 		}
 
 		public StartState() {}
-
-		;
 
 		@Override
 		public void resolve(PlayerIntent intent)
@@ -203,7 +199,6 @@ public class Game
 		}
 	}
 
-	// Unfinish
 	private class ExecuteState extends AbstractState
 	{
 		public ExecuteState(State state)
@@ -222,6 +217,7 @@ public class Game
 		@Override
 		public void exit()
 		{
+
 			nextTurn();
 		}
 
@@ -408,7 +404,7 @@ public class Game
 
 	private boolean endStateCondition()
 	{
-		return currentPlayer().getMinionCount() == 0 && round > Config.MAX_TURNS;
+		return currentPlayer().getMinionCount() == 0 || otherPlayer().getMinionCount() == 0 || round > Config.MAX_TURNS;
 	}
 
 	private Player calculateWinner()
@@ -464,6 +460,8 @@ public class Game
 
 	private boolean validateIntent(PlayerIntent intent)
 	{
+		if (intent == null) return false;
+
 		//buy hex, validate only hex
 		if (intent.intent() == PlayerIntent.Intent.buyHex)
 			if (intent.hex() != null) if (map.get(intent.hex()) == null) return false;

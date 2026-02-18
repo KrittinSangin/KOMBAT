@@ -18,7 +18,7 @@ public class Strategy
 
 	public final List<Stment> stments;
 
-	private int hash;
+	private final int hash;
 
 	public Strategy()
 	{

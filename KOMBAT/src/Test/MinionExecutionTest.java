@@ -157,4 +157,39 @@ public class MinionExecutionTest
 		assertEquals(test.getMap(),expect.getMap());
 	}
 
+	@Test
+	void prototype()
+	{
+		Game test = TestingUtility.instantiateGameDefault();
+		Game expect = TestingUtility.instantiateGameDefault();
+
+		String src = "CODE HERE";
+
+		LL1StrategyParser parser = new LL1StrategyParser(new StrategyTokenizer(src));
+
+		Strategy strat = parser.parse();
+
+		Minion minion1 = new Minion("X",100,10,strat);
+		minion1.setOwner(new Player(new PlayerInfo("X",0),new Budget(201), new ArrayList<>()));
+		Minion minion2 = new Minion("Y",20,0,strat);
+		minion2.setOwner(new Player(new PlayerInfo("Y",1),new Budget(), new ArrayList<>()));
+
+//		TestingUtility.injectMinion(test,attacker,4,4);
+
+		Canvas test_cv = new ConsoleCanvas(test);
+		Canvas expect_cv = new ConsoleCanvas(expect);
+
+		IO.println("Initial");
+		test_cv.draw();
+
+		IO.println("Expect");
+		expect_cv.draw();
+
+		//force execute
+
+		IO.println("Result");
+		test_cv.draw();
+		assertEquals(test.getMap(),expect.getMap());
+	}
+
 }

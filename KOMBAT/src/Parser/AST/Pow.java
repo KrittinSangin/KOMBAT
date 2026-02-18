@@ -14,7 +14,7 @@ public record Pow(Expr base, Expr pow) implements Expr
 		int base_v = base.eval(instance);
 		try
 		{
-			return Math.powExact(base_v, pow_v);
+			return (int)Math.pow(base_v, pow_v);
 		}
 		catch (ArithmeticException e)
 		{

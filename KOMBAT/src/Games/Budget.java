@@ -24,6 +24,9 @@ public class Budget
 	{
 		calculateInterestRatePercentage(turn);
 		budget += Config.TURN_BUDGET + interest(turn);
+
+		//limit max budget
+		if (budget > Config.MAX_BUDGET) budget = Config.MAX_BUDGET;
 	}
 
 	public double getBudget() {return budget;}

@@ -12,7 +12,7 @@ public record Div(Expr l, Expr r) implements Expr
 	{
 		try
 		{
-			return l.eval(instance) / r.eval(instance);
+			return (int)Math.floor((double) l.eval(instance) / r.eval(instance));
 		} catch (ArithmeticException e)
 		{
 			throw new HaltExecutionException(e.getMessage());
