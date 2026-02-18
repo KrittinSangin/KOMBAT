@@ -1,4 +1,4 @@
-package com.oop11.kombat_backend;
+package kombat_backend;
 
 import com.oop11.kombat_backend.Console.ConsoleInputManager;
 import com.oop11.kombat_backend.Games.PlayerIntent;
@@ -51,8 +51,6 @@ class ConsoleInputManagerTest
 		String minionInput = "min 2 6 1";
 		ipm.readInput(minionInput);
 		Assertions.assertEquals(PlayerIntent.Intent.buyMinion, ipm.getIntent().intent());
-
-
 
 	}
 }
