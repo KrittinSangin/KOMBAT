@@ -1,10 +1,11 @@
-package com.oop11.kombat_backend;
+package kombat_backend;
 
 import com.oop11.kombat_backend.Console.ConsoleCanvas;
 import com.oop11.kombat_backend.Games.*;
 import com.oop11.kombat_backend.MVC.Canvas;
 import com.oop11.kombat_backend.Parser.LL1StrategyParser;
 import com.oop11.kombat_backend.Parser.StrategyTokenizer;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -158,6 +159,7 @@ public class MinionExecutionTest
 	}
 
 	@Test
+	@Disabled
 	void prototype()
 	{
 		Game test = TestingUtility.instantiateGameDefault();

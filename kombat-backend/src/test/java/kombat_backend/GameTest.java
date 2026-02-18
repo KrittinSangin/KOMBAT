@@ -1,4 +1,4 @@
-package com.oop11.kombat_backend;
+package kombat_backend;
 
 import com.oop11.kombat_backend.Console.ConsoleInputManager;
 import com.oop11.kombat_backend.Console.GameValueInjector;

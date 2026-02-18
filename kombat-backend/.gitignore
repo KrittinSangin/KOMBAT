@@ -34,4 +34,3 @@ build/
 
 #intellij
 .idea/
-*.iml
