@@ -7,6 +7,7 @@ import java.util.List;
 
 public class Game
 {
+
 	public interface State
 	{
 		public static final String EMPTY_STATE = "EmptyState";
@@ -16,12 +17,7 @@ public class Game
 		public static final String EXECUTION_STATE = "ExecuteState";
 		public static final String END_STATE = "EndState";
 
-		public enum state
-		{
-			empty,start,buyHex,buyMinion,execute,end
-		}
-
-		state getState();
+		GameState getState();
 		void resolve(PlayerIntent intent);
 		void exit();
 		boolean checkSwitchState();
@@ -31,14 +27,14 @@ public class Game
 	private abstract class AbstractState implements State
 	{
 		@Getter
-		private final state state;
-		public AbstractState(State prev,state state)
+		private final GameState state;
+		public AbstractState(State prev, GameState state)
 		{
 			this.state = state;
 			prev.exit();
 		}
 
-		public AbstractState(state state)
+		public AbstractState(GameState state)
 		{
 			this.state = state;
 		}
@@ -54,7 +50,7 @@ public class Game
 	{
 		public EmptyState()
 		{
-			super(state.empty);
+			super(GameState.empty);
 		}
 
 		@Override
@@ -86,10 +82,10 @@ public class Game
 	{
 		public StartState(State prev)
 		{
-			super(prev,state.start);
+			super(prev, GameState.start);
 		}
 
-		public StartState() {super(state.start);}
+		public StartState() {super(GameState.start);}
 
 		@Override
 		public void resolve(PlayerIntent intent)
@@ -141,7 +137,7 @@ public class Game
 
 		public BuyHexState(State prev)
 		{
-			super(prev, state.buyHex);
+			super(prev, GameState.buyHex);
 		}
 
 		@Override
@@ -190,7 +186,7 @@ public class Game
 
 		public BuyMinionState(State prev)
 		{
-			super(prev, state.buyMinion);
+			super(prev, GameState.buyMinion);
 			currentPlayer().onTurnStart(round);
 		}
 
@@ -242,7 +238,7 @@ public class Game
 	{
 		public ExecuteState(State prev)
 		{
-			super(prev,state.execute);
+			super(prev, GameState.execute);
 			executor.queueExecution(storage.getIf((m)->m.getOwner().equals(currentPlayer())));
 		}
 
@@ -283,7 +279,7 @@ public class Game
 	{
 		public EndState(State prev)
 		{
-			super(prev,state.end);
+			super(prev, GameState.end);
 			IO.println("Game End");
 			isGameOver = true;
 			winner = calculateWinner();
