@@ -8,11 +8,11 @@ import com.oop11.kombat_backend.Parser.Exceptions.*;
 
 public class StrategyTokenizer implements Tokenizer
 {
-	private String raw;
+	private final String raw;
 	private String next;
 
-	private final String STRAT_REGEX = "\\d+|[\\p{Alpha}_]+|[+\\-*/%()^{}=]";
-	private final String VALIDATION_REGEX = "[\\p{Alnum}\\s+\\-*/%()^{}=_\n\t]*";
+	private static final String STRAT_REGEX = "\\d+|[\\p{Alpha}_]+|[+\\-*/%()^{}=]";
+	private static final String VALIDATION_REGEX = "[\\p{Alnum}\\s+\\-*/%()^{}=_\n\t]*";
 
 	private final Matcher matcher;
 

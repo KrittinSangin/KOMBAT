@@ -1,19 +1,25 @@
 package com.oop11.kombat_backend.Games;
 
+import lombok.Getter;
+
 import java.util.*;
 
 public class Player
 {
 	private final PlayerInfo info;
+	@Getter
 	private final Budget budget;
 	private MinionStorage storage;
 	private Merchant merchant;
 	private HexMap map;
 
+	@Getter
 	private final List<Minion> deck;
+	@Getter
 	private final List<Minion> spawns;
 	private final List<Hex> territories;
 
+	@Getter
 	private int spawnCount = 0;
 
 	public Player(PlayerInfo info, Budget budget, List<Minion> deck)
@@ -34,26 +40,6 @@ public class Player
 		storage = mst;
 		merchant = mch;
 		this.map = map;
-	}
-
-	public Budget getBudget()
-	{
-		return budget;
-	}
-
-	public int getSpawnCount()
-	{
-		return spawnCount;
-	}
-
-	public List<Minion> getDeck()
-	{
-		return deck;
-	}
-
-	public List<Minion> getSpawns()
-	{
-		return spawns;
 	}
 
 	public PlayerInfo getPlayerInfo() {return info;}

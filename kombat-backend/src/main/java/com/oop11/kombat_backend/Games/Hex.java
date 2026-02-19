@@ -1,11 +1,16 @@
 package com.oop11.kombat_backend.Games;
 
+import lombok.Getter;
+import lombok.Setter;
+
 public class Hex
 {
 	public final HexMap Map;
 	public final HexPos Pos;
 
+	@Getter @Setter
 	private Player owner;
+	@Getter
 	private Minion minion;
 
 	public Hex(HexMap map, HexPos pos)
@@ -14,27 +19,12 @@ public class Hex
 		this.Pos = pos;
 	}
 
-	public Minion getMinion()
-	{
-		return minion;
-	}
-
-	public Player getOwner()
-	{
-		return owner;
-	}
-
 	/**
 	 * Is player p the owner
 	 */
 	public boolean isOwner(Player p)
 	{
 		return p.equals(owner);
-	}
-
-	public void setOwner(Player value)
-	{
-		owner = value;
 	}
 
 	public boolean haveOwner()

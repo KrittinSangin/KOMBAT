@@ -1,5 +1,8 @@
 package com.oop11.kombat_backend.Games;
 
+import lombok.Getter;
+
+@Getter
 public class Budget
 {
 	private double budget;
@@ -28,9 +31,6 @@ public class Budget
 		//limit max budget
 		if (budget > Config.MAX_BUDGET) budget = Config.MAX_BUDGET;
 	}
-
-	public double getBudget() {return budget;}
-	public double getInterestRatePercentage() {return interestRatePercentage;}
 
 	private double interest(int turn)
 	{

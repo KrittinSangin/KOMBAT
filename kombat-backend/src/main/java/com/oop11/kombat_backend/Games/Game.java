@@ -1,5 +1,7 @@
 package com.oop11.kombat_backend.Games;
 
+import lombok.Getter;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -281,20 +283,33 @@ public class Game
 		}
 	}
 
+	@Getter
 	private final StrategyExecutor executor;
+	@Getter
 	private final Merchant merchant;
+	@Getter
 	private final MinionStorage storage;
+	@Getter
 	private final List<Player> players;
+	@Getter
 	private final HexMap map;
 
+	@Getter
 	private State gameState = new EmptyState();
+	@Getter
 	private boolean isGameStart = false;
+	@Getter
 	private boolean isGameOver = false;
+	@Getter
 	private boolean isGameResign = false;
+	@Getter
 	private boolean isGameDraw = false;
+	@Getter
 	private Player winner = null;
 
+	@Getter
 	private int turn;
+	@Getter
 	private int round;
 
 	/**
@@ -331,16 +346,6 @@ public class Game
 		players.add(p2);
 	}
 
-	public HexMap getMap()
-	{
-		return map;
-	}
-
-	public List<Player> getPlayers()
-	{
-		return players;
-	}
-
 	public List<Minion> getMinions()
 	{
 		return storage.getIf((x)->true);
@@ -351,25 +356,11 @@ public class Game
 		return gameState.toString();
 	}
 
-	public int getTurn()
-	{
-		return turn;
-	}
-
-	public int getRound()
-	{
-		return round;
-	}
-
 	public boolean isStarted() {return isGameStart;}
 
 	public boolean isResigned() {return isGameResign;}
 
 	public boolean isDraw() {return isGameDraw;}
-
-	public Player getWinner() {return winner;}
-
-	public StrategyExecutor getExecutor() {return executor;}
 
 	/**
 	 * Start the game

@@ -14,5 +14,4 @@ public class KombatBackendApplication {
 		ConsoleRunner cr  = new ConsoleRunner();
 		cr.run();
 	}
-
 }

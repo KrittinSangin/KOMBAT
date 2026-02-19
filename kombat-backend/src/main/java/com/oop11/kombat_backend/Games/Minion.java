@@ -1,16 +1,23 @@
 package com.oop11.kombat_backend.Games;
 
 import com.oop11.kombat_backend.Event.UnaryEvent;
+import lombok.Getter;
+import lombok.Setter;
 
 public class Minion
 {
+	@Getter
 	private final String name;
+	@Getter @Setter
 	private Hex hex;
+	@Getter @Setter
 	private Player owner;
 
 	private final Strategy strat;
 
+	@Getter
 	private int hp;
+	@Getter
 	private final int def;
 
 	public UnaryEvent<Minion> OnDead = new UnaryEvent<Minion>();
@@ -35,27 +42,7 @@ public class Minion
 		owner = other.owner;
 	}
 
-	public Hex getHex()
-	{
-		return hex;
-	}
-
-	public void setHex(Hex value)
-	{
-		this.hex = value;
-	}
-
-	public String getName() {return name;}
-
-	public Player getOwner() {return owner;}
-
-	public int getHp() {return hp;}
-
-	public int getDef() {return def;}
-
 	public Strategy getStrategy() {return strat;}
-
-	public void setOwner(Player value) {owner = value;}
 
 	/**
 	 * move minion to new hex in direction. Minion cannot move to hex occupied hex and out of the map.

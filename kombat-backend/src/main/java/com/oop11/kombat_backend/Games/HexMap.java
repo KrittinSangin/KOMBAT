@@ -1,12 +1,16 @@
 package com.oop11.kombat_backend.Games;
 
+import lombok.Getter;
+
 import java.util.HashMap;
 import java.util.Map;
 
 public class HexMap
 {
 	private final Map<HexPos, Hex> hexMap;
+	@Getter
 	private final int width;
+	@Getter
 	private final int height;
 
 	/**
@@ -37,16 +41,6 @@ public class HexMap
 			}
 		}
 		return newMap;
-	}
-
-	public int getWidth()
-	{
-		return width;
-	}
-
-	public int getHeight()
-	{
-		return height;
 	}
 
 	public Map<HexPos, Hex> getMap() {return hexMap;}
