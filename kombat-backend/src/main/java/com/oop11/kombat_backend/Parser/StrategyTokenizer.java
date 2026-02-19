@@ -5,13 +5,16 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import com.oop11.kombat_backend.Parser.Exceptions.*;
+import lombok.Getter;
 
 public class StrategyTokenizer implements Tokenizer
 {
+	@Getter
 	private final String raw;
 	private String next;
 
 	private static final String STRAT_REGEX = "\\d+|[\\p{Alpha}_]+|[+\\-*/%()^{}=]";
+	private static final String COMMENT_REGEX = "#.*\n?";
 	private static final String VALIDATION_REGEX = "[\\p{Alnum}\\s+\\-*/%()^{}=_\n\t]*";
 
 	private final Matcher matcher;
@@ -19,11 +22,15 @@ public class StrategyTokenizer implements Tokenizer
 	public StrategyTokenizer(String src)
 	{
 		raw = src;
-		matcher = Pattern.compile(STRAT_REGEX).matcher(src);
+
+		matcher = Pattern.compile(STRAT_REGEX).matcher(cleanComment(src));
 		computeNext();
 	}
 
-	public String getRawString() {return raw;}
+	private String cleanComment(String src)
+	{
+		return src.replaceAll(COMMENT_REGEX,"");
+	}
 
 	@Override
 	public boolean hasNextToken()
@@ -72,7 +79,8 @@ public class StrategyTokenizer implements Tokenizer
 		{
 			String next = matcher.group();
 			if (!next.matches(VALIDATION_REGEX)) throw new LexicalError(next + " contains unknow character(s)");
-			this.next = next;
+
+			else this.next = next;
 		} else
 			next = null;
 	}

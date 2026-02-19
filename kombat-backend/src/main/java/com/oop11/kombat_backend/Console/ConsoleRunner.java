@@ -28,13 +28,13 @@ public class ConsoleRunner
 	{
 		populateConfig();
 
-		Map<String,Strategy> strategyStorage = parseStrategy(List.of("simple","turret"));
+		Map<String,Strategy> strategyStorage = parseStrategy(List.of("simpleC","turret"));
 
 		PlayerInfo p1info = new PlayerInfo("Rosmerry (Rosmia) Efiri", 0);
 		PlayerInfo p2info = new PlayerInfo("Hadena (Hue) Iroai", 1);
 
 		List<Minion> universalDeck = new ArrayList<>();
-		universalDeck.add(new Minion("0", (int) Config.INIT_HP, 10, strategyStorage.get("simple")));
+		universalDeck.add(new Minion("0", (int) Config.INIT_HP, 10, strategyStorage.get("simpleC")));
 		universalDeck.add(new Minion("1", (int) Config.INIT_HP, 150, strategyStorage.get("turret")));
 		StartInfo info = new StartInfo(
 			p1info,
