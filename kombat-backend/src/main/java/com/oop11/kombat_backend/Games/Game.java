@@ -16,23 +16,32 @@ public class Game
 		public static final String EXECUTION_STATE = "ExecuteState";
 		public static final String END_STATE = "EndState";
 
+		public enum state
+		{
+			empty,start,buyHex,buyMinion,execute,end
+		}
+
+		state getState();
 		void resolve(PlayerIntent intent);
-
 		void exit();
-
 		boolean checkSwitchState();
-
 		State nextState();
 	}
 
 	private abstract class AbstractState implements State
 	{
-		public AbstractState(State prev)
+		@Getter
+		private final state state;
+		public AbstractState(State prev,state state)
 		{
+			this.state = state;
 			prev.exit();
 		}
 
-		public AbstractState() {}
+		public AbstractState(state state)
+		{
+			this.state = state;
+		}
 
 		@Override
 		public void resolve(PlayerIntent intent)
@@ -43,6 +52,10 @@ public class Game
 
 	private class EmptyState extends AbstractState
 	{
+		public EmptyState()
+		{
+			super(state.empty);
+		}
 
 		@Override
 		public void exit()
@@ -73,10 +86,10 @@ public class Game
 	{
 		public StartState(State prev)
 		{
-			super(prev);
+			super(prev,state.start);
 		}
 
-		public StartState() {}
+		public StartState() {super(state.start);}
 
 		@Override
 		public void resolve(PlayerIntent intent)
@@ -107,7 +120,7 @@ public class Game
 		@Override
 		public State nextState()
 		{
-			return new BuyState(this);
+			return new BuyHexState(this);
 		}
 
 		@Override
@@ -122,60 +135,84 @@ public class Game
 		}
 	}
 
-	private class BuyState extends AbstractState
+	private class BuyHexState extends AbstractState
 	{
-		private boolean hexBought = false;
-		private boolean minionBought = false;
+		private boolean bought = false;
 
-		public BuyState(State state)
+		public BuyHexState(State prev)
 		{
-			super(state);
-			currentPlayer().onTurnStart(round);
+			super(prev, state.buyHex);
 		}
-
-		public BuyState() {currentPlayer().onTurnStart(round);}
 
 		@Override
 		public void resolve(PlayerIntent intent)
 		{
-			if (intent.intent().equals(PlayerIntent.Intent.resign))
+			if (intent.intent().equals(PlayerIntent.Intent.skip))
 			{
-				isGameResign = true;
+				bought = true;
 				return;
 			}
 
-			if (!hexBought)
+			if (intent.intent().equals(PlayerIntent.Intent.buyHex))
 			{
-				if (intent.intent().equals(PlayerIntent.Intent.skip))
-				{
-					hexBought = true;
-					return;
-				}
-
-				if (intent.intent().equals(PlayerIntent.Intent.buyHex))
-				{
-					if (currentPlayer().buyHex(map.get(intent.hex())))
-						hexBought = true;
-					return;
-				}
-			} else if (!minionBought)
-			{
-				if (intent.intent().equals(PlayerIntent.Intent.skip))
-				{
-					minionBought = true;
-					return;
-				}
-
-				if (intent.intent().equals(PlayerIntent.Intent.buyMinion))
-				{
-					if (currentPlayer().spawnMinion(
-						map.get(intent.hex()),
-						currentPlayer().getDeckMinion(intent.minion()))
-					)
-						minionBought = true;
-					return;
-				}
+				if (currentPlayer().buyHex(map.get(intent.hex())))
+					bought = true;
+				return;
 			}
+			super.resolve(intent);
+		}
+
+		@Override
+		public boolean checkSwitchState()
+		{
+			return bought;
+		}
+
+		@Override
+		public void exit() {}
+
+		@Override
+		public State nextState()
+		{
+			return new BuyMinionState(this);
+		}
+
+		@Override
+		public String toString()
+		{
+			return BUY_STATE_HEX;
+		}
+	}
+
+	private class BuyMinionState extends AbstractState
+	{
+		private boolean bought = false;
+
+		public BuyMinionState(State prev)
+		{
+			super(prev, state.buyMinion);
+			currentPlayer().onTurnStart(round);
+		}
+
+		@Override
+		public void resolve(PlayerIntent intent)
+		{
+			if (intent.intent().equals(PlayerIntent.Intent.skip))
+			{
+				bought = true;
+				return;
+			}
+
+			if (intent.intent().equals(PlayerIntent.Intent.buyMinion))
+			{
+				if (currentPlayer().spawnMinion(
+					map.get(intent.hex()),
+					currentPlayer().getDeckMinion(intent.minion()))
+				)
+					bought = true;
+				return;
+			}
+
 			super.resolve(intent);
 		}
 
@@ -185,27 +222,27 @@ public class Game
 		@Override
 		public boolean checkSwitchState()
 		{
-			return (hexBought && minionBought) || isGameResign;
+			return bought;
 		}
 
 		@Override
 		public State nextState()
 		{
-			return isGameResign ? new EndState(this) : new ExecuteState(this);
+			return new ExecuteState(this);
 		}
 
 		@Override
 		public String toString()
 		{
-			return hexBought ? BUY_STATE_MINION : BUY_STATE_HEX;
+			return BUY_STATE_MINION;
 		}
 	}
 
 	private class ExecuteState extends AbstractState
 	{
-		public ExecuteState(State state)
+		public ExecuteState(State prev)
 		{
-			super(state);
+			super(prev,state.execute);
 			executor.queueExecution(storage.getIf((m)->m.getOwner().equals(currentPlayer())));
 		}
 
@@ -232,7 +269,7 @@ public class Game
 		@Override
 		public State nextState()
 		{
-			return endStateCondition() ? new EndState(this) : new BuyState(this);
+			return endStateCondition() ? new EndState(this) : new BuyHexState(this);
 		}
 
 		@Override
@@ -244,9 +281,9 @@ public class Game
 
 	private class EndState extends AbstractState
 	{
-		public EndState(State state)
+		public EndState(State prev)
 		{
-			super(state);
+			super(prev,state.end);
 			IO.println("Game End");
 			isGameOver = true;
 			winner = calculateWinner();
@@ -376,7 +413,14 @@ public class Game
 	 */
 	public void update(PlayerIntent intent)
 	{
+		//intent validation
 		if (!validateIntent(intent)) return;
+
+		if (intent.intent().equals(PlayerIntent.Intent.resign))
+		{
+			isGameResign = true;
+			gameState = new EndState(gameState);
+		}
 
 		gameState.resolve(intent);
 
@@ -395,6 +439,7 @@ public class Game
 
 	private boolean endStateCondition()
 	{
+		//any player minion count reach 0 or round exceeds max turns
 		return currentPlayer().getMinionCount() == 0 || otherPlayer().getMinionCount() == 0 || round > Config.MAX_TURNS;
 	}
 

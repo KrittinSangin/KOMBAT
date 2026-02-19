@@ -1,5 +1,8 @@
 package com.oop11.kombat_backend.Games;
 
+import com.oop11.kombat_backend.Tuples.Pair;
+
+import javax.swing.*;
 import java.util.List;
 
 public record StartInfo(
