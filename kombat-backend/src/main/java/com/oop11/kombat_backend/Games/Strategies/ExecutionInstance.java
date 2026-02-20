@@ -1,8 +1,15 @@
-package com.oop11.kombat_backend.Games;
+package com.oop11.kombat_backend.Games.Strategies;
 
+import com.oop11.kombat_backend.Games.Config;
 import com.oop11.kombat_backend.Games.Logs.ExecutionInstanceLogFunction;
 import com.oop11.kombat_backend.Games.Logs.ExecutionInstanceLogFunctionTypeOf;
 import com.oop11.kombat_backend.Games.Logs.ExecutionInstanceLogger;
+import com.oop11.kombat_backend.Games.Map.Hex;
+import com.oop11.kombat_backend.Games.Map.HexDir;
+import com.oop11.kombat_backend.Games.Map.HexMap;
+import com.oop11.kombat_backend.Games.Map.HexPos;
+import com.oop11.kombat_backend.Games.Minion.Minion;
+import com.oop11.kombat_backend.Games.Player.Player;
 import com.oop11.kombat_backend.Parser.Exceptions.HaltExecutionException;
 import com.oop11.kombat_backend.Parser.Exceptions.HaltReason;
 
@@ -81,7 +88,7 @@ public record ExecutionInstance(Minion minion, Map<String,Integer> local, Execut
 			ExecutionInstanceLogFunctionTypeOf.variable,
 			ExecutionInstanceLogFunction.MaxBudget,
 			null);
-		return (int)Config.MAX_BUDGET;
+		return (int) Config.MAX_BUDGET;
 	}
 
 	public int SpawnsLeft()

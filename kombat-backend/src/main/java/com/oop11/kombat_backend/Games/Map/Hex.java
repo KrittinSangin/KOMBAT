@@ -1,5 +1,7 @@
-package com.oop11.kombat_backend.Games;
+package com.oop11.kombat_backend.Games.Map;
 
+import com.oop11.kombat_backend.Games.Minion.Minion;
+import com.oop11.kombat_backend.Games.Player.Player;
 import lombok.Getter;
 import lombok.Setter;
 

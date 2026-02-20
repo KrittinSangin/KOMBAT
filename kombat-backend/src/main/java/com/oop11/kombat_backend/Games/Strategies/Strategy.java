@@ -1,4 +1,4 @@
-package com.oop11.kombat_backend.Games;
+package com.oop11.kombat_backend.Games.Strategies;
 
 import com.oop11.kombat_backend.Parser.AST.Stment;
 import com.oop11.kombat_backend.Parser.Exceptions.HaltExecutionException;

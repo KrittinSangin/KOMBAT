@@ -1,5 +1,7 @@
 package com.oop11.kombat_backend.Games;
 
+import com.oop11.kombat_backend.Games.Map.HexPos;
+
 public class Config
 {
 	public static double SPAWN_COST;

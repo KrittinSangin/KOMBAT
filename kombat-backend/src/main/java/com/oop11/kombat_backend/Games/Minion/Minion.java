@@ -1,6 +1,12 @@
-package com.oop11.kombat_backend.Games;
+package com.oop11.kombat_backend.Games.Minion;
 
 import com.oop11.kombat_backend.Event.UnaryEvent;
+import com.oop11.kombat_backend.Games.Map.Hex;
+import com.oop11.kombat_backend.Games.Map.HexDir;
+import com.oop11.kombat_backend.Games.Map.HexMap;
+import com.oop11.kombat_backend.Games.Map.HexPos;
+import com.oop11.kombat_backend.Games.Player.Player;
+import com.oop11.kombat_backend.Games.Strategies.Strategy;
 import lombok.Getter;
 import lombok.Setter;
 

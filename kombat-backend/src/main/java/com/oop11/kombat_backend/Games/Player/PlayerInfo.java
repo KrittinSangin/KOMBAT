@@ -1,4 +1,4 @@
-package com.oop11.kombat_backend.Games;
+package com.oop11.kombat_backend.Games.Player;
 
 import java.util.Objects;
 

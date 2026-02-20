@@ -1,7 +1,7 @@
 package com.oop11.kombat_backend.Parser;
 
-import com.oop11.kombat_backend.Games.HexDir;
-import com.oop11.kombat_backend.Games.Strategy;
+import com.oop11.kombat_backend.Games.Map.HexDir;
+import com.oop11.kombat_backend.Games.Strategies.Strategy;
 import com.oop11.kombat_backend.Parser.AST.*;
 import com.oop11.kombat_backend.Parser.Exceptions.SyntaxError;
 

@@ -2,6 +2,11 @@ package kombat_backend;
 
 import com.oop11.kombat_backend.Console.ConsoleCanvas;
 import com.oop11.kombat_backend.Games.*;
+import com.oop11.kombat_backend.Games.Minion.Minion;
+import com.oop11.kombat_backend.Games.Player.Budget;
+import com.oop11.kombat_backend.Games.Player.Player;
+import com.oop11.kombat_backend.Games.Player.PlayerInfo;
+import com.oop11.kombat_backend.Games.Strategies.Strategy;
 import com.oop11.kombat_backend.MVC.Canvas;
 import com.oop11.kombat_backend.Parser.LL1StrategyParser;
 import com.oop11.kombat_backend.Parser.StrategyTokenizer;

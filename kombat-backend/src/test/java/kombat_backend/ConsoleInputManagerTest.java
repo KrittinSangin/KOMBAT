@@ -1,7 +1,7 @@
 package kombat_backend;
 
 import com.oop11.kombat_backend.Console.ConsoleInputManager;
-import com.oop11.kombat_backend.Games.PlayerIntent;
+import com.oop11.kombat_backend.Games.Player.PlayerIntent;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 

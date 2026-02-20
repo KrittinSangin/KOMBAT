@@ -2,6 +2,9 @@ package kombat_backend;
 
 import com.oop11.kombat_backend.Console.ConsoleCanvas;
 import com.oop11.kombat_backend.Games.*;
+import com.oop11.kombat_backend.Games.Map.HexDir;
+import com.oop11.kombat_backend.Games.Minion.Minion;
+import com.oop11.kombat_backend.Games.Strategies.ExecutionInstance;
 import com.oop11.kombat_backend.MVC.Canvas;
 
 

@@ -1,6 +1,6 @@
 package com.oop11.kombat_backend.Games.Logs;
 
-import com.oop11.kombat_backend.Games.HexDir;
+import com.oop11.kombat_backend.Games.Map.HexDir;
 
 public record ExecutionInstanceLogEntry(
 	ExecutionInstanceLogFunctionTypeOf typeof,

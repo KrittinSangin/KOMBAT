@@ -1,8 +1,10 @@
 package com.oop11.kombat_backend.Console;
 
-import com.oop11.kombat_backend.Console.ConsoleCanvas;
-import com.oop11.kombat_backend.Console.ConsoleInputManager;
 import com.oop11.kombat_backend.Games.*;
+import com.oop11.kombat_backend.Games.Map.HexPos;
+import com.oop11.kombat_backend.Games.Minion.Minion;
+import com.oop11.kombat_backend.Games.Player.PlayerInfo;
+import com.oop11.kombat_backend.Games.Strategies.Strategy;
 import com.oop11.kombat_backend.MVC.Canvas;
 import com.oop11.kombat_backend.MVC.InputManager;
 import com.oop11.kombat_backend.Parser.LL1StrategyParser;
@@ -10,9 +12,7 @@ import com.oop11.kombat_backend.Parser.StrategyTokenizer;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
-import java.io.FileWriter;
 import java.io.IOException;
-import java.nio.file.Path;
 import java.util.*;
 
 public class ConsoleRunner
@@ -28,7 +28,7 @@ public class ConsoleRunner
 	{
 		populateConfig();
 
-		Map<String,Strategy> strategyStorage = parseStrategy(List.of("simpleC","turret"));
+		Map<String, Strategy> strategyStorage = parseStrategy(List.of("simpleC","turret"));
 
 		PlayerInfo p1info = new PlayerInfo("Rosmerry (Rosmia) Efiri", 0);
 		PlayerInfo p2info = new PlayerInfo("Hadena (Hue) Iroai", 1);

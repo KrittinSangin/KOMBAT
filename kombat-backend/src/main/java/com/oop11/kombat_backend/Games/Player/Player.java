@@ -1,5 +1,11 @@
-package com.oop11.kombat_backend.Games;
+package com.oop11.kombat_backend.Games.Player;
 
+import com.oop11.kombat_backend.Games.*;
+import com.oop11.kombat_backend.Games.Map.Hex;
+import com.oop11.kombat_backend.Games.Map.HexMap;
+import com.oop11.kombat_backend.Games.Minion.Minion;
+import com.oop11.kombat_backend.Games.Merchant;
+import com.oop11.kombat_backend.Games.Minion.MinionStorage;
 import lombok.Getter;
 
 import java.util.*;

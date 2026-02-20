@@ -1,5 +1,6 @@
-package com.oop11.kombat_backend.Games;
+package com.oop11.kombat_backend.Games.Map;
 
+import com.oop11.kombat_backend.Games.Minion.Minion;
 import lombok.Getter;
 
 import java.util.HashMap;

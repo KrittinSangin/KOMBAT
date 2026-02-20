@@ -1,6 +1,7 @@
-package com.oop11.kombat_backend.Games;
+package com.oop11.kombat_backend.Games.Strategies;
 
 import com.oop11.kombat_backend.Games.Logs.ExecutionInstanceLog;
+import com.oop11.kombat_backend.Games.Minion.Minion;
 import com.oop11.kombat_backend.Parser.Exceptions.HaltExecutionException;
 import com.oop11.kombat_backend.Parser.Exceptions.HaltReason;
 import lombok.Getter;

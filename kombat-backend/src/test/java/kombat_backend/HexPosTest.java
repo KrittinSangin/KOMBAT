@@ -1,7 +1,7 @@
 package kombat_backend;
 
-import com.oop11.kombat_backend.Games.HexPos;
-import com.oop11.kombat_backend.Games.HexDir;
+import com.oop11.kombat_backend.Games.Map.HexPos;
+import com.oop11.kombat_backend.Games.Map.HexDir;
 
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;

@@ -1,4 +1,6 @@
-package com.oop11.kombat_backend.Games;
+package com.oop11.kombat_backend.Games.Player;
+
+import com.oop11.kombat_backend.Games.Map.HexPos;
 
 public record PlayerIntent(Intent intent, HexPos hex, Integer minion)
 {

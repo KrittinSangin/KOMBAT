@@ -1,7 +1,7 @@
 package com.oop11.kombat_backend.Console;
 
-import com.oop11.kombat_backend.Games.HexPos;
-import com.oop11.kombat_backend.Games.PlayerIntent;
+import com.oop11.kombat_backend.Games.Map.HexPos;
+import com.oop11.kombat_backend.Games.Player.PlayerIntent;
 import com.oop11.kombat_backend.MVC.InputManager;
 
 public class ConsoleInputManager implements InputManager<String>

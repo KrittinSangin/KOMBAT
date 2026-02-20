@@ -1,8 +1,7 @@
 package com.oop11.kombat_backend.Games.Logs;
 
-import com.oop11.kombat_backend.Games.ExecutionInstance;
-import com.oop11.kombat_backend.Games.HexDir;
-import com.oop11.kombat_backend.Games.Minion;
+import com.oop11.kombat_backend.Games.Map.HexDir;
+import com.oop11.kombat_backend.Games.Minion.Minion;
 import com.oop11.kombat_backend.Parser.Exceptions.HaltReason;
 import lombok.Setter;
 

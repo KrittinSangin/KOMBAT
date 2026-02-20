@@ -1,6 +1,6 @@
 package com.oop11.kombat_backend.MVC;
 
-import com.oop11.kombat_backend.Games.PlayerIntent;
+import com.oop11.kombat_backend.Games.Player.PlayerIntent;
 
 public interface InputManager<T>
 {
