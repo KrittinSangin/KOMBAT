@@ -245,8 +245,8 @@ public class Game
 		@Override
 		public void resolve(PlayerIntent intent)
 		{
-			//any intent, must be change later
-			executor.executeAll();
+			if (intent.intent().equals(PlayerIntent.Intent.skip) || intent.intent().equals(PlayerIntent.Intent.empty))
+				executor.executeAll();
 		}
 
 		@Override

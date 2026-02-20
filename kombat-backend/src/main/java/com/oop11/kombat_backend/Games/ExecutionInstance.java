@@ -1,22 +1,35 @@
 package com.oop11.kombat_backend.Games;
 
+import com.oop11.kombat_backend.Games.Logs.ExecutionInstanceLogFunction;
+import com.oop11.kombat_backend.Games.Logs.ExecutionInstanceLogFunctionTypeOf;
+import com.oop11.kombat_backend.Games.Logs.ExecutionInstanceLogger;
+import com.oop11.kombat_backend.Parser.Exceptions.HaltExecutionException;
+import com.oop11.kombat_backend.Parser.Exceptions.HaltReason;
+
 import java.time.LocalTime;
 import java.util.*;
 
-public record ExecutionInstance(Minion minion, Map<String,Integer> local)
+public record ExecutionInstance(Minion minion, Map<String,Integer> local, ExecutionInstanceLogger logger)
 {
 	private static final Random RAND = new Random(LocalTime.now().toNanoOfDay());
 	private static final Map<Player,Map<String,Integer>> GLOBAL_VARS_STORE = new HashMap<>();
 
-	public ExecutionInstance(Minion minion, Map<String,Integer> local)
+	public ExecutionInstance(Minion minion, Map<String,Integer> local, ExecutionInstanceLogger logger)
 	{
 		this.minion = minion;
 		this.local = local;
+		this.logger = logger;
+
 
 		if (!GLOBAL_VARS_STORE.containsKey(minion.getOwner()))
 		{
 			GLOBAL_VARS_STORE.put(minion.getOwner(),new HashMap<>());
 		}
+	}
+
+	public ExecutionInstance(Minion minion, Map<String,Integer> local)
+	{
+		this(minion,local,new ExecutionInstanceLogger(minion));
 	}
 
 	public Map<String,Integer> global()
@@ -26,50 +39,85 @@ public record ExecutionInstance(Minion minion, Map<String,Integer> local)
 
 	public int row()
 	{
+		logger.appendLog(
+			ExecutionInstanceLogFunctionTypeOf.variable,
+			ExecutionInstanceLogFunction.row,
+			null);
 		return minion.getHex().Pos.row();
 	}
 
 	public int col()
 	{
-
+		logger.appendLog(
+			ExecutionInstanceLogFunctionTypeOf.variable,
+			ExecutionInstanceLogFunction.col,
+			null);
 		return minion.getHex().Pos.col();
 	}
 
 	public int Int()
 	{
+		logger.appendLog(
+			ExecutionInstanceLogFunctionTypeOf.variable,
+			ExecutionInstanceLogFunction.Int,
+			null);
 		return (int)minion.getOwner().getBudget().getInterestRatePercentage();
 	}
 
 	public int Budget()
 	{
 
+		logger.appendLog(
+			ExecutionInstanceLogFunctionTypeOf.variable,
+			ExecutionInstanceLogFunction.Budget,
+			null);
 		return (int)minion.getOwner().getBudget().getBudget();
 	}
 
 	public int MaxBudget()
 	{
 
+		logger.appendLog(
+			ExecutionInstanceLogFunctionTypeOf.variable,
+			ExecutionInstanceLogFunction.MaxBudget,
+			null);
 		return (int)Config.MAX_BUDGET;
 	}
 
 	public int SpawnsLeft()
 	{
 
+		logger.appendLog(
+			ExecutionInstanceLogFunctionTypeOf.variable,
+			ExecutionInstanceLogFunction.SpawnsLeft,
+			null);
 		return (int)Config.MAX_SPAWNS - minion.getOwner().getSpawnCount();
 	}
 
 	public int random()
 	{
+		logger.appendLog(
+			ExecutionInstanceLogFunctionTypeOf.variable,
+			ExecutionInstanceLogFunction.random,
+			null);
 		return RAND.nextInt(0,1000);
 	}
 
 	public int opponent()
 	{
+		logger.appendLog(
+			ExecutionInstanceLogFunctionTypeOf.info,
+			ExecutionInstanceLogFunction.opponent,
+			null);
 		return closetMinionInSight(false);
 	}
 
 	public int ally()
 	{
+		logger.appendLog(
+			ExecutionInstanceLogFunctionTypeOf.info,
+			ExecutionInstanceLogFunction.ally,
+			null);
 		return closetMinionInSight(true);
 	}
 
@@ -111,6 +159,10 @@ public record ExecutionInstance(Minion minion, Map<String,Integer> local)
 
 	public int nearby(HexDir dir)
 	{
+		logger.appendLog(
+			ExecutionInstanceLogFunctionTypeOf.info,
+			ExecutionInstanceLogFunction.nearby,
+			null);
 		HexMap map = minion.getHex().Map;
 		HexPos it = minion.getHex().Pos;
 
@@ -142,6 +194,40 @@ public record ExecutionInstance(Minion minion, Map<String,Integer> local)
 	public boolean pay(int price)
 	{
 		return minion.getOwner().getBudget().pay(price);
+	}
+
+	public boolean move(HexDir dir)
+	{
+		if (pay(1))
+		{
+			logger.appendLog(
+				ExecutionInstanceLogFunctionTypeOf.action,
+				ExecutionInstanceLogFunction.move,
+				null);
+			minion.move(dir);
+			return true;
+		}
+		return false;
+	}
+
+	public boolean shoot(HexDir dir, int cost)
+	{
+		if (pay(cost + 1))
+		{
+			logger.appendLog(
+				ExecutionInstanceLogFunctionTypeOf.action,
+				ExecutionInstanceLogFunction.shoot,
+				null);
+
+			minion.shoot(dir,cost);
+			return true;
+		}
+		return false;
+	}
+
+	public void done() throws HaltExecutionException
+	{
+		throw new HaltExecutionException(HaltReason.doneStatement);
 	}
 
 	private int numberOfDigits(int n)

@@ -3,6 +3,7 @@ package com.oop11.kombat_backend.Parser.AST;
 import com.oop11.kombat_backend.Games.ExecutionInstance;
 import com.oop11.kombat_backend.Games.HexDir;
 import com.oop11.kombat_backend.Parser.Exceptions.HaltExecutionException;
+import com.oop11.kombat_backend.Parser.Exceptions.HaltReason;
 
 public record Shoot(HexDir dir, Expr cost) implements Stment
 {
@@ -11,10 +12,8 @@ public record Shoot(HexDir dir, Expr cost) implements Stment
 	{
 		int cost_v = cost.eval(instance);
 
-		if (instance.minion().getOwner().getBudget().pay(cost_v + 1))
-			instance.minion().shoot(dir, cost_v);
-		else
-			throw new HaltExecutionException("insufficient shoot budget");
+		if (!instance.shoot(dir,cost_v))
+			throw new HaltExecutionException(HaltReason.insufficientShootBudget);
 
 	}
 

@@ -8,7 +8,7 @@ public record Done() implements Stment
 	@Override
 	public void execute(ExecutionInstance instance)
 	{
-		throw new HaltExecutionException("halted normally");
+		instance.done();
 	}
 
 	@Override
