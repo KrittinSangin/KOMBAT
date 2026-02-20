@@ -35,7 +35,7 @@ public class ConsoleInputManager implements InputManager<String>
 			row = Integer.parseInt(split[1]);
 			col = Integer.parseInt(split[2]);
 
-			newIntent = new PlayerIntent(PlayerIntent.Intent.buyHex, new HexPos(row, col), null);
+			newIntent = new PlayerIntent(PlayerIntent.PlayerIntentEnum.buyHex, new HexPos(row, col), null);
 		} else if (input.matches("min \\d+ \\d+ \\d+"))
 		{
 			String[] split = input.split(" ");
@@ -44,7 +44,7 @@ public class ConsoleInputManager implements InputManager<String>
 			col = Integer.parseInt(split[2]);
 			idx = Integer.parseInt(split[3]);
 
-			newIntent = new PlayerIntent(PlayerIntent.Intent.buyMinion, new HexPos(row, col), idx);
+			newIntent = new PlayerIntent(PlayerIntent.PlayerIntentEnum.buyMinion, new HexPos(row, col), idx);
 		}
 
 		intent = newIntent;

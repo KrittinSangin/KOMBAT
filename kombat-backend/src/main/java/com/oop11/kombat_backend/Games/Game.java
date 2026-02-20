@@ -8,6 +8,7 @@ import com.oop11.kombat_backend.Games.Player.Budget;
 import com.oop11.kombat_backend.Games.Player.Player;
 import com.oop11.kombat_backend.Games.Player.PlayerIntent;
 import com.oop11.kombat_backend.Games.Minion.MinionStorage;
+import com.oop11.kombat_backend.Games.Player.PlayerIntentEnum;
 import com.oop11.kombat_backend.Games.Strategies.StrategyExecutor;
 import lombok.Getter;
 
@@ -26,7 +27,7 @@ public class Game
 		public static final String EXECUTION_STATE = "ExecuteState";
 		public static final String END_STATE = "EndState";
 
-		GameState getState();
+		GameStateEnum getState();
 		void resolve(PlayerIntent intent);
 		void exit();
 		boolean checkSwitchState();
@@ -36,14 +37,14 @@ public class Game
 	private abstract class AbstractState implements State
 	{
 		@Getter
-		private final GameState state;
-		public AbstractState(State prev, GameState state)
+		private final GameStateEnum state;
+		public AbstractState(State prev, GameStateEnum state)
 		{
 			this.state = state;
 			prev.exit();
 		}
 
-		public AbstractState(GameState state)
+		public AbstractState(GameStateEnum state)
 		{
 			this.state = state;
 		}
@@ -59,7 +60,7 @@ public class Game
 	{
 		public EmptyState()
 		{
-			super(GameState.empty);
+			super(GameStateEnum.empty);
 		}
 
 		@Override
@@ -91,15 +92,15 @@ public class Game
 	{
 		public StartState(State prev)
 		{
-			super(prev, GameState.start);
+			super(prev, GameStateEnum.start);
 		}
 
-		public StartState() {super(GameState.start);}
+		public StartState() {super(GameStateEnum.start);}
 
 		@Override
 		public void resolve(PlayerIntent intent)
 		{
-			if (intent.intent() == PlayerIntent.Intent.buyMinion)
+			if (intent.intent() == PlayerIntent.PlayerIntentEnum.buyMinion)
 			{
 				Hex hex = map.get(intent.hex());
 				Minion minion = currentPlayer().getDeckMinion(intent.minion());
@@ -146,19 +147,19 @@ public class Game
 
 		public BuyHexState(State prev)
 		{
-			super(prev, GameState.buyHex);
+			super(prev, GameStateEnum.buyHex);
 		}
 
 		@Override
 		public void resolve(PlayerIntent intent)
 		{
-			if (intent.intent().equals(PlayerIntent.Intent.skip))
+			if (intent.intent().equals(PlayerIntent.PlayerIntentEnum.skip))
 			{
 				bought = true;
 				return;
 			}
 
-			if (intent.intent().equals(PlayerIntent.Intent.buyHex))
+			if (intent.intent().equals(PlayerIntent.PlayerIntentEnum.buyHex))
 			{
 				if (currentPlayer().buyHex(map.get(intent.hex())))
 					bought = true;
@@ -195,20 +196,20 @@ public class Game
 
 		public BuyMinionState(State prev)
 		{
-			super(prev, GameState.buyMinion);
+			super(prev, GameStateEnum.buyMinion);
 			currentPlayer().onTurnStart(round);
 		}
 
 		@Override
 		public void resolve(PlayerIntent intent)
 		{
-			if (intent.intent().equals(PlayerIntent.Intent.skip))
+			if (intent.intent().equals(PlayerIntent.PlayerIntentEnum.skip))
 			{
 				bought = true;
 				return;
 			}
 
-			if (intent.intent().equals(PlayerIntent.Intent.buyMinion))
+			if (intent.intent().equals(PlayerIntent.PlayerIntentEnum.buyMinion))
 			{
 				if (currentPlayer().spawnMinion(
 					map.get(intent.hex()),
@@ -247,14 +248,14 @@ public class Game
 	{
 		public ExecuteState(State prev)
 		{
-			super(prev, GameState.execute);
+			super(prev, GameStateEnum.execute);
 			executor.queueExecution(storage.getIf((m)->m.getOwner().equals(currentPlayer())));
 		}
 
 		@Override
 		public void resolve(PlayerIntent intent)
 		{
-			if (intent.intent().equals(PlayerIntent.Intent.skip) || intent.intent().equals(PlayerIntent.Intent.empty))
+			if (intent.intent().equals(PlayerIntentEnum.skip) || intent.intent().equals(PlayerIntentEnum.empty))
 				executor.executeAll();
 		}
 
@@ -288,7 +289,7 @@ public class Game
 	{
 		public EndState(State prev)
 		{
-			super(prev, GameState.end);
+			super(prev, GameStateEnum.end);
 			IO.println("Game End");
 			isGameOver = true;
 			winner = calculateWinner();
@@ -421,7 +422,7 @@ public class Game
 		//intent validation
 		if (!validateIntent(intent)) return;
 
-		if (intent.intent().equals(PlayerIntent.Intent.resign))
+		if (intent.intent().equals(PlayerIntent.PlayerIntentEnum.resign))
 		{
 			isGameResign = true;
 			gameState = new EndState(gameState);
@@ -504,11 +505,11 @@ public class Game
 		if (intent == null) return false;
 
 		//buy hex, validate only hex
-		if (intent.intent() == PlayerIntent.Intent.buyHex)
+		if (intent.intent() == PlayerIntent.PlayerIntentEnum.buyHex)
 			if (intent.hex() != null) if (map.get(intent.hex()) == null) return false;
 
 		//buy minion, validate hex and minion
-		if (intent.intent() == PlayerIntent.Intent.buyMinion)
+		if (intent.intent() == PlayerIntent.PlayerIntentEnum.buyMinion)
 		{
 			if (intent.hex() != null) if (map.get(intent.hex()) == null) return false;
 			if (intent.minion() != null) if (intent.minion() >= currentPlayer().getDeck().size()) return false;

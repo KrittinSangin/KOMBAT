@@ -2,6 +2,7 @@ package kombat_backend;
 
 import com.oop11.kombat_backend.Console.ConsoleInputManager;
 import com.oop11.kombat_backend.Games.Player.PlayerIntent;
+import com.oop11.kombat_backend.Games.Player.PlayerIntentEnum;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -34,23 +35,23 @@ class ConsoleInputManagerTest
 
 		String emptyInput = "";
 		ipm.readInput(emptyInput);
-		Assertions.assertEquals(PlayerIntent.Intent.empty, ipm.getIntent().intent());
+		Assertions.assertEquals(PlayerIntentEnum.empty, ipm.getIntent().intent());
 
 		String resignInput1 = "resign";
 		ipm.readInput(resignInput1);
-		Assertions.assertEquals(PlayerIntent.Intent.resign, ipm.getIntent().intent());
+		Assertions.assertEquals(PlayerIntentEnum.resign, ipm.getIntent().intent());
 
 		String resignInput2 = "quit";
 		ipm.readInput(resignInput2);
-		Assertions.assertEquals(PlayerIntent.Intent.resign, ipm.getIntent().intent());
+		Assertions.assertEquals(PlayerIntentEnum.resign, ipm.getIntent().intent());
 
 		String hexInput = "hex 2 6";
 		ipm.readInput(hexInput);
-		Assertions.assertEquals(PlayerIntent.Intent.buyHex, ipm.getIntent().intent());
+		Assertions.assertEquals(PlayerIntentEnum.buyHex, ipm.getIntent().intent());
 
 		String minionInput = "min 2 6 1";
 		ipm.readInput(minionInput);
-		Assertions.assertEquals(PlayerIntent.Intent.buyMinion, ipm.getIntent().intent());
+		Assertions.assertEquals(PlayerIntentEnum.buyMinion, ipm.getIntent().intent());
 
 	}
 }
