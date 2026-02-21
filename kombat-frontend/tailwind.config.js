@@ -5,7 +5,9 @@ export default {
     "./components/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
-    extend: {},
+    extend: {fontFamily: {
+        sans: ['var(--font-jersey25)'],
+      },},
   },
   plugins: [],
 }
