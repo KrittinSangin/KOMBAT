@@ -1,6 +1,7 @@
 package com.oop11.kombat_backend.Games.Minion;
 
 import com.oop11.kombat_backend.Event.UnaryEvent;
+import com.oop11.kombat_backend.Games.DTO.MinionDTO;
 import com.oop11.kombat_backend.Games.Map.Hex;
 import com.oop11.kombat_backend.Games.Map.HexDir;
 import com.oop11.kombat_backend.Games.Map.HexMap;
@@ -149,5 +150,4 @@ public class Minion
 			&& hp == other.hp
 			&& def == other.def;
 	}
-
 }

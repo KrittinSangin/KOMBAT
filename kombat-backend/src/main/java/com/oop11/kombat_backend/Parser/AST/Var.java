@@ -2,6 +2,7 @@ package com.oop11.kombat_backend.Parser.AST;
 
 import com.oop11.kombat_backend.Games.Strategies.ExecutionInstance;
 import com.oop11.kombat_backend.Parser.Exceptions.HaltExecutionException;
+import com.oop11.kombat_backend.Parser.Exceptions.HaltReason;
 
 public record Var(String name) implements Expr
 {
@@ -62,7 +63,7 @@ public record Var(String name) implements Expr
 			}
 		}
 
-		throw new HaltExecutionException("Variable issue");
+		throw new HaltExecutionException(HaltReason.variableError);
 	}
 
 	@Override

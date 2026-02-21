@@ -10,14 +10,7 @@ public record Pow(Expr base, Expr pow) implements Expr
 	{
 		int pow_v = pow.eval(instance);
 		int base_v = base.eval(instance);
-		try
-		{
-			return (int)Math.pow(base_v, pow_v);
-		}
-		catch (ArithmeticException e)
-		{
-			throw new HaltExecutionException(e.getMessage());
-		}
+		return (int)Math.pow(base_v, pow_v);
 	}
 
 	@Override

@@ -1,6 +1,7 @@
 package kombat_backend;
 
 import com.oop11.kombat_backend.Games.*;
+import com.oop11.kombat_backend.Games.Configs.Config;
 import com.oop11.kombat_backend.Games.Map.Hex;
 import com.oop11.kombat_backend.Games.Map.HexMap;
 import com.oop11.kombat_backend.Games.Map.HexPos;

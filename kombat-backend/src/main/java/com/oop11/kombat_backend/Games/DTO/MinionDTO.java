@@ -6,7 +6,7 @@ import lombok.Builder;
 public record MinionDTO(
 	String name,
 	int index,
-	int age,
+	int order,
 	boolean haveTeam,
 	int team,
 	int hp,

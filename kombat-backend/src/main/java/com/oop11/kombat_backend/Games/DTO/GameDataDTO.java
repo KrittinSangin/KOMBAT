@@ -5,6 +5,8 @@ import com.oop11.kombat_backend.Games.Logs.ExecutionInstanceLog;
 import com.oop11.kombat_backend.Games.Player.PlayerIntent;
 import lombok.Builder;
 
+import java.util.List;
+
 @Builder
 public record GameDataDTO(
 	PlayerDTO player0,
@@ -22,7 +24,7 @@ public record GameDataDTO(
 	boolean isGameOver,
 	boolean isGameResign,
 	boolean isGameDraw,
-	ExecutionInstanceLog executionInstanceLog
+	List<ExecutionInstanceLog> executionInstanceLog
 )
 {
 }

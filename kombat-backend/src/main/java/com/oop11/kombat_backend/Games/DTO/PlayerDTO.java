@@ -7,8 +7,8 @@ import lombok.extern.jackson.Jacksonized;
 public record PlayerDTO(
 	String name,
 	int team,
-	int budget,
-	int interestRatePercentage,
+	double budget,
+	double interestRatePercentage,
 	int spawnCount,
 	int minionCount)
 {

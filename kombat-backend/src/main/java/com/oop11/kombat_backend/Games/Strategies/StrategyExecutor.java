@@ -13,7 +13,7 @@ public class StrategyExecutor
 	private final Map<Minion,ExecutionInstance> instanceStore = new HashMap<>();
 	private Queue<Minion> executionQueue;
 	@Getter
-	private List<ExecutionInstanceLog> instanceLogs;
+	private final List<ExecutionInstanceLog> instanceLogs = new ArrayList<>();
 
 	public void queueExecution(List<Minion> minions)
 	{
@@ -39,6 +39,10 @@ public class StrategyExecutor
 		{
 			minion.getStrategy().execute(instance);
 			instance.logger().setHaltReason(HaltReason.endOfStrategy);
+		}
+		catch (ArithmeticException e)
+		{
+			instance.logger().setHaltReason(HaltReason.arithmeticError);
 		}
 		catch (HaltExecutionException e)
 		{

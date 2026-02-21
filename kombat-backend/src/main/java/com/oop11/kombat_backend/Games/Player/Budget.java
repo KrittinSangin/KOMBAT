@@ -1,6 +1,6 @@
 package com.oop11.kombat_backend.Games.Player;
 
-import com.oop11.kombat_backend.Games.Config;
+import com.oop11.kombat_backend.Games.Configs.Config;
 import lombok.Getter;
 
 @Getter

@@ -8,13 +8,7 @@ public record Mod(Expr l, Expr r) implements Expr
 	@Override
 	public int eval(ExecutionInstance instance)
 	{
-		try
-		{
-			return l.eval(instance) % r.eval(instance);
-		} catch (ArithmeticException e)
-		{
-			throw new HaltExecutionException(e.getMessage());
-		}
+		return l.eval(instance) % r.eval(instance);
 	}
 
 	@Override

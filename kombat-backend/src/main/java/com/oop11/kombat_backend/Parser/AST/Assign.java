@@ -2,6 +2,7 @@ package com.oop11.kombat_backend.Parser.AST;
 
 import com.oop11.kombat_backend.Games.Strategies.ExecutionInstance;
 import com.oop11.kombat_backend.Parser.Exceptions.HaltExecutionException;
+import com.oop11.kombat_backend.Parser.Exceptions.HaltReason;
 
 public record Assign(String name, Expr val) implements Stment
 {
@@ -12,7 +13,7 @@ public record Assign(String name, Expr val) implements Stment
 		if (instance.isSpecial(name)) return;
 		else if (instance.isLocal(name)) instance.local().put(name, val.eval(instance));
 		else if (instance.isGlobal(name)) instance.global().put(name, val.eval(instance));
-		else throw new HaltExecutionException("invalid assignment");
+		else throw new HaltExecutionException(HaltReason.variableError);
 	}
 
 	@Override

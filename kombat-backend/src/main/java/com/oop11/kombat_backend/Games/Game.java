@@ -1,5 +1,10 @@
 package com.oop11.kombat_backend.Games;
 
+import com.oop11.kombat_backend.Games.Configs.Config;
+import com.oop11.kombat_backend.Games.DTO.GameDataDTO;
+import com.oop11.kombat_backend.Games.DTO.HexDTO;
+import com.oop11.kombat_backend.Games.DTO.HexMapDTO;
+import com.oop11.kombat_backend.Games.DTO.MinionDTO;
 import com.oop11.kombat_backend.Games.Map.Hex;
 import com.oop11.kombat_backend.Games.Map.HexMap;
 import com.oop11.kombat_backend.Games.Map.HexPos;
@@ -100,7 +105,7 @@ public class Game
 		@Override
 		public void resolve(PlayerIntent intent)
 		{
-			if (intent.intent() == PlayerIntent.PlayerIntentEnum.buyMinion)
+			if (intent.intent() == PlayerIntentEnum.buyMinion)
 			{
 				Hex hex = map.get(intent.hex());
 				Minion minion = currentPlayer().getDeckMinion(intent.minion());
@@ -153,13 +158,13 @@ public class Game
 		@Override
 		public void resolve(PlayerIntent intent)
 		{
-			if (intent.intent().equals(PlayerIntent.PlayerIntentEnum.skip))
+			if (intent.intent().equals(PlayerIntentEnum.skip))
 			{
 				bought = true;
 				return;
 			}
 
-			if (intent.intent().equals(PlayerIntent.PlayerIntentEnum.buyHex))
+			if (intent.intent().equals(PlayerIntentEnum.buyHex))
 			{
 				if (currentPlayer().buyHex(map.get(intent.hex())))
 					bought = true;
@@ -203,13 +208,13 @@ public class Game
 		@Override
 		public void resolve(PlayerIntent intent)
 		{
-			if (intent.intent().equals(PlayerIntent.PlayerIntentEnum.skip))
+			if (intent.intent().equals(PlayerIntentEnum.skip))
 			{
 				bought = true;
 				return;
 			}
 
-			if (intent.intent().equals(PlayerIntent.PlayerIntentEnum.buyMinion))
+			if (intent.intent().equals(PlayerIntentEnum.buyMinion))
 			{
 				if (currentPlayer().spawnMinion(
 					map.get(intent.hex()),
@@ -417,21 +422,93 @@ public class Game
 	/**
 	 * Update the game with PlayerIntent
 	 */
-	public void update(PlayerIntent intent)
+	public GameDataDTO update(PlayerIntent intent)
 	{
-		//intent validation
-		if (!validateIntent(intent)) return;
+		//Save some variable before computation begins
+		GameStateEnum beforeComputeState = gameState.getState();
 
-		if (intent.intent().equals(PlayerIntent.PlayerIntentEnum.resign))
+		//intent validation
+		boolean validateResult = validateIntent(intent);
+		if (validateResult)
 		{
-			isGameResign = true;
-			gameState = new EndState(gameState);
+
+			//if player resign in any state.
+			if (intent.intent().equals(PlayerIntentEnum.resign))
+			{
+				isGameResign = true;
+				gameState = new EndState(gameState);
+			}
+
+			//resolve intent for current state
+			gameState.resolve(intent);
+
+			if (gameState.checkSwitchState())
+				gameState = gameState.nextState();
 		}
 
-		gameState.resolve(intent);
+		return buildGameDataDTO(intent, beforeComputeState, validateResult);
+	}
 
-		if (gameState.checkSwitchState())
-			gameState = gameState.nextState();
+	// it's O(n)
+	private GameDataDTO buildGameDataDTO(
+		PlayerIntent intent,
+		GameStateEnum beforeComputeState,
+		boolean validateResult
+	)
+	{
+		//build DTO
+		List<HexDTO> hexDTOs = new ArrayList<>();
+
+		for (var entry : map.getMap().entrySet())
+		{
+			HexPos pos = entry.getKey();
+			Hex hex = entry.getValue();
+			Minion m = hex.getMinion();
+
+			HexDTO hexDTO = HexDTO.builder()
+				.hexPos(pos)
+				.minion(
+					m == null? null : MinionDTO.builder()
+						.name(m.getName())
+						.index(currentPlayer().getDeck().indexOf(m))
+						.order(storage.getStorage().indexOf(m))
+						.haveTeam(m.getOwner()!=null)
+						.team(m.getOwner().getPlayerInfo().team())
+						.hp(m.getHp())
+						.def(m.getDef())
+						.build()
+					)
+				.haveTeam(hex.haveOwner())
+				.team(hex.haveOwner()? hex.getOwner().getPlayerInfo().team() : -1)
+				.build();
+		}
+
+		GameDataDTO result = GameDataDTO.builder()
+			.player0(players.get(0).asDTO())
+			.player1(players.get(1).asDTO())
+			.map(HexMapDTO.builder()
+				.hexMap(hexDTOs)
+				.build()
+			)
+			.turn(turn)
+			.round(round)
+			.state(gameState.getState())
+			.lastState(beforeComputeState)
+			.winner(winner == null? -1 : winner.getPlayerInfo().team())
+			.inputIntent(intent)
+			.isStateChange(isGameStart)
+			.isValidIntent(validateResult)
+			.isGameStart(isGameStart)
+			.isGameOver(isGameOver)
+			.isGameResign(isGameResign)
+			.isGameDraw(isGameDraw)
+			.executionInstanceLog(executor.getInstanceLogs())
+			.build();
+
+		//clear executor's log, prepare for the next execution.
+		executor.clearLog();
+
+		return result;
 	}
 
 	private void nextTurn()
@@ -505,11 +582,11 @@ public class Game
 		if (intent == null) return false;
 
 		//buy hex, validate only hex
-		if (intent.intent() == PlayerIntent.PlayerIntentEnum.buyHex)
+		if (intent.intent() == PlayerIntentEnum.buyHex)
 			if (intent.hex() != null) if (map.get(intent.hex()) == null) return false;
 
 		//buy minion, validate hex and minion
-		if (intent.intent() == PlayerIntent.PlayerIntentEnum.buyMinion)
+		if (intent.intent() == PlayerIntentEnum.buyMinion)
 		{
 			if (intent.hex() != null) if (map.get(intent.hex()) == null) return false;
 			if (intent.minion() != null) if (intent.minion() >= currentPlayer().getDeck().size()) return false;

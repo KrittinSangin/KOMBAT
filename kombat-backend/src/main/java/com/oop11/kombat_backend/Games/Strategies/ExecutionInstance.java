@@ -1,6 +1,6 @@
 package com.oop11.kombat_backend.Games.Strategies;
 
-import com.oop11.kombat_backend.Games.Config;
+import com.oop11.kombat_backend.Games.Configs.Config;
 import com.oop11.kombat_backend.Games.Logs.ExecutionInstanceLogFunction;
 import com.oop11.kombat_backend.Games.Logs.ExecutionInstanceLogFunctionTypeOf;
 import com.oop11.kombat_backend.Games.Logs.ExecutionInstanceLogger;

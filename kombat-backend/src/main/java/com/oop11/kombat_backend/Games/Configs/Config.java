@@ -1,4 +1,4 @@
-package com.oop11.kombat_backend.Games;
+package com.oop11.kombat_backend.Games.Configs;
 
 import com.oop11.kombat_backend.Games.Map.HexPos;
 

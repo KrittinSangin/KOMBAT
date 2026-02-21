@@ -1,11 +1,14 @@
 package com.oop11.kombat_backend.Games.Minion;
 
+import lombok.Getter;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Predicate;
 
 public class MinionStorage
 {
+	@Getter
 	private final List<Minion> storage = new ArrayList<>();
 
 	/**

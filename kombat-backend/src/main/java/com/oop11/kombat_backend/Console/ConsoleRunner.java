@@ -1,6 +1,7 @@
 package com.oop11.kombat_backend.Console;
 
 import com.oop11.kombat_backend.Games.*;
+import com.oop11.kombat_backend.Games.Configs.Config;
 import com.oop11.kombat_backend.Games.Map.HexPos;
 import com.oop11.kombat_backend.Games.Minion.Minion;
 import com.oop11.kombat_backend.Games.Player.PlayerInfo;
