@@ -1,6 +1,8 @@
 package com.oop11.kombat_backend.Games.Strategies;
 
+import com.oop11.kombat_backend.Games.Configs.Config;
 import com.oop11.kombat_backend.Games.Logs.ExecutionInstanceLog;
+import com.oop11.kombat_backend.Games.Logs.ExecutionInstanceLogger;
 import com.oop11.kombat_backend.Games.Minion.Minion;
 import com.oop11.kombat_backend.Parser.Exceptions.HaltExecutionException;
 import com.oop11.kombat_backend.Parser.Exceptions.HaltReason;
@@ -11,9 +13,15 @@ import java.util.*;
 public class StrategyExecutor
 {
 	private final Map<Minion,ExecutionInstance> instanceStore = new HashMap<>();
+	private final Config cfg;
 	private Queue<Minion> executionQueue;
 	@Getter
 	private final List<ExecutionInstanceLog> instanceLogs = new ArrayList<>();
+
+	public StrategyExecutor(Config cfg)
+	{
+		this.cfg = cfg;
+	}
 
 	public void queueExecution(List<Minion> minions)
 	{
@@ -30,7 +38,13 @@ public class StrategyExecutor
 		if (!instanceStore.containsKey(minion))
 		{
 			//create new instance
-			instanceStore.put(minion, new ExecutionInstance(minion,new HashMap<>()));
+			instanceStore.put(minion,
+				new ExecutionInstance(
+					cfg,
+					minion,
+					new HashMap<>()
+				)
+			);
 		}
 
 		//execute the minion's strategy

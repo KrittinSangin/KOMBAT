@@ -16,13 +16,14 @@ import com.oop11.kombat_backend.Parser.Exceptions.HaltReason;
 import java.time.LocalTime;
 import java.util.*;
 
-public record ExecutionInstance(Minion minion, Map<String,Integer> local, ExecutionInstanceLogger logger)
+public record ExecutionInstance(Config cfg, Minion minion, Map<String,Integer> local, ExecutionInstanceLogger logger)
 {
 	private static final Random RAND = new Random(LocalTime.now().toNanoOfDay());
 	private static final Map<Player,Map<String,Integer>> GLOBAL_VARS_STORE = new HashMap<>();
 
-	public ExecutionInstance(Minion minion, Map<String,Integer> local, ExecutionInstanceLogger logger)
+	public ExecutionInstance(Config cfg, Minion minion, Map<String,Integer> local, ExecutionInstanceLogger logger)
 	{
+		this.cfg = cfg;
 		this.minion = minion;
 		this.local = local;
 		this.logger = logger;
@@ -34,9 +35,9 @@ public record ExecutionInstance(Minion minion, Map<String,Integer> local, Execut
 		}
 	}
 
-	public ExecutionInstance(Minion minion, Map<String,Integer> local)
+	public ExecutionInstance(Config cfg, Minion minion, Map<String,Integer> local)
 	{
-		this(minion,local,new ExecutionInstanceLogger(minion));
+		this(cfg,minion,local,new ExecutionInstanceLogger(minion));
 	}
 
 	public Map<String,Integer> global()
@@ -88,7 +89,7 @@ public record ExecutionInstance(Minion minion, Map<String,Integer> local, Execut
 			ExecutionInstanceLogFunctionTypeOf.variable,
 			ExecutionInstanceLogFunction.MaxBudget,
 			null);
-		return (int) Config.MAX_BUDGET;
+		return (int) cfg.maxBudget();
 	}
 
 	public int SpawnsLeft()
@@ -98,7 +99,7 @@ public record ExecutionInstance(Minion minion, Map<String,Integer> local, Execut
 			ExecutionInstanceLogFunctionTypeOf.variable,
 			ExecutionInstanceLogFunction.SpawnsLeft,
 			null);
-		return (int)Config.MAX_SPAWNS - minion.getOwner().getSpawnCount();
+		return (int) cfg.maxSpawns() - minion.getOwner().getSpawnCount();
 	}
 
 	public int random()

@@ -27,7 +27,7 @@ public class ConsoleRunner
 
 	private void runGame()
 	{
-		populateConfig();
+		Config cfg = Config.useDefaultConfig();
 
 		Map<String, Strategy> strategyStorage = parseStrategy(List.of("simpleC","turret"));
 
@@ -35,9 +35,10 @@ public class ConsoleRunner
 		PlayerInfo p2info = new PlayerInfo("Hadena (Hue) Iroai", 1);
 
 		List<Minion> universalDeck = new ArrayList<>();
-		universalDeck.add(new Minion("0", (int) Config.INIT_HP, 10, strategyStorage.get("simpleC")));
-		universalDeck.add(new Minion("1", (int) Config.INIT_HP, 150, strategyStorage.get("turret")));
+		universalDeck.add(new Minion("0", (int) cfg.initHp(), 10, strategyStorage.get("simpleC")));
+		universalDeck.add(new Minion("1", (int) cfg.initHp(), 150, strategyStorage.get("turret")));
 		StartInfo info = new StartInfo(
+			cfg,
 			p1info,
 			p2info,
 			new ArrayList<>(universalDeck),
@@ -92,39 +93,6 @@ public class ConsoleRunner
 			cv.draw();
 		}
 	}
-
-	private void populateConfig()
-	{
-		Config.SPAWN_COST = 100;
-		Config.HEX_PURCHASE_COST = 200;
-		Config.INIT_BUDGET = 1000;
-		Config.INIT_HP = 100;
-		Config.TURN_BUDGET = 100;
-		Config.MAX_BUDGET = 10000;
-		Config.INTEREST_PCT = 10;
-		Config.MAX_TURNS = 10;
-		Config.MAX_SPAWNS = 10;
-
-		Config.MAP_WIDTH = 8;
-		Config.MAP_HEIGHT = 8;
-
-		Config.START_HEX_POS_P1 = new HexPos[]
-			{
-				new HexPos(1, 1),
-				new HexPos(1, 2),
-				new HexPos(1, 3),
-				new HexPos(2, 1),
-				new HexPos(2, 2),
-			};
-
-		Config.START_HEX_POS_P2 = new HexPos[]
-			{
-				new HexPos(7, 7),
-				new HexPos(7, 8),
-				new HexPos(8, 6),
-				new HexPos(8, 7),
-				new HexPos(8, 8),
-			};	}
 
 	private Map<String,Strategy> parseStrategy(List<String> filenames)
 	{

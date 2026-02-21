@@ -20,17 +20,18 @@ import lombok.Getter;
 import java.util.ArrayList;
 import java.util.List;
 
+@Getter
 public class Game
 {
 
 	public interface State
 	{
-		public static final String EMPTY_STATE = "EmptyState";
-		public static final String START_STATE = "StartState";
-		public static final String BUY_STATE_HEX = "BuyState(Hex)";
-		public static final String BUY_STATE_MINION = "BuyState(Minion)";
-		public static final String EXECUTION_STATE = "ExecuteState";
-		public static final String END_STATE = "EndState";
+		String EMPTY_STATE = "EmptyState";
+		String START_STATE = "StartState";
+		String BUY_STATE_HEX = "BuyState(Hex)";
+		String BUY_STATE_MINION = "BuyState(Minion)";
+		String EXECUTION_STATE = "ExecuteState";
+		String END_STATE = "EndState";
 
 		GameStateEnum getState();
 		void resolve(PlayerIntent intent);
@@ -331,33 +332,22 @@ public class Game
 		}
 	}
 
-	@Getter
+	private final Config cfg;
+
 	private final StrategyExecutor executor;
-	@Getter
 	private final Merchant merchant;
-	@Getter
 	private final MinionStorage storage;
-	@Getter
 	private final List<Player> players;
-	@Getter
 	private final HexMap map;
 
-	@Getter
 	private State gameState = new EmptyState();
-	@Getter
 	private boolean isGameStart = false;
-	@Getter
 	private boolean isGameOver = false;
-	@Getter
 	private boolean isGameResign = false;
-	@Getter
 	private boolean isGameDraw = false;
-	@Getter
 	private Player winner = null;
 
-	@Getter
 	private int turn;
-	@Getter
 	private int round;
 
 	/**
@@ -367,10 +357,12 @@ public class Game
 	 */
 	public Game(StartInfo info)
 	{
-		executor = new StrategyExecutor();
-		merchant = new Merchant();
+		cfg = info.config();
+
+		executor = new StrategyExecutor(cfg);
+		merchant = new Merchant((int) cfg.hexPurchaseCost(),(int) cfg.spawnCost());
 		storage = new MinionStorage();
-		map = new HexMap(Config.MAP_WIDTH, Config.MAP_HEIGHT);
+		map = new HexMap(cfg.mapWidth(), cfg.mapHeight());
 
 		//initialize local vars
 		turn = 0;
@@ -379,16 +371,16 @@ public class Game
 		//initialize player
 		players = new ArrayList<>();
 
-		Player p1 = new Player(info.info1(), new Budget(), info.deck1());
+		Player p1 = new Player(info.info1(), new Budget(cfg), info.deck1(), cfg);
 		p1.initialize(storage, merchant, map);
-		for (HexPos pos : Config.START_HEX_POS_P1)
+		for (HexPos pos : cfg.startHexPosP1())
 			p1.buyHex(map.get(pos), true);
 
 		players.add(p1);
 
-		Player p2 = new Player(info.info2(), new Budget(), info.deck2());
+		Player p2 = new Player(info.info2(), new Budget(cfg), info.deck2(), cfg);
 		p2.initialize(storage, merchant, map);
-		for (HexPos pos : Config.START_HEX_POS_P2)
+		for (HexPos pos : cfg.startHexPosP2())
 			p2.buyHex(map.get(pos), true);
 
 		players.add(p2);
@@ -396,7 +388,7 @@ public class Game
 
 	public List<Minion> getMinions()
 	{
-		return storage.getIf((x)->true);
+		return storage.getIf((_)->true);
 	}
 
 	public String getStateString()
@@ -523,7 +515,7 @@ public class Game
 	private boolean endStateCondition()
 	{
 		//any player minion count reach 0 or round exceeds max turns
-		return currentPlayer().getMinionCount() == 0 || otherPlayer().getMinionCount() == 0 || round > Config.MAX_TURNS;
+		return currentPlayer().getMinionCount() == 0 || otherPlayer().getMinionCount() == 0 || round > cfg.maxTurns();
 	}
 
 	private Player calculateWinner()
@@ -537,9 +529,12 @@ public class Game
 		if (p1.getMinionCount() == p2.getMinionCount())
 		{
 			//win by sum of hp
-			int sumhpP1 = p1.getSpawns().stream().map(Minion::getHp).reduce(Integer::sum).get();
-			int sumhpP2 = p2.getSpawns().stream().map(Minion::getHp).reduce(Integer::sum).get();
-			if (sumhpP1 == sumhpP2)
+			var maybeSum1 = p1.getSpawns().stream().map(Minion::getHp).reduce(Integer::sum);
+			var maybeSum2 = p2.getSpawns().stream().map(Minion::getHp).reduce(Integer::sum);
+
+			int sumhpP1 = maybeSum1.orElse(0);
+			int sumHpP2 = maybeSum2.orElse(0);
+			if (sumhpP1 == sumHpP2)
 			{
 				//win by budget
 				if (p1.getBudget().getBudget() == p2.getBudget().getBudget())
@@ -553,7 +548,7 @@ public class Game
 				}
 			} else
 			{
-				return sumhpP1 > sumhpP2 ? p1 : p2;
+				return sumhpP1 > sumHpP2 ? p1 : p2;
 			}
 		} else
 		{

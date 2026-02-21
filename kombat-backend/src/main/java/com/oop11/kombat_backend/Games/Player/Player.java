@@ -14,6 +14,7 @@ import java.util.*;
 public class Player
 {
 	private final PlayerInfo info;
+
 	@Getter
 	private final Budget budget;
 	private MinionStorage storage;
@@ -24,12 +25,14 @@ public class Player
 	private final List<Minion> deck;
 	@Getter
 	private final List<Minion> spawns;
+	@Getter
 	private final List<Hex> territories;
 
 	@Getter
 	private int spawnCount = 0;
+	private final int maxSpawns;
 
-	public Player(PlayerInfo info, Budget budget, List<Minion> deck)
+	public Player(PlayerInfo info, Budget budget, List<Minion> deck, Config cfg)
 	{
 		this.info = info;
 		this.budget = budget;
@@ -37,6 +40,8 @@ public class Player
 
 		spawns = new ArrayList<>();
 		territories = new ArrayList<>();
+
+		maxSpawns = (int)cfg.maxSpawns();
 	}
 
 	/**
@@ -134,7 +139,7 @@ public class Player
 		if (bypass)
 		{
 			//spawn count guard
-			if (spawnCount == Config.MAX_SPAWNS) return false;
+			if (spawnCount == maxSpawns) return false;
 
 			//owner guard
 			if (!hex.isOwner(this)) return false;

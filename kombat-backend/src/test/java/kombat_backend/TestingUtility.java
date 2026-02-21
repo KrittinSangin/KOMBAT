@@ -18,18 +18,19 @@ public class TestingUtility
 {
 	public static Game instantiateGameDefault()
 	{
-		Config.useDefaultConfig();
+		Config cfg = Config.useDefaultConfig();
 
 		PlayerInfo p1info = new PlayerInfo("A", 0);
 		PlayerInfo p2info = new PlayerInfo("B", 1);
 
 		List<Minion> universalDeck = new ArrayList<>();
-		universalDeck.add(new Minion("0", (int) Config.INIT_HP, 10, new Strategy()));
-		universalDeck.add(new Minion("1", (int) Config.INIT_HP, 10, new Strategy()));
-		universalDeck.add(new Minion("2", (int) Config.INIT_HP, 10, new Strategy()));
-		universalDeck.add(new Minion("3", (int) Config.INIT_HP, 10, new Strategy()));
-		universalDeck.add(new Minion("4", (int) Config.INIT_HP, 10, new Strategy()));
+		universalDeck.add(new Minion("0", (int) cfg.initHp(), 10, new Strategy()));
+		universalDeck.add(new Minion("1", (int) cfg.initHp(), 10, new Strategy()));
+		universalDeck.add(new Minion("2", (int) cfg.initHp(), 10, new Strategy()));
+		universalDeck.add(new Minion("3", (int) cfg.initHp(), 10, new Strategy()));
+		universalDeck.add(new Minion("4", (int) cfg.initHp(), 10, new Strategy()));
 		StartInfo info = new StartInfo(
+			cfg,
 			p1info,
 			p2info,
 			new ArrayList<>(universalDeck),

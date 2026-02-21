@@ -30,7 +30,7 @@ public class MinionExecutionTest
 		LL1StrategyParser parser = new LL1StrategyParser(new StrategyTokenizer(src));
 
 		Minion dummy = new Minion("X",100,10,parser.parse());
-		dummy.setOwner(new Player(new PlayerInfo("X",0),new Budget(10), new ArrayList<>()));
+		dummy.setOwner(new Player(new PlayerInfo("X",0),new Budget(test.getCfg(), 10), new ArrayList<>(),test.getCfg()));
 
 		TestingUtility.injectMinion(test,dummy,8,1);
 		TestingUtility.injectMinion(expect,dummy,1,1);
@@ -62,7 +62,7 @@ public class MinionExecutionTest
 		LL1StrategyParser parser = new LL1StrategyParser(new StrategyTokenizer(src));
 
 		Minion dummy = new Minion("X",100,10,parser.parse());
-		dummy.setOwner(new Player(new PlayerInfo("X",0),new Budget(4), new ArrayList<>()));
+		dummy.setOwner(new Player(new PlayerInfo("X",0),new Budget(test.getCfg(),4), new ArrayList<>(),test.getCfg()));
 
 		TestingUtility.injectMinion(test,dummy,8,1);
 		TestingUtility.injectMinion(expect,dummy,4,1);
@@ -96,12 +96,12 @@ public class MinionExecutionTest
 		Strategy strat = parser.parse();
 
 		Minion attacker = new Minion("X",100,10,strat);
-		attacker.setOwner(new Player(new PlayerInfo("X",0),new Budget(201), new ArrayList<>()));
+		attacker.setOwner(new Player(new PlayerInfo("X",0),new Budget(test.getCfg(),201), new ArrayList<>(),test.getCfg()));
 		Minion receiver = new Minion("Y",2000,0,strat);
-		receiver.setOwner(new Player(new PlayerInfo("Y",1),new Budget(), new ArrayList<>()));
+		receiver.setOwner(new Player(new PlayerInfo("Y",1),new Budget(test.getCfg()), new ArrayList<>(),test.getCfg()));
 
 		Minion receiverExpect = new Minion("Y",1800,0,strat);
-		receiverExpect.setOwner(new Player(new PlayerInfo("Y",1),new Budget(), new ArrayList<>()));
+		receiverExpect.setOwner(new Player(new PlayerInfo("Y",1),new Budget(test.getCfg()), new ArrayList<>(),test.getCfg()));
 
 		TestingUtility.injectMinion(test,attacker,4,4);
 		TestingUtility.injectMinion(test,receiver,3,5);
@@ -138,9 +138,9 @@ public class MinionExecutionTest
 		Strategy strat = parser.parse();
 
 		Minion attacker = new Minion("X",100,10,strat);
-		attacker.setOwner(new Player(new PlayerInfo("X",0),new Budget(201), new ArrayList<>()));
+		attacker.setOwner(new Player(new PlayerInfo("X",0),new Budget(test.getCfg(),201), new ArrayList<>(),test.getCfg()));
 		Minion receiver = new Minion("Y",20,0,strat);
-		receiver.setOwner(new Player(new PlayerInfo("Y",1),new Budget(), new ArrayList<>()));
+		receiver.setOwner(new Player(new PlayerInfo("Y",1),new Budget(test.getCfg()), new ArrayList<>(),test.getCfg()));
 
 		TestingUtility.injectMinion(test,attacker,4,4);
 		TestingUtility.injectMinion(test,receiver,3,5);
@@ -177,9 +177,9 @@ public class MinionExecutionTest
 		Strategy strat = parser.parse();
 
 		Minion minion1 = new Minion("X",100,10,strat);
-		minion1.setOwner(new Player(new PlayerInfo("X",0),new Budget(201), new ArrayList<>()));
+		minion1.setOwner(new Player(new PlayerInfo("X",0),new Budget(test.getCfg(),201), new ArrayList<>(),test.getCfg()));
 		Minion minion2 = new Minion("Y",20,0,strat);
-		minion2.setOwner(new Player(new PlayerInfo("Y",1),new Budget(), new ArrayList<>()));
+		minion2.setOwner(new Player(new PlayerInfo("Y",1),new Budget(test.getCfg()), new ArrayList<>(),test.getCfg()));
 
 //		TestingUtility.injectMinion(test,attacker,4,4);
 

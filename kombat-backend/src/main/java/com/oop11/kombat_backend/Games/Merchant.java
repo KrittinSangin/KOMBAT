@@ -4,9 +4,13 @@ import com.oop11.kombat_backend.Games.Configs.Config;
 import com.oop11.kombat_backend.Games.Map.Hex;
 import com.oop11.kombat_backend.Games.Minion.Minion;
 import com.oop11.kombat_backend.Games.Player.Player;
+import lombok.AllArgsConstructor;
 
+@AllArgsConstructor
 public class Merchant
 {
+	private final int hexPurchaseCost;
+	private final int spawnCost;
 	/**
 	 * check if a player can buy this hex. If player can buy this hex, player's budget get deduct by hex price.
 	 *
@@ -16,7 +20,7 @@ public class Merchant
 	 */
 	public Hex buyHex(Player p, Hex hex)
 	{
-		if (p.getBudget().pay((int) Config.HEX_PURCHASE_COST)) return hex;
+		if (p.getBudget().pay(hexPurchaseCost)) return hex;
 		return null;
 	}
 
@@ -29,7 +33,7 @@ public class Merchant
 	 */
 	public Minion buyMinion(Player p, Minion m)
 	{
-		if (p.getBudget().pay((int) Config.SPAWN_COST)) return m;
+		if (p.getBudget().pay(spawnCost)) return m;
 		return null;
 	}
 }

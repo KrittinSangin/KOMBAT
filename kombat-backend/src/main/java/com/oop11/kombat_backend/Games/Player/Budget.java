@@ -6,18 +6,25 @@ import lombok.Getter;
 @Getter
 public class Budget
 {
+	private final double turnBudget;
+	private final double maxBudget;
+	private final double baseInterestRatePercentage;
+
 	private double budget;
 	private double interestRatePercentage;
 
-
-	public Budget()
+	public Budget(Config cfg, double initBudget)
 	{
-		budget = Config.INIT_BUDGET;
+		this.turnBudget = cfg.turnBudget();
+		this.maxBudget = cfg.maxBudget();
+		this.baseInterestRatePercentage = cfg.interestPct();
+
+		budget = initBudget;
 	}
 
-	public Budget(int initBudge)
+	public Budget(Config cfg)
 	{
-		budget = initBudge;
+		this(cfg,cfg.initBudget());
 	}
 
 	/**
@@ -27,10 +34,10 @@ public class Budget
 	public void income(int turn)
 	{
 		calculateInterestRatePercentage(turn);
-		budget += Config.TURN_BUDGET + interest(turn);
+		budget += turnBudget + interest(turn);
 
 		//limit max budget
-		if (budget > Config.MAX_BUDGET) budget = Config.MAX_BUDGET;
+		if (budget > maxBudget) budget = maxBudget;
 	}
 
 	private double interest(int turn)
@@ -40,7 +47,7 @@ public class Budget
 
 	private void calculateInterestRatePercentage(int turn)
 	{
-		interestRatePercentage = Config.INTEREST_PCT * Math.log10(budget) * Math.log(turn);
+		interestRatePercentage = baseInterestRatePercentage * Math.log10(budget) * Math.log(turn);
 	}
 	/**
 	 * have enough budget for this price

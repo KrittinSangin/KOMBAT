@@ -1,59 +1,62 @@
 package com.oop11.kombat_backend.Games.Configs;
 
 import com.oop11.kombat_backend.Games.Map.HexPos;
+import lombok.Builder;
 
-public class Config
-{
-	public static double SPAWN_COST;
-	public static double HEX_PURCHASE_COST;
-	public static double INIT_BUDGET;
-	public static double INIT_HP;
-	public static double TURN_BUDGET;
-	public static double MAX_BUDGET;
-	public static double INTEREST_PCT;
-	public static double MAX_TURNS;
-	public static double MAX_SPAWNS;
+@Builder
+public record Config(
+	double spawnCost,
+	double hexPurchaseCost,
+	double initBudget,
+	double initHp,
+	double turnBudget,
+	double maxBudget,
+	double interestPct,
+	double maxTurns,
+	double maxSpawns,
 
 	//additional config
-	public static int MAP_WIDTH;
-	public static int MAP_HEIGHT;
-	public static HexPos[] START_HEX_POS_P1;
-	public static HexPos[] START_HEX_POS_P2;
-
+	int mapWidth,
+	int mapHeight,
+	HexPos[] startHexPosP1,
+	HexPos[] startHexPosP2
+)
+{
 	/**
 	 * Set all Config field to preset default value
 	 */
-	public static void useDefaultConfig()
+	public static Config useDefaultConfig()
 	{
-		Config.SPAWN_COST = 100;
-		Config.HEX_PURCHASE_COST = 100;
-		Config.INIT_BUDGET = 1000;
-		Config.INIT_HP = 100;
-		Config.TURN_BUDGET = 100;
-		Config.MAX_BUDGET = 10000;
-		Config.INTEREST_PCT = 10;
-		Config.MAX_TURNS = 10;
-		Config.MAX_SPAWNS = 20;
-
-		Config.MAP_WIDTH = 8;
-		Config.MAP_HEIGHT = 8;
-
-		Config.START_HEX_POS_P1 = new HexPos[]
-			{
-				new HexPos(1, 1),
-				new HexPos(1, 2),
-				new HexPos(1, 3),
-				new HexPos(2, 1),
-				new HexPos(2, 2),
-			};
-
-		Config.START_HEX_POS_P2 = new HexPos[]
-			{
-				new HexPos(7, 7),
-				new HexPos(7, 8),
-				new HexPos(8, 6),
-				new HexPos(8, 7),
-				new HexPos(8, 8),
-			};
+		return Config.builder()
+			.spawnCost(100)
+			.hexPurchaseCost(100)
+			.initBudget(1000)
+			.initHp(100)
+			.turnBudget(100)
+			.maxBudget(10000)
+			.interestPct(10)
+			.maxTurns(10)
+			.maxSpawns(20)
+			.mapWidth(8)
+			.mapHeight(8)
+			.startHexPosP1(
+				new HexPos[]
+					{
+						new HexPos(1, 1),
+						new HexPos(1, 2),
+						new HexPos(1, 3),
+						new HexPos(2, 1),
+						new HexPos(2, 2),
+					})
+			.startHexPosP2(
+				new HexPos[]
+					{
+						new HexPos(7, 7),
+						new HexPos(7, 8),
+						new HexPos(8, 6),
+						new HexPos(8, 7),
+						new HexPos(8, 8),
+					})
+			.build();
 	}
 }

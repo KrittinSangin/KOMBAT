@@ -26,7 +26,7 @@ class ExecutionInstanceTest
 		Canvas canvas = new ConsoleCanvas(game);
 		canvas.draw();
 
-		ExecutionInstance instance = new ExecutionInstance(m,null);
+		ExecutionInstance instance = new ExecutionInstance(game.getCfg(),m,null);
 		assertEquals(0, instance.opponent());
 	}
 
@@ -41,7 +41,7 @@ class ExecutionInstanceTest
 		Canvas canvas = new ConsoleCanvas(game);
 		canvas.draw();
 
-		ExecutionInstance instance = new ExecutionInstance(m,null);
+		ExecutionInstance instance = new ExecutionInstance(game.getCfg(),m,null);
 		assertEquals(22, instance.opponent());
 	}
 
@@ -55,7 +55,7 @@ class ExecutionInstanceTest
 		Canvas canvas = new ConsoleCanvas(game);
 		canvas.draw();
 
-		ExecutionInstance instance = new ExecutionInstance(m,null);
+		ExecutionInstance instance = new ExecutionInstance(game.getCfg(),m,null);
 		assertEquals(44, instance.opponent());
 	}
 
@@ -71,7 +71,7 @@ class ExecutionInstanceTest
 		Canvas canvas = new ConsoleCanvas(game);
 		canvas.draw();
 
-		ExecutionInstance instance = new ExecutionInstance(m,null);
+		ExecutionInstance instance = new ExecutionInstance(game.getCfg(),m,null);
 		assertEquals(25, instance.opponent());
 	}
 
@@ -88,7 +88,7 @@ class ExecutionInstanceTest
 		Canvas canvas = new ConsoleCanvas(game);
 		canvas.draw();
 
-		ExecutionInstance instance = new ExecutionInstance(m,null);
+		ExecutionInstance instance = new ExecutionInstance(game.getCfg(),m,null);
 		assertEquals(16, instance.opponent());
 	}
 
@@ -107,7 +107,7 @@ class ExecutionInstanceTest
 		Canvas canvas = new ConsoleCanvas(game);
 		canvas.draw();
 
-		ExecutionInstance instance = new ExecutionInstance(m,null);
+		ExecutionInstance instance = new ExecutionInstance(game.getCfg(),m,null);
 		assertEquals(11, instance.opponent());
 	}
 
@@ -126,7 +126,7 @@ class ExecutionInstanceTest
 		Canvas canvas = new ConsoleCanvas(game);
 		canvas.draw();
 
-		ExecutionInstance instance = new ExecutionInstance(m,null);
+		ExecutionInstance instance = new ExecutionInstance(game.getCfg(),m,null);
 		assertEquals(0, instance.opponent());
 	}
 
@@ -146,7 +146,7 @@ class ExecutionInstanceTest
 		Canvas canvas = new ConsoleCanvas(game);
 		canvas.draw();
 
-		ExecutionInstance instance = new ExecutionInstance(m,null);
+		ExecutionInstance instance = new ExecutionInstance(game.getCfg(),m,null);
 		assertEquals(22, instance.opponent());
 	}
 
@@ -165,7 +165,7 @@ class ExecutionInstanceTest
 		Canvas canvas = new ConsoleCanvas(game);
 		canvas.draw();
 
-		ExecutionInstance instance = new ExecutionInstance(m,null);
+		ExecutionInstance instance = new ExecutionInstance(game.getCfg(),m,null);
 		assertEquals(0, instance.opponent());
 	}
 
@@ -179,7 +179,7 @@ class ExecutionInstanceTest
 		Canvas canvas = new ConsoleCanvas(game);
 		canvas.draw();
 
-		ExecutionInstance instance = new ExecutionInstance(m,null);
+		ExecutionInstance instance = new ExecutionInstance(game.getCfg(),m,null);
 		assertEquals(0, instance.nearby(HexDir.up));
 	}
 
@@ -193,7 +193,7 @@ class ExecutionInstanceTest
 		Canvas canvas = new ConsoleCanvas(game);
 		canvas.draw();
 
-		ExecutionInstance instance = new ExecutionInstance(m,null);
+		ExecutionInstance instance = new ExecutionInstance(game.getCfg(),m,null);
 		assertEquals(323, instance.nearby(HexDir.downRight));
 	}
 
@@ -207,7 +207,7 @@ class ExecutionInstanceTest
 		Canvas canvas = new ConsoleCanvas(game);
 		canvas.draw();
 
-		ExecutionInstance instance = new ExecutionInstance(m,null);
+		ExecutionInstance instance = new ExecutionInstance(game.getCfg(),m,null);
 		assertEquals(-323, instance.nearby(HexDir.downRight));
 	}
 
@@ -218,7 +218,7 @@ class ExecutionInstanceTest
 
 		Minion dummy = TestingUtility.forcePlaceControllableMinion(game);
 
-		ExecutionInstance instance = new ExecutionInstance(dummy,new HashMap<>());
+		ExecutionInstance instance = new ExecutionInstance(game.getCfg(),dummy,new HashMap<>());
 
 		assertTrue(instance.isGlobal("A"));
 		assertFalse(instance.isGlobal("a"));
@@ -233,7 +233,7 @@ class ExecutionInstanceTest
 
 		Minion dummy = TestingUtility.forcePlaceControllableMinion(game);
 
-		ExecutionInstance instance = new ExecutionInstance(dummy,new HashMap<>());
+		ExecutionInstance instance = new ExecutionInstance(game.getCfg(),dummy,new HashMap<>());
 
 		assertFalse(instance.isLocal("A"));
 		assertTrue(instance.isLocal("a"));
