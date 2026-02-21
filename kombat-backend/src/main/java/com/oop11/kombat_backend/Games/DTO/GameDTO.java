@@ -8,7 +8,7 @@ import lombok.Builder;
 import java.util.List;
 
 @Builder
-public record GameDataDTO(
+public record GameDTO(
 	PlayerDTO player0,
 	PlayerDTO player1,
 	HexMapDTO map,

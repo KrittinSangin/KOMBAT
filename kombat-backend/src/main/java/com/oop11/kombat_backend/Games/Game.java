@@ -1,7 +1,7 @@
 package com.oop11.kombat_backend.Games;
 
 import com.oop11.kombat_backend.Games.Configs.Config;
-import com.oop11.kombat_backend.Games.DTO.GameDataDTO;
+import com.oop11.kombat_backend.Games.DTO.GameDTO;
 import com.oop11.kombat_backend.Games.DTO.HexDTO;
 import com.oop11.kombat_backend.Games.DTO.HexMapDTO;
 import com.oop11.kombat_backend.Games.DTO.MinionDTO;
@@ -422,7 +422,7 @@ public class Game
 	/**
 	 * Update the game with PlayerIntent
 	 */
-	public GameDataDTO update(PlayerIntent intent)
+	public GameDTO update(PlayerIntent intent)
 	{
 		//Save some variable before computation begins
 		GameStateEnum beforeComputeState = gameState.getState();
@@ -450,7 +450,7 @@ public class Game
 	}
 
 	// it's O(n)
-	private GameDataDTO buildGameDataDTO(
+	private GameDTO buildGameDataDTO(
 		PlayerIntent intent,
 		GameStateEnum beforeComputeState,
 		boolean validateResult
@@ -483,7 +483,7 @@ public class Game
 				.build();
 		}
 
-		GameDataDTO result = GameDataDTO.builder()
+		GameDTO result = GameDTO.builder()
 			.player0(players.get(0).asDTO())
 			.player1(players.get(1).asDTO())
 			.map(HexMapDTO.builder()
