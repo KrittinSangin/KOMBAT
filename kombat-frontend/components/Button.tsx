@@ -11,12 +11,15 @@ interface PlayButtonProps {
   left: string;
   onHover?:React.MouseEventHandler
   color:string;
+  font_size:string;
+  height:string;
+  width:string;
 }
 
-export default function Button({src,alt,overlayText,onClick,onHover,bottom,left,color}:PlayButtonProps){
+export default function Button({src,alt,overlayText,onClick,onHover,bottom,left,color,font_size,height,width}:PlayButtonProps){
     return (
-    <div onClick={onClick} className="absolute h-20 w-60 bg-linear-65 border-4"
-    style={{bottom:`${bottom}px`, left:`${left}px`,borderColor:color}}>
+    <div onClick={onClick} className="absolute bg-linear-65 border-4"
+    style={{bottom:`${bottom}px`, left:`${left}px`,borderColor:color, width:`${width}px`,height:`${height}px`}}>
       <Image
         src={src}
         alt={alt} 
@@ -25,7 +28,8 @@ export default function Button({src,alt,overlayText,onClick,onHover,bottom,left,
       />
 
       <div className="absolute inset-0 flex items-center justify-center text-center">
-        <p className="font-jersey25 text-white text-7xl">
+        <p className="font-jersey25 text-white"
+        style={{fontSize:`${font_size}px`}}>
           {overlayText}
         </p>
       </div>

@@ -14,7 +14,7 @@ export default function Homepage() {
 
   return (
     
-    <GameLayout src="/homepage_bg.jpeg" alt="homepage">
+    <GameLayout src="/homepage_bg.jpeg" alt="Homepage">
       <h1 className="
     relative 
     bottom-30 left-3
@@ -29,7 +29,7 @@ export default function Homepage() {
   ">
     KOMBAT
   </h1>
-  <PlayButton src="" alt="play" overlayText="Play" onClick={moveToGameMode} bottom="10" left="170" color="#6a0dad"></PlayButton>
+  <PlayButton src="" alt="play" overlayText="Play" onClick={moveToGameMode} bottom="20" left="170" color="#6a0dad" font_size="70" height="100" width="200"></PlayButton>
     </GameLayout>  
       
   );
