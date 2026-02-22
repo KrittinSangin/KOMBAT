@@ -1,19 +1,22 @@
+"use client";
+
 import Image from "next/image";
 import PlayButton from "../components/PlayButton";
+import GameLayout from "../components/GameLayout";
+import { useRouter } from "next/navigation";
+
 
 export default function Homepage() {
+  const router = useRouter();
+
+  const moveToGameMode = () => {
+    router.push("/gamemode");
+  };
+
   return (
-    <main className="relative min-h-screen w-full flex items-center justify-center">
-      <div className="absolute inset-0 -z-10">
-    <Image
-      src="/homepage_bg.jpeg"
-      alt="homepage"
-      fill
-      priority
-      className="object-cover"
-    />
-     </div>
-    <h1 className="
+    
+    <GameLayout src="/homepage_bg.jpeg" alt="homepage">
+      <h1 className="
     relative 
     bottom-30 left-3
     font-jersey25 
@@ -27,8 +30,8 @@ export default function Homepage() {
   ">
     KOMBAT
   </h1>
-  <PlayButton src="" alt="play" overlayText="Play" href="/game-mode"></PlayButton>
-    </main>
-    
+  <PlayButton src="" alt="play" overlayText="Play" onClick={moveToGameMode}></PlayButton>
+    </GameLayout>  
+      
   );
 }

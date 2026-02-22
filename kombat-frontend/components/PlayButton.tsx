@@ -1,17 +1,17 @@
+"use client";
+
 import Image from 'next/image';
-import Link from 'next/link';
 
 interface PlayButtonProps {
   src: string;
   alt: string;
-  overlayText:String;
-  href:string;
+  overlayText:string;
+  onClick?:React.MouseEventHandler
 }
 
-export default function PlayButton({src,alt,overlayText,href}:PlayButtonProps){
+export default function PlayButton({src,alt,overlayText,onClick}:PlayButtonProps){
     return (
-    <Link href={href}>
-    <div className="absolute bottom-80 left-160 h-20 w-60 bg-linear-65 from-purple-500 to-pink-500">
+    <div onClick={onClick} className="absolute bottom-10 left-50 h-20 w-60 bg-linear-65 from-purple-500 to-pink-500">
       <Image
         src={src}
         alt={alt} 
@@ -25,5 +25,5 @@ export default function PlayButton({src,alt,overlayText,href}:PlayButtonProps){
         </p>
       </div>
     </div>
-    </Link>);
+    );
 }
