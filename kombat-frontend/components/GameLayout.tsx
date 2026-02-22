@@ -13,8 +13,8 @@ export default function GameLayout({children,src,alt}:PropsWithChildren<GameLayo
             <Image
               src={src}
               alt={alt}
-              fill
               priority
+              fill
               className="object-cover"
             />
             <div className="relative z-10">{children}</div>

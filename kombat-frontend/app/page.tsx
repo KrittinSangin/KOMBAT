@@ -1,10 +1,9 @@
 "use client";
 
 import Image from "next/image";
-import PlayButton from "../components/PlayButton";
+import PlayButton from "../components/Button";
 import GameLayout from "../components/GameLayout";
 import { useRouter } from "next/navigation";
-
 
 export default function Homepage() {
   const router = useRouter();
@@ -30,7 +29,7 @@ export default function Homepage() {
   ">
     KOMBAT
   </h1>
-  <PlayButton src="" alt="play" overlayText="Play" onClick={moveToGameMode}></PlayButton>
+  <PlayButton src="" alt="play" overlayText="Play" onClick={moveToGameMode} bottom="10" left="170" color="#6a0dad"></PlayButton>
     </GameLayout>  
       
   );
