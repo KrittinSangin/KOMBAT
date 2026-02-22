@@ -1,13 +1,16 @@
 import Image from 'next/image';
+import Link from 'next/link';
 
 interface PlayButtonProps {
   src: string;
   alt: string;
   overlayText:String;
+  href:string;
 }
 
-export default function PlayButton({src,alt,overlayText}:PlayButtonProps){
+export default function PlayButton({src,alt,overlayText,href}:PlayButtonProps){
     return (
+    <Link href={href}>
     <div className="absolute bottom-80 left-160 h-20 w-60 bg-linear-65 from-purple-500 to-pink-500">
       <Image
         src={src}
@@ -21,5 +24,6 @@ export default function PlayButton({src,alt,overlayText}:PlayButtonProps){
           {overlayText}
         </p>
       </div>
-    </div>);
+    </div>
+    </Link>);
 }

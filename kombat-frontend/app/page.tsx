@@ -27,7 +27,7 @@ export default function Homepage() {
   ">
     KOMBAT
   </h1>
-  <PlayButton src="" alt="play" overlayText="Play"></PlayButton>
+  <PlayButton src="" alt="play" overlayText="Play" href="/game-mode"></PlayButton>
     </main>
     
   );
