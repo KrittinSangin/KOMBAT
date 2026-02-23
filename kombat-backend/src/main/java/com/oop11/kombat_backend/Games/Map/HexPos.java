@@ -1,5 +1,8 @@
 package com.oop11.kombat_backend.Games.Map;
 
+import lombok.Builder;
+
+@Builder
 public record HexPos(int row, int col)
 {
 	/**
