@@ -126,6 +126,11 @@ public class Minion
 		return new Minion(this);
 	}
 
+	public int getOrder()
+	{
+		return owner.getStorage().getStorage().indexOf(this);
+	}
+
 	@Override
 	public int hashCode()
 	{

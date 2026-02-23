@@ -1,10 +1,7 @@
 package com.oop11.kombat_backend.Games;
 
 import com.oop11.kombat_backend.Games.Configs.Config;
-import com.oop11.kombat_backend.Games.DTO.GameDTO;
-import com.oop11.kombat_backend.Games.DTO.HexDTO;
-import com.oop11.kombat_backend.Games.DTO.HexMapDTO;
-import com.oop11.kombat_backend.Games.DTO.MinionDTO;
+import com.oop11.kombat_backend.Games.DTO.*;
 import com.oop11.kombat_backend.Games.Map.Hex;
 import com.oop11.kombat_backend.Games.Map.HexMap;
 import com.oop11.kombat_backend.Games.Map.HexPos;
@@ -438,69 +435,7 @@ public class Game
 				gameState = gameState.nextState();
 		}
 
-		return buildGameDataDTO(intent, beforeComputeState, validateResult);
-	}
-
-	// it's O(n)
-	private GameDTO buildGameDataDTO(
-		PlayerIntent intent,
-		GameStateEnum beforeComputeState,
-		boolean validateResult
-	)
-	{
-		//build DTO
-		List<HexDTO> hexDTOs = new ArrayList<>();
-
-		for (var entry : map.getMap().entrySet())
-		{
-			HexPos pos = entry.getKey();
-			Hex hex = entry.getValue();
-			Minion m = hex.getMinion();
-
-			HexDTO hexDTO = HexDTO.builder()
-				.hexPos(pos)
-				.minion(
-					m == null? null : MinionDTO.builder()
-						.name(m.getName())
-						.index(currentPlayer().getDeck().indexOf(m))
-						.order(storage.getStorage().indexOf(m))
-						.haveTeam(m.getOwner()!=null)
-						.team(m.getOwner().getPlayerInfo().team())
-						.hp(m.getHp())
-						.def(m.getDef())
-						.build()
-					)
-				.haveTeam(hex.haveOwner())
-				.team(hex.haveOwner()? hex.getOwner().getPlayerInfo().team() : -1)
-				.build();
-		}
-
-		GameDTO result = GameDTO.builder()
-			.player0(players.get(0).asDTO())
-			.player1(players.get(1).asDTO())
-			.map(HexMapDTO.builder()
-				.hexMap(hexDTOs)
-				.build()
-			)
-			.turn(turn)
-			.round(round)
-			.state(gameState.getState())
-			.lastState(beforeComputeState)
-			.winner(winner == null? -1 : winner.getPlayerInfo().team())
-			.inputIntent(intent)
-			.isStateChange(isGameStart)
-			.isValidIntent(validateResult)
-			.isGameStart(isGameStart)
-			.isGameOver(isGameOver)
-			.isGameResign(isGameResign)
-			.isGameDraw(isGameDraw)
-			.executionInstanceLog(executor.getInstanceLogs())
-			.build();
-
-		//clear executor's log, prepare for the next execution.
-		executor.clearLog();
-
-		return result;
+		return DTOFactory.createGameDTO(this, intent, beforeComputeState, validateResult);
 	}
 
 	private void nextTurn()
@@ -590,5 +525,4 @@ public class Game
 		//otherwise, ignore value.
 		return true;
 	}
-
 }

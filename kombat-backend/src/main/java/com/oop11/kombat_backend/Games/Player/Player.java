@@ -17,6 +17,7 @@ public class Player
 
 	@Getter
 	private final Budget budget;
+	@Getter
 	private MinionStorage storage;
 	private Merchant merchant;
 	private HexMap map;
@@ -184,15 +185,4 @@ public class Player
 	 */
 	public int getMinionCount() {return spawns.size();}
 
-	public PlayerDTO asDTO()
-	{
-		return PlayerDTO.builder()
-			.name(info.name())
-			.team(info.team())
-			.budget(budget.getBudget())
-			.interestRatePercentage(budget.getInterestRatePercentage())
-			.spawnCount(spawnCount)
-			.minionCount(getMinionCount())
-			.build();
-	}
 }

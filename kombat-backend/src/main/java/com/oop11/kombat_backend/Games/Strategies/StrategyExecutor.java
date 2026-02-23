@@ -1,6 +1,7 @@
 package com.oop11.kombat_backend.Games.Strategies;
 
 import com.oop11.kombat_backend.Games.Configs.Config;
+import com.oop11.kombat_backend.Games.DTO.ExecutionInstanceLogDTO;
 import com.oop11.kombat_backend.Games.Logs.ExecutionInstanceLog;
 import com.oop11.kombat_backend.Games.Logs.ExecutionInstanceLogger;
 import com.oop11.kombat_backend.Games.Minion.Minion;
@@ -75,5 +76,11 @@ public class StrategyExecutor
 		}
 	}
 
-	public void clearLog() {instanceLogs.clear();}
+
+	public List<ExecutionInstanceLog> consumeLogAll()
+	{
+		var out = new ArrayList<>(instanceLogs);
+		instanceLogs.clear();
+		return out;
+	}
 }

@@ -24,7 +24,7 @@ public record GameDTO(
 	boolean isGameOver,
 	boolean isGameResign,
 	boolean isGameDraw,
-	List<ExecutionInstanceLog> executionInstanceLog
+	List<ExecutionInstanceLogDTO> executionInstanceLog
 )
 {
 }

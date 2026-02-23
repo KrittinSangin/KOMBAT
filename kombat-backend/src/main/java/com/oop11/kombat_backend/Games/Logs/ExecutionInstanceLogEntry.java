@@ -1,7 +1,9 @@
 package com.oop11.kombat_backend.Games.Logs;
 
 import com.oop11.kombat_backend.Games.Map.HexDir;
+import lombok.Builder;
 
+@Builder
 public record ExecutionInstanceLogEntry(
 	ExecutionInstanceLogFunctionTypeOf typeof,
 	ExecutionInstanceLogFunction function,

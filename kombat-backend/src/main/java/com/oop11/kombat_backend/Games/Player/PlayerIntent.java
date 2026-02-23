@@ -1,7 +1,9 @@
 package com.oop11.kombat_backend.Games.Player;
 
 import com.oop11.kombat_backend.Games.Map.HexPos;
+import lombok.Builder;
 
+@Builder
 public record PlayerIntent(PlayerIntentEnum intent, HexPos hex, Integer minion)
 {
 	//constant empty intent object

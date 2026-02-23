@@ -1,7 +1,10 @@
 package com.oop11.kombat_backend.Games.Player;
 
+import lombok.Builder;
+
 import java.util.Objects;
 
+@Builder
 public record PlayerInfo(String name, int team)
 {
 	@Override

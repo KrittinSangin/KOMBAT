@@ -7,7 +7,6 @@ public record MinionDTO(
 	String name,
 	int index,
 	int order,
-	boolean haveTeam,
 	int team,
 	int hp,
 	int def
