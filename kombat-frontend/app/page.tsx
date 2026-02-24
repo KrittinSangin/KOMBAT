@@ -4,11 +4,25 @@ import Image from "next/image";
 import PlayButton from "../components/Button";
 import GameLayout from "../components/GameLayout";
 import { useRouter } from "next/navigation";
+import { create } from "zustand";
+
+type CheckStateStore = {
+  state: string;
+  setState: (value: string) => void;
+  checker: () => string;
+};
+
+export const checkState = create<CheckStateStore>((set, get) => ({
+  state: "/",
+  setState: (value) => set({ state: value }),
+  checker: () => get().state,
+}));
 
 export default function Homepage() {
   const router = useRouter();
 
   const moveToGameMode = () => {
+    checkState.getState().setState("gamemode");
     router.push("/gamemode");
   };
 

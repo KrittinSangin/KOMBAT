@@ -1,11 +1,29 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import GameLayout from "../../../../components/GameLayout";
 import Button from "../../../../components/Button";
 import { useRouter } from "next/navigation";
 import Slider from "../../../../components/Slider";
-
+import { checkState } from "../../../page";
 export default function CreateRoomPage(){
+    const router = useRouter();
+    const [isAuthorized, setIsAuthorized] = useState(false);
+
+    useEffect(() => {
+        
+        if (checkState.getState().state !== "duel_create_room") {
+            router.push("/forbidden");
+        } else {
+            setIsAuthorized(true);
+        }
+    }, [router]);
+    if (!isAuthorized) {
+        return (
+            <GameLayout src="/homepage_bg.jpeg" alt="Create Room" />
+        );
+    }
+
     let left:number = 40;
     let borderColor:string = "grey";
     let sliderColor:string = "white";

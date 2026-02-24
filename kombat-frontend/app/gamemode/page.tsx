@@ -1,19 +1,38 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import GameLayout from "../../components/GameLayout"
 import Button from "../../components/Button"
 import { useRouter } from "next/navigation";
+import { checkState } from "../page";
 
 export default function gamemodePage(){
     const router = useRouter();
+    const [isAuthorized, setIsAuthorized] = useState(false);
+
+    useEffect(() => {
+        if (checkState.getState().state !== "gamemode") {
+            router.push("/forbidden");
+        } else {
+            setIsAuthorized(true);
+        }
+    }, [router]);
 
     const moveToHomePage = () => {
+    checkState.getState().setState("/");
     router.push("/");
   };
 
     const moveToDuelPage = () => {
+    checkState.getState().setState("duel");
     router.push("/gamemode/duel");
   };
+
+    if (!isAuthorized) {
+        return (
+            <GameLayout src="/homepage_bg.jpeg" alt="Gamemode" />
+        );
+    }
 
     return(
         <>
