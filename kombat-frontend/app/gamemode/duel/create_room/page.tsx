@@ -2,54 +2,32 @@
 
 import { useEffect, useState } from "react";
 import GameLayout from "../../../../components/GameLayout";
-import Button from "../../../../components/Button";
-import { useRouter } from "next/navigation";
-import Slider from "../../../../components/Slider";
-import { checkState } from "../../../page";
+import ConfigBox from "../../../../components/ConfigBox";
+import CodeHost from "../../../../components/CodeHost";
+
 export default function CreateRoomPage(){
-    const router = useRouter();
-    const [isAuthorized, setIsAuthorized] = useState(false);
-
-    useEffect(() => {
-        
-        if (checkState.getState().state !== "duel_create_room") {
-            router.push("/forbidden");
-        } else {
-            setIsAuthorized(true);
-        }
-    }, [router]);
-    if (!isAuthorized) {
-        return (
-            <GameLayout src="/homepage_bg.jpeg" alt="Create Room" />
-        );
-    }
-
-    let left:number = 40;
-    let borderColor:string = "grey";
-    let sliderColor:string = "white";
+    let InitHp_min:number = 1
+    let InitHp_max:number = 100
+    let MaxTurn_min:number = 1
+    let MaxTurn_max:number = 100
+    let InitBudget_min:number = 1
+    let letInitBudget_max:number = 100
+    let MaxBudget_min:number = 1
+    let MaxBudget_max:number = 100
+    let InterestPct_min:number = 1
+    let InterestPct_max:number = 100
+    let HexPurchaseCost_min:number = 1
+    let letHexPurchaseCost_max:number = 100
+    let SpawnCost_min:number = 1
+    let SpawnCost_max:number= 100
+    let MaxSpawn_min:number = 1
+    let MaxSpawn_max:number = 100
 
     return(
         <>
          <GameLayout src="/homepage_bg.jpeg" alt="Create Room">
-            <div className="box-content fixed left-0 top-0 w-[50%] h-full" style={{ backgroundColor: "#B8B8B8" }}>
-                <h1 className="text-color-[#000] text-[70px] font-jersey25 tracking-[2px] absolute top-5 left-44">
-                    Configuration
-                    <div className="box-content fixed left-10 top-35 w-[44.5%] h-[70%]" style={{ backgroundColor: "#D9D9D9" }}>
-                        
-                            <Slider min={1} max={100} bottom={500} left={left} overlayText="Init HP" borderColor={borderColor} sliderColor={sliderColor}></Slider>
-                            <Slider min={1} max={100} bottom={450} left={left} overlayText="Max turn" borderColor={borderColor} sliderColor={sliderColor}></Slider>
-                            <Slider min={1} max={100} bottom={400} left={left} overlayText="Init Budget" borderColor={borderColor} sliderColor={sliderColor}></Slider>
-                            <Slider min={1} max={100} bottom={350} left={left} overlayText="Max Budget" borderColor={borderColor} sliderColor={sliderColor}></Slider>
-                            <Slider min={1} max={100} bottom={300} left={left} overlayText="Interest Pct" borderColor={borderColor} sliderColor={sliderColor}></Slider>
-                            <Slider min={1} max={100} bottom={250} left={left} overlayText="Hex Purchase Cost" borderColor={borderColor} sliderColor={sliderColor}></Slider>
-                            <Slider min={1} max={100} bottom={200} left={left} overlayText="Spawn Cost" borderColor={borderColor} sliderColor={sliderColor}></Slider>
-                            <Slider min={1} max={100} bottom={150} left={left} overlayText="Max Spawn" borderColor={borderColor} sliderColor={sliderColor}></Slider>
-                            <Slider min={1} max={5} bottom={100} left={left} overlayText="Each Minions Per Team" borderColor={borderColor} sliderColor={sliderColor} setState={5}></Slider>
-                            <Button src="" alt="Set To Default" overlayText="Set To Default" bottom="30" left="230" color="grey" font_size="25" height="40" width="200"></Button>
-                        
-                    </div>
-                </h1>
-            </div>
+            <ConfigBox InitHp_min={InitHp_min} InitHp_max={InitHp_max} MaxTurn_min={MaxTurn_min} MaxTurn_max={MaxTurn_max} InitBudget_min={InitBudget_min} InitBudget_max={letInitBudget_max} MaxBudget_min={MaxBudget_min} MaxBudget_max={MaxBudget_max} InterestPct_min={InterestPct_min} InterestPct_max={InterestPct_max} HexPurchaseCost_min={HexPurchaseCost_min} HexPurchaseCost_max={letHexPurchaseCost_max} SpawnCost_min={SpawnCost_min} SpawnCost_max={SpawnCost_max} MaxSpawn_min={MaxSpawn_min} MaxSpawn_max={MaxSpawn_max}></ConfigBox>
+            <CodeHost></CodeHost>
          </GameLayout>
         </>
     )
