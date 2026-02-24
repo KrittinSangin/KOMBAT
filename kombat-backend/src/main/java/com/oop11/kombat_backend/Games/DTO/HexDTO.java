@@ -6,9 +6,8 @@ import lombok.Builder;
 @Builder
 public record HexDTO(
 	HexPos hexPos,
-	MinionDTO minion,
-	boolean haveTeam,
-	int team
+	boolean isOwn,
+	int ownerTeam
 )
 {
 }

@@ -5,6 +5,9 @@ import lombok.Builder;
 import java.util.List;
 
 @Builder
-public record HexMapDTO(List<HexDTO> hexMap)
+public record HexMapDTO(
+	int width,
+	int height
+)
 {
 }

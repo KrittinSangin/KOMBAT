@@ -22,16 +22,14 @@ public class DTOFactory
 	)
 	{
 		return GameDTO.builder()
-			.player0(createPlayerDTO(game.getPlayers().get(0)))
-			.player1(createPlayerDTO(game.getPlayers().get(1)))
-			.map(createHexMapDTO(game.getMap()))
+			.players(game.getPlayers().stream().map(DTOFactory::createPlayerDTO).toList())
 			.turn(game.getTurn())
 			.round(game.getRound())
 			.state(game.getGameState().getState())
 			.lastState(beforeComputeState)
 			.winner(game.getWinner() == null? -1 : game.getWinner().getPlayerInfo().team())
 			.inputIntent(intent)
-			.isStateChange(beforeComputeState != game.getGameState().getState())
+			.isStateChanged(beforeComputeState != game.getGameState().getState())
 			.isValidIntent(validateResult)
 			.isGameStart(game.isGameStart())
 			.isGameOver(game.isGameOver())
@@ -41,29 +39,10 @@ public class DTOFactory
 			.build();
 	}
 
-	public static HexDTO createHexDTO(Hex hex)
-	{
-		return HexDTO.builder()
-			.hexPos(hex.Pos)
-			.minion(hex.getMinion() == null? null : createMinionDTO(hex.getMinion()))
-			.haveTeam(hex.haveOwner())
-			.team(hex.haveOwner()? hex.getOwner().getPlayerInfo().team() : -1)
-			.build();
-	}
-
-	public static HexMapDTO createHexMapDTO(HexMap map)
-	{
-		return HexMapDTO.builder()
-			.hexMap(map.getMap().values().stream().map(DTOFactory::createHexDTO).toList())
-			.build();
-	}
-
 	public static MinionDTO createMinionDTO(Minion m)
 	{
 		return MinionDTO.builder()
 			.name(m.getName())
-			.index(m.getOwner().getDeck().indexOf(m))
-			.order(m.getOrder())
 			.team(m.getOwner().getPlayerInfo().team())
 			.hp(m.getHp())
 			.def(m.getDef())
@@ -73,12 +52,12 @@ public class DTOFactory
 	public static PlayerDTO createPlayerDTO(Player p)
 	{
 		return PlayerDTO.builder()
-			.name(p.getPlayerInfo().name())
-			.team(p.getPlayerInfo().team())
+			.info(p.getPlayerInfo())
 			.budget(p.getBudget().getBudget())
 			.interestRatePercentage(p.getBudget().getInterestRatePercentage())
 			.spawnCount(p.getSpawnCount())
-			.minionCount(p.getMinionCount())
+			.territories(p.getTerritories().stream().map((x)->x.Pos).toList())
+			.minions(p.getSpawns().stream().map(DTOFactory::createMinionDTO).toList())
 			.build();
 	}
 
