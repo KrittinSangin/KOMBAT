@@ -1,0 +1,78 @@
+
+{
+  "player0": {
+    "name": "Permanent", 
+    "team": 0,
+    "budget": 40.0,
+    "interestRatePercentage": 5.12,
+    "spawnCount": 7,
+    "minionCount": 5
+  },
+  "player1": {
+    "name": "Temporary",
+    "team": 1,
+    "budget": 5.00,
+    "interestRatePercentage": 5.69,
+    "spawnCount": 4,
+    "minionCount": 3
+  },
+  "map": {
+    "hexMap": [
+      {
+        "hexPos": {
+          "row": 1,
+          "col": 1
+        },
+        "minion": {
+          "name": "banana",
+          "index": 0,
+          "order": 1,
+          "team": 1,
+          "hp": 5,
+          "def": 19
+        },
+        "haveTeam": true,
+        "team": 1
+      }
+    ]
+  },
+  "turn": 0,
+  "round": 7,
+  "state": "GameStateEnum",
+  "lastState": "GameStateEnum",
+  "winner": -1,
+  "inputIntent": {
+    "intent": "null",
+    "hex": {
+      "row": 0,
+      "col": 0
+    },
+    "minion": 0
+  },
+  "isStateChange": false,
+  "isValidIntent": false,
+  "isGameStart": false,
+  "isGameOver": false,
+  "isGameResign": false,
+  "isGameDraw": false,
+  "executionInstanceLog": [
+    {
+      "minion": {
+        "name": "String",
+        "index": 0,
+        "order": 0,
+        "team": 1,
+        "hp": 10,
+        "def": 5
+      },
+      "entries": [
+        {
+          "typeof": "ExecutionInstanceLogFunctionTypeOf",
+          "function": "ExecutionInstanceLogFunction",
+          "dir": "HexDir"
+        }
+      ],
+      "reason": "null"
+    }
+  ]
+}
