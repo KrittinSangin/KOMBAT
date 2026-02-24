@@ -18,7 +18,7 @@ export default function Slider({min, max, onChange,bottom,left,overlayText, bord
   const [value, setValue] = useState(setState !== undefined ? setState : min);
   const percentage = ((value - min) / (max - min)) * 100;
   const clamp = (num: number) => {
-  return Math.min(100, Math.max(0, num));
+  return Math.min(max, Math.max(min, num));
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -26,8 +26,8 @@ export default function Slider({min, max, onChange,bottom,left,overlayText, bord
   };
 
   return(
-    <div className="flex w-120 gap-5 absolute" style={{bottom:`${bottom}px`, left:`${left}px`}}>
-      <p className="text-2xl w-200 text-right">{overlayText}</p>
+    <div className="flex w-180 gap-5 absolute" style={{bottom:`${bottom}px`, left:`${left}px`}}>
+      <p className="text-xl w-250 text-right">{overlayText}</p>
       <input type="range" 
       
     style={{accentColor:borderColor,background: `linear-gradient(to right,
@@ -51,9 +51,11 @@ export default function Slider({min, max, onChange,bottom,left,overlayText, bord
       max={max}
       value={value}
       onChange={handleChange} />
-      <input type="text" min={min} max={max} onChange={(e) => {
-}} className="w-10 h-10 text-xs" />
-      <p className="text-xs">{value}</p>
+      <input type="text" min={min} max={max} value={value} onChange={(e) => {
+    const onlyNumber = e.target.value.replace(/\D/g, "");
+    setValue(clamp(Number(onlyNumber)));
+  }}
+      className="w-10 h-10 text-xl" />
       {/* <p className="absolute text-3xl bottom--5 left-125 text-[#000000]" >{value}</p> */}
     </div>
   )
