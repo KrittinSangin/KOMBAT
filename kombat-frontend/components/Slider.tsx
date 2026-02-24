@@ -10,19 +10,27 @@ interface Sliderprops {
     overlayText:string
     borderColor:string
     sliderColor:string
+    setState?:number
 }
 
 
-export default function Slider({min, max, onChange,bottom,left,overlayText, borderColor, sliderColor}:Sliderprops){
-  const [value, setValue] = useState(min);
+export default function Slider({min, max, onChange,bottom,left,overlayText, borderColor, sliderColor, setState}:Sliderprops){
+  const [value, setValue] = useState(setState !== undefined ? setState : min);
   const percentage = ((value - min) / (max - min)) * 100;
+  const clamp = (num: number) => {
+  return Math.min(100, Math.max(0, num));
+  };
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  setValue(clamp(Number(e.target.value)));
+  };
 
   return(
     <div className="flex w-120 gap-5 absolute" style={{bottom:`${bottom}px`, left:`${left}px`}}>
-      <p className="text-3xl w-40 text-center">{overlayText}</p>
+      <p className="text-2xl w-200 text-right">{overlayText}</p>
       <input type="range" 
       
-style={{accentColor:borderColor,background: `linear-gradient(to right,
+    style={{accentColor:borderColor,background: `linear-gradient(to right,
     ${sliderColor} ${percentage}%,
     ${borderColor} ${percentage}%)`,
     "--thumb-color": sliderColor} as React.CSSProperties}
@@ -42,8 +50,11 @@ style={{accentColor:borderColor,background: `linear-gradient(to right,
       min={min}
       max={max}
       value={value}
-      onChange={(e)=>setValue(Number(e.target.value))} />
-      <p className="absolute text-3xl bottom--5 left-125 text-[#000000]" >{value}</p>
+      onChange={handleChange} />
+      <input type="text" min={min} max={max} onChange={(e) => {
+}} className="w-10 h-10 text-xs" />
+      <p className="text-xs">{value}</p>
+      {/* <p className="absolute text-3xl bottom--5 left-125 text-[#000000]" >{value}</p> */}
     </div>
   )
 }

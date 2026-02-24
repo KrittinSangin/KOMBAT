@@ -12,7 +12,7 @@ export default function gamemodePage(){
   };
 
     const moveToDuelPage = () => {
-    router.push("/duel");
+    router.push("/gamemode/duel");
   };
 
     return(
