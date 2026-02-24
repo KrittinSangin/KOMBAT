@@ -11,8 +11,8 @@ export default function gamemodePage(){
     router.push("/");
   };
 
-    const moveToConfigPage = () => {
-    router.push("/configuration");
+    const moveToDuelPage = () => {
+    router.push("/duel");
   };
 
     return(
@@ -26,11 +26,11 @@ export default function gamemodePage(){
     tracking-[5px] ">
                     Select Game Mode
                 </h1>
-                <Button src="" alt="Duel"  overlayText="Duel" bottom="160" left="265" color="orange" onClick={moveToConfigPage} font_size="70" height="100" width="300">
+                <Button src="" alt="Duel"  overlayText="Duel" bottom="160" left="265" color="orange" onClick={moveToDuelPage} font_size="70" height="100" width="300">
                 </Button>
-                <Button src="" alt="Solitaire"  overlayText="Solitaire" bottom="40" left="265" color="brown" onClick={moveToConfigPage} font_size="70" height="100" width="300">
+                <Button src="" alt="Solitaire"  overlayText="Solitaire" bottom="40" left="265" color="brown" font_size="70" height="100" width="300">
                 </Button>
-                <Button src="" alt="Auto"  overlayText="Auto" bottom="-80" left="265" color="green" onClick={moveToConfigPage} font_size="70" height="100" width="300">
+                <Button src="" alt="Auto"  overlayText="Auto" bottom="-80" left="265" color="green" font_size="70" height="100" width="300">
                 </Button>
                 {/* send gamemode to back-end */}
                 <Button src="" alt="Back"  overlayText="Back" bottom="-190" left="320" color="#6a0dad" onClick={moveToHomePage} font_size="70" height="90" width="200">
