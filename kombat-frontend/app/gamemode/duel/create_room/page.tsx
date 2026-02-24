@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import GameLayout from "../../../../components/GameLayout";
 import ConfigBox from "../../../../components/ConfigBox";
 import CodeHost from "../../../../components/CodeHost";
+import ProfileConfig from "../../../../components/ProfileConfig";
 
 export default function CreateRoomPage(){
     let InitHp_min:number = 1
@@ -28,6 +29,7 @@ export default function CreateRoomPage(){
          <GameLayout src="/homepage_bg.jpeg" alt="Create Room">
             <ConfigBox InitHp_min={InitHp_min} InitHp_max={InitHp_max} MaxTurn_min={MaxTurn_min} MaxTurn_max={MaxTurn_max} InitBudget_min={InitBudget_min} InitBudget_max={letInitBudget_max} MaxBudget_min={MaxBudget_min} MaxBudget_max={MaxBudget_max} InterestPct_min={InterestPct_min} InterestPct_max={InterestPct_max} HexPurchaseCost_min={HexPurchaseCost_min} HexPurchaseCost_max={letHexPurchaseCost_max} SpawnCost_min={SpawnCost_min} SpawnCost_max={SpawnCost_max} MaxSpawn_min={MaxSpawn_min} MaxSpawn_max={MaxSpawn_max}></ConfigBox>
             <CodeHost></CodeHost>
+            <ProfileConfig team={1}></ProfileConfig>
          </GameLayout>
         </>
     )
