@@ -35,11 +35,11 @@ interface PlayerInfo
 }
 interface MinionDTO
 {
-  "name": String,
-  "index": number,
-  "order": number,
-  "team": number,
-  "hp": number,
+  "name": String
+  "index": number
+  "order": number
+  "team": number
+  "hp": number
   "def": number
 }
 interface HexDTO

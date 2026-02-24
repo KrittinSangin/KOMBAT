@@ -16,7 +16,7 @@
 	endOfStrategy,
 	doneStatement,
 	arithmeticError,
-	variableError
+	variableError,
 }
 
  enum ExecutionInstanceLogFunction
