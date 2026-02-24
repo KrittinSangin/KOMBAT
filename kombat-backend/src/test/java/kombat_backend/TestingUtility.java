@@ -14,7 +14,7 @@ import com.oop11.kombat_backend.Games.Strategies.StrategyExecutor;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TestingUtility
+public class 	TestingUtility
 {
 	public static Game instantiateGameDefault()
 	{
