@@ -30,7 +30,7 @@ export default function gamemodePage(){
 
     const moveToConfigPage = (mode: string) => {
     checkState.getState().setState("duel_create_room");
-    router.push(`/gamemode/configuration?mode=${mode}`);
+    router.push(`/configuration?mode=${mode}`);
   };
 
     if (!isAuthorized) {

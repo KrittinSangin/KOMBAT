@@ -1,13 +1,13 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import GameLayout from "../../../components/GameLayout";
+import GameLayout from "../../components/GameLayout";
 import ConfigBox from "./components/ConfigBox";
 import CodeHost from "./components/CodeHost";
 import ProfileConfig from "./components/ProfileConfig";
-import Button from "../../../components/Button";
+import Button from "../../components/Button";
 import { useRouter } from "next/dist/client/components/navigation";
-import { checkState } from "../../page";
+import { checkState } from "../page";
 import { useSearchParams } from "next/navigation";
 
 export default function CreateRoomPage(){
