@@ -54,8 +54,9 @@ export default function Slider({min, max, onChange,bottom,left,overlayText, bord
       <input type="text" min={min} max={max} value={value} onChange={(e) => {
     const onlyNumber = e.target.value.replace(/\D/g, "");
     setValue(clamp(Number(onlyNumber)));
+
   }}
-      className="w-10 h-10 text-xl" />
+      className="w-10 h-10 text-xl font-jersey25" />
       {/* <p className="absolute text-3xl bottom--5 left-125 text-[#000000]" >{value}</p> */}
     </div>
   )

@@ -1,5 +1,5 @@
-import Slider from "./Slider";
-import Button from "./Button";
+import Slider from "../../../../components/Slider";
+import Button from "../../../../components/Button";
 
 interface ConfigBoxProps {
     InitHp_min:number

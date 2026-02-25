@@ -26,7 +26,7 @@ export default function DuelPage(){
 
     const moveToCreateRoomPage = () => {
     checkState.getState().setState("duel_create_room");
-    router.push("/gamemode/duel/create_room");
+    router.push("/gamemode/configuration");
   };
 
     const moveToJoinRoomPage = () => {
