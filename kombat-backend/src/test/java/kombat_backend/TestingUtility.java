@@ -14,11 +14,11 @@ import com.oop11.kombat_backend.Games.Strategies.StrategyExecutor;
 import java.util.ArrayList;
 import java.util.List;
 
-public class 	TestingUtility
+public class TestingUtility
 {
 	public static Game instantiateGameDefault()
 	{
-		Config cfg = Config.useDefaultConfig();
+		Config cfg = Config.defaultConfig();
 
 		PlayerInfo p1info = new PlayerInfo("A", 0);
 		PlayerInfo p2info = new PlayerInfo("B", 1);
@@ -41,6 +41,11 @@ public class 	TestingUtility
 
 		return instance;
 	}
+
+//	public static Game instantiateGameEmpty()
+//	{
+//		Config cfg = Config.useDefaultConfig();
+//	}
 
 	public static List<Player> extractPlayers(Game game)
 	{

@@ -16,15 +16,10 @@ package com.oop11.kombat_backend.Games.Configs;
 
 import com.oop11.kombat_backend.Games.Map.HexPos;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
-import java.nio.file.Path;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
-import java.util.function.BiConsumer;
-import java.util.function.Consumer;
+import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -38,7 +33,7 @@ public class ConfigReader
 			"init_hp",
 			"turn_budget",
 			"max_budget",
-			"interest_pc",
+			"interest_pct",
 			"max_turns",
 			"max_spawns",
 			"map_width",
@@ -47,12 +42,35 @@ public class ConfigReader
 			"init_hex_2"
 		};
 
-	private String CONFIG_KEYWORD_union()
+	public Config readConfig(String src)
+	{
+		src = src.toLowerCase();
+		var cfgb = Config.builder();
+
+		String[] lines = src.split("\r\n");
+		for (var line : lines)
+		{
+			//validate line
+			String validationREGEX = "^ *(%s) *= *((\\d+)|(\\[((\\(\\d+,\\d+\\))(,\\(\\d+,\\d+\\))*)?]))$".formatted(CONFIG_KEYWORD_union());
+			if (!line.matches(validationREGEX)) continue;
+
+			String[] split = line.split("=");
+
+			String key = split[0].trim();
+			String value = split[1].trim();
+
+			buildConfig(cfgb,key,value);
+		}
+
+		return cfgb.build();
+	}
+
+	public static String CONFIG_KEYWORD_union()
 	{
 		StringBuilder sb = new StringBuilder();
 		for (var s : CONFIG_KEYWORD)
 		{
-			sb.append("%s|");
+			sb.append("%s|".formatted(s));
 		}
 
 		sb.deleteCharAt(sb.lastIndexOf("|"));
@@ -60,17 +78,16 @@ public class ConfigReader
 		return sb.toString();
 	}
 
-	private HexPos[] buildConfigHexPosArray(String value)
+	private Set<HexPos> buildConfigHexPosSet(String value)
 	{
 		Matcher matcher = Pattern.compile("\\(\\d+,\\d+\\)").matcher(value);
 
-		List<HexPos> hexPoses = new ArrayList<>();
+		Set<HexPos> hexPoses = new HashSet<>();
 
 		while (matcher.find())
 		{
 			String s = matcher.group();
-			s = s.replaceAll("\\(","");
-			s = s.replaceAll("\\)","");
+			s = s.replaceAll("\\(","").replaceAll("\\)","");
 
 			String[] split = s.split(",");
 
@@ -81,7 +98,7 @@ public class ConfigReader
 			);
 		}
 
-		return hexPoses.toArray(HexPos[]::new);
+		return hexPoses;
 	}
 
 	private void buildConfig(Config.ConfigBuilder cfgb, String key, String value)
@@ -98,29 +115,7 @@ public class ConfigReader
 
 		else if  (key.equals(CONFIG_KEYWORD[9])) cfgb.mapWidth(Integer.parseInt(value));
 		else if  (key.equals(CONFIG_KEYWORD[10])) cfgb.mapHeight(Integer.parseInt(value));
-		else if  (key.equals(CONFIG_KEYWORD[11])) cfgb.startHexPosP1(buildConfigHexPosArray(value));
-		else if  (key.equals(CONFIG_KEYWORD[12])) cfgb.startHexPosP2(buildConfigHexPosArray(value));
-	}
-
-	public Config readConfig(String src)
-	{
-		src = src.toLowerCase();
-		var cfgb = Config.builder();
-
-		String[] lines = src.split("\n");
-		for (var line : lines)
-		{
-			//validate line
-			if (!line.matches("^ *%s *= *(\\d+)|(\\[((\\(\\d+,\\d+\\))(,\\(\\d+,\\d+\\))*)?])$".formatted(CONFIG_KEYWORD_union()))) continue;
-
-			String[] split = line.split("=");
-
-			String key = split[0].trim();
-			String value = split[1].trim();
-
-			buildConfig(cfgb,key,value);
-		}
-
-		return cfgb.build();
+		else if  (key.equals(CONFIG_KEYWORD[11])) cfgb.startHexPosP1(buildConfigHexPosSet(value));
+		else if  (key.equals(CONFIG_KEYWORD[12])) cfgb.startHexPosP2(buildConfigHexPosSet(value));
 	}
 }

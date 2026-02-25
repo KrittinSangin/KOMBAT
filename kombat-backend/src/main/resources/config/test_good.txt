@@ -1,0 +1,15 @@
+spawn_cost=19
+hex_purchase_cost=48945
+init_budget=99999
+init_hp=1
+turn_budget=72
+max_budget=1066600
+interest_pct=178
+max_turns=1
+max_spawns=210
+map_width=5
+map_height=38
+init_hex_1=[]
+init_hex_2=[(7,7),(7,8),(8,6),(8,7),(8,8),(7,7),(7,8),(8,6),(8,7),(8,8),(20,20)]
+
+lol this line shant pass

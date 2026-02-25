@@ -2,7 +2,6 @@ package com.oop11.kombat_backend.Console;
 
 import com.oop11.kombat_backend.Games.*;
 import com.oop11.kombat_backend.Games.Configs.Config;
-import com.oop11.kombat_backend.Games.Map.HexPos;
 import com.oop11.kombat_backend.Games.Minion.Minion;
 import com.oop11.kombat_backend.Games.Player.PlayerInfo;
 import com.oop11.kombat_backend.Games.Strategies.Strategy;
@@ -27,7 +26,7 @@ public class ConsoleRunner
 
 	private void runGame()
 	{
-		Config cfg = Config.useDefaultConfig();
+		Config cfg = Config.defaultConfig();
 
 		Map<String, Strategy> strategyStorage = parseStrategy(List.of("simpleC","turret"));
 

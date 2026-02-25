@@ -3,6 +3,9 @@ package com.oop11.kombat_backend.Games.Configs;
 import com.oop11.kombat_backend.Games.Map.HexPos;
 import lombok.Builder;
 
+import java.util.Arrays;
+import java.util.Set;
+
 @Builder
 public record Config(
 	double spawnCost,
@@ -18,14 +21,14 @@ public record Config(
 	//additional config
 	int mapWidth,
 	int mapHeight,
-	HexPos[] startHexPosP1,
-	HexPos[] startHexPosP2
+	Set<HexPos> startHexPosP1,
+	Set<HexPos> startHexPosP2
 )
 {
 	/**
 	 * Set all Config field to preset default value
 	 */
-	public static Config useDefaultConfig()
+	public static Config defaultConfig()
 	{
 		return Config.builder()
 			.spawnCost(100)
@@ -36,27 +39,27 @@ public record Config(
 			.maxBudget(10000)
 			.interestPct(10)
 			.maxTurns(10)
-			.maxSpawns(20)
+			.maxSpawns(10)
 			.mapWidth(8)
 			.mapHeight(8)
 			.startHexPosP1(
-				new HexPos[]
-					{
+				Set.of
+					(
 						new HexPos(1, 1),
 						new HexPos(1, 2),
 						new HexPos(1, 3),
 						new HexPos(2, 1),
-						new HexPos(2, 2),
-					})
+						new HexPos(2, 2)
+					))
 			.startHexPosP2(
-				new HexPos[]
-					{
+				Set.of
+					(
 						new HexPos(7, 7),
 						new HexPos(7, 8),
 						new HexPos(8, 6),
 						new HexPos(8, 7),
-						new HexPos(8, 8),
-					})
+						new HexPos(8, 8)
+					))
 			.build();
 	}
 }
