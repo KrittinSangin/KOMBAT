@@ -3,6 +3,7 @@ interface HexPos
     "row": number
     "col": number
 }
+
 interface Config
 {
   "spawnCost": number,
@@ -21,13 +22,14 @@ interface Config
   "startHexPosP1": [HexPos],
   "startHexPosP2": [HexPos]
 }
-interface PlayerIntent
 
+interface PlayerIntent
 {
   "intent": PlayerIntentEnum,
   "hex": HexPos,
   "minion": number
 }
+
 interface PlayerInfo
 {
   "name": string,
@@ -36,23 +38,12 @@ interface PlayerInfo
 interface MinionDTO
 {
   "name": string
-  "index": number
-  "order": number
+  "deckIndex": number
   "team": number
   "hp": number
   "def": number
 }
-interface HexDTO
-{
-  "hexPos": HexPos,
-  "minion": MinionDTO,
-  "haveTeam": boolean,
-  "team": number
-}
-interface HexMapDTO
-{
-  "hexMap": [HexDTO]
-}
+
 interface ExecutionInstanceLogDTO
 {
   "minion": MinionDTO,
@@ -68,22 +59,20 @@ interface ExecutionInstanceLogEntry
 
 interface PlayerDTO
 {
-  "name": string,
-  "team": number,
+  "info" : PlayerInfo,
   "budget": number,
   "interestRatePercentage": number,
   "spawnCount": number,
-  "minionCount": number
+  "territories": [HexPos],
+  "minions" : [MinionDTO]
 }
 
 
 
 interface GameDTO {
-  "player0": PlayerDTO,
-  "player1": PlayerDTO,
-  "map": HexMapDTO,
+  "players" : [PlayerDTO]
+  "team": number,
   "turn": number,
-  "round": number,
   "state": GameStateEnum,
   "lastState": GameStateEnum,
   "winner": number,
