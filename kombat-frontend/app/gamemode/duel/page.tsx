@@ -24,9 +24,9 @@ export default function DuelPage(){
     router.push("/gamemode");
   };
 
-    const moveToCreateRoomPage = () => {
+        const moveToConfigPage = (mode: string) => {
     checkState.getState().setState("duel_create_room");
-    router.push("/gamemode/configuration");
+    router.push(`/gamemode/configuration?mode=${mode}`);
   };
 
     const moveToJoinRoomPage = () => {
@@ -50,9 +50,9 @@ export default function DuelPage(){
     tracking-[5px] ">
                     Duel
                 </h1>
-                    <Button src="" alt="Create Room" overlayText="Create Room" font_size="20" height="300" width="400" color="grey" bottom="-50" left="-410" onClick={moveToCreateRoomPage}></Button>
+                    <Button src="" alt="Create Room" overlayText="Create Room" font_size="20" height="300" width="400" color="grey" bottom="-50" left="-410" onClick={() => moveToConfigPage("Duel")}></Button>
                     <Button src="" alt="Join Room" overlayText="Join Room" font_size="20" height="300" width="400" color="grey" bottom="-50" left="200" onClick={moveToJoinRoomPage} ></Button>
-                    <Button src="" alt="Back" overlayText="Back" font_size="20" height="100" width="200" color="#6a0dad" bottom="-260" left="-500" onClick={moveToGameModePage}></Button>
+                    <Button src="" alt="Back" overlayText="Back" font_size="70" height="89" width="200" color="#6a0dad" bottom="-269" left="-510" onClick={moveToGameModePage}></Button>
             </GameLayout>
         </>
     )
