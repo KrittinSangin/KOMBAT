@@ -91,7 +91,7 @@ public class Hex
 		int hash = 23;
 		hash = 31 * hash + Pos.hashCode();
 		if (owner != null)
-			hash = hash + owner.getPlayerInfo().team();
+			hash = hash + owner.getInfo().team();
 		if (minion != null)
 			hash = 31 * hash + minion.hashCode();
 		return hash;
@@ -104,7 +104,7 @@ public class Hex
 		if (!(o instanceof Hex other)) return false;
 
 		return Pos.equals(other.Pos)
-			&& (owner == null || other.owner == null? owner == other.owner : owner.getPlayerInfo().team() == other.owner.getPlayerInfo().team())
+			&& (owner == null || other.owner == null? owner == other.owner : owner.getInfo().team() == other.owner.getInfo().team())
 			&& (minion == null || other.minion == null? minion == other.minion : minion.equals(other.minion));
 	}
 

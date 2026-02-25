@@ -72,7 +72,7 @@ public class 	TestingUtility
 		HexMap map = TestingUtility.extractHexMap(game);
 		Player player = TestingUtility.extractPlayers(game).get(playerNum);
 		HexPos pos = new HexPos(row,col);
-		Minion minion = player.getDeckMinion(0).prototypeClone();
+		Minion minion = player.getDeckMinionAtIndex(0).prototypeClone();
 
 		map.remove(pos);
 		map.put(pos,minion);

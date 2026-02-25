@@ -9,8 +9,8 @@ import java.util.List;
 @Builder
 public record GameDTO(
 	List<PlayerDTO> players,
+	int team,
 	int turn,
-	int round,
 	GameStateEnum state,
 	GameStateEnum lastState,
 	int winner,

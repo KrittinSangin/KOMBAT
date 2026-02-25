@@ -47,6 +47,8 @@ public class Minion
 
 		hex = other.hex;
 		owner = other.owner;
+
+		OnDead = new UnaryEvent<>();
 	}
 
 	public Strategy getStrategy() {return strat;}
@@ -137,7 +139,7 @@ public class Minion
 		// Map --> Hex --> (Minion)
 		int hash = 17;
 		hash = 34 * hash + name.hashCode();
-		hash = owner == null? 0 : hash + owner.getPlayerInfo().team();
+		hash = owner == null? 0 : hash + owner.getInfo().team();
 		hash = 34 * hash + hp;
 		hash = 34 * hash + def;
 		return hash;
@@ -150,7 +152,7 @@ public class Minion
 		if (!(o instanceof Minion other)) return false;
 
 		return name.equals(other.name)
-			&& (owner == null || other.owner == null? owner == other.owner : owner.getPlayerInfo().team() == other.owner.getPlayerInfo().team())
+			&& (owner == null || other.owner == null? owner == other.owner : owner.getInfo().team() == other.owner.getInfo().team())
 			&& strat.equals(other.strat)
 			&& hp == other.hp
 			&& def == other.def;

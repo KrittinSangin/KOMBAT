@@ -1,7 +1,5 @@
 package com.oop11.kombat_backend.Games.Player;
 
-import com.oop11.kombat_backend.Games.Configs.Config;
-import com.oop11.kombat_backend.Games.DTO.PlayerDTO;
 import com.oop11.kombat_backend.Games.Map.Hex;
 import com.oop11.kombat_backend.Games.Map.HexMap;
 import com.oop11.kombat_backend.Games.Minion.Minion;
@@ -11,64 +9,57 @@ import lombok.Getter;
 
 import java.util.*;
 
+@Getter
 public class Player
 {
 	private final PlayerInfo info;
 
-	@Getter
 	private final Budget budget;
-	@Getter
-	private MinionStorage storage;
-	private Merchant merchant;
-	private HexMap map;
+	private final MinionStorage storage;
+	private final Merchant merchant;
+	private final HexMap map;
 
-	@Getter
 	private final List<Minion> deck;
-	@Getter
 	private final List<Minion> spawns;
-	@Getter
 	private final List<Hex> territories;
 
-	@Getter
-	private int spawnCount = 0;
 	private final int maxSpawns;
+	private int spawnCount = 0;
 
-	public Player(PlayerInfo info, Budget budget, List<Minion> deck, Config cfg)
+	public Player(PlayerInfo info,
+				  List<Minion> deck,
+				  Budget budget,
+				  MinionStorage storage,
+				  Merchant merchant,
+				  HexMap map,
+				  int maxSpawns)
 	{
 		this.info = info;
-		this.budget = budget;
 		this.deck = deck;
+
+		this.budget = budget;
+		this.storage = storage;
+		this.merchant = merchant;
+		this.map = map;
 
 		spawns = new ArrayList<>();
 		territories = new ArrayList<>();
 
-		maxSpawns = (int)cfg.maxSpawns();
+		this.maxSpawns = maxSpawns;
 	}
-
-	/**
-	 * Initialize some of the player's field by Game
-	 */
-	public void initialize(MinionStorage mst, Merchant mch, HexMap map)
-	{
-		storage = mst;
-		merchant = mch;
-		this.map = map;
-	}
-
-	public PlayerInfo getPlayerInfo() {return info;}
 
 	/**
 	 * Get minion from the deck at index idx
 	 *
 	 * @param idx index < deck.Size()
 	 */
-	public Minion getDeckMinion(int idx)
+	public Minion getDeckMinionAtIndex(int idx)
 	{
 		return deck.get(idx);
 	}
 
 	/**
-	 * Player action on turn start, that is the income increase.
+	 * Player action on team start, that is the income increase.
 	 *
 	 * @param turn
 	 */

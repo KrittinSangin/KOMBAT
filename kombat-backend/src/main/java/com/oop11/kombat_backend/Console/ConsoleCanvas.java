@@ -51,7 +51,7 @@ public class ConsoleCanvas implements Canvas
 		drawPlayerStatus(players.get(0), 4, P1_COL_OFFSET);
 		drawPlayerStatus(players.get(1), 4, P2_COL_OFFSET);
 
-		if (game.getTurn() == 0)
+		if (game.getTeam() == 0)
 		{
 			drawDiamond(P1_TURN_INDICATOR_ROW, P1_TURN_INDICATOR_COL);
 		} else
@@ -60,9 +60,9 @@ public class ConsoleCanvas implements Canvas
 		}
 
 		//draw game state
-		String gameStateString = "Round: %d   turn of player: %d   state:%s   ".formatted(
-			game.getRound(),
+		String gameStateString = "Round: %d   team of player: %d   state:%s   ".formatted(
 			game.getTurn(),
+			game.getTeam(),
 			game.getStateString()
 		);
 
@@ -128,7 +128,7 @@ public class ConsoleCanvas implements Canvas
 	private void drawPlayerStatus(Player p, int sr, int sc)
 	{
 		drawString("Player", sr++, sc);
-		drawString(p.getPlayerInfo().name(), sr++, sc);
+		drawString(p.getInfo().name(), sr++, sc);
 		drawString("Budget " + Integer.toString((int) p.getBudget().getBudget()), sr++, sc);
 	}
 
@@ -201,9 +201,9 @@ public class ConsoleCanvas implements Canvas
 			char owner = ' ';
 			char minion = ' ';
 			char minionOwner = ' ';
-			if (hex.haveOwner()) owner = hex.getOwner().getPlayerInfo().name().toUpperCase().toCharArray()[0];
+			if (hex.haveOwner()) owner = hex.getOwner().getInfo().name().toUpperCase().toCharArray()[0];
 			if (hex.haveMinion()) minion = hex.getMinion().getName().toCharArray()[0];
-			if (hex.haveMinion()) minionOwner = hex.getMinion().getOwner().getPlayerInfo().name().toLowerCase().toCharArray()[0];
+			if (hex.haveMinion()) minionOwner = hex.getMinion().getOwner().getInfo().name().toLowerCase().toCharArray()[0];
 
 			drawHex(r, c, owner, minion, minionOwner);
 		}

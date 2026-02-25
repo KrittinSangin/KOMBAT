@@ -3,18 +3,13 @@ package com.oop11.kombat_backend.Games.DTO;
 import com.oop11.kombat_backend.Games.Game;
 import com.oop11.kombat_backend.Games.GameStateEnum;
 import com.oop11.kombat_backend.Games.Logs.ExecutionInstanceLog;
-import com.oop11.kombat_backend.Games.Map.Hex;
-import com.oop11.kombat_backend.Games.Map.HexMap;
 import com.oop11.kombat_backend.Games.Minion.Minion;
 import com.oop11.kombat_backend.Games.Player.Player;
 import com.oop11.kombat_backend.Games.Player.PlayerIntent;
 
-import java.util.List;
-import java.util.Map;
-
 public class DTOFactory
 {
-	public static GameDTO createGameDTO(
+	public GameDTO createGameDTO(
 		Game game,
 		PlayerIntent intent,
 		GameStateEnum beforeComputeState,
@@ -22,12 +17,12 @@ public class DTOFactory
 	)
 	{
 		return GameDTO.builder()
-			.players(game.getPlayers().stream().map(DTOFactory::createPlayerDTO).toList())
+			.players(game.getPlayers().stream().map(this::createPlayerDTO).toList())
+			.team(game.getTeam())
 			.turn(game.getTurn())
-			.round(game.getRound())
 			.state(game.getGameState().getState())
 			.lastState(beforeComputeState)
-			.winner(game.getWinner() == null? -1 : game.getWinner().getPlayerInfo().team())
+			.winner(game.getWinner() == null? -1 : game.getWinner().getInfo().team())
 			.inputIntent(intent)
 			.isStateChanged(beforeComputeState != game.getGameState().getState())
 			.isValidIntent(validateResult)
@@ -35,33 +30,33 @@ public class DTOFactory
 			.isGameOver(game.isGameOver())
 			.isGameResign(game.isGameResign())
 			.isGameDraw(game.isGameDraw())
-			.executionInstanceLog(game.getExecutor().consumeLogAll().stream().map(DTOFactory::createExecutionInstanceLogDTO).toList())
+			.executionInstanceLog(game.getExecutor().consumeLogAll().stream().map(this::createExecutionInstanceLogDTO).toList())
 			.build();
 	}
 
-	public static MinionDTO createMinionDTO(Minion m)
+	public MinionDTO createMinionDTO(Minion m)
 	{
 		return MinionDTO.builder()
 			.name(m.getName())
-			.team(m.getOwner().getPlayerInfo().team())
+			.team(m.getOwner().getInfo().team())
 			.hp(m.getHp())
 			.def(m.getDef())
 			.build();
 	}
 
-	public static PlayerDTO createPlayerDTO(Player p)
+	public PlayerDTO createPlayerDTO(Player p)
 	{
 		return PlayerDTO.builder()
-			.info(p.getPlayerInfo())
+			.info(p.getInfo())
 			.budget(p.getBudget().getBudget())
 			.interestRatePercentage(p.getBudget().getInterestRatePercentage())
 			.spawnCount(p.getSpawnCount())
 			.territories(p.getTerritories().stream().map((x)->x.Pos).toList())
-			.minions(p.getSpawns().stream().map(DTOFactory::createMinionDTO).toList())
+			.minions(p.getSpawns().stream().map(this::createMinionDTO).toList())
 			.build();
 	}
 
-	public static ExecutionInstanceLogDTO createExecutionInstanceLogDTO(ExecutionInstanceLog log)
+	public ExecutionInstanceLogDTO createExecutionInstanceLogDTO(ExecutionInstanceLog log)
 	{
 		return ExecutionInstanceLogDTO.builder()
 			.minion(createMinionDTO(log.minion()))

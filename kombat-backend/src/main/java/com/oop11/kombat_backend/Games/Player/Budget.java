@@ -2,6 +2,7 @@ package com.oop11.kombat_backend.Games.Player;
 
 import com.oop11.kombat_backend.Games.Configs.Config;
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 
 @Getter
 public class Budget
@@ -13,18 +14,13 @@ public class Budget
 	private double budget;
 	private double interestRatePercentage;
 
-	public Budget(Config cfg, double initBudget)
+	public Budget(double initBudget, double turnBudget, double maxBudget, double baseInterestRatePercentage)
 	{
-		this.turnBudget = cfg.turnBudget();
-		this.maxBudget = cfg.maxBudget();
-		this.baseInterestRatePercentage = cfg.interestPct();
+		this.turnBudget = turnBudget;
+		this.maxBudget = maxBudget;
+		this.baseInterestRatePercentage = baseInterestRatePercentage;
 
 		budget = initBudget;
-	}
-
-	public Budget(Config cfg)
-	{
-		this(cfg,cfg.initBudget());
 	}
 
 	/**

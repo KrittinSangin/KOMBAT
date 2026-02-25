@@ -6,13 +6,11 @@ import com.oop11.kombat_backend.Games.Map.Hex;
 import com.oop11.kombat_backend.Games.Map.HexMap;
 import com.oop11.kombat_backend.Games.Map.HexPos;
 import com.oop11.kombat_backend.Games.Minion.Minion;
-import com.oop11.kombat_backend.Games.Player.Budget;
-import com.oop11.kombat_backend.Games.Player.Player;
-import com.oop11.kombat_backend.Games.Player.PlayerIntent;
+import com.oop11.kombat_backend.Games.Player.*;
 import com.oop11.kombat_backend.Games.Minion.MinionStorage;
-import com.oop11.kombat_backend.Games.Player.PlayerIntentEnum;
 import com.oop11.kombat_backend.Games.Strategies.StrategyExecutor;
 import lombok.Getter;
+import org.springframework.http.StreamingHttpOutputMessage;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,7 +18,6 @@ import java.util.List;
 @Getter
 public class Game
 {
-
 	public interface State
 	{
 		String EMPTY_STATE = "EmptyState";
@@ -41,6 +38,7 @@ public class Game
 	{
 		@Getter
 		private final GameStateEnum state;
+
 		public AbstractState(State prev, GameStateEnum state)
 		{
 			this.state = state;
@@ -106,7 +104,7 @@ public class Game
 			if (intent.intent() == PlayerIntentEnum.buyMinion)
 			{
 				Hex hex = map.get(intent.hex());
-				Minion minion = currentPlayer().getDeckMinion(intent.minion());
+				Minion minion = currentPlayer().getDeckMinionAtIndex(intent.minion());
 
 				if (hex == null || minion == null) return;
 
@@ -123,7 +121,7 @@ public class Game
 		@Override
 		public boolean checkSwitchState()
 		{
-			return round > 0;
+			return turn > 0;
 		}
 
 		@Override
@@ -200,7 +198,7 @@ public class Game
 		public BuyMinionState(State prev)
 		{
 			super(prev, GameStateEnum.buyMinion);
-			currentPlayer().onTurnStart(round);
+			currentPlayer().onTurnStart(turn);
 		}
 
 		@Override
@@ -216,7 +214,7 @@ public class Game
 			{
 				if (currentPlayer().spawnMinion(
 					map.get(intent.hex()),
-					currentPlayer().getDeckMinion(intent.minion()))
+					currentPlayer().getDeckMinionAtIndex(intent.minion()))
 				)
 					bought = true;
 				return;
@@ -333,19 +331,24 @@ public class Game
 
 	private final StrategyExecutor executor;
 	private final Merchant merchant;
-	private final MinionStorage storage;
-	private final List<Player> players;
+	private final MinionStorage storage = new MinionStorage();
+	private final List<Player> players = new ArrayList<>();
 	private final HexMap map;
 
+	private final DTOFactory DTOFactory = new DTOFactory();
+	private final PlayerFactory playerFactory;
+
 	private State gameState = new EmptyState();
+
 	private boolean isGameStart = false;
 	private boolean isGameOver = false;
 	private boolean isGameResign = false;
 	private boolean isGameDraw = false;
+
 	private Player winner = null;
 
+	private int team;
 	private int turn;
-	private int round;
 
 	/**
 	 * Create an instance of a game with StartInfo
@@ -357,41 +360,31 @@ public class Game
 		cfg = info.config();
 
 		executor = new StrategyExecutor(cfg);
-		merchant = new Merchant((int) cfg.hexPurchaseCost(),(int) cfg.spawnCost());
-		storage = new MinionStorage();
+		merchant = new Merchant((int) cfg.hexPurchaseCost(), (int) cfg.spawnCost());
 		map = new HexMap(cfg.mapWidth(), cfg.mapHeight());
 
+		playerFactory = new PlayerFactory(storage, merchant, map);
+
 		//initialize local vars
+		team = 0;
 		turn = 0;
-		round = 0;
 
 		//initialize player
-		players = new ArrayList<>();
-
-		Player p1 = new Player(info.info1(), new Budget(cfg), info.deck1(), cfg);
-		p1.initialize(storage, merchant, map);
+		Player p1 = playerFactory.createPlayer(info.info1(), info.deck1(), info.config());
 		for (HexPos pos : cfg.startHexPosP1())
 			p1.buyHex(map.get(pos), true);
 
-		players.add(p1);
-
-		Player p2 = new Player(info.info2(), new Budget(cfg), info.deck2(), cfg);
-		p2.initialize(storage, merchant, map);
+		Player p2 = playerFactory.createPlayer(info.info2(), info.deck2(), info.config());
 		for (HexPos pos : cfg.startHexPosP2())
 			p2.buyHex(map.get(pos), true);
 
+		players.add(p1);
 		players.add(p2);
 	}
 
-	public List<Minion> getMinions()
-	{
-		return storage.getIf((_)->true);
-	}
+	public List<Minion> getMinions() {return storage.getIf((_)->true);}
 
-	public String getStateString()
-	{
-		return gameState.toString();
-	}
+	public String getStateString() {return gameState.toString();}
 
 	public boolean isStarted() {return isGameStart;}
 
@@ -420,13 +413,8 @@ public class Game
 		boolean validateResult = validateIntent(intent);
 		if (validateResult)
 		{
-
 			//if player resign in any state.
-			if (intent.intent().equals(PlayerIntentEnum.resign))
-			{
-				isGameResign = true;
-				gameState = new EndState(gameState);
-			}
+			resolveResignIntent(intent);
 
 			//resolve intent for current state
 			gameState.resolve(intent);
@@ -438,19 +426,28 @@ public class Game
 		return DTOFactory.createGameDTO(this, intent, beforeComputeState, validateResult);
 	}
 
+	private void resolveResignIntent(PlayerIntent intent)
+	{
+		if (intent.intent().equals(PlayerIntentEnum.resign))
+		{
+			isGameResign = true;
+			gameState = new EndState(gameState);
+		}
+	}
+
 	private void nextTurn()
 	{
-		if (++turn >= players.size())
+		if (++team >= players.size())
 		{
-			turn = 0;
-			round++;
+			team = 0;
+			turn++;
 		}
 	}
 
 	private boolean endStateCondition()
 	{
-		//any player minion count reach 0 or round exceeds max turns
-		return currentPlayer().getMinionCount() == 0 || otherPlayer().getMinionCount() == 0 || round > cfg.maxTurns();
+		//any player minion count reach 0 or turn exceeds max turns
+		return currentPlayer().getMinionCount() == 0 || otherPlayer().getMinionCount() == 0 || turn > cfg.maxTurns();
 	}
 
 	private Player calculateWinner()
@@ -493,12 +490,12 @@ public class Game
 
 	private Player currentPlayer()
 	{
-		return players.get(turn);
+		return players.get(team);
 	}
 
 	private Player otherPlayer()
 	{
-		int other = turn == 0 ? 1 : 0;
+		int other = team == 0 ? 1 : 0;
 		return players.get(other);
 	}
 
