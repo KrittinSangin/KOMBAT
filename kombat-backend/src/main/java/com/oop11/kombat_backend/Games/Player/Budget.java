@@ -1,8 +1,6 @@
 package com.oop11.kombat_backend.Games.Player;
 
-import com.oop11.kombat_backend.Games.Configs.Config;
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
 
 @Getter
 public class Budget
@@ -12,7 +10,8 @@ public class Budget
 	private final double baseInterestRatePercentage;
 
 	private double budget;
-	private double interestRatePercentage;
+
+	public int currentTurn;
 
 	public Budget(double initBudget, double turnBudget, double maxBudget, double baseInterestRatePercentage)
 	{
@@ -21,6 +20,7 @@ public class Budget
 		this.baseInterestRatePercentage = baseInterestRatePercentage;
 
 		budget = initBudget;
+		currentTurn = 0;
 	}
 
 	/**
@@ -29,21 +29,22 @@ public class Budget
 	 */
 	public void income(int turn)
 	{
-		calculateInterestRatePercentage(turn);
-		budget += turnBudget + interest(turn);
+		currentTurn = turn;
+
+		budget += turnBudget + interest();
 
 		//limit max budget
 		if (budget > maxBudget) budget = maxBudget;
 	}
 
-	private double interest(int turn)
-	{
-		return budget * interestRatePercentage / 100;
-	}
+	private double interest() {return budget < 1 ? 0 : budget * getInterestRatePercentage() / 100;}
 
-	private void calculateInterestRatePercentage(int turn)
+	public double getInterestRatePercentage()
 	{
-		interestRatePercentage = baseInterestRatePercentage * Math.log10(budget) * Math.log(turn);
+		double log10Budget = budget < 1 ? 0 : Math.log10(budget);
+		double lnTurn = currentTurn < 1 ? 0 : Math.log(currentTurn);
+
+		return baseInterestRatePercentage * log10Budget * lnTurn;
 	}
 	/**
 	 * have enough budget for this price

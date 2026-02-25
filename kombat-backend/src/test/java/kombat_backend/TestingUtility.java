@@ -42,14 +42,28 @@ public class TestingUtility
 		return instance;
 	}
 
-//	public static Game instantiateGameEmpty()
-//	{
-//		Config cfg = Config.useDefaultConfig();
-//	}
+	public static Game instantiateGameEmpty()
+	{
+		Config cfg = Config.defaultConfig();
+
+		PlayerInfo p1 = new PlayerInfo("A", 0);
+		PlayerInfo p2 = new PlayerInfo("B", 1);
+
+		List<Minion> deck = new ArrayList<>();
+
+		StartInfo sInfo = new StartInfo(cfg,p1,p2,deck,deck);
+
+		return new Game(sInfo);
+	}
 
 	public static List<Player> extractPlayers(Game game)
 	{
 		return game.getPlayers();
+	}
+
+	public static Player extractPlayersOfTeam(Game game, int team)
+	{
+		return game.getPlayers().get(team);
 	}
 
 	public static HexMap extractHexMap(Game game)
@@ -66,16 +80,15 @@ public class TestingUtility
 	{
 		return TestingUtility.forcePlaceControllableMinion(game,1,1);
 	}
-
 	public static Minion forcePlaceControllableMinion(Game game, int row, int col)
 	{
 		return forcePlaceControllableMinion(game,row,col,0);
 	}
 
-	public static Minion forcePlaceControllableMinion(Game game, int row, int col, int playerNum)
+	public static Minion forcePlaceControllableMinion(Game game, int row, int col, int team)
 	{
 		HexMap map = TestingUtility.extractHexMap(game);
-		Player player = TestingUtility.extractPlayers(game).get(playerNum);
+		Player player = TestingUtility.extractPlayers(game).get(team);
 		HexPos pos = new HexPos(row,col);
 		Minion minion = player.getDeckMinionAtIndex(0).prototypeClone();
 
@@ -88,9 +101,9 @@ public class TestingUtility
 		return minion;
 	}
 
-	public static void forcePlaceMinion(Game game, int row, int col, int playerNum)
+	public static void forcePlaceMinion(Game game, int row, int col, int team)
 	{
-		forcePlaceControllableMinion(game,row,col,playerNum);
+		forcePlaceControllableMinion(game,row,col,team);
 	}
 
 	public static void forceRemoveMinion(Game game, int row, int col)

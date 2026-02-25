@@ -3,9 +3,12 @@ package com.oop11.kombat_backend.Games.DTO;
 import com.oop11.kombat_backend.Games.Game;
 import com.oop11.kombat_backend.Games.GameStateEnum;
 import com.oop11.kombat_backend.Games.Logs.ExecutionInstanceLog;
+import com.oop11.kombat_backend.Games.Map.HexPos;
 import com.oop11.kombat_backend.Games.Minion.Minion;
 import com.oop11.kombat_backend.Games.Player.Player;
 import com.oop11.kombat_backend.Games.Player.PlayerIntent;
+
+import java.util.Set;
 
 public class DTOFactory
 {
@@ -51,7 +54,7 @@ public class DTOFactory
 			.budget(p.getBudget().getBudget())
 			.interestRatePercentage(p.getBudget().getInterestRatePercentage())
 			.spawnCount(p.getSpawnCount())
-			.territories(p.getTerritories().stream().map((x)->x.Pos).toList())
+			.territories(Set.copyOf(p.getTerritories().stream().map((x)->x.Pos).toList()))
 			.minions(p.getSpawns().stream().map(this::createMinionDTO).toList())
 			.build();
 	}

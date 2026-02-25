@@ -4,6 +4,7 @@ import com.oop11.kombat_backend.Games.Map.HexPos;
 import lombok.Builder;
 
 @Builder
+@Deprecated
 public record HexDTO(
 	HexPos hexPos,
 	boolean isOwn,

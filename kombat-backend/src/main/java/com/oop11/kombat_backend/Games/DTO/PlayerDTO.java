@@ -7,6 +7,7 @@ import lombok.Builder;
 import lombok.extern.jackson.Jacksonized;
 
 import java.util.List;
+import java.util.Set;
 
 @Builder
 public record PlayerDTO(
@@ -14,7 +15,7 @@ public record PlayerDTO(
 	double budget,
 	double interestRatePercentage,
 	int spawnCount,
-	List<HexPos> territories,
+	Set<HexPos> territories,
 	List<MinionDTO> minions
 )
 {

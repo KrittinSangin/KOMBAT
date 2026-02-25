@@ -16,7 +16,6 @@ import static org.junit.jupiter.api.Assertions.*;
 class ConfigReaderTest
 {
 	@Test
-	@Disabled
 	void testValidationREGEX()
 	{
 		String regex = "(\\[((\\(\\d+,\\d+\\))(,\\(\\d+,\\d+\\))*)?])";
@@ -35,7 +34,6 @@ class ConfigReaderTest
 	}
 
 	@Test
-	@Disabled
 	void readConfig()
 	{
 		ConfigReader cr = new ConfigReader();

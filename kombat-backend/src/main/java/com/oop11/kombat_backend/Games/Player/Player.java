@@ -128,7 +128,7 @@ public class Player
 	 */
 	public boolean spawnMinion(Hex hex, Minion m, boolean bypass)
 	{
-		if (bypass)
+		if (!bypass)
 		{
 			//spawn count guard
 			if (spawnCount == maxSpawns) return false;
@@ -138,8 +138,12 @@ public class Player
 
 		}
 
+		//hex Occupy Guard
+		if (hex.haveMinion()) return false;
+
 		//budget guard
 		Minion minion = bypass ? m : merchant.buyMinion(this, m);
+
 		if (minion == null) return false;
 
 		//clone from prototype (deck)
