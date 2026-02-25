@@ -11,7 +11,7 @@ interface Config
   "initHp": number,
   "turnBudget": number,
   "maxBudget": number,
-  "numbererestPct": number,
+  "interestPct": number,
   "maxTurns": number,
   "maxSpawns": number,
 
@@ -30,12 +30,12 @@ interface PlayerIntent
 }
 interface PlayerInfo
 {
-  "name": String,
+  "name": string,
   "team": number
 }
 interface MinionDTO
 {
-  "name": String
+  "name": string
   "index": number
   "order": number
   "team": number
@@ -68,7 +68,7 @@ interface ExecutionInstanceLogEntry
 
 interface PlayerDTO
 {
-  "name": String,
+  "name": string,
   "team": number,
   "budget": number,
   "interestRatePercentage": number,
