@@ -1,45 +1,45 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import {useEffect, useState} from "react";
 import GameLayout from "../../../components/GameLayout"
 import Button from "../../../components/Button"
-import { useRouter } from "next/navigation";
-import { checkState } from "../../page";
+import {useRouter} from "next/navigation";
+import {checkState} from "../../page";
 
-export default function DuelPage(){
-  const router = useRouter();
-  const [isAuthorized, setIsAuthorized] = useState(false);
+export default function DuelPage() {
+    const router = useRouter();
+    const [isAuthorized, setIsAuthorized] = useState(false);
 
-  useEffect(() => {
-    if (checkState.getState().state !== "duel") {
-      router.push("/forbidden");
-    } else {
-      setIsAuthorized(true);
-    }
-  }, [router]);
+    useEffect(() => {
+        if (checkState.getState().state !== "duel") {
+            router.push("/forbidden");
+        } else {
+            setIsAuthorized(true);
+        }
+    }, [router]);
 
 
     const moveToGameModePage = () => {
-      checkState.getState().setState("gamemode");
-    router.push("/gamemode");
-  };
+        checkState.getState().setState("gamemode");
+        router.push("/gamemode");
+    };
 
-        const moveToConfigPage = (mode: string) => {
-    checkState.getState().setState("duel_create_room");
-    router.push(`/configuration?mode=${mode}`);
-  };
+    const moveToConfigPage = (mode: string) => {
+        checkState.getState().setState("duel_create_room");
+        router.push(`/configuration?mode=${mode}`);
+    };
 
     const moveToJoinRoomPage = () => {
-    router.push("/gamemode/duel/join_room");
-  };
+        router.push("/gamemode/duel/join_room");
+    };
 
-  if (!isAuthorized) {
+    if (!isAuthorized) {
+        return (
+            <GameLayout src="/homepage_bg.jpeg" alt="Duel"/>
+        );
+    }
+
     return (
-      <GameLayout src="/homepage_bg.jpeg" alt="Duel" />
-    );
-  }
-
-    return(
         <>
             <GameLayout src="/homepage_bg.jpeg" alt="Duel">
                 <h1 className="relative
@@ -50,9 +50,12 @@ export default function DuelPage(){
     tracking-[5px] ">
                     Duel
                 </h1>
-                    <Button src="" alt="Create Room" overlayText="Create Room" font_size="20" height="300" width="400" color="grey" bottom="-50" left="-410" onClick={() => moveToConfigPage("Duel")}></Button>
-                    <Button src="" alt="Join Room" overlayText="Join Room" font_size="20" height="300" width="400" color="grey" bottom="-50" left="200" onClick={moveToJoinRoomPage} ></Button>
-                    <Button src="" alt="Back" overlayText="Back" font_size="70" height="89" width="200" color="#6a0dad" bottom="-269" left="-510" onClick={moveToGameModePage}></Button>
+                <Button src="" alt="Create Room" overlayText="Create Room" font_size="20" height="300" width="400"
+                        color="grey" bottom="-50" left="-410" onClick={() => moveToConfigPage("Duel")}></Button>
+                <Button src="" alt="Join Room" overlayText="Join Room" font_size="20" height="300" width="400"
+                        color="grey" bottom="-50" left="200" onClick={moveToJoinRoomPage}></Button>
+                <Button src="" alt="Back" overlayText="Back" font_size="70" height="89" width="200" color="#6a0dad"
+                        bottom="-269" left="-510" onClick={moveToGameModePage}></Button>
             </GameLayout>
         </>
     )

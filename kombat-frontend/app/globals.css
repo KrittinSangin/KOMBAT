@@ -2,7 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 @import 'tailwindcss';
- 
+
 @theme inline {
-  --font-sans: var(--font-jersey25);
+    --font-sans: var(--font-jersey25);
 }
