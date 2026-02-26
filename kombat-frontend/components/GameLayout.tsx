@@ -17,7 +17,7 @@ export default function GameLayout({children,src,alt}:PropsWithChildren<GameLayo
               fill
               className="object-cover"
             />
-            <div className="relative z-10">{children}</div>
+            <div className="object-cover z-10">{children}</div>
         </main>
         </>
     )
