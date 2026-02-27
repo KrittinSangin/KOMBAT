@@ -93,7 +93,7 @@ export default function Dropdown() {
     </div>
 
     {content && (
-        <div className="absolute top-[242px] left-[0px] w-[100%] h-[71%] border p-4 overflow-y-auto bg-black whitespace-pre-wrap" style={{color:"#dddddd"}}>
+        <div className="absolute top-[242px] left-[0px] w-[100%] h-[71%] border p-4 overflow-y-auto scrollbar scrollbar-thin scrollbar-thumb-neutral-200 scrollbar-track-neutral-300 bg-[#696969] whitespace-pre-wrap" style={{color:"#dddddd"}}>
           {content}
         </div>
       )}
@@ -122,10 +122,11 @@ export default function Dropdown() {
       <div className="py-2 pl-3 text-2xl border absolute top-[201px] left-[0px] w-[100%] h-[5%]" style={{backgroundColor:"#fefefe",borderBlockColor:"#696969",color:"#696969"}}
       onClick={() => setShowEditor(true)}>
         Create New
+        <div className="absolute text-4xl top-[0px] left-[700px]">+</div>
       </div>
 
       {showEditor && (
-        <div className="absolute top-[242px] left-[0px] w-[100%] h-[71%] border p-4 overflow-y-auto bg-black whitespace-pre-wrap" style={{color:"#dddddd"}}>
+        <div className="absolute top-[242px] left-[0px] w-[100%] h-[71%] border p-4 overflow-y-auto bg-[#696969] whitespace-pre-wrap" style={{color:"#dddddd"}}>
           <textarea
             className="w-full h-full resize-none"
             placeholder="Enter your strategy here..."
