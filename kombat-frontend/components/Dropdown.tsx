@@ -122,7 +122,7 @@ export default function Dropdown() {
       <div className="py-2 pl-3 text-2xl border absolute top-[201px] left-[0px] w-[100%] h-[5%]" style={{backgroundColor:"#fefefe",borderBlockColor:"#696969",color:"#696969"}}
       onClick={() => setShowEditor(true)}>
         Create New
-        <div className="absolute text-4xl top-[0px] left-[700px]">+</div>
+        <div className="absolute text-xl top-[0px] left-[700px]">+</div>
       </div>
 
       {showEditor && (
@@ -140,7 +140,7 @@ export default function Dropdown() {
   
     <Button src="" alt="Save" overlayText="Save" onClick={handleSave} bottom="0" left="734" color="purple" font_size="20" height="80" width="100"></Button>
      <Button src="" alt="Compile" overlayText="Compile"  bottom="100" left="734" color="purple" font_size="20" height="80" width="100"></Button>
-      <Button src="" alt="Edit" overlayText="Edit" bottom="500" left="734" color="purple" font_size="20" height="80" width="100" ></Button>
+      <Button src="" alt="Edit" overlayText="Edit" bottom="200" left="734" color="purple" font_size="20" height="80" width="100" ></Button>
       </>
   )
 }

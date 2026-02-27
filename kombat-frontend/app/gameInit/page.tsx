@@ -6,6 +6,7 @@ import StrategyBox from "../../components/StrategyBox";
 import Button from "../../components/Button";
 import { useSearchParams } from "next/navigation";
 import GameLayout from "../../components/GameLayout";
+import MinionProfile from "../../components/MinionProfile";
 
 export default function GameInitPage() {
     return(
@@ -14,6 +15,7 @@ export default function GameInitPage() {
             </GameLayout> 
                 <Navbar title="Player1" />
                 <StrategyBox></StrategyBox>
+                <MinionProfile></MinionProfile>
         </>
     )
 }
