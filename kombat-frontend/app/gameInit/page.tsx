@@ -8,12 +8,13 @@ import { useSearchParams } from "next/navigation";
 import GameLayout from "../../components/GameLayout";
 
 export default function GameInitPage() {
+    const months =["Jan","feb"];
     return(
         <>
             <GameLayout src="/Blue_bg.jpeg" alt="Background Image" >
-                <StrategyBox></StrategyBox>
-                <Navbar title="Player1" />
             </GameLayout> 
+                <Navbar title="Player1" />
+                <StrategyBox></StrategyBox>
         </>
     )
 }
