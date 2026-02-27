@@ -6,7 +6,26 @@ import { useRouter } from "next/dist/client/components/navigation";
 import { checkState } from "../../../page";
 import { useState } from "react";
 
+import { create } from "zustand";
+import { persist } from "zustand/middleware";
 
+type RandState = {
+  code: string;
+  randomixe: () => void;
+};
+
+export const rand = create<RandState>()(
+  persist(
+    (set) => ({
+      code: "",
+      randomixe: () =>
+        set({ code: Math.random().toString(36).substring(2, 6).toUpperCase() }),
+    }),
+    {
+      name: "rand-storage", // key in localStorage
+    }
+  )
+);
 export default function JoinRoomPage(){
     const router = useRouter();
     const [Code, setCode] = useState("");
@@ -19,7 +38,7 @@ export default function JoinRoomPage(){
     checkState.getState().setState("duel");
         router.push("/gamemode/duel");
     };
-    
+
     return (
         <>
             <GameLayout src="/homepage_bg.jpeg" alt="Join Room" >

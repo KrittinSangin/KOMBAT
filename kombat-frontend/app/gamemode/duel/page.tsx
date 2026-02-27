@@ -5,7 +5,7 @@ import GameLayout from "../../../components/GameLayout"
 import Button from "../../../components/Button"
 import { useRouter } from "next/navigation";
 import { checkState } from "../../page";
-
+import { rand } from "./join_room/page";
 export default function DuelPage(){
   const router = useRouter();
   const [isAuthorized, setIsAuthorized] = useState(false);
@@ -26,6 +26,12 @@ export default function DuelPage(){
 
         const moveToConfigPage = (mode: string) => {
     checkState.getState().setState("duel_create_room");
+  rand.getState().randomixe(); 
+
+// TODO: Send the randomized code to the back-end here before navigating to the configuration page
+// possibly fetch(env.LINK+"/???")
+  console.log(rand.getState().code);
+
     router.push(`/configuration?mode=${mode}`);
   };
 
