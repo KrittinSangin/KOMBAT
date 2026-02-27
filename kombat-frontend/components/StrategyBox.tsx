@@ -1,7 +1,6 @@
 "use client"
 
 import Dropdown from "./Dropdown";
-import Source from "./SourceBox";
 
 export default function StrategyBox(){
     const months = ["jan", "feb"];
@@ -11,8 +10,7 @@ export default function StrategyBox(){
                 <div className="z-20 absolute w-[100%] h-[5%] top-[80px] left-[0px]">
                     <p  className="text-3xl text-center" style={{color:"#696969"}}>Strategy</p>
                 </div>
-                <Dropdown options={months}></Dropdown>
-                <Source></Source>
+                <Dropdown ></Dropdown>
             </div>
         </>
     )
