@@ -32,7 +32,7 @@ const Dropdown = ({ options }: DropdownProps) => {
   }, [strategySelected])
 
   return (
-    <div className="absolute top-[120px] left-[0px] w-[100%] h-[15%] z-50">
+    <div className="absolute top-[120px] left-[0px] w-[100%] h-[15%]">
       <ClickAwayListener onClickAway={HandleClickAway}>
       <div
         onClick={() => setIsDropdownVisible(!isDropdownVisible)}
