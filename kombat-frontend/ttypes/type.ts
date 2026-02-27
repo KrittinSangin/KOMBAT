@@ -1,7 +1,24 @@
+import {
+    ExecutionInstanceLogFunction,
+    ExecutionInstanceLogFunctionTypeOf,
+    GameStateEnum,
+    HaltReason,
+    HexDir, PlayerIntentEnum
+} from "./enums";
+
 export interface HexPos
 {
     "row": number
     "col": number
+}
+
+export interface StartInfo
+{
+    config: Config,
+    p1info: PlayerInfo,
+    p2info: PlayerInfo,
+    deck1: MinionDTO[],
+    deck2: MinionDTO[]
 }
 
 export interface Config
@@ -19,8 +36,8 @@ export interface Config
   "mapWidth": number,
   "mapHeight": number,
 
-  "startHexPosP1": [HexPos],
-  "startHexPosP2": [HexPos]
+  "startHexPosP1": HexPos[],
+  "startHexPosP2": HexPos[]
 }
 
 export interface PlayerIntent
@@ -47,7 +64,7 @@ export interface MinionDTO
 export interface ExecutionInstanceLogDTO
 {
   "minion": MinionDTO,
-  "entries": [ExecutionInstanceLogEntry],
+  "entries": ExecutionInstanceLogEntry[],
   "reason": HaltReason
 }
 export interface ExecutionInstanceLogEntry
@@ -63,14 +80,14 @@ export interface PlayerDTO
   "budget": number,
   "interestRatePercentage": number,
   "spawnCount": number,
-  "territories": [HexPos],
-  "minions" : [MinionDTO]
+  "territories": HexPos[],
+  "minions" : MinionDTO[]
 }
 
 
 
 export interface GameDTO {
-  "players" : [PlayerDTO]
+  "players" : PlayerDTO[]
   "team": number,
   "turn": number,
   "state": GameStateEnum,
@@ -83,7 +100,7 @@ export interface GameDTO {
   "isGameOver": boolean,
   "isGameResign": boolean,
   "isGameDraw": boolean,
-  "executionInstanceLog": [ExecutionInstanceLogDTO]
+  "executionInstanceLog": ExecutionInstanceLogDTO[]
 }
 
 
