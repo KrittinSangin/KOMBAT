@@ -48,27 +48,6 @@ export default function Dropdown() {
   setShowEditor(true);
 }
 
-  const handleUpdate = () => {
-  if (editingIndex === null) return;
-
-  const oldFile = files[editingIndex];
-
-  const updatedFile = new File(
-    [editorContent],
-    oldFile.name,
-    { type: "text/plain" }
-  );
-
-  setFiles(prev =>
-    prev.map((file, i) =>
-      i === editingIndex ? updatedFile : file
-    )
-  );
-
-  setEditingIndex(null);
-  setShowEditor(false);
-};
-
   const handleSave = () => {
   if (!editorContent.trim()) return;
 
@@ -158,9 +137,9 @@ export default function Dropdown() {
 
       {/* save button */}
   
-    <Button src="" alt="Save" overlayText="Save" onClick={editingIndex !== null ? handleUpdate : handleSave} bottom="0" left="734" color="purple" font_size="20" height="80" width="100"></Button>
+    <Button src="" alt="Save" overlayText="Save" onClick={handleSave} bottom="0" left="734" color="purple" font_size="20" height="80" width="100"></Button>
      <Button src="" alt="Compile" overlayText="Compile"  bottom="100" left="734" color="purple" font_size="20" height="80" width="100"></Button>
-      <Button src="" alt="Edit" overlayText="Edit" bottom="500" left="734" color="purple" font_size="20" height="80" width="100" onClick={() => HandleEdit}></Button>
+      <Button src="" alt="Edit" overlayText="Edit" bottom="500" left="734" color="purple" font_size="20" height="80" width="100" ></Button>
       </>
   )
 }
