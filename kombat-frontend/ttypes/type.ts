@@ -1,10 +1,10 @@
-interface HexPos
+export interface HexPos
 {
     "row": number
     "col": number
 }
 
-interface Config
+export interface Config
 {
   "spawnCost": number,
   "hexPurchaseCost": number,
@@ -23,19 +23,19 @@ interface Config
   "startHexPosP2": [HexPos]
 }
 
-interface PlayerIntent
+export interface PlayerIntent
 {
   "intent": PlayerIntentEnum,
   "hex": HexPos,
   "minion": number
 }
 
-interface PlayerInfo
+export interface PlayerInfo
 {
   "name": string,
   "team": number
 }
-interface MinionDTO
+export interface MinionDTO
 {
   "name": string
   "deckIndex": number
@@ -44,20 +44,20 @@ interface MinionDTO
   "def": number
 }
 
-interface ExecutionInstanceLogDTO
+export interface ExecutionInstanceLogDTO
 {
   "minion": MinionDTO,
   "entries": [ExecutionInstanceLogEntry],
   "reason": HaltReason
 }
-interface ExecutionInstanceLogEntry
+export interface ExecutionInstanceLogEntry
 {
   "typeof": ExecutionInstanceLogFunctionTypeOf,
   "function": ExecutionInstanceLogFunction,
   "dir": HexDir
 }
 
-interface PlayerDTO
+export interface PlayerDTO
 {
   "info" : PlayerInfo,
   "budget": number,
@@ -69,7 +69,7 @@ interface PlayerDTO
 
 
 
-interface GameDTO {
+export interface GameDTO {
   "players" : [PlayerDTO]
   "team": number,
   "turn": number,

@@ -32,8 +32,8 @@ export default function Homepage() {
     }
 
     const toGameScene = () => {
-        checkState.getState().setState("gameScene");
-        router.push("/gameScene");
+        checkState.getState().setState("game");
+        router.push("/game");
     }
 
     return (
@@ -59,7 +59,7 @@ export default function Homepage() {
             <button onClick={testGameInit}
                     className="border-2 border-black bg-white text-black px-4 py-2 rounded-md">Init
             </button>
-            {/* /// */}
+            {/* This one is for going to game scene */}
             <button onClick={toGameScene}
                     className="border-2 border-black bg-white text-black px-4 py-2 rounded-md">Game
             </button>
