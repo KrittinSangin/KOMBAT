@@ -2,7 +2,6 @@
 
 import { useEffect, useState } from "react";
 import GameLayout from "../../components/GameLayout";
-import ConfigBox from "./components/ConfigBox";
 import CodeHost from "./components/CodeHost";
 import ProfileConfig from "./components/ProfileConfig";
 import Button from "../../components/Button";
@@ -11,6 +10,8 @@ import { checkState } from "../page";
 import { useSearchParams } from "next/navigation";
 import getRandomCode from "../gamemode/page";
 import { rand } from "../gamemode/duel/join_room/page";
+import Slider from "../../components/Slider";
+
  export default function CreateRoomPage(){
     const searchParams = useSearchParams();
     const mode = searchParams.get("mode");
@@ -21,28 +22,122 @@ import { rand } from "../gamemode/duel/join_room/page";
         checkState.getState().setState("duel");
         router.push("/gamemode/duel");
     };
-    let InitHp_min:number = 1
-    let InitHp_max:number = 100
-    let MaxTurn_min:number = 1
-    let MaxTurn_max:number = 100
-    let InitBudget_min:number = 1
-    let InitBudget_max:number = 100
-    let MaxBudget_min:number = 1
-    let MaxBudget_max:number = 100
-    let InterestPct_min:number = 1
-    let InterestPct_max:number = 100
-    let HexPurchaseCost_min:number = 1
-    let HexPurchaseCost_max:number = 100
-    let SpawnCost_min:number = 1
-    let SpawnCost_max:number= 100
-    let MaxSpawn_min:number = 1
-    let MaxSpawn_max:number = 100
+
+    const sliderRange = {
+     initHp: { min: 1, max: 100 },
+     minionCount: { min: 1, max: 5 },
+     maxTurn:{min:1 ,max: 100},
+     initBudget:{min:1 ,max: 100},
+     maxBudget:{min:1 ,max: 100},
+     interestPct:{min:1 ,max: 100},
+     hexPurchaseCost:{min:1 ,max: 100},
+     spawnCost:{min:1 ,max: 100},
+     maxSpawn:{min:1 ,max: 100},
+    }
+    let left:number=-100;
+    let borderColor:string = "grey";
+    let sliderColor:string = "white";
+
+    const [config, setConfig] = useState({
+  minionCount: sliderRange.minionCount.max,
+  initHp: sliderRange.initHp.min,
+  maxTurn: sliderRange.maxTurn.min,
+  initBudget: sliderRange.initBudget.min,
+  maxBudget: sliderRange.maxBudget.min,
+  interestPct: sliderRange.interestPct.min,
+  hexPurchaseCost: sliderRange.hexPurchaseCost.min,
+  spawnCost: sliderRange.spawnCost.min,
+  maxSpawn: sliderRange.maxSpawn.min
+})
+
+    const handleMinionCountChange = (value: number) => {
+  setConfig(prev => ({
+    ...prev,
+    minionCount: value
+  }))
+}
+
+    const handleInitHpChange = (value: number) => {
+  setConfig(prev => ({
+    ...prev,
+    initHp: value
+  }))
+}
+
+    const handleinitBudgetChange = (value: number) => {
+  setConfig(prev => ({
+    ...prev,
+    initBudget: value
+  }))
+}
+
+    const handleinterestPctChange = (value: number) => {
+  setConfig(prev => ({
+    ...prev,
+    interestPct: value
+  }))
+}
+
+        const handlemaxBudgetChange = (value: number) => {
+  setConfig(prev => ({
+    ...prev,
+    maxBudget: value
+  }))
+}
+
+        const handlehexPerchaseCostChange = (value: number) => {
+  setConfig(prev => ({
+    ...prev,
+    hexPurchaseCost: value
+  }))
+}
+
+    const handlemaxTurnChange = (value: number) => {
+  setConfig(prev => ({
+    ...prev,
+    maxTurn: value
+  }))
+}
+
+        const handlemaxSpawnChange = (value: number) => {
+  setConfig(prev => ({
+    ...prev,
+    maxSpawn: value
+  }))
+}
+
+        const handlespawnCostChange = (value: number) => {
+  setConfig(prev => ({
+    ...prev,
+    spawnCost: value
+  }))
+}
 
     return(
         <>
          <GameLayout src="/homepage_bg.jpeg" alt="Create Room">
          <p className="text-color-[#000] w-[800px] text-[70px] font-jersey25 tracking-[5px] absolute top-[-380px] text-center">Mode {mode}</p>
-            <ConfigBox InitHp_min={InitHp_min} InitHp_max={InitHp_max} MaxTurn_min={MaxTurn_min} MaxTurn_max={MaxTurn_max} InitBudget_min={InitBudget_min} InitBudget_max={InitBudget_max} MaxBudget_min={MaxBudget_min} MaxBudget_max={MaxBudget_max} InterestPct_min={InterestPct_min} InterestPct_max={InterestPct_max} HexPurchaseCost_min={HexPurchaseCost_min} HexPurchaseCost_max={HexPurchaseCost_max} SpawnCost_min={SpawnCost_min} SpawnCost_max={SpawnCost_max} MaxSpawn_min={MaxSpawn_min} MaxSpawn_max={MaxSpawn_max}></ConfigBox>
+             <div className="box-content fixed left-0 top-0 w-[50%] h-full" style={{ backgroundColor: "#B8B8B8" }}>
+                                       <h1 className="text-color-[#000] text-[70px] font-jersey25 tracking-[2px] absolute top-5 left-44">
+                                           Configuration
+                                           <div className="box-content fixed left-10 top-35 w-[44.5%] h-[70%]" style={{ backgroundColor: "#D9D9D9" }}>
+                                               
+                                                   <Slider min={sliderRange.initHp.min} max={sliderRange.initHp.max} bottom={500} left={left} overlayText="Init HP" borderColor={borderColor} sliderColor={sliderColor} value={config.initHp} setState={handleInitHpChange}></Slider>
+                                                   <Slider min={sliderRange.maxTurn.min} max={sliderRange.maxTurn.max} bottom={450} left={left} overlayText="Max turn" borderColor={borderColor} sliderColor={sliderColor} value={config.maxTurn} setState={handlemaxTurnChange}></Slider>
+                                                   <Slider min={sliderRange.initBudget.min} max={sliderRange.initBudget.max} bottom={400} left={left} overlayText="Init Budget" borderColor={borderColor} sliderColor={sliderColor} value={config.initBudget} setState={handleinitBudgetChange}></Slider>
+                                                   <Slider min={sliderRange.maxBudget.min} max={sliderRange.maxBudget.max} bottom={350} left={left} overlayText="Max Budget" borderColor={borderColor} sliderColor={sliderColor} value={config.maxBudget} setState={handlemaxBudgetChange}></Slider>
+                                                   <Slider min={sliderRange.interestPct.min} max={sliderRange.interestPct.max} bottom={300} left={left} overlayText="Interest Pct" borderColor={borderColor} sliderColor={sliderColor} value={config.interestPct} setState={handleinterestPctChange}></Slider>
+                                                   <Slider min={sliderRange.hexPurchaseCost.min} max={sliderRange.hexPurchaseCost.max} bottom={250} left={left} overlayText="Hex Purchase Cost" borderColor={borderColor} sliderColor={sliderColor} value={config.hexPurchaseCost} setState={handlehexPerchaseCostChange}></Slider>
+                                                   <Slider min={sliderRange.spawnCost.min} max={sliderRange.spawnCost.max} bottom={200} left={left} overlayText="Spawn Cost" borderColor={borderColor} sliderColor={sliderColor} value={config.spawnCost} setState={handlespawnCostChange}></Slider>
+                                                   <Slider min={sliderRange.maxSpawn.min} max={sliderRange.maxSpawn.max} bottom={150} left={left} overlayText="Max Spawn" borderColor={borderColor} sliderColor={sliderColor} value={config.maxSpawn} setState={handlemaxSpawnChange}></Slider>
+                                                   <Slider min={sliderRange.minionCount.min} max={sliderRange.minionCount.max} bottom={100} left={left} overlayText="Each Minions Per Team" borderColor={borderColor} sliderColor={sliderColor} value={config.minionCount} setState={handleMinionCountChange} ></Slider>
+                                                   <div className="absolute w-[200px] h-[40px] bottom-[30px] left-[35%]" style={{backgroundColor:"#a8a8a8"}}>
+                                                    <p className="text-white text-[25px] text-center">Set to default</p>
+                                                   </div>
+                                               
+                                           </div>
+                                       </h1>
+                                   </div>
             <CodeHost number_={ac}></CodeHost>
             <ProfileConfig online={true} team={1} left={900} top={310}></ProfileConfig>
             <ProfileConfig online={false} team={2} left={900} top={425}></ProfileConfig>

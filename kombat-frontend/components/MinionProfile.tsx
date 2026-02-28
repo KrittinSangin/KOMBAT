@@ -20,7 +20,7 @@ export default function MinionProfile(){
             <div className="absolute top-[550px] left-[1010px] w-50 h-15 " style={{backgroundColor:"#fbffb5"}}>
                 <input type="text" value={minionName} onChange={minionNameChange} className="absolute top-[0px] left-[0px] w-full h-full text-[30px] text-center font-jersey25" />
             </div>
-            <Slider min={0} max={100} bottom={100} left={660} overlayText={"Defense Factor"} borderColor={"#00000"} sliderColor={"#919191"} ></Slider>
+            <Slider min={0} max={100} bottom={100} left={660} value={0} overlayText={"Defense Factor"} borderColor={"#00000"} sliderColor={"#919191"} ></Slider>
         </>
     )
 }

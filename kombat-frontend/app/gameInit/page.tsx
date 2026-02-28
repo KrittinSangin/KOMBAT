@@ -1,7 +1,7 @@
 "use client"
 
 import { useRouter } from "next/navigation";
-import Navbar from "../../components/Navbar";
+import Navbar,{TeamSide} from "../../components/Navbar";
 import StrategyBox from "../../components/StrategyBox";
 import Button from "../../components/Button";
 import { useSearchParams } from "next/navigation";
@@ -13,7 +13,7 @@ export default function GameInitPage() {
         <>
             <GameLayout src="/Blue_bg.jpeg" alt="Background Image" >
             </GameLayout> 
-                <Navbar title="Player1" />
+                <Navbar title="Player1" minionCount={1} team={TeamSide.Blue}/>
                 <StrategyBox></StrategyBox>
                 <MinionProfile></MinionProfile>
         </>
