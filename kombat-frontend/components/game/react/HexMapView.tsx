@@ -2,72 +2,74 @@ import Marker from "./Marker";
 import {Rect, Vec2} from "../type/Primitive";
 import HexView from "./HexView";
 import RectView from "./RectView";
-import {HexMap} from "../type/HexMap";
-
+import {useEffect, useState} from "react";
+import useDeviceSize from "../../CustomHook/useDeviceSize";
+import {Hex, HexMap} from "../type/gameStates";
+import {hexMapGet} from "../model/hexMap";
 
 export default function HexMapView(map:HexMap) {
+    const [width, height] = useDeviceSize()
     const row = map.row;
     const col = map.colum;
 
-    const portWidth = window.innerWidth;
-    const portHeight = window.innerHeight;
+    const viewportX = width;
+    const viewportY = height;
 
-    const sheerX = 10;
-
+    const sheerX = 0;
 
     const space: Vec2 = {
         x: 120,
         y: 60
     }
-
-    const scale: Vec2 = {
-        x: 0.1,
-        y: 0.1
-    }
-
     const start: Vec2 = {
-        x: (portWidth - space.x * col - sheerX * col) / 2,
-        y: (portHeight - space.y * row + space.y) / 2
+        x: (viewportX - space.x * col - sheerX * col) / 2 ,
+        y: (viewportY - space.y * row) / 2
     }
 
-    const midlinevert: Rect = {
-        x: portWidth / 2 - 2,
-        y: 0,
-        w: 4,
-        h: portHeight
+    const horizontalLine = (w:number) => {
+        const hw = w/2
+        return<RectView rect={
+            {
+                x: viewportX / hw - hw,
+                y: 0,
+                w: w,
+                h: viewportY
+            }
+        } c={"indianred"}/>
     }
 
-    const midlinehori: Rect = {
-        x: 0,
-        y: portHeight / 2 - 2,
-        w: portWidth,
-        h: 4
+    const verticalLine = (w:number) => {
+        const hw = w/2;
+        return<RectView rect={
+            {
+                x: 0,
+                y: viewportY / hw - hw,
+                w: viewportX,
+                h: w
+            }
+        } c={"indianred"}/>
     }
+
+    const calculatePos: (r:number,c:number) => Vec2 = (r,c) =>(
+    {
+        x: start.x + space.x * c  + sheerX * r,
+        y: start.y + (c  % 2 == 0 ? space.y * r : space.y * r - space.y / 2),
+    })
 
     return <div>
         {Array.from({length: row}, (_, r) =>
             Array.from({length: col}, (_, c) => ({r,c})))
             .flat().map((rc) => {
-                return <div key={rc.c + col * rc.r}>
-                    <HexView x={start.x + space.x * rc.c  + sheerX * rc.r}
-                             y={start.y + (rc.c  % 2 == 0 ? space.y * rc.r : space.y * rc.r - space.y / 2)}
-                             isOdd={(rc.c  + rc.r) % 2 == 0}
-                             minion={map.getHex({row : rc.r + 1, col: rc.c + 1})?.minion}
+                return <div key={rc.c+1 + col * rc.r+1}>
+                    <HexView
+                        idx = {rc.c+1 + col * rc.r+1}
+                        pos = {calculatePos(rc.r,rc.c)}
+                        hex={hexMapGet(map,{row:rc.r+1, col:rc.c+1})}
                     />
-                    {/*<Marker key={pair.x + col * pair.y}*/}
-                    {/*        position=*/}
-                    {/*            {*/}
-                    {/*                {*/}
-                    {/*                    x: start.x + space.x * pair.x + sheerX * pair.y,*/}
-                    {/*                    y: start.y + (pair.x % 2 == 0 ? space.y * pair.y : space.y * pair.y - space.y / 2)*/}
-                    {/*                }*/}
-                    {/*            }*/}
-                    {/*        scale={{x: scale.x, y: scale.y}}*/}
-                    {/*        color={"red"}></Marker>*/}
                 </div>
             })}
-        <RectView rect={midlinevert} c={"indianred"}/>
-        <RectView rect={midlinehori} c={"indianred"}/>
+        {horizontalLine(4)}
+        {verticalLine(4)}
     </div>
 
 }

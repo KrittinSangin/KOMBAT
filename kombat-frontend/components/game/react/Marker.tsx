@@ -2,26 +2,32 @@ import {Vec2} from "../type/Primitive";
 import {Property} from "csstype";
 import Color = Property.Color;
 import SpriteView from "./SpriteView";
-import {Transform2} from "../type/Transform";
+import {Sprite} from "../type/Rendering";
 
-interface MarkerProps
+interface Props
 {
-    key : number
-    position: Vec2,
-    scale: Vec2,
+    pos: Vec2
+    scale: number
     color: Color
 }
 
-export default function Marker(
-    {
-        position,
-        scale,
-        color
-    } : MarkerProps
-)
+export default function Marker({pos, scale, color} : Props)
 {
-    const src = "/game/texture/Marker_GreyScale.png";
-    const t = new Transform2(position, {x: 150, y: 150}, scale)
+    const markerSprite : Sprite =
+        {
+            texture :
+                {
+                    name : "marker",
+                    path : "/game/texture/Marker_GreyScale.png",
+                    size : {x:150,y:150}
+                },
+            transform :
+                {
+                    pos:{x:0,y:0},
+                    scale:{x:scale,y:scale}
+                },
+            color : color,
+        }
 
-    return <SpriteView texturePath={src} transform={t} color={color}></SpriteView>
+    return <SpriteView sprite={markerSprite} pos={pos}/>
 }

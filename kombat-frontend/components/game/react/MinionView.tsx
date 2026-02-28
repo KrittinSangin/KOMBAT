@@ -1,14 +1,10 @@
-import {Minion} from "../type/Minion";
 import SpriteView from "./SpriteView";
-import {Transform2} from "../type/Transform";
+import {Minion} from "../type/gameStates";
+import {Vec2} from "../type/Primitive";
 
-type MinionViewProps = {
-    minion: Minion;
-    transform: Transform2;
-};
+interface Props {minion: Minion, pos:Vec2}
 
-export default function MinionView({ minion,transform }: MinionViewProps)
+export default function MinionView({minion, pos} : Props)
 {
-    return <SpriteView texturePath={minion.sprite.texturePath} transform={transform} color={minion.sprite.color} ></SpriteView>
-
+    return <SpriteView sprite={minion.sprite} pos={pos}/>
 }

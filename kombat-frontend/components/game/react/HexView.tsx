@@ -1,75 +1,52 @@
 import {Rect, Vec2} from "../type/Primitive";
 import RectView from "./RectView";
-import {Minion} from "../type/Minion";
 import MinionView from "./MinionView";
-import {Transform2} from "../type/Transform";
+import {Hex, Minion} from "../type/gameStates";
 
-interface HexViewProps
+interface Props
 {
-    x:number
-    y:number
-    isOdd: boolean
-    minion: Minion | null | undefined
+    idx: number
+    pos: Vec2,
+    hex?: Hex
 }
 
 export default function HexView({
-    x,
-    y,
-    isOdd,
-    minion
-}: HexViewProps)
+    idx,
+    pos,
+    hex
+}: Props)
 {
     const hexWidth = 100;
     const hexHeight = 50;
 
     const hexRect: Rect = {
-        x: x,
-        y: y,
+        x: pos.x,
+        y: pos.y,
         w: hexWidth,
         h: hexHeight
     }
-    const getMinionRect = (m:Minion) =>
-    {
-        const minionTransform = m.sprite.transform
 
-        const minionWidth = minionTransform.size.x;
-        const minionHeight = minionTransform.size.y;
-        const scaleX = minionTransform.scale.x;
-        const scaleY = minionTransform.scale.y;
+    const minionRect = (m:Minion) => {
+        const textureSize = m.sprite.texture.size;
+        const transform = m.sprite.transform;
 
-
-
-        const minionRect: Rect = {
-            x: x + hexWidth / 2 - minionWidth * scaleX / 2 ,
-            y: y - minionHeight * scaleY + hexHeight / 2 ,
-            w: minionWidth * scaleX,
-            h: minionHeight * scaleY
+        return {
+            x: pos.x + (hexRect.w - textureSize.x * transform.scale.x) / 2,
+            y: pos.y + (hexRect.h /2) - textureSize.y * transform.scale.x,
+            w: textureSize.x * transform.scale.x,
+            h: textureSize.y * transform.scale.y,
         }
-        return minionRect;
     }
 
-    const getMiniontransform= (m:Minion) =>
+    const minionRectAsPos =(rect:Rect) =>
     {
-        const rect = getMinionRect(m)
-        return new Transform2(
-            {
-                x: rect.x,
-                y: rect.y
-            },
-            {
-                x: m.sprite.transform.size.x,
-                y: m.sprite.transform.size.y
-            },
-            {
-                x:m.sprite.transform.scale.x,
-                y:m.sprite.transform.scale.y,
-            }
-        )
+        return {x:rect.x,y:rect.y};
     }
 
+    if (!hex) return <></>
     return <div>
-        <RectView rect={hexRect} c={isOdd?"lightblue" :"blue"}/>
-        {/*{minion && <RectView rect={getMinionRect(minion)} c={isOdd ? "green" : "darkolivegreen"}/>}*/}
-        {minion && <MinionView minion={minion} transform={getMiniontransform(minion)} />}
+        <RectView rect={hexRect} c={"lightblue"}/>
+        {/*{hex.minion && <RectView rect={minionRect(hex.minion)} c={"green"}/>}*/}
+        {hex.minion && <MinionView minion = {hex.minion} pos = {minionRectAsPos(minionRect(hex.minion))}/>}
     </div>
 }

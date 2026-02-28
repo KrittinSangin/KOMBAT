@@ -1,31 +1,32 @@
-import {Sprite} from "../type/Sprite";
-import {Transform2} from "../type/Transform";
 import Image from "next/image";
+import {Sprite, Transform2} from "../type/Rendering";
+import {Vec2} from "../type/Primitive";
 
-interface SpriteViewProps {
-    texturePath: string;
-    transform: Transform2;
-    color: string;
-}
+interface Props {sprite:Sprite, pos:Vec2}
 
-export default function SpriteView({
-    texturePath,
-    transform,
-    color
-}: SpriteViewProps) {
+export default function SpriteView({sprite,pos}:Props) {
+    const transform = sprite.transform;
+    const offset = sprite.transform.pos;
+
+    const x = pos.x + offset.x;
+    const y = pos.y+ offset.y;
+    const w = sprite.texture.size.x * transform.scale.x;
+    const h = sprite.texture.size.y * transform.scale.y;
+    const c = sprite.color;
+    const path = sprite.texture.path;
     return (
         <div
             style={{
                 position: "absolute",
-                left: transform.pos.x,
-                top: transform.pos.y,
-                width: transform.size.x * transform.scale.x,
-                height: transform.size.y * transform.scale.y,
+                left: x,
+                top: y,
+                width: w,
+                height: h,
             }}>
             <Image
-                src={texturePath}
-                width={transform.size.x * transform.scale.x}
-                height={transform.size.y * transform.scale.y}
+                src={sprite.texture.path}
+                width={w}
+                height={h}
                 loading={"eager"}
                 style={{
                     position: "absolute",
@@ -37,10 +38,10 @@ export default function SpriteView({
                     position: "absolute",
                     width: "100%",
                     height: "100%",
-                    backgroundColor: color,
+                    backgroundColor: c,
                     mixBlendMode: "color",
                     pointerEvents: "none",
-                    WebkitMaskBoxImage: `url(${texturePath})`,
+                    WebkitMaskBoxImage: `url(${sprite.texture.path})`,
                 }}/>
         </div>
     )
