@@ -16,9 +16,11 @@ export default function Navbar({title,minionCount,team}: NavbarProps){
         <>
             <div className="z-20 absolute w-[1469px] h-[80px] bg-[#A9B6FF] top-0 left-0 flex items-center justify-between px-6">
                 <h1 className="text-[50px] font-bold">{title}</h1>
-                            <button >
-                                <Image src={team===TeamSide.Blue?"/blue_btn.PNG":"/red_btn.PNG"} alt="Minion Bar" width={150} height={60}></Image>
-                            </button>
+            {Array.from({ length: minionCount }).map((_, index) => (
+            <button key={index}>
+             <Image src={team === TeamSide.Blue ? "/blue_btn.PNG" : "/red_btn.PNG"} alt="Minion" width={80} height={40}   />
+              </button>
+            ))}
             </div>
         </>
     )
