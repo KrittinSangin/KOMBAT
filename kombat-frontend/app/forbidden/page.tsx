@@ -13,7 +13,7 @@ export default function ForbiddenPage() {
 
   return (
     <GameLayout src="/homepage_bg.jpeg" alt="Forbidden Access">
-      <div className="flex flex-col items-center justify-center gap-8">
+      <div className="flex flex-col items-center justify-center gap-4">
         <h1 className="
           font-jersey25 
           text-[#6a0dad]
@@ -53,17 +53,17 @@ export default function ForbiddenPage() {
         </p>
 
         <PlayButton
-          src=""
+          src="/purple_btn.PNG"
           alt="home"
           overlayText="Go Home"
           onClick={handleGoHome}
 
-          bottom="-100"
+          bottom="-180"
           left="125"
           color="#6a0dad"
           font_size="50"
-          height="80"
-          width="180"
+          height="150"
+          width="230"
         />
       </div>
     </GameLayout>
