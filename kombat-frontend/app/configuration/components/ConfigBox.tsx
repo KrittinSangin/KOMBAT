@@ -40,7 +40,9 @@ export default function ConfigBox({InitHp_min, InitHp_max, MaxTurn_min, MaxTurn_
                                        <Slider min={SpawnCost_min} max={SpawnCost_max} bottom={200} left={left} overlayText="Spawn Cost" borderColor={borderColor} sliderColor={sliderColor}></Slider>
                                        <Slider min={MaxSpawn_min} max={MaxSpawn_max} bottom={150} left={left} overlayText="Max Spawn" borderColor={borderColor} sliderColor={sliderColor}></Slider>
                                        <Slider min={1} max={5} bottom={100} left={left} overlayText="Each Minions Per Team" borderColor={borderColor} sliderColor={sliderColor} setState={5}></Slider>
-                                       <Button src="" alt="Set To Default" overlayText="Set To Default" bottom="30" left="230" color="grey" font_size="25" height="40" width="200"></Button>
+                                       <div className="absolute w-[200px] h-[40px] bottom-[30px] left-[35%]" style={{backgroundColor:"#a8a8a8"}}>
+                                        <p className="text-white text-[25px] text-center">Set to default</p>
+                                       </div>
                                    
                                </div>
                            </h1>
