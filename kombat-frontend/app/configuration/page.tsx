@@ -17,9 +17,9 @@ import { rand } from "../gamemode/duel/join_room/page";
 
     const router = useRouter();
     const ac = rand.getState().code;
-    const moveToDuelSelectPage = () => {
-        checkState.getState().setState("duel");
-        router.push("/gamemode/duel");
+    const moveToSelectPage = () => {
+        checkState.getState().setState("gamemode");
+        router.push("/gamemode");
     };
     let InitHp_min:number = 1
     let InitHp_max:number = 100
@@ -46,7 +46,7 @@ import { rand } from "../gamemode/duel/join_room/page";
             <CodeHost number_={ac}></CodeHost>
             <ProfileConfig online={true} team={1} left={900} top={310}></ProfileConfig>
             <ProfileConfig online={false} team={2} left={900} top={425}></ProfileConfig>
-            <Button src="" alt="Back"  overlayText="Back" bottom="-320" left="270" color="#6a0dad" onClick={moveToDuelSelectPage} font_size="70" height="90" width="200"/>
+            <Button src="" alt="Back"  overlayText="Back" bottom="-320" left="270" color="#6a0dad" onClick={moveToSelectPage} font_size="70" height="90" width="200"/>
             
          </GameLayout>
         </>
