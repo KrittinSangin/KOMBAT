@@ -65,7 +65,6 @@ const handleSave = () => {
 
   setContent(newFile.content);
   setShowStrategy(newFile.name);
-
   setEditorContent("");
   setShowEditor(false);
 };
@@ -94,8 +93,10 @@ const handleSave = () => {
       setShowStrategy(file.name);
       setIsDropdownVisible(false);
     }}
-    className="px-3 py-2 text-2xl cursor-pointer"
-    style={{ backgroundColor:"#C4C4C4", color:"#696969" }}
+    className="px-3 py-2 text-2xl cursor-pointer
+  bg-[#C4C4C4] text-[#696969]
+  hover:bg-[#696969] hover:text-white
+  transition-colors duration-200"
   >
     {file.name}
   </div>
