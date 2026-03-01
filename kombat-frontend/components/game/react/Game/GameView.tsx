@@ -1,7 +1,7 @@
-import SpriteView from "./SpriteView";
 import Image from "next/image"
 import HexMapView from "./HexMapView";
-import {Game} from "../type/gameStates";
+import {Game} from "../../type/gameStates";
+import UnitSelect from "../UI/UnitSelect";
 
 export default function GameView(game:Game) {
     const bg = "/game-bg.png";

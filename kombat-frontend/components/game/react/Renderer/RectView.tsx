@@ -1,6 +1,6 @@
 import {Property} from "csstype";
 import Color = Property.Color;
-import {Rect} from "../type/Primitive";
+import {Rect} from "../../type/Primitive";
 
 interface RectProp {
     rect: Rect,

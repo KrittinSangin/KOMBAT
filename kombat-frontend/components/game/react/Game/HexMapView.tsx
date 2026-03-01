@@ -1,13 +1,21 @@
 import Marker from "./Marker";
-import {Rect, Vec2} from "../type/Primitive";
 import HexView from "./HexView";
-import RectView from "./RectView";
 import {useEffect, useState} from "react";
-import useDeviceSize from "../../CustomHook/useDeviceSize";
-import {Hex, HexMap} from "../type/gameStates";
-import {hexMapGet} from "../model/hexMap";
+import RectView from "../Renderer/RectView";
+import {Vec2} from "../../type/Primitive";
+import {HexMap} from "../../type/gameStates";
+import useDeviceSize from "../../../CustomHook/useDeviceSize";
+import {hexMapGet} from "../../model/hexMap";
+import UnitCard from "../UI/UnitCard";
+import {c_Vec2, c_Vec3} from "../../utils/utility";
 
 export default function HexMapView(map:HexMap) {
+    const SPACE_X = 70;
+    const SPACE_Y = 40;
+
+    const OFFSET_X = 0
+    const OFFSET_Y = 60
+
     const [width, height] = useDeviceSize()
     const row = map.row;
     const col = map.colum;
@@ -17,14 +25,12 @@ export default function HexMapView(map:HexMap) {
 
     const sheerX = 0;
 
-    const space: Vec2 = {
-        x: 120,
-        y: 60
-    }
-    const start: Vec2 = {
-        x: (viewportX - space.x * col - sheerX * col) / 2 ,
-        y: (viewportY - space.y * row) / 2
-    }
+    const space: Vec2 = c_Vec2(SPACE_X,SPACE_Y);
+
+    const start: Vec2 = c_Vec2(
+        (viewportX - space.x * col - sheerX * col) / 2 + OFFSET_X,
+        (viewportY - space.y * row + space.y) / 2 + OFFSET_Y
+)
 
     const horizontalLine = (w:number) => {
         const hw = w/2
@@ -64,7 +70,7 @@ export default function HexMapView(map:HexMap) {
                     <HexView
                         idx = {rc.c+1 + col * rc.r+1}
                         pos = {calculatePos(rc.r,rc.c)}
-                        hex={hexMapGet(map,{row:rc.r+1, col:rc.c+1})}
+                        hex= {hexMapGet(map,{row:rc.r+1, col:rc.c+1})}
                     />
                 </div>
             })}

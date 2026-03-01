@@ -1,19 +1,17 @@
 import Image from "next/image";
-import {Sprite, Transform2} from "../type/Rendering";
-import {Vec2} from "../type/Primitive";
+import {Sprite, Transform2} from "../../type/Rendering";
+import {Vec2} from "../../type/Primitive";
 
-interface Props {sprite:Sprite, pos:Vec2}
+interface Props {sprite:Sprite}
 
-export default function SpriteView({sprite,pos}:Props) {
-    const transform = sprite.transform;
-    const offset = sprite.transform.pos;
+export default function SpriteViewRelative({sprite}:Props) {
+    const { transform, texture, color } = sprite;
+    const offset = transform.pos;
 
-    const x = pos.x + offset.x;
-    const y = pos.y+ offset.y;
-    const w = sprite.texture.size.x * transform.scale.x;
-    const h = sprite.texture.size.y * transform.scale.y;
-    const c = sprite.color;
-    const path = sprite.texture.path;
+    const x = offset.x;
+    const y = offset.y;
+    const w = texture.size.x * transform.scale.x;
+    const h = texture.size.y * transform.scale.y;
     return (
         <div
             style={{
@@ -38,10 +36,10 @@ export default function SpriteView({sprite,pos}:Props) {
                     position: "absolute",
                     width: "100%",
                     height: "100%",
-                    backgroundColor: c,
+                    backgroundColor: color,
                     mixBlendMode: "color",
                     pointerEvents: "none",
-                    WebkitMaskBoxImage: `url(${sprite.texture.path})`,
+                    WebkitMaskBoxImage: `url(${texture.path})`,
                 }}/>
         </div>
     )

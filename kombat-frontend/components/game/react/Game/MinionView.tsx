@@ -1,6 +1,6 @@
-import SpriteView from "./SpriteView";
-import {Minion} from "../type/gameStates";
-import {Vec2} from "../type/Primitive";
+import {Minion} from "../../type/gameStates";
+import {Vec2} from "../../type/Primitive";
+import SpriteView from "../Renderer/SpriteView";
 
 interface Props {minion: Minion, pos:Vec2}
 

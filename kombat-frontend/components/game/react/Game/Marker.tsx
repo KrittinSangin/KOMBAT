@@ -1,8 +1,8 @@
-import {Vec2} from "../type/Primitive";
 import {Property} from "csstype";
 import Color = Property.Color;
-import SpriteView from "./SpriteView";
-import {Sprite} from "../type/Rendering";
+import SpriteView from "../Renderer/SpriteView";
+import {Sprite} from "../../type/Rendering";
+import {Vec2} from "../../type/Primitive";
 
 interface Props
 {

@@ -3,6 +3,8 @@ import {Config, HexPos} from "../../../ttypes/type";
 import {GameStateEnum} from "../../../ttypes/enums";
 import {Texture} from "../type/Rendering";
 import {createHexMap, hexKey} from "./hexMap";
+import {knight_T, madoka_T, medicine_T, ryuu_T, scarlet_T} from "../resources/textureResource";
+import {c_hexPos} from "../utils/utility";
 
 export const defaultCfg: Config = {
     spawnCost: 100,
@@ -55,21 +57,11 @@ const createMinion : (texture:Texture,name:string,def:number) => Minion = (textu
 
 
 const demoDeck: Minion[] = Array.of(
-    createMinion(
-        {
-            name: "Modoka",
-            path: "/game/texture/minion/Madoka.png",
-            size: {x:190,y:320}
-        },
-        "Madoka",10
-    ),
-    createMinion(        {
-            name: "Medicine",
-            path: "/game/texture/minion/Medicine.png",
-            size: {x:240,y:320}
-        },
-        "Medicine",10
-    )
+    createMinion(madoka_T, "Madoka",10),
+    createMinion(medicine_T, "Medicine",10),
+    createMinion(knight_T, "Knight",10),
+    createMinion(scarlet_T, "Scarlet",10),
+    createMinion(ryuu_T, "Ryuu",10),
 )
 
 
@@ -115,6 +107,25 @@ export const mockState = () =>
     addMinion(game,{row:8,col:5},demoGame.players[1].deck[1]);
     addMinion(game,{row:2,col:6},demoGame.players[1].deck[1]);
     addMinion(game,{row:8,col:7},demoGame.players[1].deck[1]);
+
+    const map = game.map;
+    const p1hex = game.cfg.startHexPosP1;
+    const p2hex= game.cfg.startHexPosP2;
+
+    p1hex.forEach((pos) => {
+        const hex = map.map.get(hexKey(pos));
+        if (hex) hex.team = 0;
+    })
+
+
+    p2hex.forEach((pos) => {
+        const hex = map.map.get(hexKey(pos));
+        if (hex) hex.team = 1;
+    })
+
+    console.log(p1hex,p2hex)
+
+
     return game;
 }
 
