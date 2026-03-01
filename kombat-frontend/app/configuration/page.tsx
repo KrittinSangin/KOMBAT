@@ -19,8 +19,13 @@ import Slider from "../../components/Slider";
     const router = useRouter();
     const ac = rand.getState().code;
     const moveToSelectPage = () => {
-        checkState.getState().setState("gamemode");
-        router.push("/gamemode");
+        if(mode === "Duel"){
+            checkState.getState().setState("duel");
+            router.push("/gamemode/duel");
+        }else{
+            checkState.getState().setState("gamemode");
+            router.push("/gamemode");
+        }
     };
 
     const sliderRange = {
@@ -141,7 +146,7 @@ import Slider from "../../components/Slider";
             <CodeHost number_={ac}></CodeHost>
             <ProfileConfig online={true} team={1} left={900} top={310}></ProfileConfig>
             <ProfileConfig online={false} team={2} left={900} top={425}></ProfileConfig>
-            <Button src="/purple_btn.PNG" alt="Back"  overlayText="Back" bottom="-320" left="250" color="#6a0dad" onClick={moveToDuelSelectPage} font_size="70" height="150" width="250"/>
+            <Button src="/purple_btn.PNG" alt="Back"  overlayText="Back" bottom="-320" left="250" color="#6a0dad" onClick={moveToSelectPage} font_size="70" height="150" width="250"/>
             
          </GameLayout>
         </>
