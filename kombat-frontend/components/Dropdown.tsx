@@ -7,7 +7,8 @@ import Button from "./Button";
 
 
 export default function Dropdown() {
-  const [files, setFiles] = useState<File[]>([])
+  const [files, setFiles] = useState<
+  { name: string; content: string }[]>([])
   const [isDropdownVisible, setIsDropdownVisible] = useState(false)
   const [content, setContent] = useState("")
   const fileInputRef = useRef<HTMLInputElement>(null)
@@ -15,17 +16,6 @@ export default function Dropdown() {
   const [showEditor, setShowEditor] = useState(false)
   const [editorContent, setEditorContent] = useState("")
   const [editingIndex, setEditingIndex] = useState<number | null>(null);
-
-
-  const handleUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const selected = Array.from(e.target.files || [])
-
-    const txtFiles = selected.filter(file =>
-      file.name.endsWith(".txt")
-    )
-
-    setFiles(prev => [...prev, ...txtFiles])
-  }
 
   const openFile = (file: File) => {
     const reader = new FileReader()
@@ -41,23 +31,41 @@ export default function Dropdown() {
     setIsDropdownVisible(false);
   }
 
-  const HandleEdit = async (index: number) => {
-  const text = await files[index].text();
-  setEditorContent(text);
-  setEditingIndex(index);
-  setShowEditor(true);
-}
+ const handleUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const selectedFiles = e.target.files;
+  if (!selectedFiles) return;
 
-  const handleSave = () => {
+  Array.from(selectedFiles).forEach((file) => {
+    const reader = new FileReader();
+
+    reader.onload = (event) => {
+      const newFile = {
+        name: file.name,              // 👈 ใช้ชื่อไฟล์จริง
+        content: event.target?.result as string
+      };
+
+      setFiles(prev => [...prev, newFile]);
+    };
+
+    reader.readAsText(file);
+  });
+}; 
+
+
+
+const handleSave = () => {
   if (!editorContent.trim()) return;
 
-  const newFile = new File(
-  [editorContent],
-  `MyStrategy-${Date.now()}.txt`,
-  { type: "text/plain" }
-);
+  const newFile = {
+    name: `MyStrategy-${Date.now()}.txt`,
+    content: editorContent
+  };
 
   setFiles(prev => [...prev, newFile]);
+
+  setContent(newFile.content);
+  setShowStrategy(newFile.name);
+
   setEditorContent("");
   setShowEditor(false);
 };
@@ -78,16 +86,20 @@ export default function Dropdown() {
 
       {isDropdownVisible && (
         <div className="z-30 absolute w-full" style={{backgroundColor:"#cacaca"}}>
-          {files.map((file,index)=>(
-            <div
-              key={index}>
-                <div
-              onClick={() => {openFile(file); setShowStrategy(file.name); setIsDropdownVisible(false)}}
-              className="px-3 py-2 text-2xl cursor-pointer" style={{backgroundColor:"#C4C4C4", color:"#696969"}}>
-                {file.name}
-              </div>
-              </div>
-          ))}
+          {files.map((file, index) => (
+  <div
+    key={file.name}
+    onClick={() => {
+      setContent(file.content);
+      setShowStrategy(file.name);
+      setIsDropdownVisible(false);
+    }}
+    className="px-3 py-2 text-2xl cursor-pointer"
+    style={{ backgroundColor:"#C4C4C4", color:"#696969" }}
+  >
+    {file.name}
+  </div>
+))}
         </div>
       )}
     </div>
@@ -122,7 +134,7 @@ export default function Dropdown() {
       <div className="py-2 pl-3 text-2xl border absolute top-[201px] left-[0px] w-[100%] h-[5%]" style={{backgroundColor:"#fefefe",borderBlockColor:"#696969",color:"#696969"}}
       onClick={() => setShowEditor(true)}>
         Create New
-        <div className="absolute text-xl top-[0px] left-[700px]">+</div>
+        <div className="absolute text-4xl top-[0px] left-[700px]">+</div>
       </div>
 
       {showEditor && (
@@ -138,9 +150,14 @@ export default function Dropdown() {
 
       {/* save button */}
   
-    <Button src="/grey_btn.PNG" alt="Save" overlayText="Save" onClick={handleSave} bottom="0" left="734" color="purple" font_size="20" height="80" width="100"></Button>
-     <Button src="/grey_btn.PNG" alt="Compile" overlayText="Compile"  bottom="100" left="734" color="purple" font_size="20" height="80" width="100"></Button>
-      <Button src="/grey_btn.PNG" alt="Edit" overlayText="Edit" bottom="200" left="734" color="purple" font_size="20" height="80" width="100" ></Button>
+    <Button src="/grey_btn.PNG" alt="Save" overlayText="" onClick={handleSave} bottom="0" left="716" color="purple" font_size="20" height="80" width="100"></Button>
+     <Button src="/grey_btn.PNG" alt="Compile" overlayText=""  bottom="100" left="705" color="purple" font_size="20" height="80" width="150"></Button>
+      <Button src="/grey_btn.PNG" alt="Edit" overlayText="" bottom="200" left="716" color="purple" font_size="20" height="80" width="100" ></Button>
+      <div className="absolute text-black text-2xl flex flex-col gap-17 left-[742px] top-[500px] py-20">
+        <h1>Edit</h1>
+        <h1>Compile</h1>
+        <h1>Save</h1>
+      </div>
       </>
   )
 }
