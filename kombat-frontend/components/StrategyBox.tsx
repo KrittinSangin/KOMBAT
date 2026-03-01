@@ -2,7 +2,11 @@
 
 import Dropdown from "./Dropdown";
 
-export default function StrategyBox(){
+interface StrategyBoxprops{
+    selectedMinion:number
+}
+
+export default function StrategyBox({selectedMinion}:StrategyBoxprops){
     const months = ["jan", "feb"];
     return(
         <>
