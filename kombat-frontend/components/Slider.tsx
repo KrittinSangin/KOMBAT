@@ -4,25 +4,25 @@ import { useState } from "react";
 interface Sliderprops {
     min:number
     max:number
-    onChange?:(e:React.ChangeEvent<HTMLInputElement>)=>void
     bottom:number
     left:number
     overlayText:string
     borderColor:string
     sliderColor:string
-    setState?:number
+    setState?: (value: number) => void
+    value:number
 }
 
 
-export default function Slider({min, max, onChange,bottom,left,overlayText, borderColor, sliderColor, setState}:Sliderprops){
-  const [value, setValue] = useState(setState !== undefined ? setState : min);
+export default function Slider({min, max, bottom,left,overlayText, borderColor, sliderColor, setState,value}:Sliderprops){
   const percentage = ((value - min) / (max - min)) * 100;
   const clamp = (num: number) => {
   return Math.min(max, Math.max(min, num));
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-  setValue(clamp(Number(e.target.value)));
+  const newValue = (clamp(Number(e.target.value)));
+  setState?.(newValue) 
   };
 
   return(
@@ -53,8 +53,8 @@ export default function Slider({min, max, onChange,bottom,left,overlayText, bord
       onChange={handleChange} />
       <input type="text" min={min} max={max} value={value} onChange={(e) => {
     const onlyNumber = e.target.value.replace(/\D/g, "");
-    setValue(clamp(Number(onlyNumber)));
-
+    const newValue = (clamp(Number(onlyNumber)));
+    setState?.(newValue) 
   }}
       className="w-10 h-10 text-xl font-jersey25" />
       {/* <p className="absolute text-3xl bottom--5 left-125 text-[#000000]" >{value}</p> */}

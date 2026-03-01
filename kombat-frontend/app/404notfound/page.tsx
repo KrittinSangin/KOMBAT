@@ -12,7 +12,7 @@ export default function ForbiddenPage() {
   };
 
   return (
-    <GameLayout src="/homepage_bg.jpeg" alt="Forbidden Access">
+    <GameLayout src="/homepage_bg.jpeg" alt="404 Not Found">
       <div className="flex flex-col items-center justify-center gap-4">
         <h1 className="
           font-jersey25 
@@ -24,7 +24,7 @@ export default function ForbiddenPage() {
           drop-shadow-[0_4px_4px_rgba(0,0,0,0.25)]
           [text-shadow:_2px_2px_0_#fff,_-2px_-2px_0_#fff,_2px_-2px_0_#fff,_-2px_2px_0_#fff]
         ">
-          403
+          404
         </h1>
 
         <h2 className="
@@ -37,7 +37,7 @@ export default function ForbiddenPage() {
           [text-shadow:_1px_1px_0_#000,_-1px_-1px_0_#000,_1px_-1px_0_#000,_-1px_1px_0_#000]
           text-center
         ">
-          Access Denied
+          Not Found
         </h2>
 
         <p className="
@@ -49,7 +49,7 @@ export default function ForbiddenPage() {
           drop-shadow-[0_2px_4px_rgba(0,0,0,0.5)]
           [text-shadow:_1px_1px_0_#000,_-1px_-1px_0_#000]
         ">
-          You don't have permission to access this path. Please return to the home page to continue.
+          Oops! The page you're trying to reach doesn't exist.
         </p>
 
         <PlayButton
