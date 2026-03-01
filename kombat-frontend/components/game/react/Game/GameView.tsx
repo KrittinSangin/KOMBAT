@@ -3,7 +3,12 @@ import HexMapView from "./HexMapView";
 import {Game} from "../../type/gameStates";
 import UnitSelect from "../UI/UnitSelect";
 
-export default function GameView(game:Game) {
+interface Props
+{
+    game: Game
+}
+
+export default function GameView({game}:Props) {
     const bg = "/game-bg.png";
 
     const background = () => {
