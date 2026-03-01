@@ -1,3 +1,9 @@
+interface MessageHolder
+{
+  isSuccess: boolean,
+  Message: string
+}
+
 interface HexPos
 {
     "row": number

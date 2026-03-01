@@ -27,7 +27,7 @@ import Slider from "../../components/Slider";
             router.push("/gamemode");
         }
     };
-
+    // WebSocket needs to be implemented here
     const sliderRange = {
      initHp: { min: 1, max: 100 },
      minionCount: { min: 1, max: 5 },
