@@ -31,10 +31,9 @@ export default function DuelPage(){
 // TODO: Send the randomized code to the back-end here before navigating to the configuration page
 try {
   let test2: MessageHolder = await fetch(`http://localhost:8080/data/send/${rand.getState().code}`, {
-  method: 'POST'
-}).then(response => response.json());
-
-  console.log(test2);
+    method: 'POST'
+  }).then(response => response.json());
+  console.log(test2)
 }catch (error) {
   if(error == "TypeError: Failed to fetch"){
     alert("Server might be down. Please try again later.");
@@ -43,13 +42,9 @@ try {
   alert("Failed to send code to the back-end: %" + error + "% \nPlease try again.");
   return;
 }
-  
-  console.log(rand.getState().code);
-
-
-    router.push(`/configuration?mode=${mode}`);
+    alert("Successfully created a room");
+    router.push(`/configuration/deepweb1?mode=${mode}`);
   };
-
     const moveToJoinRoomPage = () => {
     router.push("/gamemode/duel/join_room");
   };
