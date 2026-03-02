@@ -9,6 +9,8 @@ import { useState } from "react";
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 
+import { duelWhereDidYouComeFrom } from "../page";
+
 type RandState = {
   code: string;
   randomixe: () => void;
@@ -39,6 +41,36 @@ export default function JoinRoomPage(){
         router.push("/gamemode/duel");
     };
 
+    const attemptToJoin = () => {
+     const fetcher = async () => { 
+            return await fetch(`http://localhost:8080/data/join`, {
+            method: 'POST', 
+            body: Code
+            })
+        }
+        fetcher().then(async response => {
+           
+                const data = await response.json();
+                console.log(data.isSuccess);
+                if(data.isSuccess){
+                duelWhereDidYouComeFrom.getState().setOrigin(`${Code}`);
+                router.push("/configuration/deepweb1?mode=Duel");
+            } else {
+                alert("Room does not exist. Please check the code and try again.");
+                return
+            }
+         }).catch(error => {
+            if(error == "TypeError: Failed to fetch"){
+                alert("Server might be down. Please try again later.");
+                return;
+            }
+            alert("Failed to connect to the server: " + error + "\nPlease try again later.");
+            return;
+         });
+
+    }
+
+
     return (
         <>
             <GameLayout src="/homepage_bg.jpeg" alt="Join Room" >
@@ -50,7 +82,7 @@ export default function JoinRoomPage(){
                     <p className="absolute left-10 text-[50px] top-2 text-black font-jersey25">Code</p>
                 </div>
             <Button src="/purple_btn.PNG" alt="Back"  overlayText="Back" bottom="-295" left="-439" color="#6a0dad" font_size="70" height="150" width="250" onClick={moveToDuelSelectPage}/>
-            <Button src="/purple_btn.PNG" alt="Join"  overlayText="Join" bottom="-295" left="600" color="#6a0dad" font_size="70" height="150" width="250"/>
+            <Button src="/purple_btn.PNG" alt="Join"  overlayText="Join" bottom="-295" left="600" color="#6a0dad" font_size="70" height="150" width="250" onClick={attemptToJoin}/>
             </GameLayout>
         </>
     )

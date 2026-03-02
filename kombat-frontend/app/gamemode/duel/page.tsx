@@ -6,6 +6,21 @@ import Button from "../../../components/Button"
 import { useRouter } from "next/navigation";
 import { checkState } from "../../page";
 import { rand } from "./join_room/page";
+import { create } from "zustand";
+
+type CheckStateStore = {
+  state: string;
+  setOrigin: (value: string) => void;
+  checkOrigin: () => string;
+};
+
+
+export const duelWhereDidYouComeFrom = create<CheckStateStore>((set, get) => ({
+  state: "null",
+  setOrigin: (value) => set({ state: value }),
+  checkOrigin: () => get().state,
+}));
+
 export default function DuelPage(){
   const router = useRouter();
   const [isAuthorized, setIsAuthorized] = useState(false);
@@ -25,6 +40,7 @@ export default function DuelPage(){
   };
 
         const moveToConfigPage = async (mode: string) => {
+        duelWhereDidYouComeFrom.getState().setOrigin("CREATE");
         checkState.getState().setState("duel_create_room");
         rand.getState().randomixe(); 
 

@@ -7,6 +7,7 @@ import { rand } from "../../gamemode/duel/join_room/page";
 import Button from "../../../components/Button";
 import { useState } from "react";
 import CreateRoomPage from "../page";
+import { duelWhereDidYouComeFrom } from "../../gamemode/duel/page";
 export default function Chat() {
   const connectAndSubscribe = () => {
     const client = new Client({
@@ -18,7 +19,7 @@ export default function Chat() {
         client.subscribe(`/topic/room/${roomCode}`, message => {
           console.log("Received:", message.body);
         });
-        
+
         client.subscribe(`/topic/user-number`, message => {
           console.log("User number update:", message.body);
          });
@@ -31,6 +32,10 @@ export default function Chat() {
     clientRef.current = client;
   };
  useEffect(() => {
+
+
+
+
   connectAndSubscribe();
 
   return () => {
@@ -43,7 +48,7 @@ export default function Chat() {
 
   const [page, setPage] = useState("CreateRoomPage");
   const clientRef = useRef<Client | null>(null);
-  const roomCode = rand.getState().code;
+  const roomCode = (duelWhereDidYouComeFrom.getState().checkOrigin() == "CREATE") ? rand.getState().code : duelWhereDidYouComeFrom.getState().checkOrigin()
   const sendMessage = () => {
     if (!clientRef.current || !clientRef.current.connected) {
       console.log("Not connected");
