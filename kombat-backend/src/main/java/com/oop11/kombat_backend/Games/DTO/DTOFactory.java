@@ -41,6 +41,7 @@ public class DTOFactory
 	{
 		return MinionDTO.builder()
 			.name(m.getName())
+			.pos(m.getHex().Pos)
 			.team(m.getOwner().getInfo().team())
 			.hp(m.getHp())
 			.def(m.getDef())

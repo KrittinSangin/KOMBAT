@@ -39,6 +39,7 @@ class DTOFactoryTest
 
 		assertEquals(new MinionDTO(
 			"0",
+			new HexPos(1,1),
 			0,
 			0,
 			100,
@@ -54,6 +55,7 @@ class DTOFactoryTest
 
 		assertEquals(new MinionDTO(
 			"0",
+			new HexPos(1,1),
 			0,
 			0,
 			25,
@@ -64,6 +66,7 @@ class DTOFactoryTest
 
 		assertEquals(new MinionDTO(
 			"2",
+			new HexPos(8,8),
 			0,
 			1,
 			100,

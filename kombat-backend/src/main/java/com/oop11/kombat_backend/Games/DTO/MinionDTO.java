@@ -1,10 +1,12 @@
 package com.oop11.kombat_backend.Games.DTO;
 
+import com.oop11.kombat_backend.Games.Map.HexPos;
 import lombok.Builder;
 
 @Builder
 public record MinionDTO(
 	String name,
+	HexPos pos,
 	int deckIndex,
 	int team,
 	int hp,
