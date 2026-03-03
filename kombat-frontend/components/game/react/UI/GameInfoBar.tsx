@@ -1,4 +1,4 @@
-export default function GameNavigationBar() {
+export default function GameInfoBar() {
     return <nav>
         {/*turn triangle*/}
         <div className="absolute top-0 left-1/2 -translate-x-1/2 ">
@@ -24,22 +24,11 @@ export default function GameNavigationBar() {
         {/*give up button*/}
         <div
             className=" absolute top-0 left-1/2 translate-x-24 translate-y-10 rounded-md
-                    h-10 w-24 flex flex-col justify-center items-center drop-shadow-2xl
+                    h-10 w-28 flex flex-col justify-center items-center drop-shadow-2xl
                     bg-red-800 text-white
                     text-2xl"
         >
-            give up
-        </div>
-
-        {/*Code log*/}
-        <div
-            className="absolute top-0 left-5/6 translate-y-6/12
-                    w-48 h-12
-                    flex justify-center items-center
-                    text-gray-700 text-3xl
-                    bg-gray-400
-                ">
-            {">>"} Event Log
+            Surrender
         </div>
     </nav>
 }

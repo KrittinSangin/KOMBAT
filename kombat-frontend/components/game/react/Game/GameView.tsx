@@ -1,6 +1,6 @@
 import Image from "next/image"
 import HexMapView from "./HexMapView";
-import {Game} from "../../type/gameStates";
+import {Game} from "../../type/GameTypes";
 import UnitSelect from "../UI/UnitSelect";
 
 interface Props

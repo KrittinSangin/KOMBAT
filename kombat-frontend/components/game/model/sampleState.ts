@@ -1,4 +1,4 @@
-import {Game, Hex, Minion} from "../type/gameStates";
+import {Game, Hex, Minion} from "../type/GameTypes";
 import {Config, HexPos} from "../../../ttypes/type";
 import {GameStateEnum} from "../../../ttypes/enums";
 import {Texture} from "../type/Rendering";

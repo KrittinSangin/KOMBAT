@@ -3,7 +3,7 @@ import HexView from "./HexView";
 import {useEffect, useState} from "react";
 import RectView from "../Renderer/RectView";
 import {Vec2} from "../../type/Primitive";
-import {HexMap} from "../../type/gameStates";
+import {HexMap} from "../../type/GameTypes";
 import useDeviceSize from "../../../CustomHook/useDeviceSize";
 import {hexMapGet} from "../../model/hexMap";
 import UnitCard from "../UI/UnitCard";
@@ -74,8 +74,8 @@ export default function HexMapView(map:HexMap) {
                     />
                 </div>
             })}
-        {horizontalLine(4)}
-        {verticalLine(4)}
+        {/*{horizontalLine(4)}*/}
+        {/*{verticalLine(4)}*/}
     </div>
 
 }

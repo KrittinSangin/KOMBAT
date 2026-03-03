@@ -6,14 +6,12 @@ import {
     HexDir, PlayerIntentEnum
 } from "./enums";
 
-export interface HexPos
-{
+export interface HexPos {
     "row": number
     "col": number
 }
 
-export interface StartInfo
-{
+export interface StartInfoDTO {
     config: Config,
     p1info: PlayerInfo,
     p2info: PlayerInfo,
@@ -21,86 +19,79 @@ export interface StartInfo
     deck2: MinionDTO[]
 }
 
-export interface Config
-{
-  "spawnCost": number,
-  "hexPurchaseCost": number,
-  "initBudget": number,
-  "initHp": number,
-  "turnBudget": number,
-  "maxBudget": number,
-  "interestPct": number,
-  "maxTurns": number,
-  "maxSpawns": number,
+export interface Config {
+    "spawnCost": number,
+    "hexPurchaseCost": number,
+    "initBudget": number,
+    "initHp": number,
+    "turnBudget": number,
+    "maxBudget": number,
+    "interestPct": number,
+    "maxTurns": number,
+    "maxSpawns": number,
 
-  "mapWidth": number,
-  "mapHeight": number,
+    "mapWidth": number,
+    "mapHeight": number,
 
-  "startHexPosP1": HexPos[],
-  "startHexPosP2": HexPos[]
+    "startHexPosP1": HexPos[],
+    "startHexPosP2": HexPos[]
 }
 
-export interface PlayerIntent
-{
-  "intent": PlayerIntentEnum,
-  "hex": HexPos,
-  "minion": number
+export interface PlayerIntent {
+    "intent": PlayerIntentEnum,
+    "hex": HexPos,
+    "minion": number
 }
 
-export interface PlayerInfo
-{
-  "name": string,
-  "team": number
-}
-export interface MinionDTO
-{
-  "name": string
-  "deckIndex": number
-  "team": number
-  "hp": number
-  "def": number
+export interface PlayerInfo {
+    "name": string,
+    "team": number
 }
 
-export interface ExecutionInstanceLogDTO
-{
-  "minion": MinionDTO,
-  "entries": ExecutionInstanceLogEntry[],
-  "reason": HaltReason
-}
-export interface ExecutionInstanceLogEntry
-{
-  "typeof": ExecutionInstanceLogFunctionTypeOf,
-  "function": ExecutionInstanceLogFunction,
-  "dir": HexDir
+export interface MinionDTO {
+    "name": string,
+    "pos" : HexPos,
+    "deckIndex": number,
+    "team": number,
+    "hp": number,
+    "def": number,
 }
 
-export interface PlayerDTO
-{
-  "info" : PlayerInfo,
-  "budget": number,
-  "interestRatePercentage": number,
-  "spawnCount": number,
-  "territories": HexPos[],
-  "minions" : MinionDTO[]
+export interface ExecutionInstanceLogDTO {
+    "minion": MinionDTO,
+    "entries": ExecutionInstanceLogEntry[],
+    "reason": HaltReason
 }
 
+export interface ExecutionInstanceLogEntry {
+    "typeof": ExecutionInstanceLogFunctionTypeOf,
+    "function": ExecutionInstanceLogFunction,
+    "dir": HexDir
+}
+
+export interface PlayerDTO {
+    "info": PlayerInfo,
+    "budget": number,
+    "interestRatePercentage": number,
+    "spawnCount": number,
+    "territories": HexPos[],
+    "minions": MinionDTO[]
+}
 
 
 export interface GameDTO {
-  "players" : PlayerDTO[]
-  "team": number,
-  "turn": number,
-  "state": GameStateEnum,
-  "lastState": GameStateEnum,
-  "winner": number,
-  "inputIntent": PlayerIntent,
-  "isStateChange": boolean,
-  "isValidIntent": boolean,
-  "isGameStart": boolean,
-  "isGameOver": boolean,
-  "isGameResign": boolean,
-  "isGameDraw": boolean,
-  "executionInstanceLog": ExecutionInstanceLogDTO[]
+    "players": PlayerDTO[]
+    "team": number,
+    "turn": number,
+    "state": GameStateEnum,
+    "lastState": GameStateEnum,
+    "winner": number,
+    "inputIntent": PlayerIntent,
+    "isStateChange": boolean,
+    "isValidIntent": boolean,
+    "isGameStart": boolean,
+    "isGameOver": boolean,
+    "isGameResign": boolean,
+    "isGameDraw": boolean,
+    "executionInstanceLog": ExecutionInstanceLogDTO[]
 }
-
-

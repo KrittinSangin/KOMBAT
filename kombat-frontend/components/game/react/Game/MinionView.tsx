@@ -1,4 +1,4 @@
-import {Minion} from "../../type/gameStates";
+import {Minion} from "../../type/GameTypes";
 import {Vec2} from "../../type/Primitive";
 import SpriteView from "../Renderer/SpriteView";
 

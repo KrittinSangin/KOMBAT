@@ -1,4 +1,4 @@
-import {Game} from "../../type/gameStates";
+import {Game} from "../../type/GameTypes";
 import GameView from "../Game/GameView";
 
 interface Props

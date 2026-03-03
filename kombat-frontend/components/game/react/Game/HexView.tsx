@@ -1,5 +1,5 @@
 import {Rect, Vec2} from "../../type/Primitive";
-import {Hex, Minion} from "../../type/gameStates";
+import {Hex, Minion} from "../../type/GameTypes";
 import {Sprite, Texture} from "../../type/Rendering";
 import {c_Transform2, c_Vec2} from "../../utils/utility";
 import {gamHexB_T, gamHexN_T, gamHexR_T} from "../../resources/textureResource";

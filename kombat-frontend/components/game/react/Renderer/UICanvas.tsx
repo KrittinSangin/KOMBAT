@@ -1,6 +1,6 @@
-import {Game} from "../../type/gameStates";
+import {Game} from "../../type/GameTypes";
 import UnitSelect from "../UI/UnitSelect";
-import GameNavigationBar from "../UI/GameNavigationBar";
+import GameInfoBar from "../UI/GameInfoBar";
 import NoticeWindow from "../UI/NoticeWindow";
 import EventLog from "../UI/EventLog";
 
@@ -17,8 +17,8 @@ export default function UICanvas({game}: Props) {
                     top: 0,
                 }}>
         <UnitSelect deck={game.players[game.team].deck}></UnitSelect>
-        <GameNavigationBar/>
-        <NoticeWindow/>
-        <EventLog/>
+        <GameInfoBar/>
+        <NoticeWindow text={""} hidden={true}/>
+        <EventLog hidden={true}/>
     </div>
 }

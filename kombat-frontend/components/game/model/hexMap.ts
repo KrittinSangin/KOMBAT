@@ -1,4 +1,4 @@
-import {Hex, HexMap, Minion} from "../type/gameStates";
+import {Hex, HexMap, Minion} from "../type/GameTypes";
 import {HexPos} from "../../../ttypes/type";
 
 export const hexKey = (pos:HexPos) => {
