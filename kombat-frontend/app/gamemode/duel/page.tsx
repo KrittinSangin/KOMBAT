@@ -7,7 +7,7 @@ import { useRouter } from "next/navigation";
 import { checkState } from "../../page";
 import { rand } from "./join_room/page";
 import { create } from "zustand";
-
+import { MessageHolder } from "../../../ttypes/type";
 type CheckStateStore = {
   state: string;
   setOrigin: (value: string) => void;
@@ -37,6 +37,7 @@ export default function DuelPage(){
     const moveToGameModePage = () => {
       checkState.getState().setState("gamemode");
     router.push("/gamemode");
+    duelWhereDidYouComeFrom.getState().setOrigin("")
   };
 
         const moveToConfigPage = async (mode: string) => {
@@ -62,6 +63,7 @@ try {
     router.push(`/configuration/deepweb1?mode=${mode}`);
   };
     const moveToJoinRoomPage = () => {
+    duelWhereDidYouComeFrom.getState().setOrigin("JOIN");
     router.push("/gamemode/duel/join_room");
   };
 

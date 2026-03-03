@@ -25,8 +25,23 @@ export type ConfigureState = ConfigValues & {
 
   setAll: (config: Partial<ConfigValues>) => void
 }
+export type ProfileConfigProps = {
+    team: number;
+    left:number;
+    top:number;
+    online1:boolean; 
+    online2:boolean; 
+    // true=online, false=offline
+}
 
-interface MessageHolder
+export type NameOf2Players = {
+  player1 : string;
+  player2 : string;
+  setPlayer1Name: (value: string) => void
+  setPlayer2Name: (value: string) => void
+}
+
+export type MessageHolder =
 {
   isSuccess: boolean,
   Message: string

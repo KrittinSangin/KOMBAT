@@ -13,7 +13,7 @@ import { rand } from "../gamemode/duel/join_room/page";
 import Slider from "../../components/Slider";
 import { create } from "zustand"
 import { ConfigureState } from "../../ttypes/type";
-
+import { duelWhereDidYouComeFrom } from "../gamemode/duel/page";
   export const  useConfigStore = create<ConfigureState>((set) => ({
     _Hp : 1,
     _minions: 5,
@@ -49,7 +49,7 @@ import { ConfigureState } from "../../ttypes/type";
     const mode = searchParams.get("mode")?.split("/")[0];
 
     const router = useRouter();
-    const ac = rand.getState().code;
+    const ac = duelWhereDidYouComeFrom.getState().checkOrigin() == "CREATE" ? rand.getState().code : duelWhereDidYouComeFrom.getState().checkOrigin();
     const moveToSelectPage = () => {
         if(mode === "Duel"){
             checkState.getState().setState("duel");
@@ -210,8 +210,8 @@ const setSpawnCost = useConfigStore(s => s.setSpawningCost);
                                        </h1>
                                    </div>
             <CodeHost number_={ac}></CodeHost>
-            <ProfileConfig online={true} team={1} left={900} top={310}></ProfileConfig>
-            <ProfileConfig online={false} team={2} left={900} top={425}></ProfileConfig>
+            <ProfileConfig online1={duelWhereDidYouComeFrom.getState().checkOrigin() == "CREATE"} online2={duelWhereDidYouComeFrom.getState().checkOrigin() !== "CREATE"} team={1} left={900} top={310}></ProfileConfig>
+            {/* <ProfileConfig online={false} team={2} left={900} top={425}></ProfileConfig> */}
             <Button src="/purple_btn.PNG" alt="Back"  overlayText="Back" bottom="-320" left="75" color="#6a0dad" onClick={moveToSelectPage} font_size="70" height="150" width="250"/>
             {/* <Button src="/purple_opaque.PNG" alt="Play"  overlayText="Play" bottom="-320" left="375" color="#6a0dad30" onClick={()=>{}} font_size="70" height="150" width="250" /> */}
             

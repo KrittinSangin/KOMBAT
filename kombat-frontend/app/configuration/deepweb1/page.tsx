@@ -11,7 +11,7 @@ import { _useConfigStore } from "../../../components/DTOHandler";
 import { useConfigStore } from "../page";
 import { duelWhereDidYouComeFrom } from "../../gamemode/duel/page";
 import { useShallow } from "zustand/react/shallow";
-
+import { Global2Players } from "../components/ProfileConfig";
 
 
 export default function Chat() {
@@ -94,7 +94,8 @@ useEffect(() => {
       console.log("Not connected");
       return;
     }
-    // console.log("Doing this");
+    console.log("Doing this");
+    Global2Players.getState().setPlayer1Name("KUY");
     clientRef.current.publish({
       destination: "/app/room.send",
       body: JSON.stringify({
