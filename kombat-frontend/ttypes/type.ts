@@ -1,3 +1,31 @@
+
+
+type ConfigValues = {
+  _Hp: number
+  _minions: number
+  _turnMax: number
+  _startingBudget: number
+  _maximumBudget: number
+  _interest: number
+  _hexCost: number
+  _spawningCost: number
+  _maximumSpawn: number
+}
+
+export type ConfigureState = ConfigValues & {
+  setHp: (value: number) => void
+  setMinions: (value: number) => void
+  setTurnMax: (value: number) => void
+  setStartingBudget: (value: number) => void
+  setMaximumBudget: (value: number) => void
+  setInterest: (value: number) => void
+  setHexCost: (value: number) => void
+  setSpawningCost: (value: number) => void
+  setMaximumSpawn: (value: number) => void
+
+  setAll: (config: Partial<ConfigValues>) => void
+}
+
 interface MessageHolder
 {
   isSuccess: boolean,

@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { use, useEffect, useState } from "react";
 import GameLayout from "../../components/GameLayout";
 import CodeHost from "./components/CodeHost";
 import ProfileConfig from "./components/ProfileConfig";
@@ -11,6 +11,38 @@ import { useSearchParams } from "next/navigation";
 import getRandomCode from "../gamemode/page";
 import { rand } from "../gamemode/duel/join_room/page";
 import Slider from "../../components/Slider";
+import { create } from "zustand"
+import { ConfigureState } from "../../ttypes/type";
+
+  export const  useConfigStore = create<ConfigureState>((set) => ({
+    _Hp : 1,
+    _minions: 5,
+    _turnMax: 1,
+    _startingBudget: 1,
+    _maximumBudget : 1,
+    _interest: 1,
+    _hexCost : 1,
+    _spawningCost : 1,
+    _maximumSpawn : 1,
+
+    setHp: (value) => set({_Hp: value}),
+    setMinions       : ( value )  => set({_minions: value}),
+    setTurnMax       : ( value )  => set({_turnMax: value}),
+    setStartingBudget: ( value )  => set({_startingBudget: value}),
+    setMaximumBudget : ( value )  => set({_maximumBudget: value}),
+    setInterest      : ( value )  => set({_interest: value}),
+    setHexCost       : ( value )  => set({_hexCost: value}),
+    setSpawningCost  : ( value )  => set({_spawningCost: value}),
+    setMaximumSpawn  : ( value )  => set({_maximumSpawn: value}),
+    
+    setAll: (config) =>
+    set((state) => ({
+      ...state,
+      ...config
+    })),
+  }))
+
+
 
  export default function CreateRoomPage(){
     const searchParams = useSearchParams();
@@ -43,80 +75,114 @@ import Slider from "../../components/Slider";
     let borderColor:string = "grey";
     let sliderColor:string = "white";
 
-    const [config, setConfig] = useState({
-  minionCount: sliderRange.minionCount.max,
-  initHp: sliderRange.initHp.min,
-  maxTurn: sliderRange.maxTurn.min,
-  initBudget: sliderRange.initBudget.min,
-  maxBudget: sliderRange.maxBudget.min,
-  interestPct: sliderRange.interestPct.min,
-  hexPurchaseCost: sliderRange.hexPurchaseCost.min,
-  spawnCost: sliderRange.spawnCost.min,
-  maxSpawn: sliderRange.maxSpawn.min
-})
+const resetConfig = () => {
+    // set your default values here
+  const state = useConfigStore.getState();
+  state.setHexCost(1);
+  state.setHp(1);
+  state.setInterest(1);
+  state.setMaximumBudget(1);
+  state.setMaximumSpawn(1);
+  state.setSpawningCost(1);
+  state.setStartingBudget(1);
+  state.setTurnMax(1);
+  state.setMinions(5);
+};
 
-    const handleMinionCountChange = (value: number) => {
-  setConfig(prev => ({
-    ...prev,
-    minionCount: value
-  }))
-}
+  const minionCount = useConfigStore(s => s._minions);
+  const setMinionCount = useConfigStore(s => s.setMinions);
 
-    const handleInitHpChange = (value: number) => {
-  setConfig(prev => ({
-    ...prev,
-    initHp: value
-  }))
-}
+//     const handleMinionCountChange = (value: number) => {
+//   setConfig(prev => ({
+//     ...prev,
+//     minionCount: value,
+//   }))
+// }
+  
 
-    const handleinitBudgetChange = (value: number) => {
-  setConfig(prev => ({
-    ...prev,
-    initBudget: value
-  }))
-}
+    const hp = useConfigStore(s => s._Hp);
+    const setHp = useConfigStore(s => s.setHp);
 
-    const handleinterestPctChange = (value: number) => {
-  setConfig(prev => ({
-    ...prev,
-    interestPct: value
-  }))
-}
 
-        const handlemaxBudgetChange = (value: number) => {
-  setConfig(prev => ({
-    ...prev,
-    maxBudget: value
-  }))
-}
 
-        const handlehexPerchaseCostChange = (value: number) => {
-  setConfig(prev => ({
-    ...prev,
-    hexPurchaseCost: value
-  }))
-}
 
-    const handlemaxTurnChange = (value: number) => {
-  setConfig(prev => ({
-    ...prev,
-    maxTurn: value
-  }))
-}
+    const budget = useConfigStore(s => s._startingBudget);
+    const setBudget = useConfigStore(s => s.setStartingBudget);
 
-        const handlemaxSpawnChange = (value: number) => {
-  setConfig(prev => ({
-    ...prev,
-    maxSpawn: value
-  }))
-}
+//     const handleinitBudgetChange = (value: number) => {
+//   setConfig(prev => ({
+//     ...prev,
+//     initBudget: value
+//   }))
+// }
 
-        const handlespawnCostChange = (value: number) => {
-  setConfig(prev => ({
-    ...prev,
-    spawnCost: value
-  }))
-}
+
+  const pct = useConfigStore(s => s._interest);
+  const setPct = useConfigStore(s => s.setInterest);
+
+//     const handleinterestPctChange = (value: number) => {
+//   setConfig(prev => ({
+//     ...prev,
+//     interestPct: value
+//   }))
+// }
+
+
+
+const budgetChange = useConfigStore(s => s._maximumBudget);
+const setBudgetChange = useConfigStore(s => s.setMaximumBudget);
+
+//         const handlemaxBudgetChange = (value: number) => {
+//   setConfig(prev => ({
+//     ...prev,
+//     maxBudget: value
+//   }))
+// }
+
+
+const hexPurchaseCost = useConfigStore(s => s._hexCost);
+const setHexPurchaseCost = useConfigStore(s => s.setHexCost);
+
+//         const handlehexPerchaseCostChange = (value: number) => {
+//   setConfig(prev => ({
+//     ...prev,
+//     hexPurchaseCost: value
+//   }))
+// }
+
+
+const turnChange = useConfigStore(s => s._turnMax);
+const setTurnChange = useConfigStore(s => s.setTurnMax);
+
+
+
+//     const handlemaxTurnChange = (value: number) => {
+//   setConfig(prev => ({
+//     ...prev,
+//     maxTurn: value
+//   }))
+// }
+
+
+const maxSpawn = useConfigStore(s => s._maximumSpawn);
+const setMaxSpawn = useConfigStore(s => s.setMaximumSpawn);
+
+//         const handlemaxSpawnChange = (value: number) => {
+//   setConfig(prev => ({
+//     ...prev,
+//     maxSpawn: value
+//   }))
+// }
+
+const spawnCost = useConfigStore(s => s._spawningCost);
+const setSpawnCost = useConfigStore(s => s.setSpawningCost);
+
+//         const handlespawnCostChange = (value: number) => {
+//   setConfig(prev => ({
+//     ...prev,
+//     spawnCost: value
+//   }))
+// }
 
     return(
         <>
@@ -127,17 +193,17 @@ import Slider from "../../components/Slider";
                                            Configuration
                                            <div className="box-content fixed left-10 top-35 w-[44.5%] h-[70%]" style={{ backgroundColor: "#D9D9D9" }}>
                                                
-                                                   <Slider min={sliderRange.initHp.min} max={sliderRange.initHp.max} bottom={500} left={left} overlayText="Init HP" borderColor={borderColor} sliderColor={sliderColor} value={config.initHp} setState={handleInitHpChange}></Slider>
-                                                   <Slider min={sliderRange.maxTurn.min} max={sliderRange.maxTurn.max} bottom={450} left={left} overlayText="Max turn" borderColor={borderColor} sliderColor={sliderColor} value={config.maxTurn} setState={handlemaxTurnChange}></Slider>
-                                                   <Slider min={sliderRange.initBudget.min} max={sliderRange.initBudget.max} bottom={400} left={left} overlayText="Init Budget" borderColor={borderColor} sliderColor={sliderColor} value={config.initBudget} setState={handleinitBudgetChange}></Slider>
-                                                   <Slider min={sliderRange.maxBudget.min} max={sliderRange.maxBudget.max} bottom={350} left={left} overlayText="Max Budget" borderColor={borderColor} sliderColor={sliderColor} value={config.maxBudget} setState={handlemaxBudgetChange}></Slider>
-                                                   <Slider min={sliderRange.interestPct.min} max={sliderRange.interestPct.max} bottom={300} left={left} overlayText="Interest Pct" borderColor={borderColor} sliderColor={sliderColor} value={config.interestPct} setState={handleinterestPctChange}></Slider>
-                                                   <Slider min={sliderRange.hexPurchaseCost.min} max={sliderRange.hexPurchaseCost.max} bottom={250} left={left} overlayText="Hex Purchase Cost" borderColor={borderColor} sliderColor={sliderColor} value={config.hexPurchaseCost} setState={handlehexPerchaseCostChange}></Slider>
-                                                   <Slider min={sliderRange.spawnCost.min} max={sliderRange.spawnCost.max} bottom={200} left={left} overlayText="Spawn Cost" borderColor={borderColor} sliderColor={sliderColor} value={config.spawnCost} setState={handlespawnCostChange}></Slider>
-                                                   <Slider min={sliderRange.maxSpawn.min} max={sliderRange.maxSpawn.max} bottom={150} left={left} overlayText="Max Spawn" borderColor={borderColor} sliderColor={sliderColor} value={config.maxSpawn} setState={handlemaxSpawnChange}></Slider>
-                                                   <Slider min={sliderRange.minionCount.min} max={sliderRange.minionCount.max} bottom={100} left={left} overlayText="Each Minions Per Team" borderColor={borderColor} sliderColor={sliderColor} value={config.minionCount} setState={handleMinionCountChange} ></Slider>
+                                                   <Slider min={sliderRange.initHp.min} max={sliderRange.initHp.max} bottom={500} left={left} overlayText="Init HP" borderColor={borderColor} sliderColor={sliderColor} value={hp} setState={setHp}></Slider>
+                                                   <Slider min={sliderRange.maxTurn.min} max={sliderRange.maxTurn.max} bottom={450} left={left} overlayText="Max turn" borderColor={borderColor} sliderColor={sliderColor} value={turnChange} setState={setTurnChange}></Slider>
+                                                   <Slider min={sliderRange.initBudget.min} max={sliderRange.initBudget.max} bottom={400} left={left} overlayText="Init Budget" borderColor={borderColor} sliderColor={sliderColor} value={budget} setState={setBudget}></Slider>
+                                                   <Slider min={sliderRange.maxBudget.min} max={sliderRange.maxBudget.max} bottom={350} left={left} overlayText="Max Budget" borderColor={borderColor} sliderColor={sliderColor} value={budgetChange} setState={setBudgetChange}></Slider>
+                                                   <Slider min={sliderRange.interestPct.min} max={sliderRange.interestPct.max} bottom={300} left={left} overlayText="Interest Pct" borderColor={borderColor} sliderColor={sliderColor} value={pct} setState={setPct}></Slider>
+                                                   <Slider min={sliderRange.hexPurchaseCost.min} max={sliderRange.hexPurchaseCost.max} bottom={250} left={left} overlayText="Hex Purchase Cost" borderColor={borderColor} sliderColor={sliderColor} value={hexPurchaseCost} setState={setHexPurchaseCost}></Slider>
+                                                   <Slider min={sliderRange.spawnCost.min} max={sliderRange.spawnCost.max} bottom={200} left={left} overlayText="Spawn Cost" borderColor={borderColor} sliderColor={sliderColor} value={spawnCost} setState={setSpawnCost}></Slider>
+                                                   <Slider min={sliderRange.maxSpawn.min} max={sliderRange.maxSpawn.max} bottom={150} left={left} overlayText="Max Spawn" borderColor={borderColor} sliderColor={sliderColor} value={maxSpawn} setState={setMaxSpawn}></Slider>
+                                                   <Slider min={sliderRange.minionCount.min} max={sliderRange.minionCount.max} bottom={100} left={left} overlayText="Each Minions Per Team" borderColor={borderColor} sliderColor={sliderColor} value={minionCount} setState={setMinionCount} ></Slider>
                                                    <div className="absolute w-[200px] h-[40px] bottom-[30px] left-[35%]" style={{backgroundColor:"#a8a8a8"}}>
-                                                    <p className="text-white text-[25px] text-center">Set to default</p>
+                                                   <p className="text-white text-[25px] text-center" onClick={resetConfig}>Set to default</p>
                                                    </div>
                                                
                                            </div>
