@@ -57,7 +57,7 @@ export default function gamemodePage(){
                 <Button src="/green_btn.PNG" alt="Auto"  overlayText="Auto" bottom="-145" left="265" color="green" font_size="70" height="150" width="300" onClick={() => moveToConfigPage("Auto")}>
                 </Button>
                 {/* send gamemode to back-end */}
-                <Button src="/purple_btn.PNG" alt="Back" overlayText="Back" onClick={moveToHomePage} bottom="-265" left="265" color="#6a0dad" font_size="70" height="150" width="300">
+                <Button src="/purple_btn.PNG" alt="Back" overlayText="Back" onClick={moveToHomePage} bottom="-265" left="265" color="#6a0dad" font_size="50" height="150" width="300">
                 </Button>
             </GameLayout>
         </>

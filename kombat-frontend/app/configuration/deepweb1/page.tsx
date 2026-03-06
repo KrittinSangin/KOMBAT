@@ -13,18 +13,17 @@ import { duelWhereDidYouComeFrom } from "../../gamemode/duel/page";
 import { useShallow } from "zustand/react/shallow";
 import { Global2Players } from "../components/ProfileConfig";
 import { onlineChecker } from "../page";
-import type { joinedHandler, _joinedHandler, NameOf2Players } from "../../../ttypes/type";
-import { Global } from "@emotion/react";
-import { stringify } from "querystring";
+import type { _joinedHandler, NameOf2Players } from "../../../ttypes/type";
 export default function Chat() {
-
+const [isReady, setIsReady] = useState(false);
   
 
 
   const [page, setPage] = useState("CreateRoomPage");
   const clientRef = useRef<Client | null>(null);
   const roomCode = (duelWhereDidYouComeFrom.getState().checkOrigin() == "CREATE") ? rand.getState().code : duelWhereDidYouComeFrom.getState().checkOrigin()
- 
+  const [clientReady, setClientReady] = useState(false);
+  
 
   const connectAndSubscribe = () => {
     const client = new Client({
@@ -56,6 +55,9 @@ export default function Chat() {
            Global2Players.getState().setPlayer1Name(IntelligentMessage.player1)
            Global2Players.getState().setPlayer2Name(IntelligentMessage.player2)
          })
+         client.subscribe("/topic/ready", message => {
+          setClientReady(message.body == "true")
+         })
       }
     });
 
@@ -65,7 +67,6 @@ export default function Chat() {
  useEffect(() => {
 
   connectAndSubscribe();
-
   return () => {
     if (clientRef.current) {
       clientRef.current.deactivate();
@@ -100,7 +101,6 @@ const player1 = Global2Players((state) => state.player1);
 const player2 = Global2Players((state) => state.player2);
 
 useEffect(() => {
-  
   const client = clientRef.current;
   if (client && client.connected) {
     const timeout = setTimeout(() => {
@@ -126,13 +126,27 @@ useEffect(() => {
       })
     });
   };
-
-  
+ 
+  const Ready = () => {
+     setIsReady(!isReady)
+    clientRef.current?.publish({
+      destination:"/app/ready",
+      body: (!isReady).toString()
+    })
+  }
+  const isThisDudeAHost = duelWhereDidYouComeFrom.getState().checkOrigin() == "CREATE";
   return (
     <div>
     {page === "CreateRoomPage" && <CreateRoomPage /> }
-    {duelWhereDidYouComeFrom.getState().checkOrigin() == "CREATE" && <Button src="/purple_opaque.PNG" alt="Join Room" overlayText="HEE" font_size="50" height="150" width="250" color="grey" bottom="65" left="1100" onClick={(sendMessage)} ></Button>}
-    {duelWhereDidYouComeFrom.getState().checkOrigin() == rand.getState().code && <Button src="/purple_opaque.PNG" alt="Join Room" overlayText="HOO" font_size="50" height="150" width="250" color="grey" bottom="65" left="1100" onClick={(sendMessage)} ></Button>}
+    {isThisDudeAHost && clientReady && <Button src="/purple_btn.PNG" alt="Join Room" overlayText="Start" font_size="50" height="150" width="250" color="grey" bottom="65" left="1100" onClick={(sendMessage)} ></Button>}
+    {isThisDudeAHost && !clientReady && <Button src="/purple_opaque.PNG" alt="Join Room" overlayText="Start" font_size="50" height="150" width="250" color="grey" bottom="65" left="1100" onClick={()=>{}} ></Button>}
+    {isThisDudeAHost && clientReady && <div className="text-2xl absolute bottom-[80px] left-[850px] text-green-900 bg-green-100/50">Opponent ready!</div>}
+    {isThisDudeAHost && !clientReady && <div className="text-2xl absolute bottom-[80px] left-[850px] text-yellow-900 bg-yellow-100/50">waiting for the opponent to be ready...</div>}
+    {isReady && !isThisDudeAHost && <Button src="/purple_btn.PNG" alt="Join Room" overlayText="Ready" font_size="50" height="150" width="250" color="grey" bottom="65" left="1100" onClick={(Ready)} ></Button>}
+    {!isReady && !isThisDudeAHost && <div className="text-2xl absolute bottom-[80px] left-[850px] text-yellow-900 bg-yellow-100/50">waiting for you to be ready...</div>}
+    {isReady && !isThisDudeAHost && <div className="text-2xl absolute bottom-[80px] left-[850px] text-green-900 bg-green-100/50">you are ready!</div>}
+    {!isReady && !isThisDudeAHost && <Button src="/purple_opaque.PNG" alt="Join Room" overlayText="Not Ready" font_size="50" height="150" width="250" color="grey" bottom="65" left="1100" onClick={(Ready)} ></Button>}
+   
     </div>
   );
 }
