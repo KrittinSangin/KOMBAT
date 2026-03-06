@@ -16,6 +16,7 @@ import { onlineChecker } from "../page";
 import { checkState } from "../../page";
 import type { _joinedHandler, NameOf2Players } from "../../../ttypes/type";
 import { useRouter } from "next/navigation";
+import { METHODS } from "http";
 export default function Chat() {
 const [isReady, setIsReady] = useState(false);
   
@@ -25,11 +26,11 @@ const [isReady, setIsReady] = useState(false);
   const clientRef = useRef<Client | null>(null);
   const roomCode = (duelWhereDidYouComeFrom.getState().checkOrigin() == "CREATE") ? rand.getState().code : duelWhereDidYouComeFrom.getState().checkOrigin()
   const [clientReady, setClientReady] = useState(false);
-  
+  const URL = "localhost"
 
   const connectAndSubscribe = () => {
     const client = new Client({
-      webSocketFactory: () => new SockJS("http://localhost:8080/ws"),
+      webSocketFactory: () => new SockJS(`http://${URL}:8080/ws`),
       onConnect: () => {
         
         console.log("Connected");
@@ -61,6 +62,10 @@ const [isReady, setIsReady] = useState(false);
           if(message.body == "true") setClientReady(true);
           else if(message.body == "false") setClientReady(false);
           else{
+            fetch(`http://${URL}:8080/data/config`,{
+              method : "POST",
+              body: JSON.stringify(useConfigStore.getState())
+            })
             router.push("/gameInit")
           }
          })
