@@ -12,6 +12,17 @@ type ConfigValues = {
   _maximumSpawn: number
 }
 
+export type joinedHandler = {
+      hostID : string
+      clientID : string
+    setHostID: (value: string) => void
+    setClientID: (value: string) => void
+}
+export type _joinedHandler = {
+      hostID : string
+      clientID : string
+}
+
 export type ConfigureState = ConfigValues & {
   setHp: (value: number) => void
   setMinions: (value: number) => void

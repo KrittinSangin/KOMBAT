@@ -51,7 +51,7 @@ export default function JoinRoomPage(){
         fetcher().then(async response => {
            
                 const data = await response.json();
-                console.log(data.isSuccess);
+                // console.log(data.isSuccess);
                 if(data.isSuccess){
                 duelWhereDidYouComeFrom.getState().setOrigin(`${Code}`);
                 router.push("/configuration/deepweb1?mode=Duel");

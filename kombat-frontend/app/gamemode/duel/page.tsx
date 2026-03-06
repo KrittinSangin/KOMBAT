@@ -50,7 +50,7 @@ try {
   let test2: MessageHolder = await fetch(`http://localhost:8080/data/send/${rand.getState().code}`, {
     method: 'POST'
   }).then(response => response.json());
-  console.log(test2)
+  // console.log(test2)
 }catch (error) {
   if(error == "TypeError: Failed to fetch"){
     alert("Server might be down. Please try again later.");
