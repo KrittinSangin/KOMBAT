@@ -13,7 +13,9 @@ import { duelWhereDidYouComeFrom } from "../../gamemode/duel/page";
 import { useShallow } from "zustand/react/shallow";
 import { Global2Players } from "../components/ProfileConfig";
 import { onlineChecker } from "../page";
+import { checkState } from "../../page";
 import type { _joinedHandler, NameOf2Players } from "../../../ttypes/type";
+import { useRouter } from "next/navigation";
 export default function Chat() {
 const [isReady, setIsReady] = useState(false);
   
@@ -40,8 +42,8 @@ const [isReady, setIsReady] = useState(false);
         client.subscribe(`/topic/user-number`, message => {
           const data: _joinedHandler = JSON.parse(message.body)
           console.log(data)
-          onlineChecker.getState().setHostID(data.hostID.toString())
-          onlineChecker.getState().setClientID(data.clientID.toString())
+          onlineChecker.getState().setHostID(data?.hostID == null ? "null" : String(data.hostID))
+          onlineChecker.getState().setClientID(data?.clientID == null ? "null" : String(data.clientID))
          });
 
          client.subscribe(`/topic/config/`,message  => {
@@ -56,7 +58,11 @@ const [isReady, setIsReady] = useState(false);
            Global2Players.getState().setPlayer2Name(IntelligentMessage.player2)
          })
          client.subscribe("/topic/ready", message => {
-          setClientReady(message.body == "true")
+          if(message.body == "true") setClientReady(true);
+          else if(message.body == "false") setClientReady(false);
+          else{
+            router.push("/gameInit")
+          }
          })
       }
     });
@@ -111,22 +117,16 @@ useEffect(() => {
   },200);
   }
 }, [player1, player2]);
+
+
   const sendMessage = () => {
-    if (!clientRef.current || !clientRef.current.connected) {
-      // console.log("Not connected");
-      return;
-    }
-    // console.log("Doing this");
-    Global2Players.getState().setPlayer1Name("KUY");
-    clientRef.current.publish({
-      destination: "/app/room.send",
-      body: JSON.stringify({
-         roomId: roomCode,
-        content: "Hello from button"
-      })
-    });
+   clientRef.current?.publish({
+      destination:"/topic/ready",
+      body: "GO"
+    })
   };
- 
+  
+  const isThisDudeAHost = duelWhereDidYouComeFrom.getState().checkOrigin() == "CREATE";
   const Ready = () => {
      setIsReady(!isReady)
     clientRef.current?.publish({
@@ -134,7 +134,26 @@ useEffect(() => {
       body: (!isReady).toString()
     })
   }
-  const isThisDudeAHost = duelWhereDidYouComeFrom.getState().checkOrigin() == "CREATE";
+  const router = useRouter();
+  const handleBackButton = () => {
+    if (!clientRef.current || !clientRef.current.connected) {
+      console.log("Not connected");
+      return;
+    }
+    if(!isThisDudeAHost)clientRef.current.publish({
+      destination:"/topic/ready",
+      body: "false"
+    })
+    clientRef.current.unsubscribe(`/topic/room/${roomCode}`);
+    clientRef.current.unsubscribe(`/topic/user-number`)
+    clientRef.current.unsubscribe(`/topic/config/`)
+    clientRef.current.unsubscribe("/topic/usernames")
+    clientRef.current.unsubscribe("/topic/ready")
+    checkState.getState().setState("duel");
+    
+    router.push("/gamemode/duel");
+
+  }
   return (
     <div>
     {page === "CreateRoomPage" && <CreateRoomPage /> }
@@ -146,7 +165,10 @@ useEffect(() => {
     {!isReady && !isThisDudeAHost && <div className="text-2xl absolute bottom-[80px] left-[850px] text-yellow-900 bg-yellow-100/50">waiting for you to be ready...</div>}
     {isReady && !isThisDudeAHost && <div className="text-2xl absolute bottom-[80px] left-[850px] text-green-900 bg-green-100/50">you are ready!</div>}
     {!isReady && !isThisDudeAHost && <Button src="/purple_opaque.PNG" alt="Join Room" overlayText="Not Ready" font_size="50" height="150" width="250" color="grey" bottom="65" left="1100" onClick={(Ready)} ></Button>}
-   
+    {!isThisDudeAHost && !isReady && <Button src="/purple_btn.PNG" alt="Back" overlayText="Back" onClick={handleBackButton} bottom="65" left="800" color="#6a0dad" font_size="50" height="150" width="250"></Button>}    
+    {!isThisDudeAHost && isReady && <Button src="/purple_opaque.PNG" alt="Back" overlayText="Back" onClick={()=>{}} bottom="65" left="800" color="#6a0dad" font_size="50" height="150" width="250"></Button>} 
+    {isThisDudeAHost && <Button src="/purple_btn.PNG" alt="Back" overlayText="Back" onClick={handleBackButton} bottom="65" left="800" color="#6a0dad" font_size="50" height="150" width="250"></Button>}    
+      
     </div>
   );
 }

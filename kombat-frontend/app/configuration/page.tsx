@@ -54,8 +54,7 @@ import { duelWhereDidYouComeFrom } from "../gamemode/duel/page";
 
  export default function CreateRoomPage(){
   
-  const hostID = onlineChecker(state => state.hostID)
-const clientID = onlineChecker(state => state.clientID)
+
 
     const searchParams = useSearchParams();
     const mode = searchParams.get("mode")?.split("/")[0];
@@ -195,7 +194,8 @@ const setSpawnCost = useConfigStore(s => s.setSpawningCost);
 //     spawnCost: value
 //   }))
 // }
-
+  const hostID = onlineChecker(state => state.hostID)
+  const clientID = onlineChecker(state => state.clientID)
     return(
         <>
          <GameLayout src="/homepage_bg.jpeg" alt="Create Room">
@@ -224,7 +224,7 @@ const setSpawnCost = useConfigStore(s => s.setSpawningCost);
             <CodeHost number_={ac}></CodeHost>
             <ProfileConfig online1={hostID != "null"} online2={clientID != "null"} team={1} left={900} top={310}></ProfileConfig>
             {/* <ProfileConfig online={false} team={2} left={900} top={425}></ProfileConfig> */}
-            <Button src="/purple_btn.PNG" alt="Back"  overlayText="Back" bottom="-320" left="75" color="#6a0dad" onClick={moveToSelectPage} font_size="50" height="150" width="250"/>
+            {/* <Button src="/purple_btn.PNG" alt="Back"  overlayText="Back" bottom="-320" left="75" color="#6a0dad" onClick={moveToSelectPage} font_size="50" height="150" width="250"/> */}
             {/* <Button src="/purple_opaque.PNG" alt="Play"  overlayText="Play" bottom="-320" left="375" color="#6a0dad30" onClick={()=>{}} font_size="70" height="150" width="250" /> */}
             
          </GameLayout>
