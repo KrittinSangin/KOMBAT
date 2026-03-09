@@ -5,6 +5,7 @@ import { FaCaretDown, FaCaretUp } from "react-icons/fa6" //✅
 import ClickAwayListener from '@mui/material/ClickAwayListener'; //✅
 import Button from "./Button";
 import Image from "next/image";
+import ButtonForInitPage from "./ButtonForInitPage";
 
 export default function Dropdown() {
   const [files, setFiles] = useState<{ name: string; content: string }[]>([]) //✅
@@ -98,7 +99,7 @@ const handleSave = () => {
             onChange={(e) => setContent(e.target.value)}
           />
         </div>
-      ) : content && (<div className="z-50 absolute top-[242px] left-[0px] w-[100%] h-[71%] border p-4 overflow-y-auto scrollbar scrollbar-thin scrollbar-thumb-neutral-200 scrollbar-track-neutral-300 bg-[#696969] whitespace-pre-wrap" style={{color:"#dddddd"}}>
+      ) : content && (<div className="z-40 absolute top-[242px] left-[0px] w-[100%] h-[71%] border p-4 overflow-y-auto scrollbar scrollbar-thin scrollbar-thumb-neutral-200 scrollbar-track-neutral-300 bg-[#696969] whitespace-pre-wrap" style={{color:"#dddddd"}}>
           {content}
         </div>
     )}
@@ -128,21 +129,13 @@ const handleSave = () => {
       </div>
 
       {/* save button */} 
-    {/* <Button src="/grey_btn.PNG" alt="Save" overlayText="" onClick={handleSave} bottom="0" left="716" color="purple" font_size="20" height="80" width="100"></Button> */}
-     <Button src="/grey_btn.PNG" alt="Compile" overlayText=""  bottom="100" left="705" color="purple" font_size="20" height="80" width="150"></Button>
-      <Button src="/grey_btn.PNG" alt="Edit" overlayText="" bottom="200" left="716" color="purple" font_size="20" height="80" width="100" ></Button>
-      <div className="absolute text-black text-2xl flex flex-col gap-17 left-[742px] top-[500px] py-20">
-        <h1>Edit</h1>
-        <h1>Compile</h1>
-        <h1>Save</h1>
-      </div>
-
-      <div className="absolute top-[100px] left-[500px]">
-      <button >
-        <h1 className="absolute top-[50px] w-1/2 text-4xl text-white">Save</h1>
-        <Image src="/grey_btn.PNG" alt="Save" width={100} height={100}></Image>
-      </button>
-      </div>
+    <ButtonForInitPage src="/grey_btn.PNG" alt="Save" overlayText="Save" onClick={handleSave} bottom="10" left="555" color="purple" font_size="30" height="80" width="200"></ButtonForInitPage>
+    {/* <div className="absolute z-50 top-[600px] left-[1000px]">
+    <button>
+      <Image src="/grey_btn.PNG" alt="Save" width={50} height={50}></Image>
+      <p>Save</p>
+    </button>
+    </div> */}
       </>
   )
 }
