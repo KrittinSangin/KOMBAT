@@ -16,7 +16,7 @@ interface NavbarProps {
 export default function Navbar({title,minionCount,team,selectedMinion,onSelect}: NavbarProps){
     return(
         <>
-            <div className="z-20 absolute w-[1469px] h-[80px] bg-[#A9B6FF] top-0 left-0 flex items-center justify-between px-6">
+            <div className="z-20 absolute w-full h-[80px] bg-[#A9B6FF] top-0 left-0 fixed flex justify-between px-6">
                 <h1 className="text-[50px] font-bold">{title}</h1>
             
             {/* กลาง */}
