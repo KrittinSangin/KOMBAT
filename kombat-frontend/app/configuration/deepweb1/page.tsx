@@ -64,7 +64,12 @@ const [isReady, setIsReady] = useState(false);
           else{
             fetch(`http://${URL}:8080/data/config`,{
               method : "POST",
-              body: JSON.stringify(useConfigStore.getState())
+              body: JSON.stringify(
+              {
+                MainConfig: useConfigStore.getState(),
+                Player1Name: player1  ,
+                Player2Name: player2
+              })
             })
             router.push("/gameInit")
           }
