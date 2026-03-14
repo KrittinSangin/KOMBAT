@@ -6,12 +6,16 @@ import ClickAwayListener from '@mui/material/ClickAwayListener'; //✅
 import Button from "./Button";
 import Image from "next/image";
 import ButtonForInitPage from "./ButtonForInitPage";
+import Loadable from "next/dist/shared/lib/loadable.shared-runtime";
+
+interface inyaface {
+name: string; 
+content: string;
+parsePassed: boolean;
+}
 
 export default function Dropdown() {
-  const [files, setFiles] = useState<{ name: string; 
-                                        content: string;
-                                        parsePassed: boolean;
-                                        }[]>([]) //✅
+  const [files, setFiles] = useState<inyaface[]>([]) //✅
   const [isDropdownVisible, setIsDropdownVisible] = useState(false) //✅
   const [content, setContent] = useState("") //content is showing or editing
   const fileInputRef = useRef<HTMLInputElement>(null)
@@ -19,9 +23,12 @@ export default function Dropdown() {
   const [showContent,setShowContent] = useState(false); //open text area
                                         
   const [currentFileParsePassed, setPassed] = useState(false);
+  const [currentFileSaved, setSaved] = useState(false);
+  const [savedNoDelay, setsavedNoDelay] = useState(false);
 
 
   const [renderError, setErr] = useState("");
+  const [renderSave, setRenderSave] = useState("");
 
   const URL = "http://localhost:8080"
   const HandleClickAway = () => { //✅
@@ -48,12 +55,9 @@ export default function Dropdown() {
     reader.readAsText(file);
   });
 }; 
-
-
-
+//blahd
 const handleSave = () => {
   if (!content.trim()) return;
-
   const newFileName = `MyStrategy-${files.length + 1}.txt`;
   const newFile = {
     name: newFileName,
@@ -61,38 +65,27 @@ const handleSave = () => {
     parsePassed: false
   };
   setFiles(prev => [...prev, newFile]);
-  setShowContent(false);
-  setContent("");
+
+  showElementsOfFile(newFile);
+  setShowContent(true)
+  setContent(newFile.content)
+  setRenderSave("Passed");
+  setsavedNoDelay(false);
+  setTimeout(() => {
+    
+    setRenderSave("")
+    setSaved(false)
+  }, 3000);
+   
 };
 
-// const handleParse = async () => {
-//   const foundFile = files.find(file => file.name == showStrategy);
-//   if(foundFile){
-//     const result = await fetch(`${URL}/parse/send`,
-//       {
-//         method: "POST",
-//         body: foundFile.content
-//       }
-//     ).then(
-//       response =>{
-//       if(Boolean(response))
-//       {
-//       foundFile.parsePassed = Boolean(response)
-//       console.log(response)
-//       console.log("Parse passed!!!")
-//       files.forEach((blah)=> {
-//         console.log(blah)
-//       })
-//     }
-//     else console.log("parse failed")
-//       }
-//     )
-   
-//   }
-//   else console.log("Strategy not found. Stop fiddling around will ya?")
-  
-  
-// }
+const showElementsOfFile = (file: inyaface) => {
+      setContent(file.content);
+      setShowStrategy(file.name);
+      setIsDropdownVisible(false);
+      setPassed(file.parsePassed); // current file has successfully been parsed
+    }
+
 const handleParse = async () => {
 
   const foundFile = files.find(file => file.name === showStrategy); 
@@ -109,28 +102,23 @@ const handleParse = async () => {
         if(data){
           console.log("Parse passed!!!");
           setErr("Passed")
-          setTimeout(() => setErr(""), 2500);
+          setTimeout(() => setErr(""), 500);
         }else {
           setErr("Failed");
           console.log("Parse failed");
           console.log(renderError)
-          
-          
-          setTimeout(() => setErr(""), 2500);
+          setTimeout(() => setErr(""), 500);
           console.log(renderError)
         }
         setPassed(data)
         foundFile.parsePassed = data; 
-        files.forEach((blah) => {
-          // console.log(blah);
-        });
       } 
     } catch (error) {
       console.error("Network error or fetch failed:", error);
     }
   } else {
-    handleSave()
-    console.log("Strategy not found. Creating a new one!");
+    // handleSave()
+    console.log("Strategy not found. Create a new one!");
   }
 };
 
@@ -142,7 +130,7 @@ return (
         onClick={() => setIsDropdownVisible(!isDropdownVisible)}
         className="px-3 py-2 rounded text-2xl h-10 w-full flex items-center justify-between cursor-pointer" style={{backgroundColor:"#C4C4C4", borderColor:"#696969",color:"#696969"}}
         >
-        {showStrategy} 
+        {savedNoDelay ? "Creating strategy..." : showStrategy} 
          {isDropdownVisible ? <FaCaretUp className="w-8 h-8" style={{color:"#696969"}}/> : <FaCaretDown className="w-8 h-8" style={{color:"#696969"}}/>}
       </div>
     </ClickAwayListener>
@@ -153,11 +141,8 @@ return (
           {files.map((file, index) => (
   <div
      key={file.name}
-     onClick={async () => {
-      setContent(file.content);
-      setShowStrategy(file.name);
-      setIsDropdownVisible(false);
-      await setPassed(file.parsePassed); // current file has successfully been parsed
+     onClick={ () => {
+     showElementsOfFile(file)
     }}
     className="px-3 py-2 text-2xl cursor-pointer
   bg-[#C4C4C4] text-[#696969]
@@ -204,7 +189,12 @@ return (
 
     {/* create new */}
       <div className="py-2 pl-3 text-2xl border absolute top-[201px] left-[0px] w-[100%] h-[5%]" style={{backgroundColor:"#fefefe",borderBlockColor:"#696969",color:"#696969"}}
-      onClick={() => {setShowContent(true); setContent(""); }}>
+      onClick={() => {
+        setShowContent(true);
+        setContent("");
+        setsavedNoDelay(true);
+        setSaved(true);
+         }}>
         Create New
         <div className="absolute text-4xl top-[0px] left-[700px]">+</div>
       </div>
@@ -213,7 +203,13 @@ return (
     {/* <ButtonForInitPage src="/grey_btn.PNG" alt="Save" overlayText="Save" onClick={currentFileParsePassed? handleSave : ()=>{}} bottom="10" left="555" color="purple" font_size="30" height="80" width="200" opacity={currentFileParsePassed? "100" : "50"}></ButtonForInitPage> */}
    {renderError == "Failed" && <div className="text-red-500 animate-flash z-1000 absolute text-2xl bottom-[190px] left-[600px]">Parse failed!</div>}
    {renderError == "Passed" && <div className="text-green-500 animate-flash z-1000 absolute text-2xl bottom-[190px] left-[610px]">Success!</div>}
-    <ButtonForInitPage playAnim={""} src="/grey_btn.PNG" alt="Save" overlayText="Save" onClick={handleSave} bottom="10" left="555" color="purple" font_size="30" height="80" width="200" opacity={currentFileParsePassed? "100" : "50"}></ButtonForInitPage>
+   {renderSave == "Passed" && 
+   <div className="text-green-500 animate-flash z-1000 absolute text-2xl bottom-[190px] left-[610px]">Saved!</div>
+  }
+  {renderSave == "Passed" && 
+  <div className="bg-[#ffffff] rounded-xl px-1 py-1 text-green-500 animate-flash-extended z-1000 absolute whitespace-nowrap text-l top-[90px] left-[40px]">Saved to {files.at(-1)?.name}</div>
+}
+  <ButtonForInitPage playAnim={renderSave} src="/grey_btn.PNG" alt="Save" overlayText="Save" onClick={handleSave} bottom="10" left="555" color="purple" font_size="30" height="80" width="200" opacity={savedNoDelay? "100" : "50"}></ButtonForInitPage>
     <ButtonForInitPage playAnim={renderError} src="/grey_btn.PNG" alt="Parse" overlayText="Parse" onClick={handleParse} bottom="100" left="555" color="purple" font_size="30" height="80" width="200" opacity="100"></ButtonForInitPage>
 
     {/* <div className="absolute z-50 top-[600px] left-[1000px]">

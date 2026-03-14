@@ -49,9 +49,13 @@ animation: smoothJump 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) both;
 
 .animate-flash {
   /* Total duration of 2.5 seconds for appear, hold, and disappear */
-  animation: flash 2.5s ease-in-out both;
+  animation: flash 0.5s ease-in-out both;
 }
 
+.animate-flash-extended {
+  /* Total duration of 2.5 seconds for appear, hold, and disappear */
+  animation: flash 2s ease-in-out both;
+}
 @keyframes flash {
   0% {
     opacity: 0;
@@ -59,11 +63,15 @@ animation: smoothJump 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) both;
   }
   10% {
     opacity: 1;
-    transform: scale(1); /* Rapidly appear and scale to full size in 0.25s */
+    transform: scale(1.5); /* Rapidly appear and scale to full size in 0.25s */
+  }
+   50% {
+    opacity: 0.5;
+    transform: scale(1.5); /* Hold fully visible until 2.25s */
   }
   90% {
     opacity: 1;
-    transform: scale(1); /* Hold fully visible until 2.25s */
+    transform: scale(1.5); /* Hold fully visible until 2.25s */
   }
   100% {
     opacity: 0;
