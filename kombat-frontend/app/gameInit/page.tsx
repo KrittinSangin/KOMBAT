@@ -12,15 +12,16 @@ import { duelWhereDidYouComeFrom } from "../gamemode/duel/page";
 import { Global2Players } from "../configuration/components/ProfileConfig";
 export default function GameInitPage() {
     const playerName = duelWhereDidYouComeFrom.getState().checkOrigin() == "CREATE" ? Global2Players.getState().player1 : Global2Players.getState().player2;
+    const checkOrg = duelWhereDidYouComeFrom.getState().checkOrigin() == "CREATE" 
     const minion = useConfigStore.getState()._minions;
 
     const [selectedMinion, setSelectedMinion] = useState(0); 
 
     return(
         <>
-            <GameLayout src="/Blue_bg.jpeg" alt="Background Image" >
+            <GameLayout src={checkOrg ? "/Blue_bg.jpeg" : "/Red_bg.jpg"} alt="Background Image" >
             </GameLayout> 
-                <Navbar title={playerName} minionCount={minion} team={duelWhereDidYouComeFrom.getState().checkOrigin() == "CREATE" ? TeamSide.Blue : TeamSide.Red} selectedMinion={selectedMinion} onSelect={setSelectedMinion}/>
+                <Navbar title={playerName} minionCount={minion} team={checkOrg ? TeamSide.Blue : TeamSide.Red} selectedMinion={selectedMinion} onSelect={setSelectedMinion}/>
                 <StrategyBox selectedMinion={selectedMinion}></StrategyBox>
                 <MinionProfile minionIndex={selectedMinion}></MinionProfile>
         </>

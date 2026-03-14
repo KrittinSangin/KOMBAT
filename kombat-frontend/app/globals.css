@@ -6,3 +6,67 @@
 @theme inline {
   --font-sans: var(--font-jersey25);
 }
+
+.animate-shake {
+  animation: shake 0.4s cubic-bezier(.36,.07,.19,.97) both;
+  /* animation: epicGlow 3s ease-out both;  */
+}
+
+@keyframes shake {
+  0%, 100% { 
+    color: inherit; /* Ensures a smooth loop back to the starting color */
+  }
+  10%, 90% { transform: translate3d(-1px, 0, 0); }
+  20%, 80% { transform: translate3d(2px, 0, 0); }
+  30%, 70% { transform: translate3d(-4px, 0, 0); }
+  40%, 60% { transform: translate3d(4px, 0, 0); }
+  50% { 
+    transform: translate3d(-4px, 0, 0); 
+    color: red;
+  }
+}
+
+.animate-jump {
+animation: smoothJump 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+}
+
+@keyframes smoothJump {
+  0% {
+    transform: translateY(0) scale(1);
+    color: inherit;
+  }
+  50% {
+    transform: translateY(-12px) scale(1.02);
+    color: #22c55e; 
+    border-color: #22c55e; 
+  }
+  100% {
+    transform: translateY(0) scale(1);
+    color: inherit;
+    border-color: inherit;
+  }
+}
+
+.animate-flash {
+  /* Total duration of 2.5 seconds for appear, hold, and disappear */
+  animation: flash 2.5s ease-in-out both;
+}
+
+@keyframes flash {
+  0% {
+    opacity: 0;
+    transform: scale(0); /* Start scaled down and invisible */
+  }
+  10% {
+    opacity: 1;
+    transform: scale(1); /* Rapidly appear and scale to full size in 0.25s */
+  }
+  90% {
+    opacity: 1;
+    transform: scale(1); /* Hold fully visible until 2.25s */
+  }
+  100% {
+    opacity: 0;
+    transform: scale(0); /* Fade out and scale down in the final 0.25s */
+  }
+}

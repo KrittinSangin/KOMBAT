@@ -8,13 +8,22 @@ import Image from "next/image";
 import ButtonForInitPage from "./ButtonForInitPage";
 
 export default function Dropdown() {
-  const [files, setFiles] = useState<{ name: string; content: string }[]>([]) //✅
+  const [files, setFiles] = useState<{ name: string; 
+                                        content: string;
+                                        parsePassed: boolean;
+                                        }[]>([]) //✅
   const [isDropdownVisible, setIsDropdownVisible] = useState(false) //✅
   const [content, setContent] = useState("") //content is showing or editing
   const fileInputRef = useRef<HTMLInputElement>(null)
   const [showStrategy, setShowStrategy] = useState("Select Strategy") //✅
   const [showContent,setShowContent] = useState(false); //open text area
+                                        
+  const [currentFileParsePassed, setPassed] = useState(false);
 
+
+  const [renderError, setErr] = useState("");
+
+  const URL = "http://localhost:8080"
   const HandleClickAway = () => { //✅
     setIsDropdownVisible(false);
   }
@@ -29,7 +38,8 @@ export default function Dropdown() {
     reader.onload = (event) => {
       const newFile = {
         name: file.name,             
-        content: event.target?.result as string
+        content: event.target?.result as string,
+        parsePassed: false
       };
 
       setFiles(prev => [...prev, newFile]);
@@ -47,16 +57,86 @@ const handleSave = () => {
   const newFileName = `MyStrategy-${files.length + 1}.txt`;
   const newFile = {
     name: newFileName,
-    content: content
+    content: content,
+    parsePassed: false
   };
   setFiles(prev => [...prev, newFile]);
   setShowContent(false);
   setContent("");
 };
 
-  return (
-    <>
-    <div className="absolute top-[120px] left-[0px] w-[100%] h-[15%]">
+// const handleParse = async () => {
+//   const foundFile = files.find(file => file.name == showStrategy);
+//   if(foundFile){
+//     const result = await fetch(`${URL}/parse/send`,
+//       {
+//         method: "POST",
+//         body: foundFile.content
+//       }
+//     ).then(
+//       response =>{
+//       if(Boolean(response))
+//       {
+//       foundFile.parsePassed = Boolean(response)
+//       console.log(response)
+//       console.log("Parse passed!!!")
+//       files.forEach((blah)=> {
+//         console.log(blah)
+//       })
+//     }
+//     else console.log("parse failed")
+//       }
+//     )
+   
+//   }
+//   else console.log("Strategy not found. Stop fiddling around will ya?")
+  
+  
+// }
+const handleParse = async () => {
+
+  const foundFile = files.find(file => file.name === showStrategy); 
+  
+  if (foundFile) {
+    try {
+      const response = await fetch(`${URL}/parse/send`, {
+        method: "POST",
+        body: foundFile.content 
+      });
+      if (response.ok) { 
+        const data = await response.json(); 
+        // console.log("Here is the actual data:", data);
+        if(data){
+          console.log("Parse passed!!!");
+          setErr("Passed")
+          setTimeout(() => setErr(""), 2500);
+        }else {
+          setErr("Failed");
+          console.log("Parse failed");
+          console.log(renderError)
+          
+          
+          setTimeout(() => setErr(""), 2500);
+          console.log(renderError)
+        }
+        setPassed(data)
+        foundFile.parsePassed = data; 
+        files.forEach((blah) => {
+          // console.log(blah);
+        });
+      } 
+    } catch (error) {
+      console.error("Network error or fetch failed:", error);
+    }
+  } else {
+    handleSave()
+    console.log("Strategy not found. Creating a new one!");
+  }
+};
+
+return (
+  <>
+    <div className="absolute top-[120px] left-[0px] w-[100%] h-[15%] ">
       <ClickAwayListener onClickAway={HandleClickAway}>
       <div
         onClick={() => setIsDropdownVisible(!isDropdownVisible)}
@@ -73,10 +153,11 @@ const handleSave = () => {
           {files.map((file, index) => (
   <div
      key={file.name}
-     onClick={() => {
+     onClick={async () => {
       setContent(file.content);
       setShowStrategy(file.name);
       setIsDropdownVisible(false);
+      await setPassed(file.parsePassed); // current file has successfully been parsed
     }}
     className="px-3 py-2 text-2xl cursor-pointer
   bg-[#C4C4C4] text-[#696969]
@@ -99,7 +180,7 @@ const handleSave = () => {
             onChange={(e) => setContent(e.target.value)}
           />
         </div>
-      ) : content && (<div className="z-40 absolute top-[242px] left-[0px] w-[100%] h-[71%] border p-4 overflow-y-auto scrollbar scrollbar-thin scrollbar-thumb-neutral-200 scrollbar-track-neutral-300 bg-[#696969] whitespace-pre-wrap" style={{color:"#dddddd"}}>
+      ) : content && (<div className="z-10 absolute top-[242px] left-[0px] w-[100%] h-[71%] border p-4 overflow-y-auto scrollbar scrollbar-thin scrollbar-thumb-neutral-200 scrollbar-track-neutral-300 bg-[#696969] whitespace-pre-wrap" style={{color:"#dddddd"}}>
           {content}
         </div>
     )}
@@ -129,7 +210,12 @@ const handleSave = () => {
       </div>
 
       {/* save button */} 
-    <ButtonForInitPage src="/grey_btn.PNG" alt="Save" overlayText="Save" onClick={handleSave} bottom="10" left="555" color="purple" font_size="30" height="80" width="200"></ButtonForInitPage>
+    {/* <ButtonForInitPage src="/grey_btn.PNG" alt="Save" overlayText="Save" onClick={currentFileParsePassed? handleSave : ()=>{}} bottom="10" left="555" color="purple" font_size="30" height="80" width="200" opacity={currentFileParsePassed? "100" : "50"}></ButtonForInitPage> */}
+   {renderError == "Failed" && <div className="text-red-500 animate-flash z-1000 absolute text-2xl bottom-[190px] left-[600px]">Parse failed!</div>}
+   {renderError == "Passed" && <div className="text-green-500 animate-flash z-1000 absolute text-2xl bottom-[190px] left-[610px]">Success!</div>}
+    <ButtonForInitPage playAnim={""} src="/grey_btn.PNG" alt="Save" overlayText="Save" onClick={handleSave} bottom="10" left="555" color="purple" font_size="30" height="80" width="200" opacity={currentFileParsePassed? "100" : "50"}></ButtonForInitPage>
+    <ButtonForInitPage playAnim={renderError} src="/grey_btn.PNG" alt="Parse" overlayText="Parse" onClick={handleParse} bottom="100" left="555" color="purple" font_size="30" height="80" width="200" opacity="100"></ButtonForInitPage>
+
     {/* <div className="absolute z-50 top-[600px] left-[1000px]">
     <button>
       <Image src="/grey_btn.PNG" alt="Save" width={50} height={50}></Image>
