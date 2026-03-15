@@ -12,9 +12,12 @@ interface inyaface {
   name: string;
   content: string;
   parsePassed: boolean;
+  tiedToMinion: string;
 }
-
-export default function Dropdown() {
+interface StrategyBoxprops {
+  selectedMinion: String;
+}
+export default function Dropdown({ selectedMinion }: StrategyBoxprops) {
   const [files, setFiles] = useState<inyaface[]>([]); //✅
   const [isDropdownVisible, setIsDropdownVisible] = useState(false); //✅
   const [content, setContent] = useState(""); //content is showing or editing
@@ -25,6 +28,10 @@ export default function Dropdown() {
   const [currentFileParsePassed, setPassed] = useState(false);
   const [currentFileSaved, setSaved] = useState(false);
   const [savedNoDelay, setsavedNoDelay] = useState(false);
+
+  const [editingBypass, setEditingBypass] = useState(false);
+
+  const [owner, setOwner] = useState("");
 
   const [parsable, setParsable] = useState(false);
 
@@ -39,7 +46,7 @@ export default function Dropdown() {
 
   const handleUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     //✅
-    
+
     const selectedFiles = e.target.files; //select file
     if (!selectedFiles) return;
 
@@ -51,6 +58,7 @@ export default function Dropdown() {
           name: file.name,
           content: event.target?.result as string,
           parsePassed: false,
+          tiedToMinion: "",
         };
         setRenderSave("Passed");
         setFiles((prev) => [...prev, newFile]);
@@ -60,24 +68,25 @@ export default function Dropdown() {
     });
   };
   //blahd
- const handleChange = () => {
+  const handleChange = () => {
     if (currentFileSaved || showStrategy === "Select Strategy") {
       handleSave();
-      return; 
+      return;
     }
     const foundFile = files.find((file) => file.name === showStrategy);
     if (foundFile) {
+      setEditingBypass(true);
       setFiles((prevFiles) =>
         prevFiles.map((file) =>
           file.name === showStrategy
             ? { ...file, content: content, parsePassed: false }
-            : file
-        )
+            : file,
+        ),
       );
       setParsable(true);
       setRenderSave("Passed");
       setsavedNoDelay(false);
-            setTimeout(() => {
+      setTimeout(() => {
         setRenderSave("");
       }, 3000);
     } else {
@@ -92,6 +101,7 @@ export default function Dropdown() {
       name: newFileName,
       content: content,
       parsePassed: false,
+      tiedToMinion: "",
     };
     setFiles((prev) => [...prev, newFile]);
 
@@ -111,6 +121,8 @@ export default function Dropdown() {
     setShowStrategy(file.name);
     setIsDropdownVisible(false);
     setPassed(file.parsePassed); // current file has successfully been parsed
+    setOwner(file.tiedToMinion);
+    // console.log("OWNER:" + owner)
   };
 
   const handleParse = async () => {
@@ -126,15 +138,36 @@ export default function Dropdown() {
           const data = await response.json();
           // console.log("Here is the actual data:", data);
           if (data) {
-            console.log("Parse passed!!!");
-            setErr("Passed");
+            // console.log("Parse passed!!!");
+            // if((foundFile.tiedToMinion != selectedMinion) || editingBypass ){
+            const isFree = foundFile.tiedToMinion === "";
+            const isSameFile =
+              foundFile.tiedToMinion === selectedMinion.toString();
+            const minionAlreadyOwns = files.some(
+              (file) =>
+                file.tiedToMinion === selectedMinion.toString() &&
+                file.name !== showStrategy,
+            );
+
+            if (minionAlreadyOwns) {
+              setRenderSave("Conflict"); // This minion already owns another strategy
+            } else if (isFree || isSameFile || editingBypass) {
+              foundFile.tiedToMinion = selectedMinion.toString();
+              setOwner(foundFile.tiedToMinion);
+              setEditingBypass(false);
+              setErr("Passed");
+              setRenderSave("");
+            }
+            // console.log(foundFile)
+
             setTimeout(() => setErr(""), 500);
           } else {
             setErr("Failed");
-            console.log("Parse failed");
-            console.log(renderError);
+            setOwner("");
+            // console.log("Parse failed");
+            // console.log(renderError);
             setTimeout(() => setErr(""), 500);
-            console.log(renderError);
+            // console.log(renderError);
           }
           setPassed(data);
           foundFile.parsePassed = data;
@@ -203,10 +236,10 @@ export default function Dropdown() {
             placeholder="Enter your strategy here..."
             value={content}
             onChange={(e) => {
-              setParsable(false)
-              setsavedNoDelay(true)
+              setParsable(false);
+              setsavedNoDelay(true);
               // handleChange()
-              setContent(e.target.value)
+              setContent(e.target.value);
             }}
           />
         </div>
@@ -256,6 +289,7 @@ export default function Dropdown() {
           setShowContent(true);
           setContent("");
           setsavedNoDelay(true);
+          setOwner("");
           setSaved(true);
         }}
       >
@@ -265,6 +299,17 @@ export default function Dropdown() {
 
       {/* save button */}
       {/* <ButtonForInitPage src="/grey_btn.PNG" alt="Save" overlayText="Save" onClick={currentFileParsePassed? handleSave : ()=>{}} bottom="10" left="555" color="purple" font_size="30" height="80" width="200" opacity={currentFileParsePassed? "100" : "50"}></ButtonForInitPage> */}
+      {
+      renderSave == "Conflict"&&
+<div className="text-yellow-500 px-1 bg-[#787276] animate-flash-extended rounded-xl z-1000 fixed whitespace-nowrap text-2xl content-center top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
+          Minion already has a strategy!
+        </div>
+      }
+      {owner !== "" && (
+        <div className="text-yellow-500 px-1 bg-[#787276] rounded-xl z-1000 absolute whitespace-nowrap text-2xl top-[125px] left-[400px]">
+          {"Strategy tied to Minion" + owner}
+        </div>
+      )}
       {renderError == "Failed" && (
         <div className="text-red-500 animate-flash z-1000 absolute text-2xl bottom-[190px] left-[600px]">
           Parse failed!

@@ -23,7 +23,7 @@ export default function ButtonForInitPage({src,alt,overlayText,onClick,onHover,b
   let animationClass = "border-[#696969]";
   if (playAnim === "Failed") animationClass = "animate-shake";
   if (playAnim === "Passed") animationClass = "animate-jump";
-  
+  if (playAnim == "Conflict") animationClass = "animate-shake-warn"
   return (
     <div onClick={onClick} className={`${animationClass} absolute z-120  opacity-${opacity}`} style={{height:`${height}px`, width:`${width}px`,bottom:`${bottom}px`,left:`${left}px`}}>
       <div >

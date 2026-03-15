@@ -21,7 +21,7 @@ export default function MinionProfile({minionIndex}:minionProfileProps){
   };
 
   const sliderRange = {
-       defFactor: { min: 1, max: 100 }
+       defFactor: { min: 1, max: 5 }
   }
   
   const handleDefFactorChange = (value: number) => {
