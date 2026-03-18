@@ -4,7 +4,6 @@ import {Vec2} from "../../type/Primitive";
 import {Sprite, Transform2} from "../../type/Rendering";
 import {c_Sprite, c_Transform2, c_Transform2Empty, c_Vec2} from "../../utils/utility";
 import {card_BG_T, card_FG_T} from "../../resources/textureResource";
-import SpriteViewRelative from "../Renderer/SpriteViewRelative";
 
 interface Props {
     minion: Minion
@@ -34,20 +33,18 @@ export default function UnitCard({minion, transform}: Props)
         (backgroundTexture.size.y - foregroundTexture.size.y - foreGroundOffsetConstY) * scale.y
     )
 
-    const cardForeground :Sprite = c_Sprite(
-        foregroundTexture,
-        c_Transform2(
-            foreGroundOffset,
-            c_Vec2(scale.x,scale.y)
-        )
+    const cardForeground :Sprite = c_Sprite(foregroundTexture)
+
+    const cardForgroundTransform = c_Transform2(
+        foreGroundOffset,
+        c_Vec2(scale.x,scale.y)
     )
 
-    const cardBackground :Sprite = c_Sprite(
-        backgroundTexture,
-        c_Transform2(
-            c_Vec2(0,0),
-            c_Vec2(scale.x,scale.y)
-        )
+    const cardBackground :Sprite = c_Sprite(backgroundTexture)
+
+    const cardBackgroundTransform = c_Transform2(
+        c_Vec2(0,0),
+        c_Vec2(scale.x,scale.y)
     )
 
     const cardSpriteScale =  backgroundTexture.size.y * scale.y / minion.sprite.texture.size.y * spriteDownScaleFactor;
@@ -62,12 +59,11 @@ export default function UnitCard({minion, transform}: Props)
         (cardSize.y - spriteSize.y) / 2
     )
 
-    const cardSprite: Sprite = c_Sprite(
-        minion.sprite.texture,
-        c_Transform2(
-            spriteOffset,
-            c_Vec2(cardSpriteScale,cardSpriteScale)
-        )
+    const cardSprite: Sprite = c_Sprite(minion.sprite.texture)
+
+    const cardSpriteTransform = c_Transform2(
+        spriteOffset,
+        c_Vec2(cardSpriteScale,cardSpriteScale)
     )
 
     return <div style={{
@@ -75,8 +71,8 @@ export default function UnitCard({minion, transform}: Props)
         width: cardSize.x,
         height: cardSize.y,
     }}>
-        <SpriteViewRelative sprite={cardBackground}></SpriteViewRelative>
-        <SpriteViewRelative sprite={cardSprite}></SpriteViewRelative>
-        <SpriteViewRelative sprite={cardForeground}></SpriteViewRelative>
+        <SpriteView sprite={cardBackground} transform = {cardBackgroundTransform}></SpriteView>
+        <SpriteView sprite={cardSprite}     transform = {cardSpriteTransform}></SpriteView>
+        <SpriteView sprite={cardForeground} transform = {cardForgroundTransform}></SpriteView>
     </div>
 }

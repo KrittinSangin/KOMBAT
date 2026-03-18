@@ -1,4 +1,15 @@
-export default function GameInfoBar() {
+import {Game} from "../../type/GameTypes";
+
+interface Props
+{
+    game : Game
+}
+
+export default function GameInfoBar({game}:Props) {
+
+    const currentBudget = game.players[game.team].budget;
+    const interestRate = game.players[game.team].interestRatePercentage;
+
     return <nav>
         {/*turn triangle*/}
         <div className="absolute top-0 left-1/2 -translate-x-1/2 ">
@@ -7,7 +18,7 @@ export default function GameInfoBar() {
                         flex flex-col items-center"
             >
                 <span className="font-bold text-3xl">Turn</span>
-                <span className="font-bold text-3xl">xx/xx</span>
+                <span className="font-bold text-3xl">{game.turn}/{game.cfg.maxTurns}</span>
             </div>
         </div>
 
@@ -18,7 +29,8 @@ export default function GameInfoBar() {
                     bg-yellow-300
                     text-2xl"
         >
-            1000$
+            <span>{currentBudget}$</span>
+            <span>{interestRate}$</span>
         </div>
 
         {/*give up button*/}

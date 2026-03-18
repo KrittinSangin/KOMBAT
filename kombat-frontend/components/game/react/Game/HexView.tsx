@@ -1,11 +1,12 @@
-import {Rect, Vec2} from "../../type/Primitive";
+import {Vec2} from "../../type/Primitive";
 import {Hex, Minion} from "../../type/GameTypes";
-import {Sprite, Texture} from "../../type/Rendering";
+import {Texture} from "../../type/Rendering";
 import {c_Transform2, c_Vec2} from "../../utils/utility";
 import {gamHexB_T, gamHexN_T, gamHexR_T} from "../../resources/textureResource";
 import SpriteView from "../Renderer/SpriteView";
 import MinionView from "./MinionView";
-import {text} from "node:stream/consumers";
+import {useState} from "react";
+import {red} from "next/dist/lib/picocolors";
 
 interface Props
 {
@@ -20,57 +21,69 @@ export default function HexView({
     hex
 }: Props)
 {
-    const SIZE = 90;
+    const [hover, setHover] = useState(false)
+    const SIZE = 100;
+    const MINION_SIZE = 50;
 
-    const hexRect: Rect = {
-        x: pos.x,
-        y: pos.y,
-        w: SIZE,
-        h: SIZE/2
-    }
-
-    const minionRect = (m:Minion) => {
-        const textureSize = m.sprite.texture.size;
-        const transform = m.sprite.transform;
-
-        return {
-            x: pos.x + (hexRect.w - textureSize.x * transform.scale.x) / 2,
-            y: pos.y + (hexRect.h /2) - textureSize.y * transform.scale.x,
-            w: textureSize.x * transform.scale.x,
-            h: textureSize.y * transform.scale.y,
-        }
-    }
-
-    const minionRectAsPos =(rect:Rect) =>
-    {
-        return {x:rect.x,y:rect.y};
-    }
-
-    const renderHex : (team:number|null) => Sprite = (team:number|null) =>
-    {
-        let texture:Texture = {name: "", path: "", size: c_Vec2(0,0)}
-
-        if (team)  texture = gamHexR_T;
-        else  texture = team == 0? gamHexB_T : gamHexN_T;
-
-        const scale = SIZE/texture.size.x
-
-
-        return {
-            texture: texture,
-            transform:c_Transform2(
-                c_Vec2(0,0),
-                c_Vec2(scale,scale)
-            ),
-            color: "transparent",
-        }
-    }
-
+    //no hex, return empty
     if (!hex) return <></>
-    return <div>
+
+    //Hex Texture
+    let texture:Texture;
+    if (hex.team != null)
+        texture = hex.team == 0? gamHexB_T : gamHexR_T
+    else
+        texture = gamHexN_T;
+
+    //Hex Sprite
+    const hexSprite = {
+        texture: texture,
+        color: hover? "red" : "transparent",
+    }
+
+    //Hex Transform
+    const size = hexSprite.texture.size;
+    const factor =  SIZE/size.x;
+    const hexTransform = c_Transform2(
+        c_Vec2(0,0),
+        c_Vec2(factor,factor)
+    )
+
+    //Minion Transform
+    const minionTransform = (minion:Minion) => {
+        const size = minion.sprite.texture.size;
+        const sizeHex = hexSprite.texture.size;
+
+        const m_factor = MINION_SIZE / size.x;
+        const m_offsetX = (sizeHex.x * factor - size.x * m_factor ) / 2;
+        const m_offsetY = (size.y * m_factor - sizeHex.y * factor / 2) * -1;
+        const t = c_Transform2(
+            c_Vec2(m_offsetX, m_offsetY),
+            c_Vec2(m_factor, m_factor)
+        );
+
+        return t;
+    }
+
+
+    return <div style={{
+        position: "absolute",
+        top: pos.y,
+        left: pos.x,
+        zIndex : 1,
+        backgroundColor: "red",
+    }}
+    onMouseEnter={() => setHover(true)}
+    onMouseLeave={() => setHover(false)}
+    >
+        {/*<Marker pos={c_Vec2(0,0)} scale={0.1} color={"red"}></Marker>*/}
         {/*<RectView rect={hexRect} c={"lightblue"}/>*/}
-        {/*{hex.minion && <RectView rect={minionRect(hex.minion)} c={"green"}/>}*/}
-        <SpriteView sprite={renderHex(hex.team)} pos={pos}/>
-        {hex.minion && <MinionView minion = {hex.minion} pos = {minionRectAsPos(minionRect(hex.minion))}/>}
+        {/*{hex.minion && <RectView rect={} c={"green"}/>}*/}
+        <SpriteView sprite={hexSprite} transform = {hexTransform}/>
+        {/*{hex.minion && <MinionView minion = {hex.minion} pos = {{x: 0, y: 0}}/>}*/}
+
+        {hex.minion && <MinionView minion = {hex.minion} transform={minionTransform(hex.minion)}/>}
+
+
     </div>
 }

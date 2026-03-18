@@ -1,5 +1,6 @@
 import {Game} from "../../type/GameTypes";
 import GameView from "../Game/GameView";
+import SpriteView from "./SpriteView";
 
 interface Props
 {

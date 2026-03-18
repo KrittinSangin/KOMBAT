@@ -1,17 +1,19 @@
 import Image from "next/image";
-import {Sprite, Transform2} from "../../type/Rendering";
+import {Sprite, SpriteRatio, Transform2} from "../../type/Rendering";
 import {Vec2} from "../../type/Primitive";
 
-interface Props {sprite:Sprite, pos:Vec2}
+interface Props {
+    sprite:Sprite,
+    transform?:Transform2
+}
 
-export default function SpriteView({sprite,pos}:Props) {
-    const transform = sprite.transform;
-    const offset = sprite.transform.pos;
+export default function SpriteView({sprite,transform}:Props) {
 
-    const x = pos.x + offset.x;
-    const y = pos.y+ offset.y;
-    const w = sprite.texture.size.x * transform.scale.x;
-    const h = sprite.texture.size.y * transform.scale.y;
+    const x = transform? transform.pos.x : 0 ;
+    const y = transform? transform.pos.y : 0 ;
+    const w = sprite.texture.size.x * (transform? transform.scale.x : 1);
+    const h = sprite.texture.size.y * (transform? transform.scale.y : 1);
+
     const c = sprite.color;
     const path = sprite.texture.path;
     return (
@@ -24,7 +26,7 @@ export default function SpriteView({sprite,pos}:Props) {
                 height: h,
             }}>
             <Image
-                src={sprite.texture.path}
+                src={path}
                 width={w}
                 height={h}
                 loading={"eager"}
@@ -41,7 +43,7 @@ export default function SpriteView({sprite,pos}:Props) {
                     backgroundColor: c,
                     mixBlendMode: "color",
                     pointerEvents: "none",
-                    WebkitMaskBoxImage: `url(${sprite.texture.path})`,
+                    WebkitMaskBoxImage: `url(${path})`,
                 }}/>
         </div>
     )

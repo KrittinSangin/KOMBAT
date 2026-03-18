@@ -101,12 +101,16 @@ export const demoGame: Game = {
 export const mockState = () =>
 {
     const game = demoGame;
+
     addMinion(game,{row:1,col:1},demoGame.players[0].deck[0]);
-    addMinion(game,{row:2,col:1},demoGame.players[0].deck[0]);
-    addMinion(game,{row:1,col:3},demoGame.players[0].deck[0]);
-    addMinion(game,{row:8,col:5},demoGame.players[1].deck[1]);
+    addMinion(game,{row:2,col:1},demoGame.players[0].deck[1]);
+    addMinion(game,{row:4,col:3},demoGame.players[0].deck[3]);
+    addMinion(game,{row:5,col:2},demoGame.players[0].deck[4]);
+
+    addMinion(game,{row:8,col:5},demoGame.players[1].deck[0]);
     addMinion(game,{row:2,col:6},demoGame.players[1].deck[1]);
-    addMinion(game,{row:8,col:7},demoGame.players[1].deck[1]);
+    addMinion(game,{row:7,col:7},demoGame.players[1].deck[3]);
+    addMinion(game,{row:3,col:7},demoGame.players[1].deck[4]);
 
     const map = game.map;
     const p1hex = game.cfg.startHexPosP1;
@@ -122,8 +126,6 @@ export const mockState = () =>
         const hex = map.map.get(hexKey(pos));
         if (hex) hex.team = 1;
     })
-
-    console.log(p1hex,p2hex)
 
 
     return game;

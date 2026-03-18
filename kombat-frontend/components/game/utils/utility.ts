@@ -43,11 +43,10 @@ export function c_Texture(path:string,dim:Vec2): Texture
     }
 }
 
-export function c_Sprite(texture:Texture, transform:Transform2): Sprite
+export function c_Sprite(texture:Texture): Sprite
 {
     return {
         texture:texture,
-        transform:transform,
         color:"transparent"
     }
 }

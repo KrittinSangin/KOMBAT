@@ -13,10 +13,15 @@ import RectView from "../../components/game/react/Renderer/RectView";
 import UICanvas from "../../components/game/react/Renderer/UICanvas";
 import GameCanvas from "../../components/game/react/Renderer/GameCanvas";
 import {GameStateEnum} from "../../ttypes/enums";
+import {useGameState} from "../../components/game/model/useGameState";
 
 export default function GameScene() {
     const router = useRouter();
-    const game = mockState()
+    const {game,set} = useGameState();
+
+    useEffect(() => {
+        set(mockState());
+    }, []);
 
     return <main>
         <GameCanvas game={game}/>

@@ -26,7 +26,6 @@ export type Texture =
 export type Sprite =
 {
     texture: Texture
-    transform: Transform2
     color: Color;
 }
 
@@ -40,3 +39,5 @@ export const defaultTransform3 =
     pos: {x:0,y:0,z:0},
     scale: {x:1,y:1,z:1},
 }
+
+export type SpriteRatio = "followX" | "followY" | "freeform" | "uniform"

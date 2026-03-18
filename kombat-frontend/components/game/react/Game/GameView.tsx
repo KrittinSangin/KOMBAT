@@ -2,6 +2,9 @@ import Image from "next/image"
 import HexMapView from "./HexMapView";
 import {Game} from "../../type/GameTypes";
 import UnitSelect from "../UI/UnitSelect";
+import SpriteView from "../Renderer/SpriteView";
+import Marker from "../Renderer/Marker";
+import {c_Vec2} from "../../utils/utility";
 
 interface Props
 {
@@ -37,6 +40,7 @@ export default function GameView({game}:Props) {
 
     return (
         <div>
+
             {background()}
             {HexMapView(game.map)}
         </div>

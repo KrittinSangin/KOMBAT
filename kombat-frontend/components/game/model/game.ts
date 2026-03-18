@@ -108,7 +108,6 @@ export const updateGame: (game:Game, dto:GameDTO) => Game = (game:Game, dto:Game
                     hex.minion = newMinion;
                     game.minion.push(newMinion);
                 }
-
             })
         }
     );
