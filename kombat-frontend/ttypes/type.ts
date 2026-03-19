@@ -38,9 +38,9 @@ export interface Config {
 }
 
 export interface PlayerIntent {
-    "intent": PlayerIntentEnum,
-    "hex": HexPos,
-    "minion": number
+    intent: PlayerIntentEnum,
+    hex?: HexPos,
+    minion?: number
 }
 
 export interface PlayerInfo {

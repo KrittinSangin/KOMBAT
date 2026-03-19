@@ -105,6 +105,7 @@ export const updateGame: (game:Game, dto:GameDTO) => Game = (game:Game, dto:Game
                 {
                     const newMinion = player.deck[mdto.deckIndex];
                     newMinion.hp = mdto.hp;
+                    newMinion.team = i;
                     hex.minion = newMinion;
                     game.minion.push(newMinion);
                 }
