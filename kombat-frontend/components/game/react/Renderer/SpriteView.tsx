@@ -5,9 +5,11 @@ import {Vec2} from "../../type/Primitive";
 interface Props {
     sprite:Sprite,
     transform?:Transform2
+    children?: React.ReactNode
+
 }
 
-export default function SpriteView({sprite,transform}:Props) {
+export default function SpriteView({sprite,transform,children}:Props) {
 
     const x = transform? transform.pos.x : 0 ;
     const y = transform? transform.pos.y : 0 ;
@@ -45,6 +47,7 @@ export default function SpriteView({sprite,transform}:Props) {
                     pointerEvents: "none",
                     WebkitMaskBoxImage: `url(${path})`,
                 }}/>
+            {children}
         </div>
     )
 }

@@ -1,6 +1,6 @@
-import {Game, HexMap, Minion, Player, StartInfo} from "../type/GameTypes";
-import {Config, GameDTO, HexPos, MinionDTO, PlayerDTO, PlayerInfo} from "../../../ttypes/type";
-import {GameStateEnum} from "../../../ttypes/enums";
+import {Game, Minion, Player, StartInfo} from "../type/GameTypes";
+import {Config, GameDTO, PlayerDTO, PlayerInfo} from "../../../ttypes/type";
+import {GameStateEnum, PlayerIntentEnum} from "../../../ttypes/enums";
 import {createHexMap, hexKey} from "./hexMap";
 
 const emptyConfig: Config = {
@@ -42,6 +42,24 @@ export const emptyGame: Game = {
     gameState: GameStateEnum.empty,
     turn: 0,
     team: 0
+}
+
+export const emptyGameDTO: GameDTO = {
+    executionInstanceLog: [],
+    inputIntent: {intent: PlayerIntentEnum.empty},
+    isGameDraw: false,
+    isGameOver: false,
+    isGameResign: false,
+    isGameStart: false,
+    isStateChange: false,
+    isValidIntent: false,
+    lastState: GameStateEnum.empty,
+    state: GameStateEnum.empty,
+    players: [],
+    team: 0,
+    turn: 0,
+    winner: 0
+
 }
 
 const createPlayer: (info:PlayerInfo, deck:Minion[]) => Player = (info,deck) => {

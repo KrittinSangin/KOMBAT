@@ -1,10 +1,11 @@
 import {create} from "zustand";
 import {Game, StartInfo} from "../type/GameTypes";
 import {GameDTO} from "../../../ttypes/type";
-import {emptyGame, startGame, updateGame} from "./game";
+import {emptyGameDTO, emptyGame, startGame, updateGame} from "./game";
 
 type useGameState = {
     game: Game,
+    gameDTO: GameDTO,
     start: (startInfo:StartInfo) => void,
     set: (game:Game) => void,
     update: (dto:GameDTO) => void,
@@ -13,6 +14,7 @@ type useGameState = {
 
 export const useGameState = create<useGameState>((set) => ({
     game:emptyGame,
+    gameDTO: emptyGameDTO,
 
     start: (startInfo) =>
         set({game: startGame(startInfo)}),
@@ -21,8 +23,9 @@ export const useGameState = create<useGameState>((set) => ({
         set({game: game}),
 
     update: (dto) => set((state) => ({
-        game: updateGame(state.game,dto)
+        game: updateGame(state.game,dto),
+        gameDTO: dto
     })),
 
-    reset: () => set({game:emptyGame}),
+    reset: () => set({game:emptyGame, gameDTO:emptyGameDTO}),
 }))
