@@ -4,15 +4,21 @@ import {Vec2} from "../../type/Primitive";
 import {Sprite, Transform2} from "../../type/Rendering";
 import {c_Sprite, c_Transform2, c_Transform2Empty, c_Vec2} from "../../utils/utility";
 import {card_BG_T, card_FG_T} from "../../resources/textureResource";
+import {useEffect, useState} from "react";
+import {useIntent} from "../../model/useIntent";
 
 interface Props {
     minion: Minion
+    index: number
     transform: Transform2
 }
 
 
-export default function UnitCard({minion, transform}: Props)
+export default function UnitCard({minion,index, transform}: Props)
 {
+    const [hover, setHover] = useState(false)
+    const {intent,setMinion} = useIntent();
+
     const spriteDownScaleFactor = 0.8;
     const foreGroundOffsetConstX = 80;
     const foreGroundOffsetConstY = 80;
@@ -70,7 +76,19 @@ export default function UnitCard({minion, transform}: Props)
         position: "relative",
         width: cardSize.x,
         height: cardSize.y,
-    }}>
+        color: "red"
+    }}
+                onMouseEnter={() => {
+                    setHover(true)
+                }}
+                onMouseLeave={() => {
+                    setHover(false);
+                }}
+                onClick={() => {
+                    console.log(`selected ${minion.name}`);
+                    setMinion(index);
+                }}
+    >
         <SpriteView sprite={cardBackground} transform = {cardBackgroundTransform}></SpriteView>
         <SpriteView sprite={cardSprite}     transform = {cardSpriteTransform}></SpriteView>
         <SpriteView sprite={cardForeground} transform = {cardForgroundTransform}></SpriteView>

@@ -36,15 +36,15 @@ export const defaultCfg: Config = {
     ],
 }
 
-const createMinion : (texture:Texture,name:string,def:number) => Minion = (texture:Texture,name:string,def:number) => (
+const createMinion: (texture: Texture, name: string, def: number) => Minion = (texture: Texture, name: string, def: number) => (
     {
         sprite:
             {
-                texture:texture,
+                texture: texture,
                 transform:
                     {
-                        pos:{x:0,y:0},
-                        scale:{x:0.3,y:0.3}
+                        pos: {x: 0, y: 0},
+                        scale: {x: 0.3, y: 0.3}
                     },
                 color: "transparent",
             },
@@ -55,13 +55,12 @@ const createMinion : (texture:Texture,name:string,def:number) => Minion = (textu
     })
 
 
-
 const demoDeck: Minion[] = Array.of(
-    createMinion(madoka_T, "Madoka",10),
-    createMinion(medicine_T, "Medicine",10),
-    createMinion(knight_T, "Knight",10),
-    createMinion(scarlet_T, "Scarlet",10),
-    createMinion(ryuu_T, "Ryuu",10),
+    createMinion(madoka_T, "Madoka", 10),
+    createMinion(medicine_T, "Medicine", 10),
+    createMinion(knight_T, "Knight", 10),
+    createMinion(scarlet_T, "Scarlet", 10),
+    createMinion(ryuu_T, "Ryuu", 10),
 )
 
 
@@ -91,30 +90,29 @@ export const demoGame: Game = {
             deck: demoDeck,
         },
     ],
-    map: createHexMap(defaultCfg.mapWidth,defaultCfg.mapHeight),
+    map: createHexMap(defaultCfg.mapWidth, defaultCfg.mapHeight),
     minion: [],
     gameState: GameStateEnum.empty,
     turn: 0,
     team: 0,
 }
 
-export const mockState = () =>
-{
+export const mockState = () => {
     const game = demoGame;
 
-    addMinion(game,{row:1,col:1},demoGame.players[0].deck[0]);
-    addMinion(game,{row:2,col:1},demoGame.players[0].deck[1]);
-    addMinion(game,{row:4,col:3},demoGame.players[0].deck[3]);
-    addMinion(game,{row:5,col:2},demoGame.players[0].deck[4]);
+    addMinion(game, {row: 1, col: 1}, demoGame.players[0].deck[0]);
+    addMinion(game, {row: 2, col: 1}, demoGame.players[0].deck[1]);
+    addMinion(game, {row: 4, col: 3}, demoGame.players[0].deck[3]);
+    addMinion(game, {row: 5, col: 2}, demoGame.players[0].deck[4]);
 
-    addMinion(game,{row:8,col:5},demoGame.players[1].deck[0]);
-    addMinion(game,{row:2,col:6},demoGame.players[1].deck[1]);
-    addMinion(game,{row:7,col:7},demoGame.players[1].deck[3]);
-    addMinion(game,{row:3,col:7},demoGame.players[1].deck[4]);
+    addMinion(game, {row: 8, col: 5}, demoGame.players[1].deck[0]);
+    addMinion(game, {row: 2, col: 6}, demoGame.players[1].deck[1]);
+    addMinion(game, {row: 7, col: 7}, demoGame.players[1].deck[3]);
+    addMinion(game, {row: 3, col: 7}, demoGame.players[1].deck[4]);
 
     const map = game.map;
     const p1hex = game.cfg.startHexPosP1;
-    const p2hex= game.cfg.startHexPosP2;
+    const p2hex = game.cfg.startHexPosP2;
 
     p1hex.forEach((pos) => {
         const hex = map.map.get(hexKey(pos));
@@ -131,8 +129,7 @@ export const mockState = () =>
     return game;
 }
 
-const addMinion = (game:Game,pos:HexPos,minion:Minion) =>
-{
+const addMinion = (game: Game, pos: HexPos, minion: Minion) => {
     const hex = game.map.map.get(hexKey(pos));
 
     if (hex) hex.minion = minion;
