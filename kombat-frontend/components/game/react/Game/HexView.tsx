@@ -21,7 +21,7 @@ export default function HexView({
                                     hex
                                 }: Props) {
     const [hover, setHover] = useState(false)
-    const {setHex,submitIntent} = useIntent();
+    const {setHex, submitIntent} = useIntent();
     const SIZE = 100;
     const MINION_SIZE = 50;
 
@@ -65,25 +65,36 @@ export default function HexView({
         return t;
     }
 
+    const handleIntent = () => {
+        setHex(hex.hexPos);
+        submitIntent();
+    }
+
     return <div style={{
         position: "absolute",
         top: pos.y,
         left: pos.x,
-        zIndex: 1,
-        backgroundColor: "red",
-    }}
-                onMouseEnter={() => setHover(true)}
-                onMouseLeave={() => setHover(false)}
-                onClick={}
-    >
+        zIndex: 10,
+    }}>
+        <div style={{
+            position: "absolute",
+            backgroundColor: "red",
+        }}
+             onMouseEnter={() => setHover(true)}
+             onMouseLeave={() => setHover(false)}
+             onClick={() => handleIntent()}
+        >
+            <SpriteView sprite={hexSprite} transform={hexTransform}/>
+        </div>
+
+        <div style={{ pointerEvents:"none"}}>
+            {hex.minion && <MinionView minion={hex.minion} transform={minionTransform(hex.minion)}/>}
+        </div>
+
+        {/*debug*/}
         {/*<Marker pos={c_Vec2(0,0)} scale={0.1} color={"red"}></Marker>*/}
         {/*<RectView rect={hexRect} c={"lightblue"}/>*/}
         {/*{hex.minion && <RectView rect={} c={"green"}/>}*/}
-        <SpriteView sprite={hexSprite} transform={hexTransform}/>
         {/*{hex.minion && <MinionView minion = {hex.minion} pos = {{x: 0, y: 0}}/>}*/}
-
-        {hex.minion && <MinionView minion={hex.minion} transform={minionTransform(hex.minion)}/>}
-
-
     </div>
 }
