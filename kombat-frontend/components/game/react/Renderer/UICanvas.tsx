@@ -22,16 +22,15 @@ export default function UICanvas({game}: Props) {
                     left: 0,
                     top: 0,
                 }}>
-        <GenericButton onClick={()=> {
-            update(genGameDTO());
-            console.log(genGameDTO());
-        }}>
-            very useful test button
-        </GenericButton>
+        {/*<GenericButton onClick={()=> {*/}
+        {/*    update(genGameDTO());*/}
+        {/*    console.log(genGameDTO());*/}
+        {/*}}>*/}
+        {/*    very useful test button*/}
+        {/*</GenericButton>*/}
 
         <UnitSelect deck={game.players[game.team].deck}></UnitSelect>
         <GameInfoBar game = {game}/>
-        <NoticeWindow text={""} hidden={true}/>
         <EventLog/>
     </div>
 }
