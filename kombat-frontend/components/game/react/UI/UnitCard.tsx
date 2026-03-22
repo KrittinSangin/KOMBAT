@@ -19,6 +19,11 @@ export default function UnitCard({minion,index, transform}: Props)
     const [hover, setHover] = useState(false)
     const {intent,setMinion} = useIntent();
 
+    //Data
+    const minionName = minion.name;
+    const minionDef = minion.def;
+
+    //View
     const spriteDownScaleFactor = 0.8;
     const foreGroundOffsetConstX = 80;
     const foreGroundOffsetConstY = 80;
@@ -92,5 +97,12 @@ export default function UnitCard({minion,index, transform}: Props)
         <SpriteView sprite={cardBackground} transform = {cardBackgroundTransform}></SpriteView>
         <SpriteView sprite={cardSprite}     transform = {cardSpriteTransform}></SpriteView>
         <SpriteView sprite={cardForeground} transform = {cardForgroundTransform}></SpriteView>
+        <div
+            className="absolute flex flex-col justify-center-safe translate-x-3 translate-y-19
+                        text-white text-xs">
+        <span> {minionName} </span>
+        <span> {minionDef} </span>
+
+        </div>
     </div>
 }

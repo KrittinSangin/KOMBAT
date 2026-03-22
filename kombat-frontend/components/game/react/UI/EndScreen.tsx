@@ -151,7 +151,7 @@ export default function EndScreen({game}: Props) {
             <span>{totalBudget[0]} : Budget : {totalBudget[1]}</span>
         </div>
 
-        {/*Button*/}
+        {/*To Menu button Button*/}
         <div className={"absolute w-full top-27/32 flex flex-col justify-center items-center z-50"}>
 
             <button
