@@ -59,25 +59,27 @@ export default function GameInfoBar({game}:Props) {
         </div>
 
         {/*give up button*/}
-        <div
+        <button
             className=" absolute top-0 left-1/2 translate-x-24 translate-y-10 rounded-md
                     h-10 w-28 flex flex-col justify-center items-center drop-shadow-2xl
                     bg-red-800 text-white
-                    text-2xl z-10"
+                    text-2xl z-10
+                    transition active:scale-95"
             onClick={() => handleIntent(PlayerIntentEnum.resign)}
         >
             Surrender
-        </div>
+        </button>
 
         {/*skip button*/}
-        <div
+        <button
             className=" absolute top-0 left-1/2 translate-x-24 translate-y-22 rounded-md
                     h-10 w-28 flex flex-col justify-center items-center drop-shadow-2xl
                     bg-teal-600 text-white
-                    text-2xl z-10"
+                    text-2xl z-10
+                    transition active:scale-95"
             onClick={() => handleIntent(PlayerIntentEnum.skip)}
         >
             Skip
-        </div>
+        </button>
     </nav>
 }

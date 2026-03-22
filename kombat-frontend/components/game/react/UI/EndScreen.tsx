@@ -1,5 +1,5 @@
 import {Game} from "../../type/GameTypes";
-import {GameStateEnum} from "../../../../ttypes/enums";
+import {GameStateEnum, PlayerIntentEnum} from "../../../../ttypes/enums";
 import {absolutePathToPage} from "next/dist/shared/lib/page-path/absolute-path-to-page";
 import SpriteView from "../Renderer/SpriteView";
 import {c_Sprite, c_Transform2, c_Vec2} from "../../utils/utility";
@@ -10,12 +10,16 @@ import useDeviceSize from "../../../CustomHook/useDeviceSize";
 import SpriteWithOverlay from "../Renderer/SpriteViewWithOverlay";
 import {Span} from "next/dist/server/lib/trace/tracer";
 import {useGameState} from "../../model/useGameState";
+import {router} from "next/client";
+import {useRouter} from "next/navigation";
 
 interface Props {
     game: Game
 }
 
 export default function EndScreen({game}: Props) {
+
+    const router = useRouter();
 
     const {gameDTO} = useGameState();
     //Data
@@ -58,7 +62,7 @@ export default function EndScreen({game}: Props) {
     )
 
     const drawRibbonOffset = c_Vec2(
-        (width- ribbonSize.x)/2,
+        (width - ribbonSize.x) / 2,
         height / 4
     )
 
@@ -109,14 +113,14 @@ export default function EndScreen({game}: Props) {
 
             <div className="absolute top-0 left-0 z-30">
                 <div hidden={winner != 0}>
-                <SpriteView sprite={c_Sprite(crown_R_T)}
-                            transform={c_Transform2(crownOffset, c_Vec2(crownDownscaleFactor, crownDownscaleFactor))}></SpriteView>
+                    <SpriteView sprite={c_Sprite(crown_R_T)}
+                                transform={c_Transform2(crownOffset, c_Vec2(crownDownscaleFactor, crownDownscaleFactor))}></SpriteView>
                 </div>
 
                 <SpriteWithOverlay sprite={c_Sprite(ribbon_R_T)}
                                    transform={c_Transform2(ribbonOffset, c_Vec2(ribbonDownscaleFactor, ribbonDownscaleFactor))}>
                 <span className="flex translate-y-1/8 justify-center h-full w-full text-white text-5xl">
-                        {winner === 0? "Victory" : "Defeat"}
+                        {winner === 0 ? "Victory" : "Defeat"}
                 </span>
                 </SpriteWithOverlay>
 
@@ -124,14 +128,14 @@ export default function EndScreen({game}: Props) {
             <div className="absolute top-0 left-1/2  z-30">
                 <div hidden={winner != 1}>
 
-                <SpriteView sprite={c_Sprite(crown_B_T)}
-                            transform={c_Transform2(crownOffset, c_Vec2(crownDownscaleFactor, crownDownscaleFactor))}></SpriteView>
+                    <SpriteView sprite={c_Sprite(crown_B_T)}
+                                transform={c_Transform2(crownOffset, c_Vec2(crownDownscaleFactor, crownDownscaleFactor))}></SpriteView>
                 </div>
 
                 <SpriteWithOverlay sprite={c_Sprite(ribbon_B_T)}
                                    transform={c_Transform2(ribbonOffset, c_Vec2(ribbonDownscaleFactor, ribbonDownscaleFactor))}>
                 <span className="flex translate-y-1/8 justify-center h-full w-full text-white text-5xl">
-                        {winner === 1? "Victory" : "Defeat"}
+                        {winner === 1 ? "Victory" : "Defeat"}
                 </span>
                 </SpriteWithOverlay>
             </div>
@@ -147,5 +151,19 @@ export default function EndScreen({game}: Props) {
             <span>{totalBudget[0]} : Budget : {totalBudget[1]}</span>
         </div>
 
+        {/*Button*/}
+        <div className={"absolute w-full top-27/32 flex flex-col justify-center items-center z-50"}>
+
+            <button
+                className="rounded-md
+                    h-12 w-42 flex flex-col justify-center items-center drop-shadow-2xl
+                    bg-teal-600 text-white
+                    text-3xl z-10
+                    transition active:scale-95 hover:bg-teal-700"
+                onClick={() => window.location.reload()}
+            >
+                Back to Menu
+            </button>
+        </div>
     </div>
 }
