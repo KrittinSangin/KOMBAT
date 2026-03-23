@@ -14,6 +14,7 @@ import {Global2Players} from "../configuration/components/ProfileConfig";
 import {Client} from "@stomp/stompjs";
 import {create} from "zustand"
 import SockJS from "sockjs-client";
+import ignore from "ignore";
 
 export type joinedHandler = {
     hostID: string
