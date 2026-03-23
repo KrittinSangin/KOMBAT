@@ -66,7 +66,7 @@ export type MessageHolder =
         Message: string
     }
 
-interface HexPos {
+export interface HexPos {
     "row": number
     "col": number
 }
