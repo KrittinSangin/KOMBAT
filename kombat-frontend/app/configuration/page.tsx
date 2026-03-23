@@ -53,8 +53,6 @@ import { duelWhereDidYouComeFrom } from "../gamemode/duel/page";
 
 
  export default function CreateRoomPage(){
-  
-
 
     const searchParams = useSearchParams();
     const mode = searchParams.get("mode")?.split("/")[0];

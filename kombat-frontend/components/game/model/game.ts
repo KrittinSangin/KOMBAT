@@ -59,7 +59,6 @@ export const emptyGameDTO: GameDTO = {
     team: 0,
     turn: 0,
     winner: 0
-
 }
 
 const createPlayer: (info:PlayerInfo, deck:Minion[]) => Player = (info,deck) => {

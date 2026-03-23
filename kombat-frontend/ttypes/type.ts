@@ -6,69 +6,67 @@ import {
     HexDir, PlayerIntentEnum
 } from "./enums";
 
-export interface HexPos {
-
-
-type ConfigValues = {
-  _Hp: number
-  _minions: number
-  _turnMax: number
-  _startingBudget: number
-  _maximumBudget: number
-  _interest: number
-  _hexCost: number
-  _spawningCost: number
-  _maximumSpawn: number
+export type ConfigValues = {
+    _Hp: number
+    _minions: number
+    _turnMax: number
+    _startingBudget: number
+    _maximumBudget: number
+    _interest: number
+    _hexCost: number
+    _spawningCost: number
+    _maximumSpawn: number
+    _turnBudget: number
 }
 
 export type joinedHandler = {
-      hostID : string
-      clientID : string
+    hostID: string
+    clientID: string
     setHostID: (value: string) => void
     setClientID: (value: string) => void
 }
 export type _joinedHandler = {
-      hostID : string
-      clientID : string
+    hostID: string
+    clientID: string
 }
 
 export type ConfigureState = ConfigValues & {
-  setHp: (value: number) => void
-  setMinions: (value: number) => void
-  setTurnMax: (value: number) => void
-  setStartingBudget: (value: number) => void
-  setMaximumBudget: (value: number) => void
-  setInterest: (value: number) => void
-  setHexCost: (value: number) => void
-  setSpawningCost: (value: number) => void
-  setMaximumSpawn: (value: number) => void
+    setHp: (value: number) => void
+    setMinions: (value: number) => void
+    setTurnMax: (value: number) => void
+    setStartingBudget: (value: number) => void
+    setMaximumBudget: (value: number) => void
+    setInterest: (value: number) => void
+    setHexCost: (value: number) => void
+    setSpawningCost: (value: number) => void
+    setMaximumSpawn: (value: number) => void
+    setTurnBudget: (value: number) => void
 
-  setAll: (config: Partial<ConfigValues>) => void
+    setAll: (config: Partial<ConfigValues>) => void
 }
 export type ProfileConfigProps = {
     team: number;
-    left:number;
-    top:number;
-    online1:boolean; 
-    online2:boolean; 
+    left: number;
+    top: number;
+    online1: boolean;
+    online2: boolean;
     // true=online, false=offline
 }
 
 export type NameOf2Players = {
-  player1 : string;
-  player2 : string;
-  setPlayer1Name: (value: string) => void
-  setPlayer2Name: (value: string) => void
+    player1: string;
+    player2: string;
+    setPlayer1Name: (value: string) => void
+    setPlayer2Name: (value: string) => void
 }
 
 export type MessageHolder =
-{
-  isSuccess: boolean,
-  Message: string
-}
+    {
+        isSuccess: boolean,
+        Message: string
+    }
 
-interface HexPos
-{
+interface HexPos {
     "row": number
     "col": number
 }
@@ -112,7 +110,7 @@ export interface PlayerInfo {
 
 export interface MinionDTO {
     "name": string,
-    "pos" : HexPos,
+    "pos": HexPos,
     "deckIndex": number,
     "team": number,
     "hp": number,
