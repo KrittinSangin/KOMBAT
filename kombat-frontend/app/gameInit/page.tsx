@@ -6,13 +6,14 @@ import StrategyBox from "../../components/StrategyBox";
 import Button from "../../components/Button";
 import GameLayout from "../../components/GameLayout";
 import MinionProfile from "../../components/MinionProfile";
-import { useState } from "react"; 
+import { useEffect, useState } from "react"; 
 import { useConfigStore } from "../configuration/page";
 import { duelWhereDidYouComeFrom } from "../gamemode/duel/page";
 import { Global2Players } from "../configuration/components/ProfileConfig";
 import { Client } from "@stomp/stompjs";
 import { create } from "zustand"
 import SockJS from "sockjs-client";
+import { useMinMult } from "../../components/Dropdown";
 export type joinedHandler = {
       hostID : string
       ready : boolean
@@ -34,7 +35,7 @@ export default function GameInitPage() {
     const checkOrg = duelWhereDidYouComeFrom.getState().checkOrigin() == "CREATE" 
     const minion = useConfigStore.getState()._minions;
 
-    const [Ready, setReady] = useState(false);
+    const [Ready, setReady] = useState(true);
   
 
 
@@ -58,10 +59,27 @@ const client = new Client({
     }
 });
 
-const readyUp = async () => {
-    client.activate(); // activate triggers onConnect when ready
-    setReady(!Ready);
+ useEffect (() => {
+    client.activate();
     useSocketStore.getState().setClient(client);
+ },[])
+
+const readyUp = async () => {
+    // client.activate(); // activate triggers onConnect when ready
+    setReady(!Ready);
+    useSocketStore.getState().client?.publish({
+            destination: "/app/game/start",
+            body: JSON.stringify({
+                isReady: Ready,
+                PlayerName: playerName,
+                PlayerTeam: checkOrg == true ? 0 : 1,
+                Minions: useMinMult.getState().minionsMult
+            })
+        });
+    console.log(useMinMult.getState().minionsMult)
+    // const a = await fetch(()).then(message => {
+    //     console.log(message.body)
+    // })
 }
 
     return(

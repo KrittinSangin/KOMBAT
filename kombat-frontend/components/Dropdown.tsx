@@ -8,6 +8,18 @@ import Image from "next/image";
 import ButtonForInitPage from "./ButtonForInitPage";
 import Loadable from "next/dist/shared/lib/loadable.shared-runtime";
 import { useMinionStore } from "./MinionProfile";
+import { create } from "zustand"
+
+export const useMinMult = create<exMin>((set) => ({
+  minionsMult: [],
+  setMinMult: (min: inyaface[]) => set({minionsMult: min})
+}));
+
+interface exMin {
+  minionsMult: inyaface[];
+  setMinMult: (min: inyaface[]) => void
+}
+
 interface inyaface {
   name: string;
   content: string;
@@ -46,6 +58,11 @@ export default function Dropdown({ selectedMinion, selectedSprite }: StrategyBox
     //✅
     setIsDropdownVisible(false);
   };
+
+  
+  useEffect (() => {
+    useMinMult.getState().setMinMult(files)
+  },[files])
 
   const handleUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     //✅
