@@ -1,34 +1,52 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
   <component name="ChangeListManager">
-    <list default="true" id="3476c096-7281-4e28-a5b0-539661d8c986" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.gitmodules" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BridgedBackend/BridgedBackend/KOMBAT-fetchingBack_old" afterDir="false" />
+    <list default="true" id="77371fff-d012-48f5-91eb-b4b84be1be84" name="Changes" comment="Custom back-end requirement">
+      <change beforePath="$PROJECT_DIR$/../.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
-  <component name="Git.Settings">
-    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Interface" />
+        <option value="Class" />
+      </list>
+    </option>
   </component>
-  <component name="GitHubPullRequestSearchHistory">{
-  &quot;lastFilter&quot;: {
-    &quot;state&quot;: &quot;OPEN&quot;,
-    &quot;assignee&quot;: &quot;ErrkkSkyseer&quot;
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+    <option name="UPDATE_TYPE" value="REBASE" />
+  </component>
+  <component name="GitHubPullRequestSearchHistory"><![CDATA[{
+  "lastFilter": {
+    "state": "OPEN",
+    "assignee": "KrittinSangin"
   }
-}</component>
+}]]></component>
   <component name="GithubPullRequestsUISettings"><![CDATA[{
   "selectedUrlAndAccountId": {
     "url": "https://github.com/KrittinSangin/KOMBAT.git",
     "accountId": "be291fae-a466-4c2d-84d2-c533ece760fb"
   }
 }]]></component>
+  <component name="MavenImportPreferences">
+    <option name="generalSettings">
+      <MavenGeneralSettings>
+        <option name="mavenHomeTypeForPersistence" value="WRAPPER" />
+      </MavenGeneralSettings>
+    </option>
+  </component>
   <component name="ProjectColorInfo">{
-  &quot;associatedIndex&quot;: 0
+  &quot;associatedIndex&quot;: 5
 }</component>
-  <component name="ProjectId" id="39r31n8rOEgAywoNS8QxrJAY9nv" />
+  <component name="ProjectId" id="3ACQU7KLLBCENg5CbW3rZR7hq9Q" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
@@ -36,17 +54,36 @@
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
     "ModuleVcsDetector.initialDetectionPerformed": "true",
+    "RequestMappingsPanelOrder0": "0",
+    "RequestMappingsPanelOrder1": "1",
+    "RequestMappingsPanelWidth0": "75",
+    "RequestMappingsPanelWidth1": "75",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.git.unshallow": "true",
+    "Spring Boot.KombatFetchingBackApplication.executor": "Run",
+    "git-widget-placeholder": "frontend-working",
     "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "C:/Users/perms/IdeaProjects/KOMBAT-fetchingBack_old",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
     "nodejs_package_manager_path": "npm",
-    "project.structure.last.edited": "Global Libraries",
-    "project.structure.proportion": "0.0",
-    "project.structure.side.proportion": "0.2",
-    "settings.editor.selected.configurable": "com.intellij.platform.ide.impl.presentationAssistant.PresentationAssistantConfigurable",
+    "run.code.analysis.last.selected.profile": "pProject Default",
+    "settings.editor.selected.configurable": "project.propVCSSupport.DirectoryMappings",
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
+  <component name="RunManager">
+    <configuration name="KombatFetchingBackApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
+      <option name="FRAME_DEACTIVATION_UPDATE_POLICY" value="UpdateClassesAndResources" />
+      <module name="KOMBAT-fetchingBack" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="org.example.kombatfetchingback.KombatFetchingBackApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+  </component>
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
@@ -55,20 +92,84 @@
       </set>
     </attachedChunks>
   </component>
+  <component name="StructureViewState">
+    <option name="selectedTab" value="Logical" />
+  </component>
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="3476c096-7281-4e28-a5b0-539661d8c986" name="Changes" comment="" />
-      <created>1763536346744</created>
+      <changelist id="77371fff-d012-48f5-91eb-b4b84be1be84" name="Changes" comment="" />
+      <created>1772094087461</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
-      <updated>1763536346744</updated>
-      <workItem from="1771440151726" duration="166000" />
-      <workItem from="1774247575038" duration="18000" />
-      <workItem from="1774250394183" duration="20000" />
+      <updated>1772094087461</updated>
+      <workItem from="1772094088786" duration="5171000" />
+      <workItem from="1772110864633" duration="8793000" />
+      <workItem from="1772169419546" duration="25000" />
+      <workItem from="1772173263784" duration="4097000" />
+      <workItem from="1772184059905" duration="372000" />
+      <workItem from="1772375548248" duration="8816000" />
+      <workItem from="1772419325511" duration="3782000" />
+      <workItem from="1772429193007" duration="4799000" />
+      <workItem from="1772438547547" duration="2657000" />
+      <workItem from="1772457028448" duration="190000" />
+      <workItem from="1772457264065" duration="1430000" />
+      <workItem from="1772461885628" duration="6840000" />
+      <workItem from="1772510579222" duration="647000" />
+      <workItem from="1772517093047" duration="11830000" />
+      <workItem from="1772551723487" duration="6560000" />
+      <workItem from="1772609263800" duration="4017000" />
+      <workItem from="1772626640090" duration="880000" />
+      <workItem from="1772633339822" duration="117000" />
+      <workItem from="1772677939460" duration="1839000" />
+      <workItem from="1772722305108" duration="2740000" />
+      <workItem from="1772765032207" duration="2200000" />
+      <workItem from="1772767677426" duration="2256000" />
+      <workItem from="1772778267361" duration="6557000" />
+      <workItem from="1772791536020" duration="1537000" />
+      <workItem from="1772810914724" duration="7157000" />
+      <workItem from="1772858442227" duration="806000" />
+      <workItem from="1772885655397" duration="1331000" />
+      <workItem from="1772887328095" duration="64000" />
+      <workItem from="1772894618499" duration="622000" />
+      <workItem from="1773044683916" duration="1348000" />
+      <workItem from="1773047001256" duration="90000" />
+      <workItem from="1773133206931" duration="1601000" />
+      <workItem from="1773313044499" duration="130000" />
+      <workItem from="1773481589241" duration="4506000" />
+      <workItem from="1773500270258" duration="8140000" />
+      <workItem from="1773548146908" duration="8570000" />
+      <workItem from="1773569251341" duration="1642000" />
+      <workItem from="1773582729236" duration="12237000" />
+      <workItem from="1774247278413" duration="906000" />
+      <workItem from="1774248490235" duration="674000" />
+      <workItem from="1774251689478" duration="48000" />
     </task>
+    <task id="LOCAL-00001" summary="Custom back-end requirement">
+      <option name="closed" value="true" />
+      <created>1774248836177</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1774248836177</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Custom back-end requirement" />
+    <option name="LAST_COMMIT_MESSAGE" value="Custom back-end requirement" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <breakpoint enabled="true" type="java-exception">
+          <properties class="java.io.IOException" package="java.io" />
+          <option name="timeStamp" value="1" />
+        </breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>
