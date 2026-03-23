@@ -7,7 +7,6 @@ interface StrategyBoxprops{
 }
 
 export default function StrategyBox({selectedMinion}:StrategyBoxprops){
-    const months = ["jan", "feb"];
     return(
         <>
             <div className="z-10 absolute w-[50%] h-[100%] top-[0px] left-[0px] " style={{backgroundColor:"#D9D9D9"}}>

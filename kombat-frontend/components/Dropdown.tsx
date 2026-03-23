@@ -122,7 +122,7 @@ const handleSave = () => {
 />
 
     {/* create new */}
-      <div className="py-2 pl-3 text-2xl border absolute top-[201px] left-[0px] w-[100%] h-[5%]" style={{backgroundColor:"#fefefe",borderBlockColor:"#696969",color:"#696969"}}
+      <div className="py-2 pl-3 text-2xl border absolute top-[205px] left-[0px] w-[100%] h-[5%]" style={{backgroundColor:"#fefefe",borderBlockColor:"#696969",color:"#696969"}}
       onClick={() => {setShowContent(true); setContent(""); }}>
         Create New
         <div className="absolute text-4xl top-[0px] left-[700px]">+</div>
