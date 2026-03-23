@@ -62,6 +62,8 @@ try {
     alert("Successfully created a room");
     router.push(`/configuration/deepweb1?mode=${mode}`);
   };
+
+  
     const moveToJoinRoomPage = () => {
     duelWhereDidYouComeFrom.getState().setOrigin("JOIN");
     router.push("/gamemode/duel/join_room");

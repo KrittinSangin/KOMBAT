@@ -14,11 +14,7 @@ export default function StrategyBox({selectedMinion,passedString}:StrategyBoxpro
                 <div className="z-20 absolute w-[100%] h-[5%] top-[80px] left-[0px]">
                     <p  className="text-3xl text-center" style={{color:"#696969"}}>Strategy</p>
                 </div>
-<<<<<<< HEAD
-                <Dropdown ></Dropdown>
-=======
                 <Dropdown selectedMinion={String(selectedMinion+1)} selectedSprite={passedString} ></Dropdown>
->>>>>>> cee997f63637d5ef18ad0fb675b8ea4364c24a29
             </div>
         </>
     )
