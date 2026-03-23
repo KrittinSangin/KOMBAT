@@ -11,10 +11,10 @@ export default function ForbiddenPage() {
         router.push("/");
     };
 
-    return (
-        <GameLayout src="/homepage_bg.jpeg" alt="Forbidden Access">
-            <div className="flex flex-col items-center justify-center gap-8">
-                <h1 className="
+  return (
+    <GameLayout src="/homepage_bg.jpeg" alt="Forbidden Access">
+      <div className="flex flex-col items-center justify-center gap-4">
+        <h1 className="
           font-jersey25 
           text-[#6a0dad]
           text-[120px] 
@@ -52,20 +52,20 @@ export default function ForbiddenPage() {
                     You don't have permission to access this path. Please return to the home page to continue.
                 </p>
 
-                <PlayButton
-                    src=""
-                    alt="home"
-                    overlayText="Go Home"
-                    onClick={handleGoHome}
+        <PlayButton
+          src="/purple_btn.PNG"
+          alt="home"
+          overlayText="Go Home"
+          onClick={handleGoHome}
 
-                    bottom="-100"
-                    left="125"
-                    color="#6a0dad"
-                    font_size="50"
-                    height="80"
-                    width="180"
-                />
-            </div>
-        </GameLayout>
-    );
+          bottom="-180"
+          left="125"
+          color="#6a0dad"
+          font_size="50"
+          height="150"
+          width="230"
+        />
+      </div>
+    </GameLayout>
+  );
 }

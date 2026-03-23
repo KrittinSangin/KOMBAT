@@ -1,15 +1,55 @@
+import Image from "next/image";
 
-
-interface NavbarProps {
-    title: string;
+export enum TeamSide {
+  Blue = "blue",
+  Red = "red",
 }
 
-export default function Navbar({title}: NavbarProps){
-    return(
-        <>
-            <div className="z-0 w-[1500px] h-[80px] bg-[#A9B6FF] absolute top-[-418px] left-[-760px]">
-                <h1 className="text-[50px] font-bold pl-15 pt-2">{title}</h1>
-            </div>
-        </>
-    )
+interface NavbarProps {
+  title: string;
+  minionCount: number;
+  team: TeamSide;
+  selectedMinion: number;
+  onSelect: (index: number) => void;
+}
+
+export default function Navbar({
+  title,
+  minionCount,
+  team,
+  selectedMinion,
+  onSelect,
+}: NavbarProps) {
+  return (
+    <>
+      {/* <div className="z-20 absolute w-[1469px] h-[80px] bg-[#A9B6FF] top-0 left-0 flex items-center justify-between px-6"> */}
+      <div className={ team == TeamSide.Blue ? "z-20 absolute w-full h-[80px] bg-[#9ECAE1] top-0 left-0 flex items-center justify-between px-6" : "z-20 absolute w-[1469px] h-[80px] bg-[#FA8072] top-0 left-0 fixed flex justify-between px-6"}>
+        <h1 className="text-[50px] font-bold">{title}</h1>
+        {/* กลาง */}
+        <div className="absolute left-[610px] bottom-[-5px] w-2/3 flex justify-center gap-5">
+          {Array.from({ length: minionCount }).map((_, index) => (
+            <button
+              key={index}
+              onClick={() => onSelect(index)}
+              className={`relative transition-opacity duration-300 ${
+                selectedMinion === index ? "opacity-100" : "opacity-50"
+              }`}
+            >
+              <Image
+                src={team === TeamSide.Blue ? "/blue_btn.PNG" : "/red_btn.PNG"}
+                alt="Minion"
+                width={120}
+                height={50}
+              />
+
+              <p className="absolute top-[8px] left-1/4 text-blck text-xl">
+                Minion{index + 1}
+              </p>
+            </button>
+          ))}
+        </div>
+        <div className="w-1/3"></div>
+      </div>
+    </>
+  );
 }
