@@ -1,7 +1,6 @@
 import {Minion} from "../../type/GameTypes";
 import UnitCard from "./UnitCard";
 import {c_Transform2, c_Vec2} from "../../utils/utility";
-import useDeviceSize from "../../../CustomHook/useDeviceSize";
 
 interface Props {
     deck: Minion[]

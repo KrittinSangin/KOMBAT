@@ -40,7 +40,6 @@ export default function GameView({game}:Props) {
 
     return (
         <div>
-
             {background()}
             {HexMapView(game.map)}
         </div>

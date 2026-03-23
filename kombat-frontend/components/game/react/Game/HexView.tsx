@@ -1,7 +1,7 @@
 import {Vec2} from "../../type/Primitive";
 import {Hex, Minion} from "../../type/GameTypes";
 import {Texture} from "../../type/Rendering";
-import {c_Transform2, c_Vec2} from "../../utils/utility";
+import {c_Sprite, c_Transform2, c_Vec2} from "../../utils/utility";
 import {gamHexB_T, gamHexN_T, gamHexR_T} from "../../resources/textureResource";
 import SpriteView from "../Renderer/SpriteView";
 import MinionView from "./MinionView";
@@ -12,12 +12,14 @@ import {useIntent} from "../../model/useIntent";
 interface Props {
     idx: number
     pos: Vec2,
+    highlight: boolean,
     hex?: Hex
 }
 
 export default function HexView({
                                     idx,
                                     pos,
+                                    highlight,
                                     hex
                                 }: Props) {
     const [hover, setHover] = useState(false)
@@ -36,10 +38,17 @@ export default function HexView({
         texture = gamHexN_T;
 
     //Hex Sprite
-    const hexSprite = {
-        texture: texture,
-        color: hover ? "red" : "transparent",
+    const hexSprite = c_Sprite(texture);
+
+    if (highlight)
+    {
+        hexSprite.color = "#ff1787"
     }
+
+    if (hover) {
+        hexSprite.color = "#a491c7"
+    }
+
 
     //Hex Transform
     const size = hexSprite.texture.size;
@@ -78,7 +87,6 @@ export default function HexView({
     }}>
         <div style={{
             position: "absolute",
-            backgroundColor: "red",
         }}
              onMouseEnter={() => setHover(true)}
              onMouseLeave={() => setHover(false)}
@@ -87,7 +95,7 @@ export default function HexView({
             <SpriteView sprite={hexSprite} transform={hexTransform}/>
         </div>
 
-        <div style={{ pointerEvents:"none"}}>
+        <div style={{pointerEvents: "none"}}>
             {hex.minion && <MinionView minion={hex.minion} transform={minionTransform(hex.minion)}/>}
         </div>
 

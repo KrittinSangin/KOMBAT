@@ -1,8 +1,8 @@
 import {Game} from "../../type/GameTypes";
 import {useIntent} from "../../model/useIntent";
-import {PlayerIntentEnum} from "../../../../ttypes/enums";
-import EventLog from "./EventLog";
+import {GameStateEnum, PlayerIntentEnum} from "../../../../ttypes/enums";
 import NoticeWindow from "./NoticeWindow";
+import {useEffect, useState} from "react";
 
 interface Props
 {
@@ -12,6 +12,21 @@ interface Props
 export default function GameInfoBar({game}:Props) {
 
     const {setIntent,submitIntent} = useIntent();
+
+    const [dotCount,setDotCount] = useState<number>(0);
+
+    const running = game.gameState === GameStateEnum.execute;
+
+    useEffect(() => {
+        if (!running) return;
+
+        const interval = setInterval(() => {
+            setDotCount(prev => prev>2? 1 : prev + 1);
+        }, 300);
+
+        return () => clearInterval(interval);
+    }, [running]);
+
 
     const team = game.team;
 
@@ -30,8 +45,48 @@ export default function GameInfoBar({game}:Props) {
         submitIntent();
     }
 
+    function noticeWindowHandle()
+    {
+        let message = "";
+
+        switch (game.team)
+        {
+            case 0:
+                message += "Player 0 "
+                break;
+            case 1:
+                message += "Player 1 "
+                break;
+        }
+
+        switch (game.gameState)
+        {
+            case GameStateEnum.empty:
+                message += "empty state"
+                break;
+            case GameStateEnum.start:
+                message += "spawn free minion"
+                break;
+            case GameStateEnum.buyHex:
+                message += "buy hex"
+                break;
+            case GameStateEnum.buyMinion:
+                message += "buy minion"
+                break;
+            case GameStateEnum.execute:
+                message += "Executing Strategy"
+                for (let i = 0; i < dotCount; i++) message += ".";
+                break;
+            case GameStateEnum.end:
+                message += "Game Over"
+                break;
+        }
+
+        return <NoticeWindow text={message} hidden={false}/>
+    }
+
     return <nav>
-        <NoticeWindow text={""} hidden={false}/>
+        {noticeWindowHandle()}
 
         {/*budget*/}
         <div

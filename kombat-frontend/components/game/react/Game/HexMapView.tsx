@@ -1,18 +1,26 @@
 import HexView from "./HexView";
-import {useEffect, useState} from "react";
 import RectView from "../Renderer/RectView";
 import {Vec2} from "../../type/Primitive";
 import {HexMap} from "../../type/GameTypes";
 import useDeviceSize from "../../../CustomHook/useDeviceSize";
-import {hexMapGet} from "../../model/hexMap";
-import UnitCard from "../UI/UnitCard";
-import {c_Vec2, c_Vec3} from "../../utils/utility";
+import {buyableHex, hexMapGet, hexPosEqual} from "../../model/hexMap";
+import {c_Vec2} from "../../utils/utility";
+import {useGameState} from "../../model/useGameState";
+import {GameStateEnum} from "../../../../ttypes/enums";
+import {useIntent} from "../../model/useIntent";
+
 
 export default function HexMapView(map:HexMap) {
     const [SC_WIDTH, SC_HEIGHT] = useDeviceSize()
     const N_ROW = map.row;
     const N_COL = map.colum;
 
+    //Hex Highlighting
+    const {game} = useGameState();
+    const {gameState} = game;
+    const highlights = gameState === GameStateEnum.buyHex? buyableHex(map,0).map((hex)=>hex.hexPos) : [];
+
+    //Hex Rendering
     const SPACING = c_Vec2(70,50);
     // const SIZE = c_Vec2(120,60);
     const OFFSET = c_Vec2(0,100)
@@ -73,6 +81,10 @@ export default function HexMapView(map:HexMap) {
                     <div key={(rc.c + 1) + N_COL * (rc.r + 1)}>
                         <HexView
                             idx={rc.c + 1 + N_COL * rc.r + 1}
+                            highlight={highlights.some((pos) => {
+                                const hex = hexMapGet(map, { row: rc.r + 1, col: rc.c + 1 })?.hexPos;
+                                if (hex) return hexPosEqual(pos, hex); else return false;
+                            })}
                             pos={calculatePos(rc.r, rc.c)}
                             hex={hexMapGet(map, { row: rc.r + 1, col: rc.c + 1 })}
                         />

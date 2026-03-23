@@ -14,10 +14,9 @@ interface Props {
 }
 
 
-export default function UnitCard({minion,index, transform}: Props)
-{
+export default function UnitCard({minion, index, transform}: Props) {
     const [hover, setHover] = useState(false)
-    const {intent,setMinion} = useIntent();
+    const {intent, setMinion} = useIntent();
 
     //Data
     const minionName = minion.name;
@@ -44,21 +43,21 @@ export default function UnitCard({minion,index, transform}: Props)
         (backgroundTexture.size.y - foregroundTexture.size.y - foreGroundOffsetConstY) * scale.y
     )
 
-    const cardForeground :Sprite = c_Sprite(foregroundTexture)
+    const cardForeground: Sprite = c_Sprite(foregroundTexture)
 
     const cardForgroundTransform = c_Transform2(
         foreGroundOffset,
-        c_Vec2(scale.x,scale.y)
+        c_Vec2(scale.x, scale.y)
     )
 
-    const cardBackground :Sprite = c_Sprite(backgroundTexture)
+    const cardBackground: Sprite = c_Sprite(backgroundTexture)
 
     const cardBackgroundTransform = c_Transform2(
-        c_Vec2(0,0),
-        c_Vec2(scale.x,scale.y)
+        c_Vec2(0, 0),
+        c_Vec2(scale.x, scale.y)
     )
 
-    const cardSpriteScale =  backgroundTexture.size.y * scale.y / minion.sprite.texture.size.y * spriteDownScaleFactor;
+    const cardSpriteScale = backgroundTexture.size.y * scale.y / minion.sprite.texture.size.y * spriteDownScaleFactor;
 
     const spriteSize = c_Vec2(
         cardSpriteScale * minion.sprite.texture.size.x,
@@ -74,7 +73,7 @@ export default function UnitCard({minion,index, transform}: Props)
 
     const cardSpriteTransform = c_Transform2(
         spriteOffset,
-        c_Vec2(cardSpriteScale,cardSpriteScale)
+        c_Vec2(cardSpriteScale, cardSpriteScale)
     )
 
     return <div style={{
@@ -94,14 +93,14 @@ export default function UnitCard({minion,index, transform}: Props)
                     setMinion(index);
                 }}
     >
-        <SpriteView sprite={cardBackground} transform = {cardBackgroundTransform}></SpriteView>
-        <SpriteView sprite={cardSprite}     transform = {cardSpriteTransform}></SpriteView>
-        <SpriteView sprite={cardForeground} transform = {cardForgroundTransform}></SpriteView>
+        <SpriteView sprite={cardBackground} transform={cardBackgroundTransform}></SpriteView>
+        <SpriteView sprite={cardSprite} transform={cardSpriteTransform}></SpriteView>
+        <SpriteView sprite={cardForeground} transform={cardForgroundTransform}></SpriteView>
         <div
             className="absolute flex flex-col justify-center-safe translate-x-3 translate-y-19
                         text-white text-xs">
-        <span> {minionName} </span>
-        <span> {minionDef} </span>
+            <span> {minionName} </span>
+            <span> {minionDef} </span>
 
         </div>
     </div>

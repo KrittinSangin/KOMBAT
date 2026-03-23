@@ -17,9 +17,9 @@ export enum HaltReason {
 }
 
 export enum ExecutionInstanceLogFunction {
-    row, col, Int, Budget, MaxBudget, SpawnsLeft, random,
-    opponent, ally, nearby,
-    move, shoot, done
+    row, col, Int, Budget, MaxBudget, SpawnsLeft, random, //Variables
+    opponent, ally, nearby, //Information
+    move, shoot, done //Action
 }
 
 export enum ExecutionInstanceLogFunctionTypeOf {
