@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import {useEffect, useState} from "react";
 import GameLayout from "../../../components/GameLayout"
 import Button from "../../../components/Button"
 import { useRouter } from "next/navigation";
@@ -47,7 +47,7 @@ export default function DuelPage(){
 
 // TODO: Send the randomized code to the back-end here before navigating to the configuration page
 try {
-  let test2: MessageHolder = await fetch(`http://localhost:8080/data/send/${rand.getState().code}`, {
+  let test2: MessageHolder = await fetch(`${process.env.NEXT_PUBLIC_LINK}/data/send/${rand.getState().code}`, {
     method: 'POST'
   }).then(response => response.json());
   // console.log(test2)
@@ -67,13 +67,13 @@ try {
     router.push("/gamemode/duel/join_room");
   };
 
-  if (!isAuthorized) {
-    return (
-      <GameLayout src="/homepage_bg.jpeg" alt="Duel" />
-    );
-  }
+    if (!isAuthorized) {
+        return (
+            <GameLayout src="/homepage_bg.jpeg" alt="Duel"/>
+        );
+    }
 
-    return(
+    return (
         <>
             <GameLayout src="/homepage_bg.jpeg" alt="Duel">
                 <h1 className="relative

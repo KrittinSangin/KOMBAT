@@ -1,0 +1,18 @@
+package org.example.kombatfetchingback.kombat_backend.Parser.AST;
+
+import org.example.kombatfetchingback.kombat_backend.Games.Strategies.ExecutionInstance;
+
+public record Ally() implements Expr
+{
+	@Override
+	public int eval(ExecutionInstance instance)
+	{
+		return instance.ally();
+	}
+
+	@Override
+	public void prettyPrint(StringBuilder sb)
+	{
+		sb.append("ally");
+	}
+}

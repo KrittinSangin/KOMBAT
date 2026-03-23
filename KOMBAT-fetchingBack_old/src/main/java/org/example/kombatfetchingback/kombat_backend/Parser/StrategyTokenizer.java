@@ -1,0 +1,87 @@
+package org.example.kombatfetchingback.kombat_backend.Parser;
+
+import org.example.kombatfetchingback.kombat_backend.Parser.Exceptions.*;
+import lombok.Getter;
+
+import java.util.NoSuchElementException;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+public class StrategyTokenizer implements Tokenizer
+{
+	@Getter
+	private final String raw;
+	private String next;
+
+	private static final String STRAT_REGEX = "\\d+|[\\p{Alpha}_]+|[+\\-*/%()^{}=]";
+	private static final String COMMENT_REGEX = "#.*\n?";
+	private static final String VALIDATION_REGEX = "[\\p{Alnum}\\s+\\-*/%()^{}=_\n\t]*";
+
+	private final Matcher matcher;
+
+	public StrategyTokenizer(String src)
+	{
+		raw = src;
+
+		matcher = Pattern.compile(STRAT_REGEX).matcher(cleanComment(src));
+		computeNext();
+	}
+
+	private String cleanComment(String src)
+	{
+		return src.replaceAll(COMMENT_REGEX,"");
+	}
+
+	@Override
+	public boolean hasNextToken()
+	{
+		return next != null;
+	}
+
+	public void checkNextToken()
+	{
+		if (!hasNextToken()) throw new NoSuchElementException("no more tokens");
+	}
+
+	public boolean peek(String s)
+	{
+		return hasNextToken() && peek().equals(s);
+	}
+
+	@Override
+	public String peek()
+	{
+		checkNextToken();
+		return next;
+	}
+
+	public String consume(String s) throws SyntaxError
+	{
+		if (peek(s))
+			return consume();
+		else
+			throw new SyntaxError(s + " expected");
+	}
+
+
+	@Override
+	public String consume()
+	{
+		checkNextToken();
+		String result = next;
+		computeNext();
+		return result;
+	}
+
+	private void computeNext()
+	{
+		if (matcher.find())
+		{
+			String next = matcher.group();
+			if (!next.matches(VALIDATION_REGEX)) throw new LexicalError(next + " contains unknow character(s)");
+
+			else this.next = next;
+		} else
+			next = null;
+	}
+}
