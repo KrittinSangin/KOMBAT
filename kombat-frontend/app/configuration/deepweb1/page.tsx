@@ -66,9 +66,10 @@ const [isReady, setIsReady] = useState(false);
               body: JSON.stringify(
               {
                 MainConfig: useConfigStore.getState(),
-                Player1Name: player1  ,
+                Player1Name: player1,
                 Player2Name: player2
-              })
+              }
+            )
             })
             router.push("/gameInit")
           }
