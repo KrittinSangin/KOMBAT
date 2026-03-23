@@ -72,7 +72,7 @@ const readyUp = async () => {
             body: JSON.stringify({
                 isReady: Ready,
                 PlayerName: playerName,
-                PlayerTeam: checkOrg == true ? 0 : 1,
+                PlayerTeam: checkOrg == true ? 1 : 0,
                 Minions: useMinMult.getState().minionsMult
             })
         });

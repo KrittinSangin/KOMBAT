@@ -38,7 +38,7 @@ export default function MinionProfile({minionIndex, onReturn}:minionProfileProps
   };
 
   const sliderRange = {
-       defFactor: { min: 1, max: 5 }
+       defFactor: { min: 1, max: 100 }
   }
   const [config, setConfig] = useState({defFactor: sliderRange.defFactor.max})
   

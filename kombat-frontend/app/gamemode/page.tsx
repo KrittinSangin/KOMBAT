@@ -1,12 +1,12 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import {useEffect, useState} from "react";
 import GameLayout from "../../components/GameLayout"
 import Button from "../../components/Button"
-import { useRouter } from "next/navigation";
-import { checkState } from "../page";
+import {useRouter} from "next/navigation";
+import {checkState} from "../page";
 
-export default function gamemodePage(){
+export default function gamemodePage() {
     const router = useRouter();
     const [isAuthorized, setIsAuthorized] = useState(false);
 
@@ -19,14 +19,14 @@ export default function gamemodePage(){
     }, [router]);
 
     const moveToHomePage = () => {
-    checkState.getState().setState("/");
-    router.push("/");
-  };
+        checkState.getState().setState("/");
+        router.push("/");
+    };
 
     const moveToDuelPage = () => {
-    checkState.getState().setState("duel");
-    router.push("/gamemode/duel");
-  };
+        checkState.getState().setState("duel");
+        router.push("/gamemode/duel");
+    };
 
     const moveToConfigPage = (mode: string) => {
     checkState.getState().setState("duel_create_room");
@@ -35,11 +35,11 @@ export default function gamemodePage(){
 
     if (!isAuthorized) {
         return (
-            <GameLayout src="/homepage_bg.jpeg" alt="Gamemode" />
+            <GameLayout src="/homepage_bg.jpeg" alt="Gamemode"/>
         );
     }
 
-    return(
+    return (
         <>
             <GameLayout src="/homepage_bg.jpeg" alt="Gamemode">
                 <h1 className="relative 
