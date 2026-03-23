@@ -34,7 +34,7 @@ const genMinion = genObject<MinionDTO>({
     pos: genHexPos,
     deckIndex: genInt(5),
     team: genInt(2),
-    hp: genInt(30),
+    hp: genInt(101),
     def: genInt(10)
 })
 

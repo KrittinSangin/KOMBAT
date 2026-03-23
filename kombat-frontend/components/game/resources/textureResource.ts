@@ -22,9 +22,12 @@ const ribbon_P_T = c_Texture("/game/texture/ui/RibbonPurple.png",c_Vec2(1507,436
 const crown_B_T = c_Texture("/game/texture/ui/CrownBlue.png",c_Vec2(400,255))
 const crown_R_T = c_Texture("/game/texture/ui/CrownRed.png",c_Vec2(400,255))
 
+const heart_T = c_Texture("/game/texture/icon/Hearth.png",c_Vec2(90,80));
+
 export {madoka_T,medicine_T,knight_T,scarlet_T,ryuu_T,
     gamHexN_T,gamHexB_T,gamHexR_T,
     card_BG_T, card_FG_T,
     ribbon_R_T, ribbon_B_T, ribbon_P_T,
-    crown_R_T,crown_B_T
+    crown_R_T,crown_B_T,
+    heart_T
 }
