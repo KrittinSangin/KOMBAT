@@ -1,0 +1,3 @@
+[submodule "BridgedBackend/BridgedBackend/KOMBAT-fetchingBack_old"]
+	path = BridgedBackend/BridgedBackend/KOMBAT-fetchingBack_old
+	url = https://github.com/KrittinSangin/KOMBAT

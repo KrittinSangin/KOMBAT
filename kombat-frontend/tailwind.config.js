@@ -9,5 +9,5 @@ export default {
         sans: ['var(--font-jersey25)'],
       },},
   },
-  plugins: [],
+  plugins: [require('tailwind-scrollbar')],
 }
