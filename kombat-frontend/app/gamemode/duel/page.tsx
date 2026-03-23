@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import {useEffect, useState} from "react";
 import GameLayout from "../../../components/GameLayout"
 import Button from "../../../components/Button"
 import { useRouter } from "next/navigation";
@@ -67,13 +67,13 @@ try {
     router.push("/gamemode/duel/join_room");
   };
 
-  if (!isAuthorized) {
-    return (
-      <GameLayout src="/homepage_bg.jpeg" alt="Duel" />
-    );
-  }
+    if (!isAuthorized) {
+        return (
+            <GameLayout src="/homepage_bg.jpeg" alt="Duel"/>
+        );
+    }
 
-    return(
+    return (
         <>
             <GameLayout src="/homepage_bg.jpeg" alt="Duel">
                 <h1 className="relative

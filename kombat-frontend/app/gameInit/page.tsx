@@ -64,7 +64,7 @@ const readyUp = async () => {
     useSocketStore.getState().setClient(client);
 }
 
-    return(
+    return (
         <>
             <GameLayout src={checkOrg ? "/Blue_bg.jpeg" : "/Red_bg.jpg"} alt="Background Image" >
             </GameLayout> 
