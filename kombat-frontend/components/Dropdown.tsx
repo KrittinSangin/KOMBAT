@@ -7,17 +7,20 @@ import Button from "./Button";
 import Image from "next/image";
 import ButtonForInitPage from "./ButtonForInitPage";
 import Loadable from "next/dist/shared/lib/loadable.shared-runtime";
-
+import { useMinionStore } from "./MinionProfile";
 interface inyaface {
   name: string;
   content: string;
   parsePassed: boolean;
   tiedToMinion: string;
+  spriteIncrement: string;
+  defenseFactor: number
 }
 interface StrategyBoxprops {
   selectedMinion: String;
+  selectedSprite: string;
 }
-export default function Dropdown({ selectedMinion }: StrategyBoxprops) {
+export default function Dropdown({ selectedMinion, selectedSprite }: StrategyBoxprops) {
   const [files, setFiles] = useState<inyaface[]>([]); //✅
   const [isDropdownVisible, setIsDropdownVisible] = useState(false); //✅
   const [content, setContent] = useState(""); //content is showing or editing
@@ -59,6 +62,8 @@ export default function Dropdown({ selectedMinion }: StrategyBoxprops) {
           content: event.target?.result as string,
           parsePassed: false,
           tiedToMinion: "",
+          spriteIncrement: "Knight",
+          defenseFactor: 0
         };
         setRenderSave("Passed");
         setFiles((prev) => [...prev, newFile]);
@@ -102,6 +107,9 @@ export default function Dropdown({ selectedMinion }: StrategyBoxprops) {
       content: content,
       parsePassed: false,
       tiedToMinion: "",
+      spriteIncrement: "Knight",
+      defenseFactor: 0
+
     };
     setFiles((prev) => [...prev, newFile]);
 
@@ -130,7 +138,7 @@ export default function Dropdown({ selectedMinion }: StrategyBoxprops) {
 
     if (foundFile) {
       try {
-        const response = await fetch(`${URL}/parse/send`, {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_LINK}/parse/send`, {
           method: "POST",
           body: foundFile.content,
         });
@@ -158,8 +166,7 @@ export default function Dropdown({ selectedMinion }: StrategyBoxprops) {
               setErr("Passed");
               setRenderSave("");
             }
-            // console.log(foundFile)
-
+            
             setTimeout(() => setErr(""), 500);
           } else {
             setErr("Failed");
@@ -171,6 +178,9 @@ export default function Dropdown({ selectedMinion }: StrategyBoxprops) {
           }
           setPassed(data);
           foundFile.parsePassed = data;
+          foundFile.spriteIncrement = useMinionStore.getState().minionName
+          foundFile.defenseFactor = useMinionStore.getState().defFactor
+          console.log(foundFile)
         }
       } catch (error) {
         console.error("Network error or fetch failed:", error);

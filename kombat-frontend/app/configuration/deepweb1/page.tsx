@@ -26,11 +26,10 @@ const [isReady, setIsReady] = useState(false);
   const clientRef = useRef<Client | null>(null);
   const roomCode = (duelWhereDidYouComeFrom.getState().checkOrigin() == "CREATE") ? rand.getState().code : duelWhereDidYouComeFrom.getState().checkOrigin()
   const [clientReady, setClientReady] = useState(false);
-  const URL = "localhost"
 
   const connectAndSubscribe = () => {
     const client = new Client({
-      webSocketFactory: () => new SockJS(`http://${URL}:8080/ws`),
+      webSocketFactory: () => new SockJS(`${process.env.NEXT_PUBLIC_LINK}/ws`),
       onConnect: () => {
         
         console.log("Connected");
@@ -62,7 +61,7 @@ const [isReady, setIsReady] = useState(false);
           if(message.body == "true") setClientReady(true);
           else if(message.body == "false") setClientReady(false);
           else{
-            fetch(`http://${URL}:8080/data/config`,{
+            fetch(`${process.env.NEXT_PUBLIC_LINK}/data/config`,{
               method : "POST",
               body: JSON.stringify(
               {
