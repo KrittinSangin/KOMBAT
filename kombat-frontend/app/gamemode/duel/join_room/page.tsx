@@ -1,7 +1,6 @@
 "use client";
 
 import Button from "../../../../components/Button";
-import GameLayout from "../../../../components/GameLayout";
 import { useRouter } from "next/dist/client/components/navigation";
 import { checkState } from "../../../page";
 import { useState } from "react";
@@ -9,25 +8,10 @@ import { useState } from "react";
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 
-import { duelWhereDidYouComeFrom } from "../page";
+import GameLayout from "../../../gameInit/components/GameLayout";
+import {useDuelOriginStore} from "../../Store/DuelOriginStore";
 
-type RandState = {
-  code: string;
-  randomixe: () => void;
-};
 
-export const rand = create<RandState>()(
-  persist(
-    (set) => ({
-      code: "",
-      randomixe: () =>
-        set({ code: Math.random().toString(36).substring(2, 6).toUpperCase() }),
-    }),
-    {
-      name: "rand-storage", // key in localStorage
-    }
-  )
-);
 export default function JoinRoomPage(){
     const router = useRouter();
     const [Code, setCode] = useState("");
@@ -53,7 +37,7 @@ export default function JoinRoomPage(){
                 const data = await response.json();
                 // console.log(data.isSuccess);
                 if(data.isSuccess){
-                duelWhereDidYouComeFrom.getState().setOrigin(`${Code}`);
+                useDuelOriginStore.getState().setOrigin(`${Code}`);
                 router.push("/configuration/deepweb1?mode=Duel");
             } else {
                 alert("Room does not exist. Please check the code and try again.");

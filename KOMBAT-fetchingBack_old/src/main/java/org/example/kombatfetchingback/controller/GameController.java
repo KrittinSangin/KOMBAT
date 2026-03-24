@@ -1,20 +1,25 @@
 package org.example.kombatfetchingback.controller;
 
 import lombok.RequiredArgsConstructor;
+import org.example.kombatfetchingback.kombat_backend.Games.Configs.Config;
+import org.example.kombatfetchingback.repository.GameRepository;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
-@Controller
+@RestController
 @RequiredArgsConstructor
 public class GameController {
 
-    private final SimpMessagingTemplate messagingTemplate;
+	private final GameRepository gameRepository;
 
-    @MessageMapping("/game/start")
-    public void startGame(@Payload String message) {
-        IO.println("startGame: " + message);
-        messagingTemplate.convertAndSend("/game/state", message);
-    }
+	@PostMapping("/game/builder")
+	public void initializeGameStartInfo()
+	{
+		gameRepository.createNewStartInfoBuilder();
+	}
 }

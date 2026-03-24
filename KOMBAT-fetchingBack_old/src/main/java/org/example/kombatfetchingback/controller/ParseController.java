@@ -28,7 +28,7 @@ public class ParseController {
         } catch (SyntaxError e) {
             return false;
         } catch (LexicalError | NoSuchElementException s) {
-            IO.println(s.getMessage());
+//            IO.println(s.getMessage());
             return false;
         }
            return true;

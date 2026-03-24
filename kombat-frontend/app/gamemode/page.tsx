@@ -1,10 +1,10 @@
 "use client";
 
 import {useEffect, useState} from "react";
-import GameLayout from "../../components/GameLayout"
 import Button from "../../components/Button"
 import {useRouter} from "next/navigation";
 import {checkState} from "../page";
+import GameLayout from "../gameInit/components/GameLayout";
 
 export default function gamemodePage() {
     const router = useRouter();
