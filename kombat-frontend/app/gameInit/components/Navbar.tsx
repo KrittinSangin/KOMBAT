@@ -14,9 +14,11 @@ interface NavbarProps {
 }
 
 export default function Navbar({title, minionCount, team, selectedMinion, onSelect}: NavbarProps) {
+    const teamSide = team === TeamSide.Blue;
+    const colorPicker = teamSide ? "#A9B6FF" : "#ff7c7c"
     return (
         <>
-            <div className="z-20 absolute w-full h-[80px] bg-[#A9B6FF] top-0 left-0 fixed flex justify-between px-6">
+            <div className={`z-20 absolute w-full h-[80px] bg-[${colorPicker}] top-0 left-0 fixed flex justify-between px-6`}>
                 <h1 className="text-[50px] font-bold">{title}</h1>
 
                 {/* กลาง */}
@@ -29,7 +31,7 @@ export default function Navbar({title, minionCount, team, selectedMinion, onSele
                                 }`}
                         >
                             <Image
-                                src={team === TeamSide.Blue ? "/blue_btn.PNG" : "/red_btn.PNG"}
+                                src={teamSide ? "/blue_btn.PNG" : "/red_btn.PNG"}
                                 alt="Minion"
                                 width={120}
                                 height={50}
