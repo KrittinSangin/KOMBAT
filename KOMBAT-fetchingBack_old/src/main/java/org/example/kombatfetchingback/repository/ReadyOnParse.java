@@ -2,6 +2,7 @@ package org.example.kombatfetchingback.repository;
 
 import lombok.Getter;
 import org.example.kombatfetchingback.model.ParseReadyMessage;
+import org.example.kombatfetchingback.model.UserModel ;
 import org.springframework.stereotype.Service;
 import java.util.concurrent.ConcurrentHashMap;
 
