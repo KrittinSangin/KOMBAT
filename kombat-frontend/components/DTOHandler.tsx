@@ -10,6 +10,7 @@ export const _useConfigStore = create<ConfigureState>((set) => ({
   _hexCost: 1,
   _spawningCost: 1,
   _maximumSpawn: 1,
+  _turnBudget: 1,
 
   setHp: (value) => set({ _Hp: value }),
   setMinions: (value) => set({ _minions: value }),
@@ -20,7 +21,8 @@ export const _useConfigStore = create<ConfigureState>((set) => ({
   setHexCost: (value) => set({ _hexCost: value }),
   setSpawningCost: (value) => set({ _spawningCost: value }),
   setMaximumSpawn: (value) => set({ _maximumSpawn: value }),
-
+  setTurnBudget: (value) => set({ _turnBudget: value }),
+  
   setAll: (config) =>
     set((state) => ({
       ...state,

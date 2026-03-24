@@ -16,7 +16,8 @@ import { onlineChecker } from "../page";
 import { checkState } from "../../page";
 import type { _joinedHandler, NameOf2Players } from "../../../ttypes/type";
 import { useRouter } from "next/navigation";
-import { METHODS } from "http";
+import { PermsConfig2ConfigAdapter } from "../../../components/Adapter/Adapter";
+
 export default function Chat() {
 const [isReady, setIsReady] = useState(false);
   
@@ -60,19 +61,18 @@ const [isReady, setIsReady] = useState(false);
          client.subscribe("/topic/ready", message => {
           if(message.body == "true") setClientReady(true);
           else if(message.body == "false") setClientReady(false);
-          else{
+          else if(isThisDudeAHost){
             fetch(`http://localhost:8080/data/config`,{
               method : "POST",
               body: JSON.stringify(
               {
-                MainConfig: useConfigStore.getState(),
+                MainConfig: PermsConfig2ConfigAdapter(useConfigStore.getState()),
                 Player1Name: player1,
                 Player2Name: player2
               }
             )
             })
-            router.push("/gameInit")
-          }
+          }else router.push("/gameInit")
          })
       }
     });
@@ -100,7 +100,8 @@ const config = useConfigStore(
     _interest: s._interest,
     _hexCost: s._hexCost,
     _spawningCost: s._spawningCost,
-    _maximumSpawn: s._maximumSpawn
+    _maximumSpawn: s._maximumSpawn,
+    _turnBudget: s._turnBudget
   }))
 );
 useEffect(() => {

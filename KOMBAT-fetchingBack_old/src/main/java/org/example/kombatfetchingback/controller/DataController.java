@@ -31,6 +31,7 @@ public class DataController {
     @PostMapping("/config")
     public String configFIle(@RequestBody String config){
         IO.print(config);
+        //Post mapping data config returned here! Code: definable
         return "yeah";
     }
 }

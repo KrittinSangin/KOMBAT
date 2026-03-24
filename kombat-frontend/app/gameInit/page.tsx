@@ -54,7 +54,7 @@ const client = new Client({
 
         client.publish({
             destination: "/app/game/start",
-            body: JSON.stringify("KUY")
+            body: JSON.stringify(`${playerName} is online`)
         });
     }
 });
