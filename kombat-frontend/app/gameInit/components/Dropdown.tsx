@@ -163,7 +163,7 @@ export default function Dropdown({selectingMinionIndex, selectedSprite}: Props) 
                             setRenderSave("Conflict"); // This minion already owns another strategy
                         } else if (isFree || isSameFile || editingBypass) {
                             foundFile.ownerIndex = selectingMinionIndex;
-                            setOwner(foundFile.ownerIndex);
+                            setOwner(foundFile.ownerIndex + 1);
                             setEditingBypass(false);
                             setErr("Passed");
                             setRenderSave("");
