@@ -1,0 +1,28 @@
+package org.example.kombatfetchingback.kombat_backend.Parser.AST;
+
+import org.example.kombatfetchingback.kombat_backend.Games.Map.HexDir;
+import org.example.kombatfetchingback.kombat_backend.Games.Strategies.ExecutionInstance;
+import org.example.kombatfetchingback.kombat_backend.Parser.Exceptions.HaltExecutionException;
+import org.example.kombatfetchingback.kombat_backend.Parser.Exceptions.HaltReason;
+
+public record Shoot(HexDir dir, Expr cost) implements Stment
+{
+	@Override
+	public void execute(ExecutionInstance instance)
+	{
+		int cost_v = cost.eval(instance);
+
+		if (!instance.shoot(dir,cost_v))
+			throw new HaltExecutionException(HaltReason.insufficientShootBudget);
+
+	}
+
+	@Override
+	public void prettyPrint(StringBuilder sb)
+	{
+		sb.append("shoot ");
+		sb.append(dir);
+		sb.append(" ");
+		cost.prettyPrint(sb);
+	}
+}

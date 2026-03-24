@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="77371fff-d012-48f5-91eb-b4b84be1be84" name="Changes" comment="Custom back-end requirement" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Interface" />
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+    <option name="UPDATE_TYPE" value="REBASE" />
+  </component>
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;KrittinSangin&quot;
+  }
+}</component>
+  <component name="GithubPullRequestsUISettings"><![CDATA[{
+  "selectedUrlAndAccountId": {
+    "url": "https://github.com/KrittinSangin/KOMBAT.git",
+    "accountId": "1221f13f-4afc-4783-be8f-34a4f23c1e4e"
+  }
+}]]></component>
+  <component name="MavenImportPreferences">
+    <option name="generalSettings">
+      <MavenGeneralSettings>
+        <option name="mavenHomeTypeForPersistence" value="WRAPPER" />
+      </MavenGeneralSettings>
+    </option>
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 5
+}</component>
+  <component name="ProjectId" id="3ACQU7KLLBCENg5CbW3rZR7hq9Q" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
+    &quot;RequestMappingsPanelOrder0&quot;: &quot;0&quot;,
+    &quot;RequestMappingsPanelOrder1&quot;: &quot;1&quot;,
+    &quot;RequestMappingsPanelWidth0&quot;: &quot;75&quot;,
+    &quot;RequestMappingsPanelWidth1&quot;: &quot;75&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;Spring Boot.KombatFetchingBackApplication.executor&quot;: &quot;Run&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;frontend-working&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/perms/IdeaProjects/KOMBAT-fetchingBack_old&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;run.code.analysis.last.selected.profile&quot;: &quot;pProject Default&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;project.propVCSSupport.DirectoryMappings&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  }
+}</component>
+  <component name="RunManager">
+    <configuration name="KombatFetchingBackApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
+      <option name="FRAME_DEACTIVATION_UPDATE_POLICY" value="UpdateClassesAndResources" />
+      <module name="KOMBAT-fetchingBack" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="org.example.kombatfetchingback.KombatFetchingBackApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+  </component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-jdk-9823dce3aa75-bf35d07a577b-intellij.indexing.shared.core-IU-252.27397.103" />
+        <option value="bundled-js-predefined-d6986cc7102b-3aa1da707db6-JavaScript-IU-252.27397.103" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="StructureViewState">
+    <option name="selectedTab" value="Logical" />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="77371fff-d012-48f5-91eb-b4b84be1be84" name="Changes" comment="" />
+      <created>1772094087461</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1772094087461</updated>
+      <workItem from="1772094088786" duration="5171000" />
+      <workItem from="1772110864633" duration="8793000" />
+      <workItem from="1772169419546" duration="25000" />
+      <workItem from="1772173263784" duration="4097000" />
+      <workItem from="1772184059905" duration="372000" />
+      <workItem from="1772375548248" duration="8816000" />
+      <workItem from="1772419325511" duration="3782000" />
+      <workItem from="1772429193007" duration="4799000" />
+      <workItem from="1772438547547" duration="2657000" />
+      <workItem from="1772457028448" duration="190000" />
+      <workItem from="1772457264065" duration="1430000" />
+      <workItem from="1772461885628" duration="6840000" />
+      <workItem from="1772510579222" duration="647000" />
+      <workItem from="1772517093047" duration="11830000" />
+      <workItem from="1772551723487" duration="6560000" />
+      <workItem from="1772609263800" duration="4017000" />
+      <workItem from="1772626640090" duration="880000" />
+      <workItem from="1772633339822" duration="117000" />
+      <workItem from="1772677939460" duration="1839000" />
+      <workItem from="1772722305108" duration="2740000" />
+      <workItem from="1772765032207" duration="2200000" />
+      <workItem from="1772767677426" duration="2256000" />
+      <workItem from="1772778267361" duration="6557000" />
+      <workItem from="1772791536020" duration="1537000" />
+      <workItem from="1772810914724" duration="7157000" />
+      <workItem from="1772858442227" duration="806000" />
+      <workItem from="1772885655397" duration="1331000" />
+      <workItem from="1772887328095" duration="64000" />
+      <workItem from="1772894618499" duration="622000" />
+      <workItem from="1773044683916" duration="1348000" />
+      <workItem from="1773047001256" duration="90000" />
+      <workItem from="1773133206931" duration="1601000" />
+      <workItem from="1773313044499" duration="130000" />
+      <workItem from="1773481589241" duration="4506000" />
+      <workItem from="1773500270258" duration="8140000" />
+      <workItem from="1773548146908" duration="8570000" />
+      <workItem from="1773569251341" duration="1642000" />
+      <workItem from="1773582729236" duration="12237000" />
+      <workItem from="1774247278413" duration="906000" />
+      <workItem from="1774248490235" duration="674000" />
+      <workItem from="1774251689478" duration="48000" />
+      <workItem from="1774251932818" duration="241000" />
+    </task>
+    <task id="LOCAL-00001" summary="Custom back-end requirement">
+      <option name="closed" value="true" />
+      <created>1774248836177</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1774248836177</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Custom back-end requirement" />
+    <option name="LAST_COMMIT_MESSAGE" value="Custom back-end requirement" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <breakpoint enabled="true" type="java-exception">
+          <properties class="java.io.IOException" package="java.io" />
+          <option name="timeStamp" value="1" />
+        </breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
+  </component>
+</project>
