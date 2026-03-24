@@ -3,39 +3,23 @@
 import {useEffect, useRef, useState} from "react";
 import {FaCaretDown, FaCaretUp} from "react-icons/fa6"; //✅
 import ClickAwayListener from "@mui/material/ClickAwayListener"; //✅
-import Button from "./Button";
 import Image from "next/image";
-import ButtonForInitPage from "./ButtonForInitPage";
 import Loadable from "next/dist/shared/lib/loadable.shared-runtime";
-import {useMinionStore} from "./MinionProfile";
 import {create} from "zustand"
-
-export const useCreatingMinionDeck = create<CreatingMinionDeck>((set) => ({
-    deck: [],
-    setDeck: (min: StrategyFile[]) => set({deck: min})
-}));
-
-interface CreatingMinionDeck {
-    deck: StrategyFile[];
-    setDeck: (min: StrategyFile[]) => void
-}
-
-interface StrategyFile {
-    name: string;
-    content: string;
-    parsePassed: boolean;
-    tiedToMinion: string;
-    spriteIncrement: string;
-    defenseFactor: number
-}
+import {StrategyFile, useStrategyFilesStore} from "../Store/StrategyFileStore";
+import ButtonForInitPage from "../../../components/ButtonForInitPage";
+import {useMinionStore} from "./MinionProfile";
+import {useMinionBlueprintsStore} from "../Store/MinionBlueprint";
 
 interface Props {
-    selectedMinion: string;
+    selectingMinionIndex: number;
     selectedSprite: string;
 }
 
-export default function Dropdown({selectedMinion, selectedSprite}: Props) {
-    const [files, setFiles] = useState<StrategyFile[]>([]); //✅
+export default function Dropdown({selectingMinionIndex, selectedSprite}: Props) {
+    const {files, setFiles} = useStrategyFilesStore()
+    const {minionBlueprints,setBlueprint} = useMinionBlueprintsStore();
+
     const [isDropdownVisible, setIsDropdownVisible] = useState(false); //✅
     const [content, setContent] = useState(""); //content is showing or editing
     const fileInputRef = useRef<HTMLInputElement>(null);
@@ -48,30 +32,25 @@ export default function Dropdown({selectedMinion, selectedSprite}: Props) {
 
     const [editingBypass, setEditingBypass] = useState(false);
 
-    const [owner, setOwner] = useState("");
+    const [owner, setOwner] = useState<number|null>(null);
 
     const [parsable, setParsable] = useState(false);
 
     const [renderError, setErr] = useState("");
     const [renderSave, setRenderSave] = useState("");
 
-    const {deck,setDeck} = useCreatingMinionDeck();
 
     const URL = "http://localhost:8080";
 
     const HandleClickAway = () => {
-        //✅
         setIsDropdownVisible(false);
     };
 
-
     useEffect(() => {
-        useCreatingMinionDeck.getState().setDeck(files)
+        useStrategyFilesStore.getState().setFiles(files)
     }, [files])
 
     const handleUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
-        //✅
-
         const selectedFiles = e.target.files; //select file
         if (!selectedFiles) return;
 
@@ -79,22 +58,22 @@ export default function Dropdown({selectedMinion, selectedSprite}: Props) {
             const reader = new FileReader();
 
             reader.onload = (event) => {
-                const newFile = {
+                const newFile: StrategyFile = {
                     name: file.name,
                     content: event.target?.result as string,
-                    parsePassed: false,
-                    tiedToMinion: "",
-                    spriteIncrement: "Knight",
+                    isParsedSuccess: false,
+                    ownerIndex: null,
+                    spriteName: "Knight",
                     defenseFactor: 0
                 };
                 setRenderSave("Passed");
-                setFiles((prev) => [...prev, newFile]);
+                setFiles([...files, newFile]);
             };
 
             reader.readAsText(file);
         });
     };
-    //blahd
+
     const handleChange = () => {
         if (currentFileSaved || showStrategy === "Select Strategy") {
             handleSave();
@@ -103,10 +82,10 @@ export default function Dropdown({selectedMinion, selectedSprite}: Props) {
         const foundFile = files.find((file) => file.name === showStrategy);
         if (foundFile) {
             setEditingBypass(true);
-            setFiles((prevFiles) =>
-                prevFiles.map((file) =>
+            setFiles(
+                files.map((file) =>
                     file.name === showStrategy
-                        ? {...file, content: content, parsePassed: false}
+                        ? {...file, content: content, isParsedSuccess: false}
                         : file,
                 ),
             );
@@ -120,20 +99,21 @@ export default function Dropdown({selectedMinion, selectedSprite}: Props) {
             handleSave();
         }
     };
+
     const handleSave = () => {
         setParsable(true);
         if (!content.trim()) return;
         const newFileName = `MyStrategy-${files.length + 1}.txt`;
-        const newFile = {
+        const newFile:StrategyFile = {
             name: newFileName,
             content: content,
-            parsePassed: false,
-            tiedToMinion: "",
-            spriteIncrement: "Knight",
+            isParsedSuccess: false,
+            ownerIndex: null,
+            spriteName: "Knight",
             defenseFactor: 0
 
         };
-        setFiles((prev) => [...prev, newFile]);
+        setFiles([...files, newFile]);
 
         showElementsOfFile(newFile);
         setShowContent(true);
@@ -150,8 +130,8 @@ export default function Dropdown({selectedMinion, selectedSprite}: Props) {
         setContent(file.content);
         setShowStrategy(file.name);
         setIsDropdownVisible(false);
-        setPassed(file.parsePassed);
-        setOwner(file.tiedToMinion);
+        setPassed(file.isParsedSuccess);
+        setOwner(file.ownerIndex);
     };
 
     const handleParse = async () => {
@@ -159,47 +139,52 @@ export default function Dropdown({selectedMinion, selectedSprite}: Props) {
 
         if (foundFile) {
             try {
+                //API calling parser at backend
                 const response = await fetch(`${process.env.NEXT_PUBLIC_LINK}/parse/send`, {
                     method: "POST",
                     body: foundFile.content,
                 });
+                //if ok
                 if (response.ok) {
+                    //get data
                     const data = await response.json();
-                    // console.log("Here is the actual data:", data);
                     if (data) {
-                        // console.log("Parse passed!!!");
-                        // if((foundFile.tiedToMinion != selectedMinion) || editingBypass ){
-                        const isFree = foundFile.tiedToMinion === "";
+                        //calculate flags
+                        const isFree = foundFile.ownerIndex == null;
                         const isSameFile =
-                            foundFile.tiedToMinion === selectedMinion.toString();
+                            foundFile.ownerIndex == selectingMinionIndex;
                         const minionAlreadyOwns = files.some(
                             (file) =>
-                                file.tiedToMinion === selectedMinion.toString() &&
+                                file.ownerIndex == selectingMinionIndex &&
                                 file.name !== showStrategy,
                         );
 
                         if (minionAlreadyOwns) {
                             setRenderSave("Conflict"); // This minion already owns another strategy
                         } else if (isFree || isSameFile || editingBypass) {
-                            foundFile.tiedToMinion = selectedMinion.toString();
-                            setOwner(foundFile.tiedToMinion);
+                            foundFile.ownerIndex = selectingMinionIndex;
+                            setOwner(foundFile.ownerIndex);
                             setEditingBypass(false);
                             setErr("Passed");
                             setRenderSave("");
+
+                            setBlueprint(selectingMinionIndex,{...minionBlueprints[selectingMinionIndex],isStrategyParsedOk:true, strategyFileName:foundFile.name})
                         }
 
                         setTimeout(() => setErr(""), 500);
                     } else {
                         setErr("Failed");
-                        setOwner("");
+                        setOwner(null);
                         // console.log("Parse failed");
                         // console.log(renderError);
                         setTimeout(() => setErr(""), 500);
                         // console.log(renderError);
+                        setBlueprint(selectingMinionIndex,{...minionBlueprints[selectingMinionIndex],isStrategyParsedOk:false})
+
                     }
                     setPassed(data);
-                    foundFile.parsePassed = data;
-                    foundFile.spriteIncrement = useMinionStore.getState().minionName
+                    foundFile.isParsedSuccess = data;
+                    foundFile.spriteName = useMinionStore.getState().minionName
                     foundFile.defenseFactor = useMinionStore.getState().defFactor
                     console.log(foundFile)
                 }
@@ -320,7 +305,7 @@ export default function Dropdown({selectedMinion, selectedSprite}: Props) {
                     setShowContent(true);
                     setContent("");
                     setSavedNoDelay(true);
-                    setOwner("");
+                    setOwner(null);
                     setSaved(true);
                 }}
             >
@@ -337,7 +322,7 @@ export default function Dropdown({selectedMinion, selectedSprite}: Props) {
                     Minion already has a strategy!
                 </div>
             }
-            {owner !== "" && (
+            {owner && (
                 <div
                     className="text-yellow-500 px-1 bg-[#787276] rounded-xl z-1000 absolute whitespace-nowrap text-2xl top-[125px] left-[400px]">
                     {"Strategy tied to Minion" + owner}

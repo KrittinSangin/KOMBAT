@@ -1,7 +1,6 @@
 "use client";
 
 import {use, useEffect, useState} from "react";
-import GameLayout from "../../components/GameLayout";
 import CodeHost from "./components/CodeHost";
 import ProfileConfig from "./components/ProfileConfig";
 import Button from "../../components/Button";
@@ -9,12 +8,13 @@ import {useRouter} from "next/dist/client/components/navigation";
 import {checkState} from "../page";
 import {useSearchParams} from "next/navigation";
 import getRandomCode from "../gamemode/page";
-import {rand} from "../gamemode/duel/join_room/page";
 import Slider from "../../components/Slider";
 import {create} from "zustand"
-import {duelWhereDidYouComeFrom} from "../gamemode/duel/page";
 import {useConfigStore} from "./Store/useConfigStore";
 import {useJoinedHandler} from "./Store/useJoinedHandler";
+import GameLayout from "../gameInit/components/GameLayout";
+import {useDuelOriginStore} from "../gamemode/Store/DuelOriginStore";
+import {RandomStateStore} from "../gamemode/Store/RandomStateStore";
 
 
 export default function CreateRoomPage() {
@@ -23,7 +23,7 @@ export default function CreateRoomPage() {
     const mode = searchParams.get("mode")?.split("/")[0];
 
     const router = useRouter();
-    const ac = duelWhereDidYouComeFrom.getState().checkOrigin() == "CREATE" ? rand.getState().code : duelWhereDidYouComeFrom.getState().checkOrigin();
+    const ac = useDuelOriginStore.getState().checkOrigin() == "CREATE" ? RandomStateStore.getState().code : useDuelOriginStore.getState().checkOrigin();
 
     const routerHandle = () => {
         if (mode === "Duel") {

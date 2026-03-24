@@ -3,12 +3,10 @@
 import {useEffect, useRef} from "react";
 import SockJS from "sockjs-client";
 import {Client} from "@stomp/stompjs";
-import {rand} from "../../gamemode/duel/join_room/page";
 import Button from "../../../components/Button";
 import {useState} from "react";
 import CreateRoomPage from "../page";
 import {_useConfigStore} from "../../../components/DTOHandler";
-import {duelWhereDidYouComeFrom} from "../../gamemode/duel/page";
 import {useShallow} from "zustand/react/shallow";
 import {Global2Players} from "../components/ProfileConfig";
 
@@ -18,6 +16,8 @@ import {useRouter} from "next/navigation";
 import {METHODS} from "http";
 import {useJoinedHandler} from "../Store/useJoinedHandler";
 import {PermsConfig2ConfigAdapter, useConfigStore} from "../Store/useConfigStore";
+import {useDuelOriginStore} from "../../gamemode/Store/DuelOriginStore";
+import {RandomStateStore} from "../../gamemode/Store/RandomStateStore";
 
 export default function Chat() {
     const [isReady, setIsReady] = useState(false);
@@ -30,7 +30,7 @@ export default function Chat() {
 
     const [page, setPage] = useState("CreateRoomPage");
     const clientRef = useRef<Client | null>(null);
-    const roomCode = (duelWhereDidYouComeFrom.getState().checkOrigin() == "CREATE") ? rand.getState().code : duelWhereDidYouComeFrom.getState().checkOrigin()
+    const roomCode = (useDuelOriginStore.getState().checkOrigin() == "CREATE") ? RandomStateStore.getState().code : useDuelOriginStore.getState().checkOrigin()
     const [clientReady, setClientReady] = useState(false);
 
     //Websocket Connection Handle
@@ -64,16 +64,20 @@ export default function Chat() {
                 client.subscribe("/topic/ready", message => {
                     if (message.body == "true") setClientReady(true);
                     else if (message.body == "false") setClientReady(false);
-                    else {
+                    else { //go to next page
+                        //Send config data to backend with both players' name
                         fetch(`${process.env.NEXT_PUBLIC_LINK}/data/config`, {
                             method: "POST",
                             body: JSON.stringify(
                                 {
-                                    MainConfig: useConfigStore.getState(),
+                                    config: PermsConfig2ConfigAdapter(config),
                                     Player1Name: player1,
                                     Player2Name: player2
                                 }
-                            )
+                            ),
+                            headers: {
+                                "content-type": "application/json"
+                            }
                         })
                         router.push("/gameInit")
                     }
@@ -131,14 +135,6 @@ export default function Chat() {
 
     //Upon ready on both side, submit config file and go to the next page
     const moveToGameInitPage = () => {
-        const backendConfig = PermsConfig2ConfigAdapter(config);
-        console.log(backendConfig)
-
-        clientRef.current?.publish({
-            destination: "/app/game/config",
-            body: JSON.stringify(backendConfig)
-        })
-
         clientRef.current?.publish({
             destination: "/topic/ready",
             body: JSON.stringify({
@@ -148,7 +144,7 @@ export default function Chat() {
 
     };
 
-    const isThisDudeAHost = duelWhereDidYouComeFrom.getState().checkOrigin() == "CREATE";
+    const isThisDudeAHost = useDuelOriginStore.getState().checkOrigin() == "CREATE";
     const Ready = () => {
         setIsReady(!isReady)
         clientRef.current?.publish({
@@ -178,11 +174,6 @@ export default function Chat() {
     }
     return (
         <div>
-            <div className="absolute top-50 left-100 w-100 h-100 z-50 bg-blue-500" onClick={() => {
-                clientRef.current?.publish({
-                    destination: "/app/game/starter",
-                })
-            }}></div>
             {page === "CreateRoomPage" && <CreateRoomPage/>}
             {isThisDudeAHost && clientReady &&
                 <Button src="/purple_btn.PNG" alt="Join Room" overlayText="Start" font_size="50" height="150"

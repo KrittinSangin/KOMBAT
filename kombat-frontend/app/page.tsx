@@ -2,9 +2,9 @@
 
 import Image from "next/image";
 import PlayButton from "../components/Button";
-import GameLayout from "../components/GameLayout";
 import {useRouter} from "next/navigation";
 import {create} from "zustand";
+import GameLayout from "./gameInit/components/GameLayout";
 
 type CheckStateStore = {
     state: string;

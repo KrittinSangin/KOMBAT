@@ -1,7 +1,5 @@
 import {useSearchParams} from "next/navigation";
 import {useRouter} from "next/dist/client/components/navigation";
-import {duelWhereDidYouComeFrom} from "../../gamemode/duel/page";
-import {rand} from "../../gamemode/duel/join_room/page";
 import {checkState} from "../../page";
 import {create} from "zustand";
 import {Config} from "../../../ttypes/type";
@@ -39,7 +37,7 @@ type ConfigureState = {
 
 export const defaultConfigStore: ConfigValues = {
     _Hp                 : 1,
-    _minions            : 5,
+    _minions            : 1,
     _turnMax            : 1,
     _startingBudget     : 1,
     _maximumBudget      : 1,

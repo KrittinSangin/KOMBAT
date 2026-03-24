@@ -1,26 +1,16 @@
 "use client";
 
 import {useEffect, useState} from "react";
-import GameLayout from "../../../components/GameLayout"
 import Button from "../../../components/Button"
 import {useRouter} from "next/navigation";
 import {checkState} from "../../page";
-import {rand} from "./join_room/page";
 import {create} from "zustand";
 import {MessageHolder} from "../../../ttypes/type";
-
-type CheckStateStore = {
-    state: string;
-    setOrigin: (value: string) => void;
-    checkOrigin: () => string;
-};
+import GameLayout from "../../gameInit/components/GameLayout";
+import {useDuelOriginStore} from "../Store/DuelOriginStore";
+import {RandomStateStore} from "../Store/RandomStateStore";
 
 
-export const duelWhereDidYouComeFrom = create<CheckStateStore>((set, get) => ({
-    state: "null",
-    setOrigin: (value) => set({state: value}),
-    checkOrigin: () => get().state,
-}));
 
 export default function DuelPage() {
     const router = useRouter();
@@ -38,18 +28,23 @@ export default function DuelPage() {
     const moveToGameModePage = () => {
         checkState.getState().setState("gamemode");
         router.push("/gamemode");
-        duelWhereDidYouComeFrom.getState().setOrigin("")
+        useDuelOriginStore.getState().setOrigin("")
     };
 
     const moveToConfigPage = async (mode: string) => {
-        duelWhereDidYouComeFrom.getState().setOrigin("CREATE");
+        useDuelOriginStore.getState().setOrigin("CREATE");
         checkState.getState().setState("duel_create_room");
-        rand.getState().randomixe();
+        RandomStateStore.getState().randomize();
 
         try {
-            const test2: MessageHolder = await fetch(`${process.env.NEXT_PUBLIC_LINK}/data/send/${rand.getState().code}`, {
+            const test2: MessageHolder = await fetch(`${process.env.NEXT_PUBLIC_LINK}/data/send/${RandomStateStore.getState().code}`, {
                 method: 'POST'
             }).then(response => response.json());
+
+            const request = await fetch(`${process.env.NEXT_PUBLIC_LINK}/game/builder`, {
+                method: 'POST'
+            }).then(_ => {
+            });
             // console.log(test2)
         } catch (error) {
             if (error == "TypeError: Failed to fetch") {
@@ -65,7 +60,7 @@ export default function DuelPage() {
 
 
     const moveToJoinRoomPage = () => {
-        duelWhereDidYouComeFrom.getState().setOrigin("JOIN");
+        useDuelOriginStore.getState().setOrigin("JOIN");
         router.push("/gamemode/duel/join_room");
     };
 

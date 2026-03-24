@@ -12,35 +12,34 @@ import java.util.concurrent.ConcurrentHashMap;
 @Getter
 @RestController
 @RequiredArgsConstructor
-public class MyDataHandler implements DataHandler {
+public class MyDataHandler implements DataHandler
+{
+	private final ConcurrentHashMap<String, Boolean> roomIsActive = new ConcurrentHashMap<>();
+	private final UserJoinedHandler userJoinedHandler;
 
-    private final ConcurrentHashMap<String, Boolean> roomIsActive = new ConcurrentHashMap<>();
+	@Override
+	public String sendTestData()
+	{
+		return "Successfully created a room";
+	}
 
-    private final UserJoinedHandler userJoinedHandler;
+	public MessageHolder initializeWebSocket(String id)
+	{
+		if (roomIsActive.containsKey(id))
+		{
+			return new MyMessageHolder(false, "Room already exists");
+		}
+		roomIsActive.put(id, true);
+		return new MyMessageHolder(true, "Successfully created a room");
+	}
 
-    @Override
-    public String sendTestData() {
-        return "Successfully created a room";
-    }
-
-    public MessageHolder initializeWebSocket(String id) {
-
-
-        if (roomIsActive.containsKey(id)) {
-            return new MyMessageHolder(false, "Room already exists");
-        }
-
-        roomIsActive.put(id, true);
-        return new MyMessageHolder(true, "Successfully created a room");
-    }
-
-    public MessageHolder handleJoinRequest(String id) {
-
-        if (roomIsActive.containsKey(id)) {
-            roomIsActive.remove(id);
-            return new MyMessageHolder(true, "ws://localhost:8080/ws/" + id);
-        }
-
-        return new MyMessageHolder(false, "Room does not exists");
-    }
+	public MessageHolder handleJoinRequest(String id)
+	{
+		if (roomIsActive.containsKey(id))
+		{
+			roomIsActive.remove(id);
+			return new MyMessageHolder(true, "ws://localhost:8080/ws/" + id);
+		}
+		return new MyMessageHolder(false, "Room does not exists");
+	}
 }

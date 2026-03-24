@@ -7,29 +7,19 @@ import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
-@Controller
+@RestController
 @RequiredArgsConstructor
 public class GameController {
-	private final GameRepository gameRepository;
-    private final SimpMessagingTemplate messagingTemplate;
 
-	@MessageMapping("/game/starter")
+	private final GameRepository gameRepository;
+
+	@PostMapping("/game/builder")
 	public void initializeGameStartInfo()
 	{
 		gameRepository.createNewStartInfoBuilder();
 	}
-
-	@MessageMapping("/game/config")
-	public void setGameConfig(@Payload Config cfg)
-	{
-		gameRepository.setStartConfig(cfg);
-	}
-
-    @MessageMapping("/game/start")
-    public void startGame(@Payload String message) {
-//        IO.println("startGame: " + message);
-        messagingTemplate.convertAndSend("/game/state", message);
-    }
 }
