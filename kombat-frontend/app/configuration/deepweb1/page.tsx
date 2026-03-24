@@ -29,7 +29,7 @@ const [isReady, setIsReady] = useState(false);
 
   const connectAndSubscribe = () => {
     const client = new Client({
-      webSocketFactory: () => new SockJS(`${process.env.NEXT_PUBLIC_LINK}/ws`),
+      webSocketFactory: () => new SockJS(`http://localhost:8080/ws`),
       onConnect: () => {
         
         console.log("Connected");
@@ -61,7 +61,7 @@ const [isReady, setIsReady] = useState(false);
           if(message.body == "true") setClientReady(true);
           else if(message.body == "false") setClientReady(false);
           else{
-            fetch(`${process.env.NEXT_PUBLIC_LINK}/data/config`,{
+            fetch(`http://localhost:8080/data/config`,{
               method : "POST",
               body: JSON.stringify(
               {

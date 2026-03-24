@@ -36,6 +36,11 @@ export default function Homepage() {
         router.push("/game");
     }
 
+    const toRandomPage = () => {
+        checkState.getState().setState("random");
+        router.push("/randomPage");
+    }
+
     return (
 
         <GameLayout src="/homepage_bg.jpeg" alt="Homepage">
@@ -56,12 +61,15 @@ export default function Homepage() {
             <PlayButton src="" alt="play" overlayText="Play" onClick={moveToGameMode} bottom="20" left="170"
                         color="#6a0dad" font_size="70" height="100" width="200"></PlayButton>
             {/* /// */}
-            <button onClick={testGameInit}
+            {/* <button onClick={testGameInit}
                     className="border-2 border-black bg-white text-black px-4 py-2 rounded-md">Init
-            </button>
+            </button> */}
             {/* This one is for going to game scene */}
             <button onClick={toGameScene}
                     className="border-2 border-black bg-white text-black px-4 py-2 rounded-md">Game
+            </button>
+            <button onClick={toRandomPage}
+                    className="border-2 border-black bg-white text-black px-4 py-2 rounded-md">Random
             </button>
         </GameLayout>
 

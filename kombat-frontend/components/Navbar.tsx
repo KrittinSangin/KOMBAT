@@ -16,7 +16,10 @@ interface NavbarProps {
 export default function Navbar({title,minionCount,team,selectedMinion,onSelect}: NavbarProps){
     return(
         <>
-            <div className="z-20 absolute w-full h-[80px] bg-[#A9B6FF] top-0 left-0 fixed flex justify-between px-6">
+            <div className="z-20 absolute w-full h-[80px] top-0 left-0 fixed flex justify-between px-6"
+            style={{
+  background: team === TeamSide.Blue ? "#A9B6FF" : "#FFA8BB"
+}}>
                 <h1 className="text-[50px] font-bold">{title}</h1>
             
             {/* กลาง */}
@@ -35,7 +38,7 @@ export default function Navbar({title,minionCount,team,selectedMinion,onSelect}:
     height={50}
   />
 
-  <p className="absolute top-[8px] left-1/4 text-blck text-xl">
+  <p className="absolute top-[8px] left-1/4 text-black text-xl">
     Minion{index + 1}
   </p>
           </button>

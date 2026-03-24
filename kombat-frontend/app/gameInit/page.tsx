@@ -43,7 +43,7 @@ export default function GameInitPage() {
     const [selectedMinion, setSelectedMinion] = useState(0); 
 
 const client = new Client({
-    webSocketFactory: () => new SockJS(`${process.env.NEXT_PUBLIC_LINK}/ws`),
+    webSocketFactory: () => new SockJS(`http://localhost:8080/ws`),
     onConnect: () => {
         client.subscribe("/game/state", message => {
             console.log(message.body);
@@ -90,7 +90,7 @@ const readyUp = async () => {
                 <StrategyBox selectedMinion={selectedMinion} passedString={received}></StrategyBox>
                 <MinionProfile onReturn={(val)=>setReceived(val)}  minionIndex={selectedMinion}></MinionProfile>
                 <div className={Ready ? "opacity-50" : "opacity-100"}>
-                <Button onClick={readyUp} src="/green_btn.PNG" alt="Ready" overlayText="Ready" bottom="-20" left="1300" color="purple" font_size="40" height="150" width="190"></Button>
+                <Button onClick={readyUp} src="/green_btn.PNG" alt="Ready" overlayText="Ready" bottom="-40" left="1250" color="purple" font_size="40" height="150" width="190"></Button>
                 </div>
         </>
     )

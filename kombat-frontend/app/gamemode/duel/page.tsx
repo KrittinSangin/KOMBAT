@@ -47,7 +47,8 @@ export default function DuelPage(){
 
 // TODO: Send the randomized code to the back-end here before navigating to the configuration page
 try {
-  let test2: MessageHolder = await fetch(`${process.env.NEXT_PUBLIC_LINK}/data/send/${rand.getState().code}`, {
+  // let test2: MessageHolder = await fetch(`http://localhost:8080/data/send/${rand.getState().code}`, {
+  let test2: MessageHolder = await fetch(`http://localhost:8080/data/send/${rand.getState().code}`, {
     method: 'POST'
   }).then(response => response.json());
   // console.log(test2)
@@ -63,7 +64,7 @@ try {
     router.push(`/configuration/deepweb1?mode=${mode}`);
   };
 
-  
+
     const moveToJoinRoomPage = () => {
     duelWhereDidYouComeFrom.getState().setOrigin("JOIN");
     router.push("/gamemode/duel/join_room");

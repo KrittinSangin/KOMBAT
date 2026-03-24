@@ -155,7 +155,7 @@ export default function Dropdown({ selectedMinion, selectedSprite }: StrategyBox
 
     if (foundFile) {
       try {
-        const response = await fetch(`${process.env.NEXT_PUBLIC_LINK}/parse/send`, {
+        const response = await fetch(`http://localhost:8080/parse/send`, {
           method: "POST",
           body: foundFile.content,
         });
