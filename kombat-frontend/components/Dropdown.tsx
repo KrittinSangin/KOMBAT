@@ -12,15 +12,15 @@ import {create} from "zustand"
 
 export const useMinMult = create<exMin>((set) => ({
     minionsMult: [],
-    setMinMult: (min: inyaface[]) => set({minionsMult: min})
+    setMinMult: (min: FileBlueprint[]) => set({minionsMult: min})
 }));
 
 interface exMin {
-    minionsMult: inyaface[];
-    setMinMult: (min: inyaface[]) => void
+    minionsMult: FileBlueprint[];
+    setMinMult: (min: FileBlueprint[]) => void
 }
 
-interface inyaface {
+interface FileBlueprint {
     name: string;
     content: string;
     parsePassed: boolean;
@@ -35,7 +35,7 @@ interface StrategyBoxprops {
 }
 
 export default function Dropdown({selectedMinion, selectedSprite}: StrategyBoxprops) {
-    const [files, setFiles] = useState<inyaface[]>([]); //✅
+    const [files, setFiles] = useState<FileBlueprint[]>([]); //✅
     const [isDropdownVisible, setIsDropdownVisible] = useState(false); //✅
     const [content, setContent] = useState(""); //content is showing or editing
     const fileInputRef = useRef<HTMLInputElement>(null);
@@ -143,7 +143,7 @@ export default function Dropdown({selectedMinion, selectedSprite}: StrategyBoxpr
         }, 3000);
     };
 
-    const showElementsOfFile = (file: inyaface) => {
+    const showElementsOfFile = (file: FileBlueprint) => {
         setContent(file.content);
         setShowStrategy(file.name);
         setIsDropdownVisible(false);

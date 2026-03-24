@@ -83,9 +83,9 @@ export default function CreateRoomPage() {
         spawnCost: {min: 1, max: 100},
         maxSpawn: {min: 1, max: 100},
     }
-    let left: number = -100;
-    let borderColor: string = "grey";
-    let sliderColor: string = "white";
+    const left: number = -100;
+    const borderColor: string = "grey";
+    const sliderColor: string = "white";
 
     const resetConfig = () => {
         // set your default values here
