@@ -8,25 +8,32 @@ import Button from "../../../components/Button";
 import {useState} from "react";
 import CreateRoomPage from "../page";
 import {_useConfigStore} from "../../../components/DTOHandler";
-import {useConfigStore} from "../page";
 import {duelWhereDidYouComeFrom} from "../../gamemode/duel/page";
 import {useShallow} from "zustand/react/shallow";
 import {Global2Players} from "../components/ProfileConfig";
-import {onlineChecker} from "../page";
+
 import {checkState} from "../../page";
 import type {_joinedHandler, NameOf2Players} from "../../../ttypes/type";
 import {useRouter} from "next/navigation";
 import {METHODS} from "http";
+import {useJoinedHandler} from "../Store/useJoinedHandler";
+import {PermsConfig2ConfigAdapter, useConfigStore} from "../Store/useConfigStore";
 
 export default function Chat() {
     const [isReady, setIsReady] = useState(false);
-
+    const {config, setAll} = useConfigStore(
+        useShallow((state) => ({
+            config: state.config,
+            setAll: state.setAll,
+        }))
+    );
 
     const [page, setPage] = useState("CreateRoomPage");
     const clientRef = useRef<Client | null>(null);
     const roomCode = (duelWhereDidYouComeFrom.getState().checkOrigin() == "CREATE") ? rand.getState().code : duelWhereDidYouComeFrom.getState().checkOrigin()
     const [clientReady, setClientReady] = useState(false);
 
+    //Websocket Connection Handle
     const connectAndSubscribe = () => {
         const client = new Client({
             webSocketFactory: () => new SockJS(`${process.env.NEXT_PUBLIC_LINK}/ws`),
@@ -41,16 +48,13 @@ export default function Chat() {
 
                 client.subscribe(`/topic/user-number`, message => {
                     const data: _joinedHandler = JSON.parse(message.body)
-                    console.log(data)
-                    onlineChecker.getState().setHostID(data?.hostID == null ? "null" : String(data.hostID))
-                    onlineChecker.getState().setClientID(data?.clientID == null ? "null" : String(data.clientID))
+                    useJoinedHandler.getState().setHostID(data?.hostID == null ? "null" : String(data.hostID))
+                    useJoinedHandler.getState().setClientID(data?.clientID == null ? "null" : String(data.clientID))
                 });
 
                 client.subscribe(`/topic/config/`, message => {
                     const IntelligentMessage = JSON.parse(message.body)
-                    // console.log("config: ", IntelligentMessage)
-                    useConfigStore.getState().setAll(IntelligentMessage)
-
+                    setAll(IntelligentMessage)
                 })
                 client.subscribe("/topic/usernames", message => {
                     const IntelligentMessage: NameOf2Players = JSON.parse(message.body)
@@ -80,6 +84,9 @@ export default function Chat() {
         client.activate();
         clientRef.current = client;
     };
+
+
+    //Connect to ws on mount
     useEffect(() => {
 
         connectAndSubscribe();
@@ -90,19 +97,10 @@ export default function Chat() {
             }
         };
     }, []);
-    const config = useConfigStore(
-        useShallow((s) => ({
-            _Hp: s._Hp,
-            _minions: s._minions,
-            _turnMax: s._turnMax,
-            _startingBudget: s._startingBudget,
-            _maximumBudget: s._maximumBudget,
-            _interest: s._interest,
-            _hexCost: s._hexCost,
-            _spawningCost: s._spawningCost,
-            _maximumSpawn: s._maximumSpawn
-        }))
-    );
+
+    //Config Handle via ws
+    //allowing other user to see and update config at the same time
+    //update itself whenever the config is change
     useEffect(() => {
         const timeout = setTimeout(() => {
             clientRef.current?.publish({
@@ -113,9 +111,11 @@ export default function Chat() {
 
         return () => clearTimeout(timeout);
     }, [config]);
+
     const player1 = Global2Players((state) => state.player1);
     const player2 = Global2Players((state) => state.player2);
 
+    //update online status of the player
     useEffect(() => {
         const client = clientRef.current;
         if (client && client.connected) {
@@ -129,11 +129,23 @@ export default function Chat() {
     }, [player1, player2]);
 
 
-    const sendMessage = () => {
+    //Upon ready on both side, submit config file and go to the next page
+    const moveToGameInitPage = () => {
+        const backendConfig = PermsConfig2ConfigAdapter(config);
+        console.log(backendConfig)
+
+        clientRef.current?.publish({
+            destination: "/app/game/config",
+            body: JSON.stringify(backendConfig)
+        })
+
         clientRef.current?.publish({
             destination: "/topic/ready",
-            body: "GO"
+            body: JSON.stringify({
+                message: "GO"
+            })
         })
+
     };
 
     const isThisDudeAHost = duelWhereDidYouComeFrom.getState().checkOrigin() == "CREATE";
@@ -166,38 +178,51 @@ export default function Chat() {
     }
     return (
         <div>
+            <div className="absolute top-50 left-100 w-100 h-100 z-50 bg-blue-500" onClick={() => {
+                clientRef.current?.publish({
+                    destination: "/app/game/starter",
+                })
+            }}></div>
             {page === "CreateRoomPage" && <CreateRoomPage/>}
             {isThisDudeAHost && clientReady &&
                 <Button src="/purple_btn.PNG" alt="Join Room" overlayText="Start" font_size="50" height="150"
-                        width="250" color="grey" bottom="65" left="1100" onClick={(sendMessage)}></Button>}
+                        width="250" color="grey" bottom="65" left="1100" onClick={(moveToGameInitPage)}></Button>}
+
             {isThisDudeAHost && !clientReady &&
                 <Button src="/purple_opaque.PNG" alt="Join Room" overlayText="Start" font_size="50" height="150"
                         width="250" color="grey" bottom="65" left="1100" onClick={() => {
                 }}></Button>}
+
             {isThisDudeAHost && clientReady &&
                 <div className="text-2xl absolute bottom-[80px] left-[850px] text-green-900 bg-green-100/50">Opponent
                     ready!</div>}
             {isThisDudeAHost && !clientReady &&
                 <div className="text-2xl absolute bottom-[80px] left-[850px] text-yellow-900 bg-yellow-100/50">waiting
                     for the opponent to be ready...</div>}
+
             {isReady && !isThisDudeAHost &&
                 <Button src="/purple_btn.PNG" alt="Join Room" overlayText="Ready" font_size="50" height="150"
                         width="250" color="grey" bottom="65" left="1100" onClick={(Ready)}></Button>}
+
             {!isReady && !isThisDudeAHost &&
                 <div className="text-2xl absolute bottom-[80px] left-[850px] text-yellow-900 bg-yellow-100/50">waiting
                     for you to be ready...</div>}
             {isReady && !isThisDudeAHost &&
                 <div className="text-2xl absolute bottom-[80px] left-[850px] text-green-900 bg-green-100/50">you are
                     ready!</div>}
+
             {!isReady && !isThisDudeAHost &&
                 <Button src="/purple_opaque.PNG" alt="Join Room" overlayText="Not Ready" font_size="50" height="150"
                         width="250" color="grey" bottom="65" left="1100" onClick={(Ready)}></Button>}
+
             {!isThisDudeAHost && !isReady &&
                 <Button src="/purple_btn.PNG" alt="Back" overlayText="Back" onClick={handleBackButton} bottom="65"
                         left="800" color="#6a0dad" font_size="50" height="150" width="250"></Button>}
+
             {!isThisDudeAHost && isReady &&
                 <Button src="/purple_opaque.PNG" alt="Back" overlayText="Back" onClick={() => {
                 }} bottom="65" left="800" color="#6a0dad" font_size="50" height="150" width="250"></Button>}
+
             {isThisDudeAHost &&
                 <Button src="/purple_btn.PNG" alt="Back" overlayText="Back" onClick={handleBackButton} bottom="65"
                         left="800" color="#6a0dad" font_size="50" height="150" width="250"></Button>}

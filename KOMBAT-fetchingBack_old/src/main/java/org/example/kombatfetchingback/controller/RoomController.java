@@ -1,11 +1,13 @@
 package org.example.kombatfetchingback.controller;
 
 import lombok.RequiredArgsConstructor;
+import org.example.kombatfetchingback.kombat_backend.Games.Configs.Config;
 import org.example.kombatfetchingback.model.RoomMessage;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 @RequiredArgsConstructor
@@ -41,7 +43,6 @@ public class RoomController {
 
     @MessageMapping("/ready")
     public void sendReady(@Payload String message) {
-//        IO.println(message);
         messagingTemplate.convertAndSend(
                 "/topic/ready",
                 message

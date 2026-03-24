@@ -10,17 +10,17 @@ import Loadable from "next/dist/shared/lib/loadable.shared-runtime";
 import {useMinionStore} from "./MinionProfile";
 import {create} from "zustand"
 
-export const useMinMult = create<exMin>((set) => ({
-    minionsMult: [],
-    setMinMult: (min: FileBlueprint[]) => set({minionsMult: min})
+export const useCreatingMinionDeck = create<CreatingMinionDeck>((set) => ({
+    deck: [],
+    setDeck: (min: StrategyFile[]) => set({deck: min})
 }));
 
-interface exMin {
-    minionsMult: FileBlueprint[];
-    setMinMult: (min: FileBlueprint[]) => void
+interface CreatingMinionDeck {
+    deck: StrategyFile[];
+    setDeck: (min: StrategyFile[]) => void
 }
 
-interface FileBlueprint {
+interface StrategyFile {
     name: string;
     content: string;
     parsePassed: boolean;
@@ -29,13 +29,13 @@ interface FileBlueprint {
     defenseFactor: number
 }
 
-interface StrategyBoxprops {
+interface Props {
     selectedMinion: string;
     selectedSprite: string;
 }
 
-export default function Dropdown({selectedMinion, selectedSprite}: StrategyBoxprops) {
-    const [files, setFiles] = useState<FileBlueprint[]>([]); //✅
+export default function Dropdown({selectedMinion, selectedSprite}: Props) {
+    const [files, setFiles] = useState<StrategyFile[]>([]); //✅
     const [isDropdownVisible, setIsDropdownVisible] = useState(false); //✅
     const [content, setContent] = useState(""); //content is showing or editing
     const fileInputRef = useRef<HTMLInputElement>(null);
@@ -44,7 +44,7 @@ export default function Dropdown({selectedMinion, selectedSprite}: StrategyBoxpr
 
     const [currentFileParsePassed, setPassed] = useState(false);
     const [currentFileSaved, setSaved] = useState(false);
-    const [savedNoDelay, setsavedNoDelay] = useState(false);
+    const [savedNoDelay, setSavedNoDelay] = useState(false);
 
     const [editingBypass, setEditingBypass] = useState(false);
 
@@ -55,7 +55,10 @@ export default function Dropdown({selectedMinion, selectedSprite}: StrategyBoxpr
     const [renderError, setErr] = useState("");
     const [renderSave, setRenderSave] = useState("");
 
+    const {deck,setDeck} = useCreatingMinionDeck();
+
     const URL = "http://localhost:8080";
+
     const HandleClickAway = () => {
         //✅
         setIsDropdownVisible(false);
@@ -63,7 +66,7 @@ export default function Dropdown({selectedMinion, selectedSprite}: StrategyBoxpr
 
 
     useEffect(() => {
-        useMinMult.getState().setMinMult(files)
+        useCreatingMinionDeck.getState().setDeck(files)
     }, [files])
 
     const handleUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -109,7 +112,7 @@ export default function Dropdown({selectedMinion, selectedSprite}: StrategyBoxpr
             );
             setParsable(true);
             setRenderSave("Passed");
-            setsavedNoDelay(false);
+            setSavedNoDelay(false);
             setTimeout(() => {
                 setRenderSave("");
             }, 3000);
@@ -136,14 +139,14 @@ export default function Dropdown({selectedMinion, selectedSprite}: StrategyBoxpr
         setShowContent(true);
         setContent(newFile.content);
         setRenderSave("Passed");
-        setsavedNoDelay(false);
+        setSavedNoDelay(false);
         setTimeout(() => {
             setRenderSave("");
             setSaved(false);
         }, 3000);
     };
 
-    const showElementsOfFile = (file: FileBlueprint) => {
+    const showElementsOfFile = (file: StrategyFile) => {
         setContent(file.content);
         setShowStrategy(file.name);
         setIsDropdownVisible(false);
@@ -265,7 +268,7 @@ export default function Dropdown({selectedMinion, selectedSprite}: StrategyBoxpr
               value={content}
               onChange={(e) => {
                   setParsable(false);
-                  setsavedNoDelay(true);
+                  setSavedNoDelay(true);
                   // handleChange()
                   setContent(e.target.value);
               }}
@@ -316,7 +319,7 @@ export default function Dropdown({selectedMinion, selectedSprite}: StrategyBoxpr
                     setParsable(false);
                     setShowContent(true);
                     setContent("");
-                    setsavedNoDelay(true);
+                    setSavedNoDelay(true);
                     setOwner("");
                     setSaved(true);
                 }}

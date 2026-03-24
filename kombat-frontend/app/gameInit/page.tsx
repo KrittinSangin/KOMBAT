@@ -7,13 +7,13 @@ import Button from "../../components/Button";
 import GameLayout from "../../components/GameLayout";
 import MinionProfile from "../../components/MinionProfile";
 import {useEffect, useState} from "react";
-import {useConfigStore} from "../configuration/page";
 import {duelWhereDidYouComeFrom} from "../gamemode/duel/page";
 import {Global2Players} from "../configuration/components/ProfileConfig";
 import {Client} from "@stomp/stompjs";
 import {create} from "zustand"
 import SockJS from "sockjs-client";
-import {useMinMult} from "../../components/Dropdown";
+import {useCreatingMinionDeck} from "../../components/Dropdown";
+import {useConfigStore} from "../configuration/Store/useConfigStore";
 
 export type joinedHandler = {
     hostID: string
@@ -34,14 +34,16 @@ export default function GameInitPage() {
     const router = useRouter();
     const playerName = duelWhereDidYouComeFrom.getState().checkOrigin() == "CREATE" ? Global2Players.getState().player1 : Global2Players.getState().player2;
     const checkOrg = duelWhereDidYouComeFrom.getState().checkOrigin() == "CREATE"
-    const minion = useConfigStore.getState()._minions;
+    const minion = useConfigStore.getState().config._minions;
 
     const [Ready, setReady] = useState(true);
-
 
     const [received, setReceived] = useState("");
     const [selectedMinion, setSelectedMinion] = useState(0);
 
+    const {deck} = useCreatingMinionDeck();
+
+    //Web Socket Handle
     const client = new Client({
         webSocketFactory: () => new SockJS(`${process.env.NEXT_PUBLIC_LINK}/ws`),
         onConnect: () => {
@@ -72,11 +74,12 @@ export default function GameInitPage() {
             body: JSON.stringify({
                 isReady: Ready,
                 PlayerName: playerName,
-                PlayerTeam: checkOrg == true ? 1 : 0,
-                Minions: useMinMult.getState().minionsMult
+                PlayerTeam: checkOrg? 1 : 0,
+                Minions: deck,
             })
         });
-        console.log(useMinMult.getState().minionsMult)
+
+        console.log(useCreatingMinionDeck.getState().deck)
         // const a = await fetch(()).then(message => {
         //     console.log(message.body)
         // })

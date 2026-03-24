@@ -11,26 +11,30 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/data")
 @RequiredArgsConstructor
-public class DataController {
+public class DataController
+{
 
-    private final MyDataHandler dataHandler;
+	private final MyDataHandler dataHandler;
 
 
+	@PostMapping("/send/{id}")
+	public MessageHolder init(@PathVariable String id)
+	{
+		return dataHandler.initializeWebSocket(id);
+	}
 
-    @PostMapping("/send/{id}")
-    public MessageHolder init(@PathVariable String id) {
-        return  dataHandler.initializeWebSocket(id);
-    }
-
-    @PostMapping("/join")
-    public MessageHolder joinTestData(@RequestBody String id) {
+	@PostMapping("/join")
+	public MessageHolder joinTestData(@RequestBody String id)
+	{
 
 //        IO.println("ABALNABAK" + id);
-        return dataHandler.handleJoinRequest(id);
-    }
-    @PostMapping("/config")
-    public String configFIle(@RequestBody String config){
-        IO.print(config);
-        return "yeah";
-    }
+		return dataHandler.handleJoinRequest(id);
+	}
+
+	@PostMapping("/config")
+	public String configFIle(@RequestBody String config)
+	{
+		IO.print(config);
+		return "yeah";
+	}
 }

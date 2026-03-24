@@ -2,17 +2,12 @@ import { ProfileConfigProps } from "../../../ttypes/type";
 import { create } from "zustand";
 import { NameOf2Players } from "../../../ttypes/type";
 
-
-
-
 export const Global2Players = create<NameOf2Players>((set) =>({
     player1 : "Player1",
     player2 : "Player2",
     setPlayer1Name: (value: string) => set({player1 : value}),
     setPlayer2Name: (value: string) => set({player2 : value})
 }))
-
-
 
 export default function ProfileConfig({ team, left, top, online1, online2 }: ProfileConfigProps) {
     const player1 = Global2Players(s => s.player1);

@@ -6,44 +6,12 @@ import {
     HexDir, PlayerIntentEnum
 } from "./enums";
 
-export type ConfigValues = {
-    _Hp: number
-    _minions: number
-    _turnMax: number
-    _startingBudget: number
-    _maximumBudget: number
-    _interest: number
-    _hexCost: number
-    _spawningCost: number
-    _maximumSpawn: number
-    _turnBudget: number
-}
-
-export type joinedHandler = {
-    hostID: string
-    clientID: string
-    setHostID: (value: string) => void
-    setClientID: (value: string) => void
-}
 export type _joinedHandler = {
     hostID: string
     clientID: string
 }
 
-export type ConfigureState = ConfigValues & {
-    setHp: (value: number) => void
-    setMinions: (value: number) => void
-    setTurnMax: (value: number) => void
-    setStartingBudget: (value: number) => void
-    setMaximumBudget: (value: number) => void
-    setInterest: (value: number) => void
-    setHexCost: (value: number) => void
-    setSpawningCost: (value: number) => void
-    setMaximumSpawn: (value: number) => void
-    setTurnBudget: (value: number) => void
 
-    setAll: (config: Partial<ConfigValues>) => void
-}
 export type ProfileConfigProps = {
     team: number;
     left: number;
