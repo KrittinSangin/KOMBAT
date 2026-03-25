@@ -10,6 +10,7 @@ import {StrategyFile, useStrategyFilesStore} from "../Store/StrategyFileStore";
 import ButtonForInitPage from "../../../components/ButtonForInitPage";
 import {useMinionStore} from "./MinionProfile";
 import {useMinionBlueprintsStore} from "../Store/MinionBlueprint";
+import {useDuelOriginStore} from "../../gamemode/Store/DuelOriginStore";
 
 interface Props {
     selectingMinionIndex: number;
@@ -19,6 +20,9 @@ interface Props {
 export default function Dropdown({selectingMinionIndex, selectedSprite}: Props) {
     const {files, setFiles} = useStrategyFilesStore()
     const {minionBlueprints,setBlueprint} = useMinionBlueprintsStore();
+
+    const isHost = useDuelOriginStore.getState().checkOrigin() == "CREATE"
+
 
     const [isDropdownVisible, setIsDropdownVisible] = useState(false); //✅
     const [content, setContent] = useState(""); //content is showing or editing
@@ -162,13 +166,45 @@ export default function Dropdown({selectingMinionIndex, selectedSprite}: Props) 
                         if (minionAlreadyOwns) {
                             setRenderSave("Conflict"); // This minion already owns another strategy
                         } else if (isFree || isSameFile || editingBypass) {
-                            foundFile.ownerIndex = selectingMinionIndex;
-                            setOwner(foundFile.ownerIndex + 1);
-                            setEditingBypass(false);
-                            setErr("Passed");
-                            setRenderSave("");
 
-                            setBlueprint(selectingMinionIndex,{...minionBlueprints[selectingMinionIndex],isStrategyParsedOk:true, strategyFileName:foundFile.name})
+                            //file is successfully parse and bind to this minion
+                            foundFile.ownerIndex = selectingMinionIndex;
+
+                            //submit this file to backend
+                            const response = await fetch(`${process.env.NEXT_PUBLIC_LINK}/parse/submit`, {
+                                method: "PUT",
+                                headers: {
+                                    "Content-Type": "application/json",
+                                },
+                                body: JSON.stringify({
+                                    name: (isHost?"0":"1")+"#"+foundFile.name,
+                                    strategy: foundFile.content
+                                }),
+                            });
+
+                            if (response.ok)
+                            {
+                                const data = await response.json();
+
+                                if (data)
+                                {
+                                    setBlueprint(selectingMinionIndex, {
+                                        ...minionBlueprints[selectingMinionIndex],
+                                        isStrategyParsedOk: true,
+                                        strategyFileName: foundFile.name
+                                    })
+                                    setOwner(foundFile.ownerIndex);
+
+                                    //Display
+                                    setEditingBypass(false);
+                                    setErr("Passed");
+                                    setRenderSave("");
+                                }
+                                else
+                                {
+                                    console.error("Something is wrong with parsing file")
+                                }
+                            }
                         }
 
                         setTimeout(() => setErr(""), 500);
@@ -179,7 +215,10 @@ export default function Dropdown({selectingMinionIndex, selectedSprite}: Props) 
                         // console.log(renderError);
                         setTimeout(() => setErr(""), 500);
                         // console.log(renderError);
-                        setBlueprint(selectingMinionIndex,{...minionBlueprints[selectingMinionIndex],isStrategyParsedOk:false})
+                        setBlueprint(selectingMinionIndex, {
+                            ...minionBlueprints[selectingMinionIndex],
+                            isStrategyParsedOk: false
+                        })
 
                     }
                     setPassed(data);

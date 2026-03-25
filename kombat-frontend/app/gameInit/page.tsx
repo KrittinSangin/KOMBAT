@@ -43,11 +43,10 @@ export default function GameInitPage() {
     const client = new Client({
         webSocketFactory: () => new SockJS(`${process.env.NEXT_PUBLIC_LINK}/ws`),
         onConnect: () => {
-            client.subscribe("/game/ready", message => {
+            client.subscribe("/topic/startGame", message => {
                 console.log(message.body);
                 if (message.body == "true") setReady(true);
                 else if (message.body == "false") setReady(false);
-                // else router.push("/game");
             });
         }
     });
@@ -60,17 +59,22 @@ export default function GameInitPage() {
     }, [])
 
     const readyUp = async () => {
-        if (ready || minionBlueprints.some((blueprint)=> !blueprint.isStrategyParsedOk)) setReady(false)
+        console.log(ready);
+        console.log(minionBlueprints.some((blueprint)=> !blueprint.isStrategyParsedOk));
+        if (ready || minionBlueprints.some((blueprint)=> !blueprint.isStrategyParsedOk))
+        {
+            setReady(false)
+            return;
+        }
 
         setReady(true);
         console.log(minionBlueprints);
         useSocketStore.getState().client?.publish({
-            destination: "/app/game/start",
+            destination: "/app/game/ready",
             body: JSON.stringify({
-                isReady: ready,
-                PlayerName: playerName,
-                PlayerTeam: checkOrg ? 1 : 0,
-                Minions: minionBlueprints
+                playerName: playerName,
+                playerTeam: checkOrg ? 0 : 1,
+                minions: minionBlueprints
             })
         });
     }
@@ -86,7 +90,7 @@ export default function GameInitPage() {
 
             <MinionProfile onReturn={(name) => setMinionSpriteName(name)} minionIndex={selectedMinion}></MinionProfile>
 
-            <div className={ready ? "opacity-50" : "opacity-100"}>
+            <div className={ready ? "opacity-100" : "opacity-50"}>
                 <Button onClick={readyUp} src="/green_btn.PNG" alt="Ready" overlayText="Ready" bottom="-20" left="1300"
                         color="purple" font_size="40" height="150" width="190"></Button>
             </div>
