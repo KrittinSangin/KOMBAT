@@ -148,8 +148,17 @@ public class GameSocketController
 	@MessageMapping("/game/update")
 	public void updateGame(@Payload PlayerIntent intent)
 	{
+		IO.println("Intent recieved");
+		IO.println(intent);
+		if (gameRepository.getGame() == null)
+		{
+			IO.println("there is no game");
+			messagingTemplate.convertAndSend("/topic/nogame", "Game does not exist");
+			return;
+		}
+
 		GameDTO dto = gameRepository.updateGame(intent);
-		messagingTemplate.convertAndSend("/game/update", dto);
+		messagingTemplate.convertAndSend("/topic/update", dto);
 	}
 
 }

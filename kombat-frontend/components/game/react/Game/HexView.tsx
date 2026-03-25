@@ -8,6 +8,7 @@ import MinionView from "./MinionView";
 import {useState} from "react";
 import {red} from "next/dist/lib/picocolors";
 import {useIntent} from "../../model/useIntent";
+import {useSocketStore} from "../../../../app/gameInit/Store/SocketStore";
 
 interface Props {
     idx: number
@@ -24,6 +25,9 @@ export default function HexView({
                                 }: Props) {
     const [hover, setHover] = useState(false)
     const {setHex, submitIntent} = useIntent();
+
+    const {client} = useSocketStore();
+
     const SIZE = 100;
     const MINION_SIZE = 50;
 
@@ -76,7 +80,8 @@ export default function HexView({
 
     const handleIntent = () => {
         setHex(hex.hexPos);
-        submitIntent();
+        if (client)
+            submitIntent(client);    
     }
 
     return <div style={{
