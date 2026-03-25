@@ -56,7 +56,9 @@ public class GameSocketController
 				strategyRepository.get(bp.strategyFileName())
 			)));
 
+		//set blueprints
 		gameRepository.setStartDeck(deck, dto.playerTeam());
+		gameRepository.setBlueprints(dto.minions(),dto.playerTeam());
 
 		if (gameRepository.isBothReady()) {
             startGame();

@@ -12,7 +12,6 @@ import org.example.kombatfetchingback.kombat_backend.Games.StartInfo;
 import org.example.kombatfetchingback.model.MinionBlueprint;
 import org.springframework.stereotype.Repository;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Repository
@@ -76,7 +75,7 @@ public class GameRepository
 		}
 	}
 
-	public void keepBlueprint(List<MinionBlueprint> blueprints, int team)
+	public void setBlueprints(List<MinionBlueprint> blueprints, int team)
 	{
 		IO.println("set blueprint");
 		if (team == 0)
