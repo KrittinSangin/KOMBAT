@@ -27,7 +27,7 @@ export default function JoinRoomPage(){
 
     const attemptToJoin = () => {
      const fetcher = async () => { 
-            return await fetch(`${process.env.NEXT_PUBLIC_LINK}/data/join`, {
+            return await fetch(`http://localhost:8080/data/join`, {
             method: 'POST', 
             body: Code
             })
