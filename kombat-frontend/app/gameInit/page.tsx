@@ -28,7 +28,7 @@ export type joinedHandler = {
 export default function GameInitPage() {
     const router = useRouter();
 
-    const [ready, setReady] = useState(true);
+    const [ready, setReady] = useState(false);
 
     const [minionSpriteName, setMinionSpriteName] = useState("");
     const [selectedMinion, setSelectedMinion] = useState(0);
@@ -44,9 +44,10 @@ export default function GameInitPage() {
         webSocketFactory: () => new SockJS(`${process.env.NEXT_PUBLIC_LINK}/ws`),
         onConnect: () => {
             client.subscribe("/topic/startGame", message => {
-                console.log(message.body);
-                if (message.body == "true") setReady(true);
-                else if (message.body == "false") setReady(false);
+                console.log(message.body == "Both players ready");
+                if(message.body == "Both players ready")router.push("/RandomPage")
+                // if (message.body == "true") setReady(true);
+                // else if (message.body == "false") setReady(false);
             });
         }
     });
@@ -59,24 +60,18 @@ export default function GameInitPage() {
     }, [])
 
     const readyUp = async () => {
-        console.log(ready);
-        console.log(minionBlueprints.some((blueprint)=> !blueprint.isStrategyParsedOk));
-        if (ready || minionBlueprints.some((blueprint)=> !blueprint.isStrategyParsedOk))
-        {
-            setReady(false)
-            return;
-        }
-
-        setReady(true);
         console.log(minionBlueprints);
         useSocketStore.getState().client?.publish({
             destination: "/app/game/ready",
             body: JSON.stringify({
+                IsReady: !ready,
                 playerName: playerName,
                 playerTeam: checkOrg ? 0 : 1,
                 minions: minionBlueprints
             })
         });
+        setReady(!ready);
+
     }
 
     return (

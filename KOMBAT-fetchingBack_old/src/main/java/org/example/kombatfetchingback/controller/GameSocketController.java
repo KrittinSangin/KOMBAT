@@ -24,7 +24,7 @@ public class GameSocketController
 	private final SimpMessagingTemplate messagingTemplate;
 	private final GameRepository gameRepository;
 	private final StrategyRepository strategyRepository;
-
+    
 	@MessageMapping("/game/config")
 	public void setGameConfig(@Payload Config cfg)
 	{
@@ -35,7 +35,11 @@ public class GameSocketController
 	public void markReadyAndSetDeck(@Payload PlayerReadyDTO dto)
 	{
 		//mark ready
-		if (dto.playerTeam() == 0) {gameRepository.setP1Ready(true);} else {gameRepository.setP2Ready(true);}
+		if (dto.playerTeam() == 0) {
+            gameRepository.setP1Ready(dto.IsReady());
+        } else {
+            gameRepository.setP2Ready(dto.IsReady());
+        }
 
 		//set Deck
 		List<Minion> deck = new ArrayList<>();
@@ -50,15 +54,21 @@ public class GameSocketController
 
 		gameRepository.setStartDeck(deck, dto.playerTeam());
 
-		if (gameRepository.isBothReady()) startGame();
+		if (gameRepository.isBothReady()) {
+            startGame();
+            messagingTemplate.convertAndSend("/topic/startGame", "Both players ready");
+            //Randomization goes here
+            return ;
+        }
+            messagingTemplate.convertAndSend("/topic/startGame", "Both players not ready");
 	}
 
-	@MessageMapping("/game/unready")
-	public void markUnready(@Payload PlayerReadyDTO dto)
-	{
-		//mark not ready
-		if (dto.playerTeam() == 1) {gameRepository.setP1Ready(true);} else {gameRepository.setP2Ready(true);}
-	}
+//	@MessageMapping("/game/unready")
+//	public void markUnready(@Payload PlayerReadyDTO dto)
+//	{
+//		//mark not ready
+//		if (dto.playerTeam() == 1) {gameRepository.setP1Ready(true);} else {gameRepository.setP2Ready(true);}
+//	}
 
 	public void startGame()
 	{

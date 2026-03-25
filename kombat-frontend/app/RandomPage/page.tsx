@@ -17,7 +17,7 @@ export default function RandomPage() {
     <div>
         <Loader/>
     </div>
-    <h1 className="flex items-center justify-center min-h-screen mt-25 text-4xl">Random...</h1>
+    <h1 className="flex items-center justify-center min-h-screen mt-25 text-4xl">Randomizing...</h1>
     <div>
     </div>        
   </>)
