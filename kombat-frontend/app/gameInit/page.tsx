@@ -44,9 +44,9 @@ export default function GameInitPage() {
         webSocketFactory: () => new SockJS(`${process.env.NEXT_PUBLIC_LINK}/ws`),
         onConnect: () => {
             client.subscribe("/game/ready", message => {
-                console.log(message.body);
-                if (message.body == "true") setReady(true);
-                else if (message.body == "false") setReady(false);
+                // console.log(message.body);
+                // if (message.body == "true") setReady(true);
+                // else if (message.body == "false") setReady(false);
                 // else router.push("/game");
             });
         }
@@ -61,9 +61,9 @@ export default function GameInitPage() {
 
     const readyUp = async () => {
         if (ready || minionBlueprints.some((blueprint)=> !blueprint.isStrategyParsedOk)) setReady(false)
-
-        setReady(true);
-        console.log(minionBlueprints);
+        console.log(minionBlueprints)
+        setReady(!ready);
+        // console.log(minionBlueprints);
         useSocketStore.getState().client?.publish({
             destination: "/app/game/start",
             body: JSON.stringify({

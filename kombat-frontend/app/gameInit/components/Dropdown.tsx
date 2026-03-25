@@ -131,7 +131,7 @@ export default function Dropdown({selectingMinionIndex, selectedSprite}: Props) 
         setShowStrategy(file.name);
         setIsDropdownVisible(false);
         setPassed(file.isParsedSuccess);
-        setOwner(file.ownerIndex);
+        setOwner(file.ownerIndex == null? null : file.ownerIndex+1);
     };
 
     const handleParse = async () => {
@@ -322,7 +322,7 @@ export default function Dropdown({selectingMinionIndex, selectedSprite}: Props) 
                     Minion already has a strategy!
                 </div>
             }
-            {owner && (
+            {owner  !== null && (
                 <div
                     className="text-yellow-500 px-1 bg-[#787276] rounded-xl z-1000 absolute whitespace-nowrap text-2xl top-[125px] left-[400px]">
                     {"Strategy tied to Minion" + owner}
