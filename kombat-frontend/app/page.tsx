@@ -53,8 +53,8 @@ export default function Homepage() {
   ">
                 KOMBAT
             </h1>
-            <PlayButton src="" alt="play" overlayText="Play" onClick={moveToGameMode} bottom="20" left="170"
-                        color="#6a0dad" font_size="70" height="100" width="200"></PlayButton>
+            <PlayButton src="/green_btn.PNG" alt="play" overlayText="Play" onClick={moveToGameMode} bottom="20" left="170"
+                        color="#6a0dad" font_size="70" height="175" width="220"></PlayButton>
             {/* /// */}
             <button onClick={testGameInit}
                     className="border-2 border-black bg-white text-black px-4 py-2 rounded-md">Init

@@ -1,69 +1,55 @@
 "use client";
 
-import {useRouter} from "next/navigation";
-import {useState} from "react";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
 import Slider from "../../components/Slider";
-import {useStore} from "zustand/react";
 
 export default function BeforeInitPage() {
-    const router = useRouter();
-    const [MinionCount,setMinionCount] = useState(0)
+  const router = useRouter();
 
-    const goNext = () => {
-        router.push(`/gameInit?Minions=${MinionCount}`);
-    }
+  const sliderRange = {
+    minionCount: { min: 1, max: 5 }
+  };
 
-    return <>
-        <Slider min={1} max={5} bottom={500} left={100} onChange={(value) => setMinionCount(Number(value))}
-                overlayText="Minions count" borderColor="pink" sliderColor="white"></Slider>
-        <button onClick={goNext}
-                className="border-2 border-black bg-white text-black px-4 py-2 rounded-md absolute bottom-125 left-220">Enter
-        </button>
-    </>
-}
-const sliderRange = {
-    minionCount: {min: 1, max: 5}
-};
-
-const [config, setConfig] = useState({
+  const [config, setConfig] = useState({
     minionCount: sliderRange.minionCount.max
-});
+  });
 
-let left = 100;
-let borderColor = "grey";
-let sliderColor = "white";
+  let left = 100;
+  let borderColor = "grey";
+  let sliderColor = "white";
 
-const handleMinionCountChange = (value: number) => {
+  const handleMinionCountChange = (value: number) => {
     setConfig(prev => ({
-        ...prev,
-        minionCount: value
+      ...prev,
+      minionCount: value
     }));
-};
+  };
 
-const goNext = () => {
+  const goNext = () => {
     router.push(`/gameInit?minion=${config.minionCount}`);
-};
+  };
 
-return (
+  return (
     <>
-        <Slider
-            min={1}
-            max={5}
-            bottom={500}
-            left={left}
-            overlayText="Each Minions Per Team"
-            borderColor={borderColor}
-            sliderColor={sliderColor}
-            value={config.minionCount}
-            setState={handleMinionCountChange}
-        />
+      <Slider
+        min={1}
+        max={5}
+        bottom={500}
+        left={left}
+        overlayText="Each Minions Per Team"
+        borderColor={borderColor}
+        sliderColor={sliderColor}
+        value={config.minionCount}
+        setState={handleMinionCountChange}
+      />
 
-        <button
-            onClick={goNext}
-            className="border-2 border-black bg-white text-black px-4 py-2 rounded-md absolute bottom-125 left-220"
-        >
-            Enter
-        </button>
+      <button
+        onClick={goNext}
+        className="border-2 border-black bg-white text-black px-4 py-2 rounded-md absolute bottom-125 left-220"
+      >
+        Enter
+      </button>
     </>
-);
+  );
 }
