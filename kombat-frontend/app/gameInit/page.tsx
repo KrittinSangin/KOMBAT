@@ -50,10 +50,13 @@ export default function GameInitPage() {
         webSocketFactory: () => new SockJS(`${process.env.NEXT_PUBLIC_LINK}/ws`),
         onConnect: () => {
             client.subscribe("/topic/startGame", message => {
-                console.log(message.body);
-                if(message.body == "Both players ready")router.push("/RandomPage")
-                // if (message.body == "true") setReady(true);
-                // else if (message.body == "false") setReady(false);
+                if(message.body == "Both players ready"){
+                    router.push("/RandomPage")
+                    
+                }else{
+                    const intelligentMessage : GameStartDTO = JSON.parse(message.body)
+                    console.log(intelligentMessage.universalBlueprint);
+                }
             });
         }
     });

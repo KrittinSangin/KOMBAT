@@ -41,6 +41,8 @@ export default function MinionProfile({minionIndex, onReturn}: minionProfileProp
         onReturn(images[minionIndex]);
         if (isInitialized)
         setMinionSpriteIndex(images.indexOf(minionBlueprints[minionIndex].spriteName == "" ? "Knight" : minionBlueprints[minionIndex].spriteName ));
+        
+        console.log(useMinionStore.getState().minionName)
     }, [minionIndex]);
 
     if (!isInitialized) return <></>
@@ -62,12 +64,14 @@ export default function MinionProfile({minionIndex, onReturn}: minionProfileProp
     const incrementUp = () => {
         const next = (minionSpriteIndex + 1) % 5;
         setMinionSpriteIndex(next);
+        useMinionStore.getState().setMinionNameZus(images[next])
         setBlueprint(minionIndex,{...minionBlueprints[minionIndex],spriteName:images[next]})
     }
 
     const incrementDown = () => {
         const next = (minionSpriteIndex + 4) % 5;
         setMinionSpriteIndex(next);
+        useMinionStore.getState().setMinionNameZus(images[next])
         setBlueprint(minionIndex,{...minionBlueprints[minionIndex],spriteName:images[next]})
     }
 

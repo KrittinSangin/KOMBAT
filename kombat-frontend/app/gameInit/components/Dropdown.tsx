@@ -53,6 +53,7 @@ export default function Dropdown({selectingMinionIndex, selectedSprite}: Props) 
     useEffect(() => {
         useStrategyFilesStore.getState().setFiles(files)
     }, [files])
+    const minionName = useMinionStore(state => state.minionName);
 
     const handleUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
         const selectedFiles = e.target.files; //select file
@@ -223,8 +224,10 @@ export default function Dropdown({selectingMinionIndex, selectedSprite}: Props) 
                     }
                     setPassed(data);
                     foundFile.isParsedSuccess = data;
-                    foundFile.spriteName = useMinionStore.getState().minionName
+                    console.log(useMinionStore.getState().minionName)
+                    foundFile.spriteName = minionName // LazyLargeFish
                     foundFile.defenseFactor = useMinionStore.getState().defFactor
+                    
                     console.log(foundFile)
                 }
             } catch (error) {
