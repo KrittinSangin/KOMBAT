@@ -2,18 +2,18 @@
 
 import Loader from "../../components/Loader"
 import { useRouter } from "next/navigation";
-
+import { useEffect } from "react";
 export default function RandomPage() {
   const router = useRouter();
 
-  const moveToPreviewPage = () => {
-        router.push("/Preview");
-  };
+  useEffect(() => {
+    const timeoutId = setTimeout(() => {
+      router.push('/Preview');
+    }, 4000);
+    return () => clearTimeout(timeoutId);
+  }, [router]);
 
   return(<>
-      <button onClick={moveToPreviewPage}
-          className="border-2 border-black bg-pink text-black px-4 py-2 rounded-md">Preview
-    </button>
     <div>
         <Loader/>
     </div>

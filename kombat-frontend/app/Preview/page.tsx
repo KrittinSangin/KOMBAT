@@ -10,12 +10,13 @@ import Minionpreview from "../../components/Minionpreview";
 import Button from "../../components/Button";
 
 const MinionCount = useConfigStore.getState().config._minions
-
 export default function Preview(){
     const [selectedMinion, setSelectedMinion] = useState(0); 
     const router = useRouter();
+    
 
     const moveToGame = () => {
+        // console.log(MinionArr)
         router.push("/game");
     };
 

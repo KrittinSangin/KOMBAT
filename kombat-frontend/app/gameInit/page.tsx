@@ -8,7 +8,6 @@ import {Client} from "@stomp/stompjs";
 import {create} from "zustand"
 import SockJS from "sockjs-client";
 import {useConfigStore} from "../configuration/Store/useConfigStore";
-import {useStrategyFilesStore} from "./Store/StrategyFileStore";
 import {useSocketStore} from "./Store/SocketStore";
 import MinionProfile from "./components/MinionProfile";
 import Navbar, {TeamSide} from "./components/Navbar";
@@ -26,10 +25,19 @@ export type joinedHandler = {
 type GameStartDTO = {
     p1Blueprint:MinionBlueprint,
     p2Blueprint:MinionBlueprint,
-    universalBlueprint:MinionBlueprint,
+    universalDeck:MinionBlueprint[],
     initGameDTO: GameDTO,
 }
 
+type PreviewExporter = {
+    exportedDeck:MinionBlueprint[],
+    setExportedDeck:(setter:MinionBlueprint[]) => void
+}
+
+export const minionPreview = create<PreviewExporter>((set) => ({
+    exportedDeck: [],
+    setExportedDeck: (setter) => set({exportedDeck: setter})
+}))
 
 export default function GameInitPage() {
     const router = useRouter();
@@ -55,7 +63,8 @@ export default function GameInitPage() {
                     
                 }else{
                     const intelligentMessage : GameStartDTO = JSON.parse(message.body)
-                    console.log(intelligentMessage.universalBlueprint);
+                    console.log(intelligentMessage.universalDeck);
+                    minionPreview.getState().setExportedDeck(intelligentMessage.universalDeck)
                 }
             });
         }

@@ -1,44 +1,47 @@
-
 import Image from "next/image";
 
-interface PreviewNavbarProps{
-    MinionCount:number
-    onSelect: (index: number) => void;
-    selectedMinion:number
+interface PreviewNavbarProps {
+  MinionCount: number;
+  onSelect: (index: number) => void;
+  selectedMinion: number;
 }
 
-export default function PreviewNavbar({MinionCount,onSelect,selectedMinion}:PreviewNavbarProps){
-    
-    return(
-            <>
-                <div className="z-20 absolute w-full h-[80px] bg-[#b491ff] top-0 left-0 fixed flex justify-between px-6">
-                    <h1 className="text-[50px] font-bold">Preview Minions</h1>
-                
-                {/* กลาง */}
-          <div className="absolute left-[610px] bottom-[-5px] w-2/3 flex justify-center gap-5">
-            {Array.from({ length: MinionCount }).map((_, index) => (
-              <button key={index}
-               onClick={() => onSelect(index)}
-               className={`relative transition-opacity duration-300 ${
-              selectedMinion === index ? "opacity-100" : "opacity-50"
-          }`}
-              >
-                <Image
-        src={"/violet_btn.png"}
-        alt="Minion"
-        width={120}
-        height={50}
-      />
-    
-      <p className="absolute top-[8px] left-1/4 text-black text-xl">
-        Minion{index + 1}
-      </p>
-              </button>
-            ))}
-          </div>
-    
-          <div className="w-1/3"></div>
-    
-          </div>
-            </>)
+export default function PreviewNavbar({
+  MinionCount,
+  onSelect,
+  selectedMinion,
+}: PreviewNavbarProps) {
+  return (
+    <>
+      <div className="z-20 absolute w-full h-[80px] bg-[#b491ff] top-0 left-0 fixed flex justify-between px-6">
+        <h1 className="text-[50px] font-bold">Preview Minions</h1>
+
+        {/* กลาง */}
+        <div className="absolute left-[610px] bottom-[-5px] w-2/3 flex justify-center gap-5">
+          {Array.from({ length: MinionCount }).map((_, index) => (
+            <button
+              key={index}
+              onClick={() => onSelect(index)}
+              className={`relative transition-opacity duration-300 ${
+                selectedMinion === index ? "opacity-100" : "opacity-50"
+              }`}
+            >
+              <Image
+                src={"/violet_btn.png"}
+                alt="Minion"
+                width={120}
+                height={50}
+              />
+
+              <p className="absolute top-[8px] left-1/4 text-black text-xl">
+                Minion{index + 1}
+              </p>
+            </button>
+          ))}
+        </div>
+
+        <div className="w-1/3"></div>
+      </div>
+    </>
+  );
 }
