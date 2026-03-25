@@ -28,7 +28,7 @@ public class GameSocketController
 	private final SimpMessagingTemplate messagingTemplate;
 	private final GameRepository gameRepository;
 	private final StrategyRepository strategyRepository;
-    
+
 	@MessageMapping("/game/config")
 	public void setGameConfig(@Payload Config cfg)
 	{
@@ -39,11 +39,13 @@ public class GameSocketController
 	public void markReadyAndSetDeck(@Payload PlayerReadyDTO dto)
 	{
 		//mark ready
-		if (dto.playerTeam() == 0) {
-            gameRepository.setP1Ready(dto.IsReady());
-        } else {
-            gameRepository.setP2Ready(dto.IsReady());
-        }
+		if (dto.playerTeam() == 0)
+		{
+			gameRepository.setP1Ready(dto.IsReady());
+		} else
+		{
+			gameRepository.setP2Ready(dto.IsReady());
+		}
 
 		//set Deck
 		List<Minion> deck = new ArrayList<>();
@@ -58,15 +60,16 @@ public class GameSocketController
 
 		//set blueprints
 		gameRepository.setStartDeck(deck, dto.playerTeam());
-		gameRepository.setBlueprints(dto.minions(),dto.playerTeam());
+		gameRepository.setBlueprints(dto.minions(), dto.playerTeam());
 
-		if (gameRepository.isBothReady()) {
-            startGame();
-            messagingTemplate.convertAndSend("/topic/startGame", "Both players ready");
-            //Randomization goes here
-            return ;
-        }
-            messagingTemplate.convertAndSend("/topic/startGame", "Both players not ready");
+		if (gameRepository.isBothReady())
+		{
+			startGame();
+			messagingTemplate.convertAndSend("/topic/startGame", "Both players ready");
+			//Randomization goes here
+			return;
+		}
+		messagingTemplate.convertAndSend("/topic/startGame", "Both players not ready");
 	}
 
 //	@MessageMapping("/game/unready")
@@ -84,11 +87,11 @@ public class GameSocketController
 		//unpack data
 		List<Minion> deck1 = unprocessStartInfo.deck1();
 		List<Minion> deck2 = unprocessStartInfo.deck2();
-		Pair<List<Minion>,List<Minion>> decks = new Pair<>(deck1,deck2);
+		Pair<List<Minion>, List<Minion>> decks = new Pair<>(deck1, deck2);
 
 		List<MinionBlueprint> blueprints1 = gameRepository.getP1Bluepirnt();
 		List<MinionBlueprint> blueprints2 = gameRepository.getP2Bluepirnt();
-		Pair<List<MinionBlueprint>,List<MinionBlueprint>> blueprintses = new Pair<>(blueprints1,blueprints2);
+		Pair<List<MinionBlueprint>, List<MinionBlueprint>> blueprintses = new Pair<>(blueprints1, blueprints2);
 
 		//generate random sequence
 		int count = deck1.size();
@@ -104,10 +107,22 @@ public class GameSocketController
 		List<Minion> universalDeck = new ArrayList<>();
 		List<MinionBlueprint> universalBlueprint = new ArrayList<>();
 
-		for (int i:rands)
+		for (int i = 0; i < rands.length; i++)
 		{
-			universalDeck.add(rand.nextInt() % 2 == 0? decks.fst().get(i) : decks.snd().get(i));
-			universalBlueprint.add(rand.nextInt() % 2 == 0? blueprintses.fst().get(i) : blueprintses.snd().get(i));
+			universalDeck.add(rand.nextInt() % 2 == 0 ? decks.fst().get(rands[i]) : decks.snd().get(rands[i]));
+
+			var blueprint = rand.nextInt() % 2 == 0 ? blueprintses.fst().get(rands[i]) : blueprintses.snd().get(rands[i]);
+
+			blueprint = MinionBlueprint.builder()
+				.name(blueprint.name())
+				.def(blueprint.def())
+				.index(i)
+				.strategyFileName(blueprint.strategyFileName())
+				.isStrategyParsedOk(blueprint.isStrategyParsedOk())
+				.spriteName(blueprint.spriteName())
+				.build();
+
+			universalBlueprint.add(blueprint);
 		}
 
 		StartInfo startInfo = new StartInfo(
