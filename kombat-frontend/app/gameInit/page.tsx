@@ -15,14 +15,20 @@ import Navbar, {TeamSide} from "./components/Navbar";
 import GameLayout from "./components/GameLayout";
 import StrategyBox from "./components/StrategyBox";
 import {useDuelOriginStore} from "../gamemode/Store/DuelOriginStore";
-import {useMinionBlueprintsStore} from "./Store/MinionBlueprint";
+import {MinionBlueprint, useMinionBlueprintsStore} from "./Store/MinionBlueprint";
+import {GameDTO} from "../../ttypes/type";
 
 export type joinedHandler = {
     hostID: string
     ready: boolean
 }
 
-
+type GameStartDTO = {
+    p1Blueprint:MinionBlueprint,
+    p2Blueprint:MinionBlueprint,
+    universalBlueprint:MinionBlueprint,
+    initGameDTO: GameDTO,
+}
 
 
 export default function GameInitPage() {
@@ -44,7 +50,7 @@ export default function GameInitPage() {
         webSocketFactory: () => new SockJS(`${process.env.NEXT_PUBLIC_LINK}/ws`),
         onConnect: () => {
             client.subscribe("/topic/startGame", message => {
-                console.log(message.body == "Both players ready");
+                console.log(message.body);
                 if(message.body == "Both players ready")router.push("/RandomPage")
                 // if (message.body == "true") setReady(true);
                 // else if (message.body == "false") setReady(false);
