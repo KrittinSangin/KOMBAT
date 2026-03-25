@@ -1,15 +1,15 @@
 "use client"
 
-import Navbar from "../../components/Navbar"
-import GameLayout from "../../components/GameLayout"
+import Navbar from "../gameInit/components/Navbar";
+import GameLayout from "../gameInit/components/GameLayout";
 import { useRouter } from "next/navigation";
-import { useConfigStore } from "../configuration/page"
+import { useConfigStore } from "../configuration/Store/useConfigStore";
 import { useEffect, useState } from "react"; 
 import PreviewNavbar from "../../components/PreviewNavbar"
 import Minionpreview from "../../components/Minionpreview";
 import Button from "../../components/Button";
 
-const MinionCount = useConfigStore.getState()._minions
+const MinionCount = useConfigStore.getState().config._minions
 
 export default function Preview(){
     const [selectedMinion, setSelectedMinion] = useState(0); 

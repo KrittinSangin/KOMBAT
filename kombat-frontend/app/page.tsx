@@ -38,7 +38,7 @@ export default function Homepage() {
 
     const toRandomPage = () => {
         checkState.getState().setState("random");
-        router.push("/randomPage");
+        router.push("/RandomPage");
     }
 
     return (
