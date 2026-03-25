@@ -19,9 +19,11 @@ import SockJS from "sockjs-client";
 import {GameDTO} from "../../ttypes/type";
 import {emptyGame, updateGame} from "../../components/game/model/game";
 import {useSocketStore} from "../gameInit/Store/SocketStore";
+import {useIntent} from "../../components/game/model/useIntent";
 
 export default function GameScene() {
     const router = useRouter();
+    const {submitIntent} = useIntent();
     const {game,set,update} = useGameState();
     const {setClient} = useSocketStore();
 
@@ -38,6 +40,10 @@ export default function GameScene() {
              client.subscribe("/topic/nogame", message => {
                 console.log(message.body);
             })
+
+            //sending empty intent to backend to get the current game
+            submitIntent(client);
+
         }
     });
 
