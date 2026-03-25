@@ -1,6 +1,6 @@
 import {create} from "zustand";
 
-type MinionBlueprint = {
+export type MinionBlueprint = {
     name : string,
     def : number,
     strategyFileName: string,

@@ -4,15 +4,15 @@ import lombok.Getter;
 import lombok.Setter;
 import org.example.kombatfetchingback.kombat_backend.Games.Configs.Config;
 import org.example.kombatfetchingback.kombat_backend.Games.DTO.GameDTO;
-import org.example.kombatfetchingback.kombat_backend.Games.DTO.MinionDTO;
 import org.example.kombatfetchingback.kombat_backend.Games.Game;
 import org.example.kombatfetchingback.kombat_backend.Games.Minion.Minion;
 import org.example.kombatfetchingback.kombat_backend.Games.Player.PlayerInfo;
 import org.example.kombatfetchingback.kombat_backend.Games.Player.PlayerIntent;
 import org.example.kombatfetchingback.kombat_backend.Games.StartInfo;
-import org.example.kombatfetchingback.kombat_backend.Tuples.Pair;
+import org.example.kombatfetchingback.model.MinionBlueprint;
 import org.springframework.stereotype.Repository;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Repository
@@ -20,6 +20,10 @@ public class GameRepository
 {
 	private Game game;
 	private StartInfo.StartInfoBuilder builder;
+	@Getter
+	private List<MinionBlueprint> p1Bluepirnt;
+	@Getter
+	private List<MinionBlueprint> p2Bluepirnt;
 	@Getter @Setter
 	private boolean p1Ready = false;
 	@Getter @Setter
@@ -72,10 +76,29 @@ public class GameRepository
 		}
 	}
 
-	public void startGame()
+	public void keepBlueprint(List<MinionBlueprint> blueprints, int team)
+	{
+		IO.println("set blueprint");
+		if (team == 0)
+		{
+			p1Bluepirnt = blueprints;
+		}
+		else if (team == 1)
+		{
+			p2Bluepirnt = blueprints;
+		}
+		else
+		{
+			throw new IllegalStateException("\""+team+"\" is not valid team number");
+		}
+	}
+
+	public void startGame(StartInfo info)
 	{
 		IO.println("Start the game");
-		game = new Game(builder.build());
+
+
+		game = new Game(info);
 	}
 
 	public GameDTO updateGame(PlayerIntent intent)
@@ -84,7 +107,8 @@ public class GameRepository
 		return game.update(intent);
 	}
 
-	public StartInfo getUnfinishStartInfo()
+
+	public StartInfo getStartInfo()
 	{
 		return builder.build();
 	}

@@ -15,39 +15,51 @@ import Navbar, {TeamSide} from "./components/Navbar";
 import GameLayout from "./components/GameLayout";
 import StrategyBox from "./components/StrategyBox";
 import {useDuelOriginStore} from "../gamemode/Store/DuelOriginStore";
-import {useMinionBlueprintsStore} from "./Store/MinionBlueprint";
+import {MinionBlueprint, useMinionBlueprintsStore} from "./Store/MinionBlueprint";
+import {GameDTO} from "../../ttypes/type";
 
 export type joinedHandler = {
     hostID: string
     ready: boolean
 }
 
-
+type GameStartDTO = {
+    p1Blueprint:MinionBlueprint,
+    p2Blueprint:MinionBlueprint,
+    universalBlueprint:MinionBlueprint,
+    initGameDTO: GameDTO,
+}
 
 
 export default function GameInitPage() {
     const router = useRouter();
 
-    const [ready, setReady] = useState(false);
+    const {minionBlueprints,initializeBlueprintCount} = useMinionBlueprintsStore();
+    const {checkOrigin} = useDuelOriginStore();
+    const {player1,player2} = Global2Players();
+    const {config} = useConfigStore();
+
+    const [ready, setReady] = useState(true);
 
     const [minionSpriteName, setMinionSpriteName] = useState("");
     const [selectedMinion, setSelectedMinion] = useState(0);
 
-    const playerName = useDuelOriginStore.getState().checkOrigin() == "CREATE" ? Global2Players.getState().player1 : Global2Players.getState().player2;
-    const checkOrg = useDuelOriginStore.getState().checkOrigin() == "CREATE"
-    const minionCount = useConfigStore.getState().config._minions;
+    const playerName = checkOrigin() == "CREATE" ? player1 : player2;
+    const checkOrg = checkOrigin() == "CREATE"
+    const minionCount = config._minions;
 
-    const {minionBlueprints,initializeBlueprintCount} = useMinionBlueprintsStore();
 
     //Web Socket Handle
     const client = new Client({
         webSocketFactory: () => new SockJS(`${process.env.NEXT_PUBLIC_LINK}/ws`),
         onConnect: () => {
-            client.subscribe("/topic/startGame", message => {
-                console.log(message.body == "Both players ready");
-                if(message.body == "Both players ready")router.push("/RandomPage")
-                // if (message.body == "true") setReady(true);
-                // else if (message.body == "false") setReady(false);
+            client.subscribe("/topic/startGame", message =>
+            {
+                const gameStartDTO:GameStartDTO = JSON.parse(message.body)
+                //continue stuff here I guess?
+
+                router.push("/game");
+
             });
         }
     });
@@ -60,18 +72,26 @@ export default function GameInitPage() {
     }, [])
 
     const readyUp = async () => {
+
+        //if player is ready or there exist a minion that have no strategy/parse error strategy
+        if (ready || minionBlueprints.some((blueprint)=> !blueprint.isStrategyParsedOk))
+        {
+            //set ready to false
+            setReady(false)
+            return;
+        }
+
+        //otherwise, set to true and send data to backend
+        setReady(true);
         console.log(minionBlueprints);
         useSocketStore.getState().client?.publish({
             destination: "/app/game/ready",
             body: JSON.stringify({
-                IsReady: !ready,
                 playerName: playerName,
                 playerTeam: checkOrg ? 0 : 1,
                 minions: minionBlueprints
             })
         });
-        setReady(!ready);
-
     }
 
     return (

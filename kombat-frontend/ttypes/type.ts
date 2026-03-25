@@ -155,3 +155,16 @@ export interface GameDTO {
     "isGameDraw": boolean,
     "executionInstanceLog": ExecutionInstanceLogDTO[]
 }
+
+export interface PlayerInfo {
+    name: string,
+    team: number
+}
+
+export interface StartInfo {
+    config: Config,
+    info1:PlayerInfo,
+    info2:PlayerInfo,
+    universalDeck:MinionDTO,
+
+}

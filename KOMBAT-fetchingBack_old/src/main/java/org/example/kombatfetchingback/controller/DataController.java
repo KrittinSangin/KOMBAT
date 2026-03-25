@@ -38,7 +38,7 @@ public class DataController
 		gameRepository.setStartConfig(dto.config());
 		gameRepository.setStartPlayer(new PlayerInfo(dto.Player1Name(), 0));
 		gameRepository.setStartPlayer(new PlayerInfo(dto.Player2Name(), 1));
-		IO.println(gameRepository.getUnfinishStartInfo());
+		IO.println(gameRepository.getStartInfo());
 	}
 
 }
