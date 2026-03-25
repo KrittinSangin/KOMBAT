@@ -14,13 +14,36 @@ import UICanvas from "../../components/game/react/Renderer/UICanvas";
 import GameCanvas from "../../components/game/react/Renderer/GameCanvas";
 import {GameStateEnum} from "../../ttypes/enums";
 import {useGameState} from "../../components/game/model/useGameState";
+import {Client} from "@stomp/stompjs";
+import SockJS from "sockjs-client";
+import {GameDTO} from "../../ttypes/type";
+import {emptyGame, updateGame} from "../../components/game/model/game";
+import {useSocketStore} from "../gameInit/Store/SocketStore";
 
 export default function GameScene() {
     const router = useRouter();
-    const {game,set} = useGameState();
+    const {game,set,update} = useGameState();
+    const {setClient} = useSocketStore();
+
+    const client = new Client({
+        webSocketFactory: () => new SockJS(`${process.env.NEXT_PUBLIC_LINK}/ws`),
+        onConnect: () => {
+            console.log("Connected");
+
+            client.subscribe("/topic/update", message => {
+                const dto: GameDTO = JSON.parse(message.body);
+                update(dto);
+            })
+
+             client.subscribe("/topic/nogame", message => {
+                console.log(message.body);
+            })
+        }
+    });
 
     useEffect(() => {
-        set(mockState());
+        client.activate();
+        setClient(client);
     }, []);
 
     return <main>

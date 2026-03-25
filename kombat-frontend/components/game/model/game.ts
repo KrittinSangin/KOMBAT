@@ -135,5 +135,5 @@ export const updateGame: (game:Game, dto:GameDTO) => Game = (game:Game, dto:Game
 
     game.gameState = dto.state;
 
-    return game;
+    return {...game};
 }

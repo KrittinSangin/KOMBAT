@@ -3,6 +3,7 @@ import {useIntent} from "../../model/useIntent";
 import {GameStateEnum, PlayerIntentEnum} from "../../../../ttypes/enums";
 import NoticeWindow from "./NoticeWindow";
 import {useEffect, useState} from "react";
+import {useSocketStore} from "../../../../app/gameInit/Store/SocketStore";
 
 interface Props
 {
@@ -12,6 +13,7 @@ interface Props
 export default function GameInfoBar({game}:Props) {
 
     const {setIntent,submitIntent} = useIntent();
+    const {client} = useSocketStore();
 
     const [dotCount,setDotCount] = useState<number>(0);
 
@@ -42,7 +44,8 @@ export default function GameInfoBar({game}:Props) {
     const handleIntent = (intent:PlayerIntentEnum ) =>
     {
         setIntent(intent);
-        submitIntent();
+        if (client)
+            submitIntent(client);
     }
 
     function noticeWindowHandle()

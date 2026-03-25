@@ -2,13 +2,15 @@ import {HexPos, PlayerIntent} from "../../../ttypes/type";
 import {PlayerIntentEnum} from "../../../ttypes/enums";
 import {Minion} from "../type/GameTypes";
 import {create} from "zustand";
+import {Client} from "@stomp/stompjs";
+import {useSocketStore} from "../../../app/gameInit/Store/SocketStore";
 
 type useIntent = {
     intent: PlayerIntent,
     setIntent: (intent: PlayerIntentEnum) => void,
     setMinion: (minion: number) => void,
     setHex: (pos: HexPos) => void,
-    submitIntent: () => void,
+    submitIntent: (wsClient:Client) => void,
 }
 
 const emptyIntent:PlayerIntent = {intent: PlayerIntentEnum.empty, hex: undefined, minion: undefined};
@@ -30,8 +32,11 @@ export const useIntent = create<useIntent>((set) => ({
         set((state) => ({
             intent: {...state.intent, hex: pos}
         })),
-    submitIntent: () => set((state) => {
-
+    submitIntent: (wsClient:Client) => set((state) => {
+        wsClient.publish({
+            destination: "/app/game/update",
+            body: JSON.stringify(state.intent)
+        });
         console.log("submit intent to back-end");
         console.log(state.intent);
         return {intent:emptyIntent};
