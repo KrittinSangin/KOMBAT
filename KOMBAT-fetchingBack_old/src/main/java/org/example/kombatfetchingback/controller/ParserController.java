@@ -6,7 +6,9 @@ import org.example.kombatfetchingback.kombat_backend.Parser.Exceptions.SyntaxErr
 import org.example.kombatfetchingback.kombat_backend.Parser.LL1StrategyParser;
 import org.example.kombatfetchingback.kombat_backend.Parser.StrategyTokenizer;
 import org.example.kombatfetchingback.model.ParseReadyMessage;
+import org.example.kombatfetchingback.model.StrategyFileDTO;
 import org.example.kombatfetchingback.repository.ReadyOnParse;
+import org.example.kombatfetchingback.repository.StrategyRepository;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.NoSuchElementException;
@@ -16,11 +18,12 @@ import java.util.NoSuchElementException;
 @RestController
 @RequestMapping("/parse")
 @RequiredArgsConstructor
-public class ParseController {
-
+public class ParserController
+{
+	private final StrategyRepository strategyRepository;
 
     @PostMapping("/send")
-    public boolean parse(@RequestBody String message) {
+    public boolean checkCorrect(@RequestBody String message) {
         new ReadyOnParse();
         LL1StrategyParser parser = new LL1StrategyParser(new StrategyTokenizer(message));
         try {
@@ -33,6 +36,17 @@ public class ParseController {
         }
            return true;
     }
+
+	@PutMapping("/submit")
+	public boolean saveAsAST(@RequestBody StrategyFileDTO dto) {
+		LL1StrategyParser parser = new LL1StrategyParser(new StrategyTokenizer(dto.strategy()));
+		try {
+			strategyRepository.put(dto.name(),parser.parse());
+		} catch (RuntimeException e) {
+			return false;
+		}
+		return true;
+	}
 
     @PostMapping("/ready")
     public boolean ready(@RequestBody ParseReadyMessage message) {

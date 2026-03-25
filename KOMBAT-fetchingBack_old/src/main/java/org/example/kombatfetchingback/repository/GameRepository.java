@@ -1,13 +1,16 @@
 package org.example.kombatfetchingback.repository;
 
-import lombok.RequiredArgsConstructor;
+import lombok.Getter;
+import lombok.Setter;
 import org.example.kombatfetchingback.kombat_backend.Games.Configs.Config;
 import org.example.kombatfetchingback.kombat_backend.Games.DTO.GameDTO;
 import org.example.kombatfetchingback.kombat_backend.Games.DTO.MinionDTO;
 import org.example.kombatfetchingback.kombat_backend.Games.Game;
+import org.example.kombatfetchingback.kombat_backend.Games.Minion.Minion;
 import org.example.kombatfetchingback.kombat_backend.Games.Player.PlayerInfo;
 import org.example.kombatfetchingback.kombat_backend.Games.Player.PlayerIntent;
 import org.example.kombatfetchingback.kombat_backend.Games.StartInfo;
+import org.example.kombatfetchingback.kombat_backend.Tuples.Pair;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -17,6 +20,10 @@ public class GameRepository
 {
 	private Game game;
 	private StartInfo.StartInfoBuilder builder;
+	@Getter @Setter
+	private boolean p1Ready = false;
+	@Getter @Setter
+	private boolean p2Ready = false;
 
 	public void createNewStartInfoBuilder()
 	{
@@ -48,9 +55,21 @@ public class GameRepository
 		}
 	}
 
-	public void setStartDeck(List<MinionDTO> deck,int team)
+	public void setStartDeck(List<Minion> deck, int team)
 	{
-
+		IO.println("set deck");
+		if (team == 0)
+		{
+			builder.deck1(deck);
+		}
+		else if (team == 1)
+		{
+			builder.deck2(deck);
+		}
+		else
+		{
+			throw new IllegalStateException("\""+team+"\" is not valid team number");
+		}
 	}
 
 	public void startGame()
@@ -65,9 +84,13 @@ public class GameRepository
 		return game.update(intent);
 	}
 
-	public StartInfo seeCurrentStartInfo()
+	public StartInfo getUnfinishStartInfo()
 	{
 		return builder.build();
 	}
 
+	public boolean isBothReady()
+	{
+		return p1Ready && p2Ready;
+	}
 }

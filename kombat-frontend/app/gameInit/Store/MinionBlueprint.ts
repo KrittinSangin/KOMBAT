@@ -9,7 +9,7 @@ type MinionBlueprint = {
     spriteName : string
 }
 
-type MinionBlueprints = {
+type MinionBlueprintsStore = {
     minionBlueprints : MinionBlueprint[],
     isInitialized: boolean
     initializeBlueprintCount : (count:number) => void,
@@ -17,7 +17,7 @@ type MinionBlueprints = {
     clear: () => void
 }
 
-export const useMinionBlueprintsStore = create<MinionBlueprints>((set) => ({
+export const useMinionBlueprintsStore = create<MinionBlueprintsStore>((set) => ({
     minionBlueprints: [],
     isInitialized: false,
     initializeBlueprintCount: (count:number) => set({minionBlueprints: Array.from({length:count}).map((_,i)=>({

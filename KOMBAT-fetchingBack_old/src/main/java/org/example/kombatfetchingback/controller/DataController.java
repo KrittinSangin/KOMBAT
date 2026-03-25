@@ -4,7 +4,6 @@ package org.example.kombatfetchingback.controller;
 import lombok.RequiredArgsConstructor;
 import org.example.kombatfetchingback.handler.MessageHolder;
 import org.example.kombatfetchingback.handler.MyDataHandler;
-import org.example.kombatfetchingback.handler.MyMessageHolder;
 import org.example.kombatfetchingback.kombat_backend.Games.Player.PlayerInfo;
 import org.example.kombatfetchingback.model.ConfigPageDTO;
 import org.example.kombatfetchingback.repository.GameRepository;
@@ -39,7 +38,7 @@ public class DataController
 		gameRepository.setStartConfig(dto.config());
 		gameRepository.setStartPlayer(new PlayerInfo(dto.Player1Name(), 0));
 		gameRepository.setStartPlayer(new PlayerInfo(dto.Player2Name(), 1));
-		IO.println(gameRepository.seeCurrentStartInfo());
+		IO.println(gameRepository.getUnfinishStartInfo());
 	}
 
 }
