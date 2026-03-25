@@ -193,7 +193,7 @@ export default function Dropdown({selectingMinionIndex, selectedSprite}: Props) 
                                         isStrategyParsedOk: true,
                                         strategyFileName: foundFile.name
                                     })
-                                    setOwner(foundFile.ownerIndex);
+                                    setOwner(foundFile.ownerIndex + 1);
 
                                     //Display
                                     setEditingBypass(false);
