@@ -61,7 +61,7 @@ public class ConsoleRunner
 //		.build();
 
 
-		Map<String, Strategy> strategyStorage = parseStrategy(List.of("simpleC","turret"));
+		Map<String, Strategy> strategyStorage = parseStrategy(List.of("simpleC","turret","moveUp"));
 
 		PlayerInfo p1info = new PlayerInfo("Rosmerry (Rosmia) Efiri", 0);
 		PlayerInfo p2info = new PlayerInfo("Hadena (Hue) Iroai", 1);
@@ -69,6 +69,7 @@ public class ConsoleRunner
 		List<Minion> universalDeck = new ArrayList<>();
 		universalDeck.add(new Minion("0", (int) cfg.initHp(), 10, strategyStorage.get("simpleC")));
 		universalDeck.add(new Minion("1", (int) cfg.initHp(), 150, strategyStorage.get("turret")));
+		universalDeck.add(new Minion("2", (int) cfg.initHp(), 150, strategyStorage.get("moveUp")));
 		StartInfo info = new StartInfo(
 			cfg,
 			p1info,
@@ -84,26 +85,32 @@ public class ConsoleRunner
 		InputManager<String> ipm = new ConsoleInputManager();
 		Canvas cv = new ConsoleCanvas(instance);
 
-//		//inject value
-//		List<String> injection = new ArrayList<>();
-//		injection.add("min 1 1 1");
-//		injection.add("min 8 8 1");
-//		injection.add("skip");
-//		injection.add("hex 2 1");
-//		injection.add("min 2 1 1");
-//		injection.add(" ");
-//		injection.add("hex 6 8");
-//		injection.add("min 6 8 0");
-//		injection.add(" ");
-//
-//		cv.draw();
-//		for (var ij : injection)
-//		{
-//			IO.println(ij);
-//			ipm.readInput(ij);
-//			instance.update(ipm.getIntent());
-//			cv.draw();
-//		}
+		//inject value
+		List<String> injection = new ArrayList<>();
+		injection.add("min 1 1 2");
+		injection.add("min 8 8 2");
+		injection.add("skip");
+		injection.add("hex 2 3");
+		injection.add("min 2 2 2");
+		injection.add(" ");
+		injection.add("hex 8 5");
+		injection.add("min 8 5 2");
+		injection.add(" ");
+		injection.add("skip");
+		injection.add("skip");
+		injection.add(" ");
+		injection.add("skip");
+		injection.add("skip");
+		injection.add(" ");
+
+		cv.draw();
+		for (var ij : injection)
+		{
+			IO.println(ij);
+			ipm.readInput(ij);
+			instance.update(ipm.getIntent());
+			cv.draw();
+		}
 
 //		Minion minion = instance.getMinions().get(4);
 //		minion.move(HexDir.downRight); cv.draw();
@@ -115,16 +122,17 @@ public class ConsoleRunner
 
 //		//play by hand
 //		//input
-		while (!instance.isOver())
-		{
-			if (ipm.readInput(sc.nextLine()))
-			{
-				instance.update(ipm.getIntent());
-//				 instance.update(PlayerIntent.RESIGN);
-			}
-			cv.draw();
-		}
-		IO.println("The Winner is %s".formatted(instance.getWinner().getInfo().name()));
+//		while (!instance.isOver())
+//		{
+//			if (ipm.readInput(sc.nextLine()))
+//			{
+//				instance.update(ipm.getIntent());
+////				 instance.update(PlayerIntent.RESIGN);
+//			}
+//			cv.draw();
+//		}
+		if (instance.isGameOver())
+			IO.println("The Winner is %s".formatted(instance.getWinner().getInfo().name()));
 	}
 
 	private Map<String,Strategy> parseStrategy(List<String> filenames)

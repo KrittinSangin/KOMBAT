@@ -13,6 +13,8 @@ import lombok.Setter;
 
 public class Minion
 {
+	private static int ID_COUNTER = 0;
+
 	@Getter
 	private final String name;
 	@Getter @Setter
@@ -21,6 +23,8 @@ public class Minion
 	private Player owner;
 
 	private final Strategy strat;
+
+	private int id;
 
 	@Getter
 	private int hp;
@@ -35,6 +39,8 @@ public class Minion
 		this.hp = hp;
 		this.def = def;
 		this.strat = strat;
+
+		id = ++ID_COUNTER;
 	}
 
 	//Copy Constructure
@@ -49,6 +55,8 @@ public class Minion
 		owner = other.owner;
 
 		OnDead = new UnaryEvent<>();
+
+		id = ++ID_COUNTER;
 	}
 
 	public Strategy getStrategy() {return strat;}
@@ -142,6 +150,7 @@ public class Minion
 		hash = owner == null? 0 : hash + owner.getInfo().team();
 		hash = 34 * hash + hp;
 		hash = 34 * hash + def;
+		hash += id;
 		return hash;
 	}
 
@@ -155,6 +164,7 @@ public class Minion
 			&& (owner == null || other.owner == null? owner == other.owner : owner.getInfo().team() == other.owner.getInfo().team())
 			&& strat.equals(other.strat)
 			&& hp == other.hp
-			&& def == other.def;
+			&& def == other.def
+			&& id == other.id;
 	}
 }

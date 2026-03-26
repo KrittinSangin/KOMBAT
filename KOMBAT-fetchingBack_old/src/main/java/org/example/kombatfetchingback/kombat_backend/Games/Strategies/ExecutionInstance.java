@@ -28,7 +28,6 @@ public record ExecutionInstance(Config cfg, Minion minion, Map<String,Integer> l
 		this.local = local;
 		this.logger = logger;
 
-
 		if (!GLOBAL_VARS_STORE.containsKey(minion.getOwner()))
 		{
 			GLOBAL_VARS_STORE.put(minion.getOwner(),new HashMap<>());
