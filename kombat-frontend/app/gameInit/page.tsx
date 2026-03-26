@@ -19,6 +19,7 @@ import {GameDTO, StartInfoDTO} from "../../ttypes/type";
 import {useGameState} from "../../components/game/model/useGameState";
 import {Game} from "../../components/game/type/GameTypes";
 import {startGame} from "../../components/game/model/game";
+import {useMinionPreviewStore} from "./Store/MinionPreviewStore";
 
 export type joinedHandler = {
     hostID: string
@@ -32,8 +33,6 @@ type GameStartDTO = {
     startInfoDTO: StartInfoDTO,
     initGameDTO: GameDTO,
 }
-
-
 
 export default function GameInitPage() {
     const router = useRouter();
