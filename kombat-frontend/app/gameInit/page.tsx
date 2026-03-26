@@ -37,13 +37,16 @@ type GameStartDTO = {
 export default function GameInitPage() {
     const router = useRouter();
 
+    const {checkOrigin} = useDuelOriginStore();
+    const {player1,player2} = Global2Players();
+
     const [ready, setReady] = useState(false);
 
     const [minionSpriteName, setMinionSpriteName] = useState("");
     const [selectedMinion, setSelectedMinion] = useState(0);
 
-    const playerName = useDuelOriginStore.getState().checkOrigin() == "CREATE" ? Global2Players.getState().player1 : Global2Players.getState().player2;
-    const checkOrg = useDuelOriginStore.getState().checkOrigin() == "CREATE"
+    const playerName = checkOrigin() == "CREATE" ? player1 : player2;
+    const checkOrg = checkOrigin() == "CREATE";
     const minionCount = useConfigStore.getState().config._minions;
 
     const {minionBlueprints,initializeBlueprintCount} = useMinionBlueprintsStore();
