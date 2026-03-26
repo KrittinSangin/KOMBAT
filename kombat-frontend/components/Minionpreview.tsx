@@ -18,13 +18,14 @@ let borderColor: string = "grey";
 let sliderColor: string = "white";
 
 export default function Minionpreview({ minionIndex }: MinionpreviewProps) {
-  const [minionName, setMinionName] = useState(`Minion${minionIndex + 1}`);
-
+  
   useEffect(() => {
-    setMinionName(`Minion${minionIndex + 1}`);
+    setMinionName(`${MinionAtIndex?.name}`);
   }, [minionIndex]);
-
+  
   const MinionAtIndex = MinionArr.at(minionIndex);
+  if(MinionAtIndex?.spriteName == "")MinionAtIndex.spriteName = "Knight"
+  const [minionName, setMinionName] = useState(`${MinionAtIndex?.name}`);
   return (
     <>
       <div className=" absolute top-[190px] left-1/2 -translate-x-1/2">
@@ -37,7 +38,7 @@ export default function Minionpreview({ minionIndex }: MinionpreviewProps) {
           className="w-60 h-80"
         />
         <img
-        src={`/minions/${MinionAtIndex?.spriteName == "" ? "Knight" : MinionAtIndex?.spriteName}.png`}
+        src={`/minions/${MinionAtIndex?.spriteName}.png`}
     className="absolute left-1/8 size-[70%] bottom-[30px]"
         />
       </div>
