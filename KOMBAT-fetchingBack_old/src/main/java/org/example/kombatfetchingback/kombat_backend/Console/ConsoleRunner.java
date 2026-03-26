@@ -2,6 +2,7 @@ package org.example.kombatfetchingback.kombat_backend.Console;
 
 import org.example.kombatfetchingback.kombat_backend.Games.*;
 import org.example.kombatfetchingback.kombat_backend.Games.Configs.Config;
+import org.example.kombatfetchingback.kombat_backend.Games.Map.HexPos;
 import org.example.kombatfetchingback.kombat_backend.Games.Minion.Minion;
 import org.example.kombatfetchingback.kombat_backend.Games.Player.PlayerInfo;
 import org.example.kombatfetchingback.kombat_backend.Games.Strategies.Strategy;
@@ -26,7 +27,39 @@ public class ConsoleRunner
 
 	private void runGame()
 	{
-		Config cfg = Config.defaultConfig();
+//		Config cfg = Config.defaultConfig();
+		Config cfg = Config.builder()
+		.spawnCost(100)
+		.hexPurchaseCost(100)
+		.initBudget(1000)
+		.initHp(100)
+		.turnBudget(100)
+		.maxBudget(10000)
+		.interestPct(10)
+		.maxTurns(1)
+		.maxSpawns(1)
+		.mapWidth(8)
+		.mapHeight(8)
+		.startHexPosP1(
+			Set.of
+				(
+					new HexPos(1, 1),
+					new HexPos(1, 2),
+					new HexPos(1, 3),
+					new HexPos(2, 1),
+					new HexPos(2, 2)
+				))
+		.startHexPosP2(
+			Set.of
+				(
+					new HexPos(7, 7),
+					new HexPos(7, 8),
+					new HexPos(8, 6),
+					new HexPos(8, 7),
+					new HexPos(8, 8)
+				))
+		.build();
+
 
 		Map<String, Strategy> strategyStorage = parseStrategy(List.of("simpleC","turret"));
 
@@ -52,25 +85,25 @@ public class ConsoleRunner
 		Canvas cv = new ConsoleCanvas(instance);
 
 //		//inject value
-		List<String> injection = new ArrayList<>();
-		injection.add("min 1 1 1");
-		injection.add("min 8 8 1");
-		injection.add("skip");
-		injection.add("hex 2 1");
-		injection.add("min 2 1 1");
-		injection.add(" ");
-		injection.add("hex 6 8");
-		injection.add("min 6 8 0");
-		injection.add(" ");
-
-		cv.draw();
-		for (var ij : injection)
-		{
-			IO.println(ij);
-			ipm.readInput(ij);
-			instance.update(ipm.getIntent());
-			cv.draw();
-		}
+//		List<String> injection = new ArrayList<>();
+//		injection.add("min 1 1 1");
+//		injection.add("min 8 8 1");
+//		injection.add("skip");
+//		injection.add("hex 2 1");
+//		injection.add("min 2 1 1");
+//		injection.add(" ");
+//		injection.add("hex 6 8");
+//		injection.add("min 6 8 0");
+//		injection.add(" ");
+//
+//		cv.draw();
+//		for (var ij : injection)
+//		{
+//			IO.println(ij);
+//			ipm.readInput(ij);
+//			instance.update(ipm.getIntent());
+//			cv.draw();
+//		}
 
 //		Minion minion = instance.getMinions().get(4);
 //		minion.move(HexDir.downRight); cv.draw();
