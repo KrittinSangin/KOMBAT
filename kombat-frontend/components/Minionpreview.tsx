@@ -65,7 +65,7 @@ export default function Minionpreview({ minionIndex }: MinionpreviewProps) {
             <p className="text-2xl text-white"> {MinionAtIndex?.def == undefined ? 0 : MinionAtIndex.def}</p>
         </div>
         <div className="absolute left-60 top-[10] rounded-lg px-2 py-2 bg-stone-600 shadow-lg shadow-black">
-            <p className="text-2xl text-white"> {`${MinionAtIndex?.spriteName}`}</p>
+            <p className="text-xl text-nowrap text-white"> Sprite Name: <a className="text-[#da9dfa]"> {MinionAtIndex?.spriteName} </a></p>
         </div>
       </div>
       <div className="bg-white absolute flex">
