@@ -1,11 +1,18 @@
 "use client"
 import GameLayout from "../../gameInit/components/GameLayout"
-import { useConfigStore } from "../Store/useConfigStore"
+import { PermsConfig2ConfigAdapter, useConfigStore } from "../Store/useConfigStore" 
 import Slider from "../../../components/Slider"
 import CodeHost from "../components/CodeHost"
 import ProfileConfig from "../components/ProfileConfig"
-export default function ABCD() {
-const sliderRange = {
+import { Global2Players } from "../components/ProfileConfig" 
+import Button from "../../../components/Button" 
+import { useDuelOriginStore } from "../../gamemode/Store/DuelOriginStore" 
+import { useRouter } from "next/navigation"
+
+export default function AutoPage() { 
+    const router = useRouter();
+
+    const sliderRange = {
         initHp: {min: 1, max: 100},
         minionCount: {min: 1, max: 5},
         maxTurn: {min: 1, max: 100},
@@ -35,6 +42,32 @@ const sliderRange = {
         setAll,
         reset
     } = useConfigStore()
+
+    const SendDirectlyToBack = async () => {
+        useDuelOriginStore.getState().setOrigin("BOT_VS_BOT") 
+        
+        try {
+            const res = await fetch(`${process.env.NEXT_PUBLIC_LINK}/data/config`, {
+                method: "POST",
+                body: JSON.stringify({
+                    config: PermsConfig2ConfigAdapter(config),
+                    Player1Name: Global2Players.getState().player1,
+                    Player2Name: Global2Players.getState().player2
+                }),
+                headers: {
+                    "content-type": "application/json"
+                }
+            });
+
+            if (res.ok) {
+                router.push("/gameInit"); 
+            } else {
+                console.error("Failed to send config to backend.");
+            }
+        } catch (error) {
+            console.error("Network error:", error);
+        }
+    }
 
     return (
         <>
@@ -101,7 +134,9 @@ const sliderRange = {
                 <CodeHost number_={"><:>"}></CodeHost>
                 <ProfileConfig online1={true} online2={true} team={3} left={900}
                                top={310}></ProfileConfig>
-  
+
+                <Button src="/purple_btn.PNG" alt="Back" overlayText="Start" onClick={SendDirectlyToBack} bottom="-350"
+                        left="300" color="#6a0dad" font_size="50" height="150" width="250"></Button>
             </GameLayout>
         </>
     )

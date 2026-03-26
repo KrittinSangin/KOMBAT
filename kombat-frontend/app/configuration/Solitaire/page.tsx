@@ -6,8 +6,13 @@ import CodeHost from "../components/CodeHost"
 import ProfileConfig from "../components/ProfileConfig"
 import { Global2Players } from "../components/ProfileConfig"
 import Button from "../../../components/Button"
+import { useDuelOriginStore } from "../../gamemode/Store/DuelOriginStore"
+import { useRouter } from "next/navigation" 
+
 export default function ABCD() {
-const sliderRange = {
+    const router = useRouter(); 
+
+    const sliderRange = {
         initHp: {min: 1, max: 100},
         minionCount: {min: 1, max: 5},
         maxTurn: {min: 1, max: 100},
@@ -38,25 +43,31 @@ const sliderRange = {
         reset
     } = useConfigStore()
 
-const SendDirectlyToBack = () => {
-    console.log( Global2Players.getState().player1)
-    console.log( Global2Players.getState().player2)
-    console.log( PermsConfig2ConfigAdapter(config))
-    fetch(`${process.env.NEXT_PUBLIC_LINK}/data/config`, {
-                                method: "POST",
-                                body: JSON.stringify(
-                                    {
-                                        config: PermsConfig2ConfigAdapter(config),
-                                        Player1Name: Global2Players.getState().player1,
-                                        Player2Name: Global2Players.getState().player2
-                                    }
-                                ),
-                                headers: {
-                                    "content-type": "application/json"
-                                }
-                            })
-}
+    const SendDirectlyToBack = async () => {
+        useDuelOriginStore.getState().setOrigin("BOT_MODE")
+        
+        try {
+            const res = await fetch(`${process.env.NEXT_PUBLIC_LINK}/data/config`, {
+                method: "POST",
+                body: JSON.stringify({
+                    config: PermsConfig2ConfigAdapter(config),
+                    Player1Name: Global2Players.getState().player1,
+                    Player2Name: Global2Players.getState().player2
+                }),
+                headers: {
+                    "content-type": "application/json"
+                }
+            });
 
+            if (res.ok) {
+                router.push("/gameInit"); 
+            } else {
+                console.error("Backend rejected the configuration.");
+            }
+        } catch (error) {
+            console.error("Network error occurred:", error);
+        }
+    }
 
     return (
         <>

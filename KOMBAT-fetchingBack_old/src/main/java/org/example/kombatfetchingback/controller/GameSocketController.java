@@ -36,41 +36,56 @@ public class GameSocketController
 		gameRepository.setStartConfig(cfg);
 	}
 
-	@MessageMapping("/game/ready")
-	public void markReadyAndSetDeck(@Payload PlayerReadyDTO dto)
-	{
+    @MessageMapping("/game/ready")
+    public void markReadyAndSetDeck(@Payload PlayerReadyDTO dto) {
 
-		//mark ready
-		if (dto.playerTeam() == 0)
-		{
-			gameRepository.setP1Ready(dto.IsReady());
-		} else
-		{
-			gameRepository.setP2Ready(dto.IsReady());
-		}
+        List<MinionBlueprint> blueprints = dto.minions();
 
-		//set Deck
-		List<Minion> deck = new ArrayList<>();
-		var blueprints = dto.minions();
+        if (dto.isP1Bot() && dto.isP2Bot()) {
+            gameRepository.setStartDeck(createDeckFromBlueprints(blueprints), 0);
+            gameRepository.setBlueprints(blueprints, 0);
+            gameRepository.setP1Ready(true);
 
-		blueprints.forEach((bp)->deck.add(
-			new Minion(bp.name(),
-				(int) gameRepository.getStartInfo().config().initHp(),
-				bp.def(),
-				strategyRepository.get(bp.strategyFileName())
-			)));
+            gameRepository.setStartDeck(createDeckFromBlueprints(blueprints), 1);
+            gameRepository.setBlueprints(blueprints, 1);
+            gameRepository.setP2Ready(true);
+        }
+        else if (!dto.isP1Bot() && dto.isP2Bot()) {
+            gameRepository.setStartDeck(createDeckFromBlueprints(blueprints), 0);
+            gameRepository.setBlueprints(blueprints, 0);
+            gameRepository.setP1Ready(dto.IsReady());
 
-		//set blueprints
-		gameRepository.setStartDeck(deck, dto.playerTeam());
-		gameRepository.setBlueprints(dto.minions(), dto.playerTeam());
+            gameRepository.setStartDeck(createDeckFromBlueprints(blueprints), 1);
+            gameRepository.setBlueprints(blueprints, 1);
+            gameRepository.setP2Ready(true);
+        }
+        else {
+            int team = dto.playerTeam();
+            gameRepository.setStartDeck(createDeckFromBlueprints(blueprints), team);
+            gameRepository.setBlueprints(blueprints, team);
 
-		if (gameRepository.isBothReady())
-		{
-			startGame();
-			return;
-		}
-	}
+            if (team == 0) {
+                gameRepository.setP1Ready(dto.IsReady());
+            } else {
+                gameRepository.setP2Ready(dto.IsReady());
+            }
+        }
 
+        if (gameRepository.isBothReady()) {
+            startGame();
+        }
+    }
+
+    private List<Minion> createDeckFromBlueprints(List<MinionBlueprint> blueprints) {
+        List<Minion> deck = new ArrayList<>();
+        blueprints.forEach((bp) -> deck.add(
+                new Minion(bp.name(),
+                        (int) gameRepository.getStartInfo().config().initHp(),
+                        bp.def(),
+                        strategyRepository.get(bp.strategyFileName())
+                )));
+        return deck;
+    }
 //	@MessageMapping("/game/unready")
 //	public void markUnready(@Payload PlayerReadyDTO dto)
 //	{

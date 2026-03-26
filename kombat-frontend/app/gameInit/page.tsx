@@ -84,23 +84,25 @@ export default function GameInitPage() {
         initializeBlueprintCount(minionCount);
     }, [])
 
-    const readyUp = async () => {
-        console.log(ready);
-        console.log(minionBlueprints.some((bp) => !bp.isStrategyParsedOk));
+   const readyUp = async () => {
+        const hasBrokenStrategy = minionBlueprints.some((bp) => !bp.isStrategyParsedOk);
+ 
+        const nextReadyState = ready ? false : !hasBrokenStrategy;
+        setReady(nextReadyState);
 
-        if (ready || minionBlueprints.some((bp) => !bp.isStrategyParsedOk)) {
-            setReady(false);
-        } else {
-            setReady(true);
-        }
+        const origin = checkOrigin();
+        const isP1Bot = origin === "BOT_VS_BOT"; 
+        const isP2Bot = origin === "BOT_MODE" || origin === "BOT_VS_BOT";
 
         useSocketStore.getState().client?.publish({
             destination: "/app/game/ready",
             body: JSON.stringify({
-                IsReady: !ready,
+                IsReady: nextReadyState, 
                 playerName: playerName,
                 playerTeam: checkOrg ? 0 : 1,
-                minions: minionBlueprints
+                minions: minionBlueprints,
+                isP1Bot: isP1Bot,
+                isP2Bot: isP2Bot
             })
         });
     }
