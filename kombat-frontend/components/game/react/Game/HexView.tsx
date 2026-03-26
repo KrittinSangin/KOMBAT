@@ -9,6 +9,8 @@ import {useState} from "react";
 import {useIntent} from "../../model/useIntent";
 import {useSocketStore} from "../../../../app/gameInit/Store/SocketStore";
 import {PlayerIntentEnum} from "../../../../ttypes/enums";
+import {useOriginStore} from "../../../../app/gamemode/Store/DuelOriginStore";
+import {useGameStateStore} from "../../model/useGameStateStore";
 
 interface Props {
     idx: number
@@ -23,6 +25,10 @@ export default function HexView({
                                     highlight,
                                     hex
                                 }: Props) {
+    const {state} = useOriginStore()
+    const {game} = useGameStateStore()
+    const myTeam = state == "CREATE"? 0: 1;
+
     const [hover, setHover] = useState(false)
     const {intent,setIntent,setHex, submitIntent} = useIntent();
 
@@ -79,6 +85,8 @@ export default function HexView({
     }
 
     const handleIntent = () => {
+        if (myTeam != game.team) return;
+
         setHex(hex.hexPos);
 
         if (intent.intent == PlayerIntentEnum.empty)

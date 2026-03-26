@@ -7,7 +7,7 @@ import {checkState} from "../../page";
 import {create} from "zustand";
 import {MessageHolder} from "../../../ttypes/type";
 import GameLayout from "../../gameInit/components/GameLayout";
-import {useDuelOriginStore} from "../Store/DuelOriginStore";
+import {useOriginStore} from "../Store/DuelOriginStore";
 import {useRandomStateStore} from "../Store/UseRandomStateStore";
 
 
@@ -28,11 +28,11 @@ export default function DuelPage() {
     const moveToGameModePage = () => {
         checkState.getState().setState("gamemode");
         router.push("/gamemode");
-        useDuelOriginStore.getState().setOrigin("")
+        useOriginStore.getState().setOrigin("")
     };
 
     const moveToConfigPage = async (mode: string) => {
-        useDuelOriginStore.getState().setOrigin("CREATE");
+        useOriginStore.getState().setOrigin("CREATE");
         checkState.getState().setState("duel_create_room");
         useRandomStateStore.getState().randomize();
 
@@ -60,7 +60,7 @@ export default function DuelPage() {
 
 
     const moveToJoinRoomPage = () => {
-        useDuelOriginStore.getState().setOrigin("JOIN");
+        useOriginStore.getState().setOrigin("JOIN");
         router.push("/gamemode/duel/join_room");
     };
 

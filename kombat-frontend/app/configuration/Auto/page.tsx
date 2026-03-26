@@ -6,7 +6,7 @@ import CodeHost from "../components/CodeHost"
 import ProfileConfig from "../components/ProfileConfig"
 import { Global2Players } from "../components/ProfileConfig" 
 import Button from "../../../components/Button" 
-import { useDuelOriginStore } from "../../gamemode/Store/DuelOriginStore" 
+import { useOriginStore } from "../../gamemode/Store/DuelOriginStore"
 import { useRouter } from "next/navigation"
 
 export default function AutoPage() { 
@@ -44,7 +44,7 @@ export default function AutoPage() {
     } = useConfigStore()
 
     const SendDirectlyToBack = async () => {
-        useDuelOriginStore.getState().setOrigin("BOT_VS_BOT") 
+        useOriginStore.getState().setOrigin("BOT_VS_BOT")
         
         try {
             const res = await fetch(`${process.env.NEXT_PUBLIC_LINK}/data/config`, {

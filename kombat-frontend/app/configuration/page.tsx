@@ -13,7 +13,7 @@ import {create} from "zustand"
 import {useConfigStore} from "./Store/useConfigStore";
 import {useJoinedHandler} from "./Store/useJoinedHandler";
 import GameLayout from "../gameInit/components/GameLayout";
-import {useDuelOriginStore} from "../gamemode/Store/DuelOriginStore";
+import {useOriginStore} from "../gamemode/Store/DuelOriginStore";
 import {useRandomStateStore} from "../gamemode/Store/UseRandomStateStore";
 
 
@@ -23,7 +23,7 @@ export default function CreateRoomPage() {
     const mode = searchParams.get("mode")?.split("/")[0];
 
     const router = useRouter();
-    const roomCode = useDuelOriginStore.getState().checkOrigin() == "CREATE" ? useRandomStateStore.getState().code : useDuelOriginStore.getState().checkOrigin();
+    const roomCode = useOriginStore.getState().checkOrigin() == "CREATE" ? useRandomStateStore.getState().code : useOriginStore.getState().checkOrigin();
 
     const routerHandle = () => {
         if (mode === "Duel") {

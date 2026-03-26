@@ -10,7 +10,7 @@ import {StrategyFile, useStrategyFilesStore} from "../Store/StrategyFileStore";
 import ButtonForInitPage from "../../../components/ButtonForInitPage";
 import {useMinionStore} from "./MinionProfile";
 import {useMinionBlueprintsStore} from "../Store/MinionBlueprint";
-import {useDuelOriginStore} from "../../gamemode/Store/DuelOriginStore";
+import {useOriginStore} from "../../gamemode/Store/DuelOriginStore";
 
 interface Props {
     selectingMinionIndex: number;
@@ -21,7 +21,7 @@ export default function Dropdown({selectingMinionIndex, selectedSprite}: Props) 
     const {files, setFiles} = useStrategyFilesStore()
     const {minionBlueprints,setBlueprint} = useMinionBlueprintsStore();
 
-    const isHost = useDuelOriginStore.getState().checkOrigin() == "CREATE"
+    const isHost = useOriginStore.getState().checkOrigin() == "CREATE"
 
 
     const [isDropdownVisible, setIsDropdownVisible] = useState(false); //✅

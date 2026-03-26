@@ -4,13 +4,13 @@ import SpriteView from "../Renderer/SpriteView";
 import {c_Transform2, c_Vec2} from "../../utils/utility";
 import {Transform2} from "../../type/Rendering";
 import HealthBar from "./HealthBar";
-import {useGameState} from "../../model/useGameState";
+import {useGameStateStore} from "../../model/useGameStateStore";
 
 interface Props {minion: Minion, transform: Transform2}
 
 export default function MinionView({minion, transform} : Props)
 {
-    const {game} = useGameState();
+    const {game} = useGameStateStore();
 
     return <div>
         <SpriteView sprite={minion.sprite} transform={transform}/>

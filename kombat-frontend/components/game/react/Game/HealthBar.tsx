@@ -23,7 +23,6 @@ export default function HealthBar({hp, hpMax, team}: Props) {
                     top: offset.y,
                     left: offset.x,
                     width: width,
-                    // backgroundColor:TEAM_COLOR[team]
                 }}
     >
         {/*<SpriteView sprite={}>*/}

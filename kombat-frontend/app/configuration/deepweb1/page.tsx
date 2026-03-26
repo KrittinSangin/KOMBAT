@@ -15,7 +15,7 @@ import {useRouter} from "next/navigation";
 import {METHODS} from "http";
 import {useJoinedHandler} from "../Store/useJoinedHandler";
 import {PermsConfig2ConfigAdapter, useConfigStore} from "../Store/useConfigStore";
-import {useDuelOriginStore} from "../../gamemode/Store/DuelOriginStore";
+import {useOriginStore} from "../../gamemode/Store/DuelOriginStore";
 import {useRandomStateStore} from "../../gamemode/Store/UseRandomStateStore";
 import {globalPlayerStore, useGlobalPlayerStore} from "../Store/GlobalPlayerStore";
 
@@ -28,7 +28,7 @@ export default function Chat() {
     const router = useRouter();
 
     //Zustand
-    const {checkOrigin} = useDuelOriginStore();
+    const {checkOrigin} = useOriginStore();
     const {player1,player2,setPlayer1Name,setPlayer2Name} = useGlobalPlayerStore();
     const {code} = useRandomStateStore();
 

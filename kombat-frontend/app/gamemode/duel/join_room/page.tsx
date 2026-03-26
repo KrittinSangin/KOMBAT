@@ -9,7 +9,7 @@ import { create } from "zustand";
 import { persist } from "zustand/middleware";
 
 import GameLayout from "../../../gameInit/components/GameLayout";
-import {useDuelOriginStore} from "../../Store/DuelOriginStore";
+import {useOriginStore} from "../../Store/DuelOriginStore";
 
 
 export default function JoinRoomPage(){
@@ -37,7 +37,7 @@ export default function JoinRoomPage(){
                 const data = await response.json();
                 // console.log(data.isSuccess);
                 if(data.isSuccess){
-                useDuelOriginStore.getState().setOrigin(`${Code}`);
+                useOriginStore.getState().setOrigin(`${Code}`);
                 router.push("/configuration/deepweb1?mode=Duel");
             } else {
                 alert("Room does not exist. Please check the code and try again.");

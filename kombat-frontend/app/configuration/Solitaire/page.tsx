@@ -5,7 +5,7 @@ import Slider from "../../../components/Slider"
 import CodeHost from "../components/CodeHost"
 import ProfileConfig from "../components/ProfileConfig"
 import Button from "../../../components/Button"
-import { useDuelOriginStore } from "../../gamemode/Store/DuelOriginStore"
+import { useOriginStore } from "../../gamemode/Store/DuelOriginStore"
 import { useRouter } from "next/navigation"
 import {useGlobalPlayerStore} from "../Store/GlobalPlayerStore";
 
@@ -46,7 +46,7 @@ export default function ABCD() {
     } = useConfigStore()
 
     const SendDirectlyToBack = async () => {
-        useDuelOriginStore.getState().setOrigin("BOT_MODE")
+        useOriginStore.getState().setOrigin("BOT_MODE")
         
         try {
             const res = await fetch(`${process.env.NEXT_PUBLIC_LINK}/data/config`, {
