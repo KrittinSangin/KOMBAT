@@ -50,6 +50,8 @@ export default function GameScene() {
     useEffect(() => {
         client.activate();
         setClient(client);
+
+
     }, []);
 
     return <main>

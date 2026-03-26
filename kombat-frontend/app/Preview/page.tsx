@@ -2,30 +2,31 @@
 
 import Navbar from "../gameInit/components/Navbar";
 import GameLayout from "../gameInit/components/GameLayout";
-import { useRouter } from "next/navigation";
-import { useConfigStore } from "../configuration/Store/useConfigStore";
-import { useEffect, useState } from "react"; 
+import {useRouter} from "next/navigation";
+import {useConfigStore} from "../configuration/Store/useConfigStore";
+import {useEffect, useState} from "react";
 import PreviewNavbar from "../../components/PreviewNavbar"
 import Minionpreview from "../../components/Minionpreview";
 import Button from "../../components/Button";
 
 const MinionCount = useConfigStore.getState().config._minions
-export default function Preview(){
-    const [selectedMinion, setSelectedMinion] = useState(0); 
+export default function Preview() {
+    const [selectedMinion, setSelectedMinion] = useState(0);
     const router = useRouter();
-    
+
 
     const moveToGame = () => {
-        // console.log(MinionArr)
         router.push("/game");
     };
 
-    return(
+    return (
         <>
             <GameLayout src="/flower.jpg" alt="preview minion"></GameLayout>
-            <PreviewNavbar MinionCount={MinionCount} onSelect={setSelectedMinion} selectedMinion={selectedMinion}></PreviewNavbar>
+            <PreviewNavbar MinionCount={MinionCount} onSelect={setSelectedMinion}
+                           selectedMinion={selectedMinion}></PreviewNavbar>
             <Minionpreview minionIndex={selectedMinion}></Minionpreview>
-             <Button onClick={moveToGame} src="/green_btn.PNG" alt="Next" overlayText="Next" bottom="-20" left="1250" color="purple" font_size="40" height="150" width="190"></Button>
+            <Button onClick={moveToGame} src="/green_btn.PNG" alt="Next" overlayText="Next" bottom="-20" left="1250"
+                    color="purple" font_size="40" height="150" width="190"></Button>
         </>
     )
 }

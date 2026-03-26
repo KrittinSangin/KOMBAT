@@ -1,7 +1,10 @@
-import {Game, Minion, Player, StartInfo} from "../type/GameTypes";
-import {Config, GameDTO, PlayerDTO, PlayerInfo} from "../../../ttypes/type";
+import {Game, Minion, Player} from "../type/GameTypes";
+import {Config, GameDTO, PlayerDTO, PlayerInfo, StartInfoDTO} from "../../../ttypes/type";
 import {GameStateEnum, PlayerIntentEnum} from "../../../ttypes/enums";
 import {createHexMap, hexKey} from "./hexMap";
+import {Texture} from "../type/Rendering";
+import {MinionBlueprint} from "../../../app/gameInit/Store/MinionBlueprint";
+import {textureStore} from "../resources/textureStore";
 
 const emptyConfig: Config = {
     spawnCost: 0,
@@ -71,13 +74,41 @@ const createPlayer: (info:PlayerInfo, deck:Minion[]) => Player = (info,deck) => 
     }
 }
 
-export const startGame: (info:StartInfo) => Game = (info) => {
+export const createMinion: (texture: Texture, name: string, def: number) => Minion = (texture: Texture, name: string, def: number) => (
+    {
+        sprite:
+            {
+                texture: texture,
+                transform:
+                    {
+                        pos: {x: 0, y: 0},
+                        scale: {x: 0.3, y: 0.3}
+                    },
+                color: "transparent",
+            },
+        name: name,
+        team: -1,
+        hp: -1,
+        def: def,
+    })
+
+const minionBlueprint2MinionAdapter: (bluepirnt:MinionBlueprint) => Minion = (bluepirnt:MinionBlueprint) => {
+    return createMinion(
+        textureStore(bluepirnt.spriteName),
+        bluepirnt.name,
+        bluepirnt.def
+    )
+}
+
+export const startGame: (info:StartInfoDTO) => Game = (info) => {
     const game = emptyGame
 
     game.cfg = info.config;
 
-    const p0 = createPlayer(info.p1info,info.deck1)
-    const p1 = createPlayer(info.p2info,info.deck2)
+    const universalDeck: Minion[] = info.universalDeck.map((m) => minionBlueprint2MinionAdapter(m))
+
+    const p0 = createPlayer(info.info1,universalDeck)
+    const p1 = createPlayer(info.info2,universalDeck)
     game.players = [p0,p1];
 
     const r = game.cfg.mapHeight
@@ -137,3 +168,4 @@ export const updateGame: (game:Game, dto:GameDTO) => Game = (game:Game, dto:Game
 
     return {...game};
 }
+

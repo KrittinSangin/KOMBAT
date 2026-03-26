@@ -15,7 +15,10 @@ import GameLayout from "./components/GameLayout";
 import StrategyBox from "./components/StrategyBox";
 import {useDuelOriginStore} from "../gamemode/Store/DuelOriginStore";
 import {MinionBlueprint, useMinionBlueprintsStore} from "./Store/MinionBlueprint";
-import {GameDTO} from "../../ttypes/type";
+import {GameDTO, StartInfoDTO} from "../../ttypes/type";
+import {useGameState} from "../../components/game/model/useGameState";
+import {Game} from "../../components/game/type/GameTypes";
+import {startGame} from "../../components/game/model/game";
 
 export type joinedHandler = {
     hostID: string
@@ -26,6 +29,7 @@ type GameStartDTO = {
     p1Blueprint:MinionBlueprint,
     p2Blueprint:MinionBlueprint,
     universalDeck:MinionBlueprint[],
+    startInfoDTO: StartInfoDTO,
     initGameDTO: GameDTO,
 }
 
@@ -53,6 +57,8 @@ export default function GameInitPage() {
 
     const {minionBlueprints,initializeBlueprintCount} = useMinionBlueprintsStore();
 
+    const {start} = useGameState()
+
     //Web Socket Handle
     const client = new Client({
         webSocketFactory: () => new SockJS(`${process.env.NEXT_PUBLIC_LINK}/ws`),
@@ -65,6 +71,9 @@ export default function GameInitPage() {
                     const intelligentMessage : GameStartDTO = JSON.parse(message.body)
                     console.log(intelligentMessage.universalDeck);
                     minionPreview.getState().setExportedDeck(intelligentMessage.universalDeck)
+
+                    //start game
+                    start(intelligentMessage.startInfoDTO)
                 }
             });
         }

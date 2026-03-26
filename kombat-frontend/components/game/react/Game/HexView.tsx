@@ -6,9 +6,9 @@ import {gamHexB_T, gamHexN_T, gamHexR_T} from "../../resources/textureResource";
 import SpriteView from "../Renderer/SpriteView";
 import MinionView from "./MinionView";
 import {useState} from "react";
-import {red} from "next/dist/lib/picocolors";
 import {useIntent} from "../../model/useIntent";
 import {useSocketStore} from "../../../../app/gameInit/Store/SocketStore";
+import {PlayerIntentEnum} from "../../../../ttypes/enums";
 
 interface Props {
     idx: number
@@ -24,7 +24,7 @@ export default function HexView({
                                     hex
                                 }: Props) {
     const [hover, setHover] = useState(false)
-    const {setHex, submitIntent} = useIntent();
+    const {intent,setIntent,setHex, submitIntent} = useIntent();
 
     const {client} = useSocketStore();
 
@@ -80,6 +80,10 @@ export default function HexView({
 
     const handleIntent = () => {
         setHex(hex.hexPos);
+
+        if (intent.intent == PlayerIntentEnum.empty)
+            setIntent(PlayerIntentEnum.buyHex);
+
         if (client)
             submitIntent(client);    
     }

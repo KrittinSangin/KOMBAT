@@ -5,6 +5,7 @@ import {
     HaltReason,
     HexDir, PlayerIntentEnum
 } from "./enums";
+import {MinionBlueprint} from "../app/gameInit/Store/MinionBlueprint";
 
 export type ConfigValues = {
     _Hp: number
@@ -69,14 +70,6 @@ export type MessageHolder =
 export interface HexPos {
     "row": number
     "col": number
-}
-
-export interface StartInfoDTO {
-    config: Config,
-    p1info: PlayerInfo,
-    p2info: PlayerInfo,
-    deck1: MinionDTO[],
-    deck2: MinionDTO[]
 }
 
 export interface Config {
@@ -161,10 +154,10 @@ export interface PlayerInfo {
     team: number
 }
 
-export interface StartInfo {
+export interface StartInfoDTO {
     config: Config,
     info1:PlayerInfo,
     info2:PlayerInfo,
-    universalDeck:MinionDTO,
+    universalDeck:MinionBlueprint[],
 
 }

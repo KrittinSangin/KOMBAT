@@ -2,6 +2,7 @@ import {Config, HexPos, PlayerInfo} from "../../../ttypes/type";
 import {Vec2, Vec3} from "./Primitive";
 import {GameStateEnum} from "../../../ttypes/enums";
 import {Sprite, Transform2} from "./Rendering";
+import {MinionBlueprint} from "../../../app/gameInit/Store/MinionBlueprint";
 
 export type Game =
     {
@@ -44,13 +45,4 @@ export type HexMap =
         map: Map<string, Hex>
         row: number
         colum: number
-    }
-
-export type StartInfo =
-    {
-        config: Config,
-        p1info: PlayerInfo,
-        p2info: PlayerInfo,
-        deck1: Minion[],
-        deck2: Minion[]
     }

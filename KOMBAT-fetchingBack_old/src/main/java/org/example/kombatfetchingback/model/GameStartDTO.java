@@ -8,6 +8,7 @@ public record GameStartDTO(
 	List<MinionBlueprint> p1Blueprint,
 	List<MinionBlueprint> p2Blueprint,
 	List<MinionBlueprint> universalDeck,
+	StartInfoDTO startInfoDTO,
 	GameDTO initGameDTO
 )
 {

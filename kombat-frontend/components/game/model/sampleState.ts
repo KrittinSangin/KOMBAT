@@ -5,6 +5,7 @@ import {Texture} from "../type/Rendering";
 import {createHexMap, hexKey} from "./hexMap";
 import {knight_T, madoka_T, medicine_T, ryuu_T, scarlet_T} from "../resources/textureResource";
 import {c_hexPos} from "../utils/utility";
+import {createMinion} from "./game";
 
 export const defaultCfg: Config = {
     spawnCost: 100,
@@ -35,25 +36,6 @@ export const defaultCfg: Config = {
         {row: 8, col: 8},
     ],
 }
-
-const createMinion: (texture: Texture, name: string, def: number) => Minion = (texture: Texture, name: string, def: number) => (
-    {
-        sprite:
-            {
-                texture: texture,
-                transform:
-                    {
-                        pos: {x: 0, y: 0},
-                        scale: {x: 0.3, y: 0.3}
-                    },
-                color: "transparent",
-            },
-        name: name,
-        team: -1,
-        hp: -1,
-        def: def,
-    })
-
 
 const demoDeck: Minion[] = Array.of(
     createMinion(madoka_T, "Madoka", 10),

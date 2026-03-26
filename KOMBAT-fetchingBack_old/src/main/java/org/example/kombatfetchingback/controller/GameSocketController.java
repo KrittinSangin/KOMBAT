@@ -10,6 +10,7 @@ import org.example.kombatfetchingback.kombat_backend.Tuples.Pair;
 import org.example.kombatfetchingback.model.MinionBlueprint;
 import org.example.kombatfetchingback.model.PlayerReadyDTO;
 import org.example.kombatfetchingback.model.GameStartDTO;
+import org.example.kombatfetchingback.model.StartInfoDTO;
 import org.example.kombatfetchingback.repository.GameRepository;
 import org.example.kombatfetchingback.repository.StrategyRepository;
 import org.springframework.messaging.handler.annotation.MessageMapping;
@@ -132,12 +133,19 @@ public class GameSocketController
 			universalDeck
 		);
 
+		//start game
 		gameRepository.startGame(startInfo);
 
 		GameStartDTO dto = new GameStartDTO(
 			gameRepository.getP1Bluepirnt(),
 			gameRepository.getP2Bluepirnt(),
 			universalBlueprint,
+			new StartInfoDTO(
+				startInfo.config(),
+				startInfo.info1(),
+				startInfo.info2(),
+				universalBlueprint
+			),
 			gameRepository.updateGame(PlayerIntent.EMPTY())
 		);
 

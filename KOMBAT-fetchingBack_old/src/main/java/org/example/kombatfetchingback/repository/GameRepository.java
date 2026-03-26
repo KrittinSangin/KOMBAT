@@ -97,8 +97,8 @@ public class GameRepository
 	{
 		IO.println("Start the game");
 
-
 		game = new Game(info);
+		game.start();
 	}
 
 	public GameDTO updateGame(PlayerIntent intent)

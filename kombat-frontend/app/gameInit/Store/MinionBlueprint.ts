@@ -17,6 +17,8 @@ type MinionBlueprintsStore = {
     clear: () => void
 }
 
+const defaultSpritename = "Knight"
+
 export const useMinionBlueprintsStore = create<MinionBlueprintsStore>((set) => ({
     minionBlueprints: [],
     isInitialized: false,
@@ -26,7 +28,7 @@ export const useMinionBlueprintsStore = create<MinionBlueprintsStore>((set) => (
             strategyFileName: "",
             isStrategyParsedOk: false,
             index: i,
-            spriteName: ""
+            spriteName: defaultSpritename
         })),
     isInitialized: true}),
 

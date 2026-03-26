@@ -1,12 +1,12 @@
 import {create} from "zustand";
-import {Game, StartInfo} from "../type/GameTypes";
-import {GameDTO} from "../../../ttypes/type";
+import {Game} from "../type/GameTypes";
+import {GameDTO, StartInfoDTO} from "../../../ttypes/type";
 import {emptyGameDTO, emptyGame, startGame, updateGame} from "./game";
 
 type useGameState = {
     game: Game,
     gameDTO: GameDTO,
-    start: (startInfo:StartInfo) => void,
+    start: (startInfo:StartInfoDTO) => void,
     set: (game:Game) => void,
     update: (dto:GameDTO) => void,
     reset: () => void

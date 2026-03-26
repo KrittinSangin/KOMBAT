@@ -68,13 +68,13 @@ export default function GameInfoBar({game}:Props) {
                 message += "empty state"
                 break;
             case GameStateEnum.start:
-                message += "spawn free minion"
+                message += "Spawn free minion"
                 break;
             case GameStateEnum.buyHex:
-                message += "buy hex"
+                message += "Buy hex"
                 break;
             case GameStateEnum.buyMinion:
-                message += "buy minion"
+                message += "Buy minion"
                 break;
             case GameStateEnum.execute:
                 message += "Executing Strategy"
@@ -82,6 +82,9 @@ export default function GameInfoBar({game}:Props) {
                 break;
             case GameStateEnum.end:
                 message += "Game Over"
+                break;
+            default:
+                message += "Not a state"
                 break;
         }
 

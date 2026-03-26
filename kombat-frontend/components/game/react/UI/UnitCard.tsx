@@ -1,11 +1,11 @@
 import {Minion} from "../../type/GameTypes";
 import SpriteView from "../Renderer/SpriteView";
-import {Vec2} from "../../type/Primitive";
 import {Sprite, Transform2} from "../../type/Rendering";
-import {c_Sprite, c_Transform2, c_Transform2Empty, c_Vec2} from "../../utils/utility";
+import {c_Sprite, c_Transform2, c_Vec2} from "../../utils/utility";
 import {card_BG_T, card_FG_T} from "../../resources/textureResource";
-import {useEffect, useState} from "react";
+import {useState} from "react";
 import {useIntent} from "../../model/useIntent";
+import {PlayerIntentEnum} from "../../../../ttypes/enums";
 
 interface Props {
     minion: Minion
@@ -16,7 +16,7 @@ interface Props {
 
 export default function UnitCard({minion, index, transform}: Props) {
     const [hover, setHover] = useState(false)
-    const {intent, setMinion} = useIntent();
+    const {intent, setMinion, setIntent} = useIntent();
 
     //Data
     const minionName = minion.name;
@@ -91,6 +91,7 @@ export default function UnitCard({minion, index, transform}: Props) {
                 onClick={() => {
                     console.log(`selected ${minion.name}`);
                     setMinion(index);
+                    setIntent(PlayerIntentEnum.buyMinion);
                 }}
     >
         <SpriteView sprite={cardBackground} transform={cardBackgroundTransform}></SpriteView>
