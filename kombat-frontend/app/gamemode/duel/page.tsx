@@ -7,8 +7,8 @@ import {checkState} from "../../page";
 import {create} from "zustand";
 import {MessageHolder} from "../../../ttypes/type";
 import GameLayout from "../../gameInit/components/GameLayout";
-import {useDuelOriginStore} from "../Store/DuelOriginStore";
-import {RandomStateStore} from "../Store/RandomStateStore";
+import {useOriginStore} from "../Store/DuelOriginStore";
+import {useRandomStateStore} from "../Store/UseRandomStateStore";
 
 
 
@@ -28,16 +28,16 @@ export default function DuelPage() {
     const moveToGameModePage = () => {
         checkState.getState().setState("gamemode");
         router.push("/gamemode");
-        useDuelOriginStore.getState().setOrigin("")
+        useOriginStore.getState().setOrigin("")
     };
 
     const moveToConfigPage = async (mode: string) => {
-        useDuelOriginStore.getState().setOrigin("CREATE");
+        useOriginStore.getState().setOrigin("CREATE");
         checkState.getState().setState("duel_create_room");
-        RandomStateStore.getState().randomize();
+        useRandomStateStore.getState().randomize();
 
         try {
-            const test2: MessageHolder = await fetch(`${process.env.NEXT_PUBLIC_LINK}/data/send/${RandomStateStore.getState().code}`, {
+            const test2: MessageHolder = await fetch(`${process.env.NEXT_PUBLIC_LINK}/data/send/${useRandomStateStore.getState().code}`, {
                 method: 'POST'
             }).then(response => response.json());
 
@@ -60,7 +60,7 @@ export default function DuelPage() {
 
 
     const moveToJoinRoomPage = () => {
-        useDuelOriginStore.getState().setOrigin("JOIN");
+        useOriginStore.getState().setOrigin("JOIN");
         router.push("/gamemode/duel/join_room");
     };
 
@@ -87,7 +87,7 @@ export default function DuelPage() {
                 <Button src="/grey_btn.PNG" alt="Join Room" overlayText="Join Room" font_size="50" height="300"
                         width="500" color="grey" bottom="-50" left="100" onClick={moveToJoinRoomPage}></Button>
                 <Button src="/purple_btn.PNG" alt="Back" overlayText="Back" font_size="70" height="150" width="250"
-                        color="#6a0dad" bottom="-269" left="-550" onClick={moveToGameModePage}></Button>
+                        color="#6a0dad" bottom="-269" left="-30" onClick={moveToGameModePage}></Button>
             </GameLayout>
         </>
     )

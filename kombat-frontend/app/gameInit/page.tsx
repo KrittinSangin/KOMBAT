@@ -3,7 +3,6 @@
 import {useRouter} from "next/navigation";
 import Button from "../../components/Button";
 import {useEffect, useState} from "react";
-import {Global2Players} from "../configuration/components/ProfileConfig";
 import {Client} from "@stomp/stompjs";
 import {create} from "zustand"
 import SockJS from "sockjs-client";
@@ -13,13 +12,15 @@ import MinionProfile from "./components/MinionProfile";
 import Navbar, {TeamSide} from "./components/Navbar";
 import GameLayout from "./components/GameLayout";
 import StrategyBox from "./components/StrategyBox";
-import {useDuelOriginStore} from "../gamemode/Store/DuelOriginStore";
+import {useOriginStore} from "../gamemode/Store/DuelOriginStore";
 import {MinionBlueprint, useMinionBlueprintsStore} from "./Store/MinionBlueprint";
 import {GameDTO, StartInfoDTO} from "../../ttypes/type";
-import {useGameState} from "../../components/game/model/useGameState";
+import {useGameStateStore} from "../../components/game/model/useGameStateStore";
 import {Game} from "../../components/game/type/GameTypes";
 import {startGame} from "../../components/game/model/game";
 import {useMinionPreviewStore} from "./Store/MinionPreviewStore";
+
+import {useGlobalPlayerStore} from "../configuration/Store/GlobalPlayerStore";
 
 export type joinedHandler = {
     hostID: string
@@ -38,8 +39,8 @@ export default function GameInitPage() {
     const router = useRouter();
 
     //zustand
-    const {checkOrigin} = useDuelOriginStore();
-    const {player1, player2} = Global2Players();
+    const {checkOrigin} = useOriginStore();
+    const {player1, player2} = useGlobalPlayerStore();
     const {config} = useConfigStore();
     const {minionBlueprints, initializeBlueprintCount} = useMinionBlueprintsStore();
 
@@ -55,7 +56,7 @@ export default function GameInitPage() {
     const minionCount = config._minions;
 
 
-    const {game, start} = useGameState()
+    const {game, start} = useGameStateStore()
 
     //Web Socket Handle
     const client = new Client({

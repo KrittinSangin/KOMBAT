@@ -33,12 +33,11 @@ public class DataController
 	@PostMapping("/config")
 	public void acceptDataFromConfigPage(@RequestBody ConfigPageDTO dto)
 	{
+		IO.print("Config dto : ");
 		IO.println(dto);
+
 		gameRepository.createNewStartInfoBuilder();
 		gameRepository.setStartConfig(dto.config());
-		gameRepository.setStartPlayer(new PlayerInfo(dto.Player1Name(), 0));
-		gameRepository.setStartPlayer(new PlayerInfo(dto.Player2Name(), 1));
-		IO.println(gameRepository.getStartInfo());
+		gameRepository.setStartPlayer(new PlayerInfo(dto.playerName(), dto.playerTeam()));
 	}
-
 }

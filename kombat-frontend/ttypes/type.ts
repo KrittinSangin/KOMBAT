@@ -3,7 +3,8 @@ import {
     ExecutionInstanceLogFunctionTypeOf,
     GameStateEnum,
     HaltReason,
-    HexDir, PlayerIntentEnum
+    HexDir,
+    PlayerIntentEnum
 } from "./enums";
 import {MinionBlueprint} from "../app/gameInit/Store/MinionBlueprint";
 
@@ -52,13 +53,6 @@ export type ProfileConfigProps = {
     online1: boolean;
     online2: boolean;
     // true=online, false=offline
-}
-
-export type NameOf2Players = {
-    player1: string;
-    player2: string;
-    setPlayer1Name: (value: string) => void
-    setPlayer2Name: (value: string) => void
 }
 
 export type MessageHolder =

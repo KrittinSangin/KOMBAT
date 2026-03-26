@@ -5,7 +5,7 @@ import NoticeWindow from "../UI/NoticeWindow";
 import EventLog from "../UI/EventLog";
 import GenericButton from "../../../Generic/GenericButton";
 import {genGameDTO} from "../../model/randomizer";
-import {useGameState} from "../../model/useGameState";
+import {useGameStateStore} from "../../model/useGameStateStore";
 import EndScreen from "../UI/EndScreen";
 
 interface Props {
@@ -13,7 +13,7 @@ interface Props {
 }
 
 export default function UICanvas({game}: Props) {
-    const {start, update, reset} = useGameState();
+    const {start, update, reset} = useGameStateStore();
 
 
     return <div className="w-full h-full"
@@ -22,7 +22,7 @@ export default function UICanvas({game}: Props) {
                     left: 0,
                     top: 0,
                 }}>
-        <div className="z-50" hidden={false}>
+        <div className="z-50" hidden={true}>
             <GenericButton onClick={()=> {
                 update(genGameDTO());
                 console.log(genGameDTO());
@@ -33,7 +33,6 @@ export default function UICanvas({game}: Props) {
 
         <UnitSelect deck={game.players[game.team].deck}></UnitSelect>
         <GameInfoBar game={game}/>
-        <EventLog/>
         <EndScreen game={game} ></EndScreen>
     </div>
 }

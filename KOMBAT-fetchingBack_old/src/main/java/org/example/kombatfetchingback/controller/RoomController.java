@@ -2,6 +2,7 @@ package org.example.kombatfetchingback.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.example.kombatfetchingback.kombat_backend.Games.Configs.Config;
+import org.example.kombatfetchingback.model.PlayerNameDTO;
 import org.example.kombatfetchingback.model.RoomMessage;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.Payload;
@@ -33,7 +34,7 @@ public class RoomController {
     }
 
     @MessageMapping("/config/userOnline")
-    public void sendOnline(@Payload String message) {
+    public void sendOnline(@Payload PlayerNameDTO message) {
 //        IO.println(message);
         messagingTemplate.convertAndSend(
                 "/topic/usernames",

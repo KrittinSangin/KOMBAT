@@ -13,7 +13,7 @@ import RectView from "../../components/game/react/Renderer/RectView";
 import UICanvas from "../../components/game/react/Renderer/UICanvas";
 import GameCanvas from "../../components/game/react/Renderer/GameCanvas";
 import {GameStateEnum} from "../../ttypes/enums";
-import {useGameState} from "../../components/game/model/useGameState";
+import {useGameStateStore} from "../../components/game/model/useGameStateStore";
 import {Client} from "@stomp/stompjs";
 import SockJS from "sockjs-client";
 import {GameDTO} from "../../ttypes/type";
@@ -24,7 +24,7 @@ import {useIntent} from "../../components/game/model/useIntent";
 export default function GameScene() {
     const router = useRouter();
     const {submitIntent} = useIntent();
-    const {game,set,update} = useGameState();
+    const {game,set,update} = useGameStateStore();
     const {setClient} = useSocketStore();
 
     const client = new Client({

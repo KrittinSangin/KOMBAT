@@ -61,4 +61,14 @@ public class Strategy
 		return rawStratString.equals(other.rawStratString);
 	}
 
+
+	public String prettyPrint(StringBuilder sb)
+	{
+		for(var stment : stments)
+		{
+			stment.prettyPrint(sb);
+		}
+		return sb.toString();
+	}
+
 }

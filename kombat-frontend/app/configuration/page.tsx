@@ -13,8 +13,8 @@ import {create} from "zustand"
 import {useConfigStore} from "./Store/useConfigStore";
 import {useJoinedHandler} from "./Store/useJoinedHandler";
 import GameLayout from "../gameInit/components/GameLayout";
-import {useDuelOriginStore} from "../gamemode/Store/DuelOriginStore";
-import {RandomStateStore} from "../gamemode/Store/RandomStateStore";
+import {useOriginStore} from "../gamemode/Store/DuelOriginStore";
+import {useRandomStateStore} from "../gamemode/Store/UseRandomStateStore";
 
 
 export default function CreateRoomPage() {
@@ -23,7 +23,7 @@ export default function CreateRoomPage() {
     const mode = searchParams.get("mode")?.split("/")[0];
 
     const router = useRouter();
-    const ac = useDuelOriginStore.getState().checkOrigin() == "CREATE" ? RandomStateStore.getState().code : useDuelOriginStore.getState().checkOrigin();
+    const roomCode = useOriginStore.getState().checkOrigin() == "CREATE" ? useRandomStateStore.getState().code : useOriginStore.getState().checkOrigin();
 
     const routerHandle = () => {
         if (mode === "Duel") {
@@ -75,9 +75,9 @@ export default function CreateRoomPage() {
             <GameLayout src="/homepage_bg.jpeg" alt="Create Room">
                 <p className="text-color-[#000] w-[800px] text-[70px] font-jersey25 tracking-[5px] absolute top-[-380px] text-center">Mode {mode}</p>
                 <div className="box-content fixed left-0 top-0 w-[50%] h-full" style={{backgroundColor: "#B8B8B8"}}>
-                    <h1 className="text-color-[#000] text-[70px] font-jersey25 tracking-[2px] absolute top-5 left-44">
+                    <h1 className="flex text-color-[#000] text-5xl justify-center md:justify-between px-20 py-5">
                         Configuration
-                        <div className="box-content fixed left-10 top-35 w-[44.5%] h-[70%]"
+                        <div className="box-content fixed left-10 top-19 w-[44.5%] h-[85%] gap-1 items-center justify-center "
                              style={{backgroundColor: "#D9D9D9"}}>
 
                             <Slider min={sliderRange.initHp.min} max={sliderRange.initHp.max} bottom={500} left={left}
@@ -123,7 +123,7 @@ export default function CreateRoomPage() {
                                     sliderColor={sliderColor}
                                     value={config._minions}
                                     setState={setMinions}></Slider>
-                            <div className="absolute w-[200px] h-[40px] bottom-[30px] left-[35%]"
+                            <div className="flex items-center text-center w-[150px] h-[40px] mx-auto "
                                  style={{backgroundColor: "#a8a8a8"}}>
                                 <p className="text-white text-[25px] text-center" onClick={reset}>Set to
                                     default</p>
@@ -132,7 +132,7 @@ export default function CreateRoomPage() {
                         </div>
                     </h1>
                 </div>
-                <CodeHost number_={ac}></CodeHost>
+                <CodeHost number_={roomCode}></CodeHost>
                 <ProfileConfig online1={hostID != "null"} online2={clientID != "null"} team={1} left={900}
                                top={310}></ProfileConfig>
                 {/* <ProfileConfig online={false} team={2} left={900} top={425}></ProfileConfig> */}

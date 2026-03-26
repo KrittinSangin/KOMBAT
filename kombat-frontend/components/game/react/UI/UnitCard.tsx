@@ -6,6 +6,8 @@ import {card_BG_T, card_FG_T} from "../../resources/textureResource";
 import {useState} from "react";
 import {useIntent} from "../../model/useIntent";
 import {PlayerIntentEnum} from "../../../../ttypes/enums";
+import {useGameStateStore} from "../../model/useGameStateStore";
+import {useOriginStore} from "../../../../app/gamemode/Store/DuelOriginStore";
 
 interface Props {
     minion: Minion
@@ -15,6 +17,9 @@ interface Props {
 
 
 export default function UnitCard({minion, index, transform}: Props) {
+    const {game} = useGameStateStore();
+    const {myTeam} = useOriginStore();
+
     const [hover, setHover] = useState(false)
     const {intent, setMinion, setIntent} = useIntent();
 
@@ -76,6 +81,16 @@ export default function UnitCard({minion, index, transform}: Props) {
         c_Vec2(cardSpriteScale, cardSpriteScale)
     )
 
+    const onClickHandle = () => {
+        if (myTeam() != game.team)
+        {
+            return;
+        }
+        console.log(`selected ${minion.name}`);
+        setMinion(index);
+        setIntent(PlayerIntentEnum.buyMinion);
+    }
+
     return <div style={{
         position: "relative",
         width: cardSize.x,
@@ -88,11 +103,7 @@ export default function UnitCard({minion, index, transform}: Props) {
                 onMouseLeave={() => {
                     setHover(false);
                 }}
-                onClick={() => {
-                    console.log(`selected ${minion.name}`);
-                    setMinion(index);
-                    setIntent(PlayerIntentEnum.buyMinion);
-                }}
+                onClick={() => onClickHandle()}
     >
         <SpriteView sprite={cardBackground} transform={cardBackgroundTransform}></SpriteView>
         <SpriteView sprite={cardSprite} transform={cardSpriteTransform}></SpriteView>

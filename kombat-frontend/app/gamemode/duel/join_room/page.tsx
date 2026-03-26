@@ -9,7 +9,7 @@ import { create } from "zustand";
 import { persist } from "zustand/middleware";
 
 import GameLayout from "../../../gameInit/components/GameLayout";
-import {useDuelOriginStore} from "../../Store/DuelOriginStore";
+import {useOriginStore} from "../../Store/DuelOriginStore";
 
 
 export default function JoinRoomPage(){
@@ -37,7 +37,7 @@ export default function JoinRoomPage(){
                 const data = await response.json();
                 // console.log(data.isSuccess);
                 if(data.isSuccess){
-                useDuelOriginStore.getState().setOrigin(`${Code}`);
+                useOriginStore.getState().setOrigin(`${Code}`);
                 router.push("/configuration/deepweb1?mode=Duel");
             } else {
                 alert("Room does not exist. Please check the code and try again.");
@@ -65,8 +65,8 @@ export default function JoinRoomPage(){
                     </div>
                     <p className="absolute left-10 text-[50px] top-2 text-black font-jersey25">Code</p>
                 </div>
-            <Button src="/purple_btn.PNG" alt="Back"  overlayText="Back" bottom="-295" left="-439" color="#6a0dad" font_size="70" height="150" width="250" onClick={moveToDuelSelectPage}/>
-            <Button src="/purple_btn.PNG" alt="Join"  overlayText="Join" bottom="-295" left="600" color="#6a0dad" font_size="70" height="150" width="250" onClick={attemptToJoin}/>
+            <Button src="/purple_btn.PNG" alt="Back"  overlayText="Back" bottom="-295" left="-60" color="#6a0dad" font_size="70" height="150" width="250" onClick={moveToDuelSelectPage}/>
+            <Button src="/purple_btn.PNG" alt="Join"  overlayText="Join" bottom="-295" left="230" color="#6a0dad" font_size="70" height="150" width="250" onClick={attemptToJoin}/>
             </GameLayout>
         </>
     )

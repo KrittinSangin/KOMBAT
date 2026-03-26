@@ -32,6 +32,7 @@ export const useIntent = create<useIntent>((set) => ({
         set((state) => ({
             intent: {...state.intent, hex: pos}
         })),
+
     submitIntent: (wsClient:Client) => set((state) => {
         wsClient.publish({
             destination: "/app/game/update",

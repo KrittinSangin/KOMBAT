@@ -4,18 +4,19 @@ import {GameStateEnum, PlayerIntentEnum} from "../../../../ttypes/enums";
 import NoticeWindow from "./NoticeWindow";
 import {useEffect, useState} from "react";
 import {useSocketStore} from "../../../../app/gameInit/Store/SocketStore";
+import {useGameStateStore} from "../../model/useGameStateStore";
+import {useOriginStore} from "../../../../app/gamemode/Store/DuelOriginStore";
 
-interface Props
-{
-    game : Game
+interface Props {
+    game: Game
 }
 
-export default function GameInfoBar({game}:Props) {
-
-    const {setIntent,submitIntent} = useIntent();
+export default function GameInfoBar({game}: Props) {
+    const {myTeam} = useOriginStore();
+    const {setIntent, submitIntent} = useIntent();
     const {client} = useSocketStore();
 
-    const [dotCount,setDotCount] = useState<number>(0);
+    const [dotCount, setDotCount] = useState<number>(0);
 
     const running = game.gameState === GameStateEnum.execute;
 
@@ -23,14 +24,14 @@ export default function GameInfoBar({game}:Props) {
         if (!running) return;
 
         const interval = setInterval(() => {
-            setDotCount(prev => prev>2? 1 : prev + 1);
+            setDotCount(prev => prev > 2 ? 1 : prev + 1);
         }, 300);
 
         return () => clearInterval(interval);
     }, [running]);
 
 
-    const team = game.team;
+    const team = myTeam();
 
     const budgetMax = game.cfg.maxBudget;
     const turn = game.turn;
@@ -38,22 +39,21 @@ export default function GameInfoBar({game}:Props) {
     const spawnsLeft = game.cfg.maxSpawns - game.players[team].spawnCount;
     const gameState = game.gameState;
 
-    const currentBudget = game.players[game.team].budget;
-    const interestRate = game.players[game.team].interestRatePercentage;
+    const currentBudget = game.players[team].budget;
+    const interestRate = game.players[team].interestRatePercentage;
 
-    const handleIntent = (intent:PlayerIntentEnum ) =>
-    {
-        setIntent(intent);
-        if (client)
-            submitIntent(client);
+    const handleIntent = (intent: PlayerIntentEnum) => {
+        if (game.team == myTeam()) {
+            setIntent(intent);
+            if (client)
+                submitIntent(client);
+        }
     }
 
-    function noticeWindowHandle()
-    {
+    function noticeWindowHandle() {
         let message = "";
 
-        switch (game.team)
-        {
+        switch (game.team) {
             case 0:
                 message += "Player 0 "
                 break;
@@ -62,8 +62,7 @@ export default function GameInfoBar({game}:Props) {
                 break;
         }
 
-        switch (game.gameState)
-        {
+        switch (game.gameState) {
             case GameStateEnum.empty:
                 message += "empty state"
                 break;

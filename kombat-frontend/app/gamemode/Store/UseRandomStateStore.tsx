@@ -3,12 +3,12 @@ import {useState} from "react";
 import {create} from "zustand";
 import {persist} from "zustand/middleware";
 
-type RandState = {
+type RandomStateStore = {
     code: string;
     randomize: () => void;
 };
 
-export const RandomStateStore = create<RandState>()(
+export const useRandomStateStore = create<RandomStateStore>()(
     persist(
         (set) => ({
             code: "",

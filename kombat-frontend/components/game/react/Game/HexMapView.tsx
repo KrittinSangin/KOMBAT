@@ -5,20 +5,23 @@ import {HexMap} from "../../type/GameTypes";
 import useDeviceSize from "../../../CustomHook/useDeviceSize";
 import {buyableHex, hexMapGet, hexPosEqual} from "../../model/hexMap";
 import {c_Vec2} from "../../utils/utility";
-import {useGameState} from "../../model/useGameState";
+import {useGameStateStore} from "../../model/useGameStateStore";
 import {GameStateEnum} from "../../../../ttypes/enums";
 import {useIntent} from "../../model/useIntent";
+import {useOriginStore} from "../../../../app/gamemode/Store/DuelOriginStore";
 
 
 export default function HexMapView(map:HexMap) {
+    //zustand
+    const {game} = useGameStateStore();
+
     const [SC_WIDTH, SC_HEIGHT] = useDeviceSize()
     const N_ROW = map.row;
     const N_COL = map.colum;
 
     //Hex Highlighting
-    const {game} = useGameState();
     const {gameState} = game;
-    const highlights = gameState === GameStateEnum.buyHex? buyableHex(map,0).map((hex)=>hex.hexPos) : [];
+    const highlights = gameState === GameStateEnum.buyHex? buyableHex(map,game.team).map((hex)=>hex.hexPos) : [];
 
     //Hex Rendering
     const SPACING = c_Vec2(70,50);

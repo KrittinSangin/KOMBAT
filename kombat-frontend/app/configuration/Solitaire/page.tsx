@@ -4,13 +4,15 @@ import { PermsConfig2ConfigAdapter, useConfigStore } from "../Store/useConfigSto
 import Slider from "../../../components/Slider"
 import CodeHost from "../components/CodeHost"
 import ProfileConfig from "../components/ProfileConfig"
-import { Global2Players } from "../components/ProfileConfig"
 import Button from "../../../components/Button"
-import { useDuelOriginStore } from "../../gamemode/Store/DuelOriginStore"
-import { useRouter } from "next/navigation" 
+import { useOriginStore } from "../../gamemode/Store/DuelOriginStore"
+import { useRouter } from "next/navigation"
+import {useGlobalPlayerStore} from "../Store/GlobalPlayerStore";
 
 export default function ABCD() {
-    const router = useRouter(); 
+    const router = useRouter();
+
+    const {player1,player2} = useGlobalPlayerStore();
 
     const sliderRange = {
         initHp: {min: 1, max: 100},
@@ -44,15 +46,15 @@ export default function ABCD() {
     } = useConfigStore()
 
     const SendDirectlyToBack = async () => {
-        useDuelOriginStore.getState().setOrigin("BOT_MODE")
+        useOriginStore.getState().setOrigin("BOT_MODE")
         
         try {
             const res = await fetch(`${process.env.NEXT_PUBLIC_LINK}/data/config`, {
                 method: "POST",
                 body: JSON.stringify({
                     config: PermsConfig2ConfigAdapter(config),
-                    Player1Name: Global2Players.getState().player1,
-                    Player2Name: Global2Players.getState().player2
+                    Player1Name: player1,
+                    Player2Name: player2
                 }),
                 headers: {
                     "content-type": "application/json"

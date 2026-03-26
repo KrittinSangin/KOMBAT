@@ -12,7 +12,7 @@ type useGameState = {
     reset: () => void
 }
 
-export const useGameState = create<useGameState>((set) => ({
+export const useGameStateStore = create<useGameState>((set) => ({
     game:emptyGame,
     gameDTO: emptyGameDTO,
 

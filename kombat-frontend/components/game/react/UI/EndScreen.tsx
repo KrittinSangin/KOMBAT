@@ -9,7 +9,7 @@ import Color = Property.Color;
 import useDeviceSize from "../../../CustomHook/useDeviceSize";
 import SpriteWithOverlay from "../Renderer/SpriteViewWithOverlay";
 import {Span} from "next/dist/server/lib/trace/tracer";
-import {useGameState} from "../../model/useGameState";
+import {useGameStateStore} from "../../model/useGameStateStore";
 import {router} from "next/client";
 import {useRouter} from "next/navigation";
 
@@ -21,7 +21,7 @@ export default function EndScreen({game}: Props) {
 
     const router = useRouter();
 
-    const {gameDTO} = useGameState();
+    const {gameDTO} = useGameStateStore();
     //Data
     const turn = game.turn;
     const maxTurn = game.cfg.maxTurns;
