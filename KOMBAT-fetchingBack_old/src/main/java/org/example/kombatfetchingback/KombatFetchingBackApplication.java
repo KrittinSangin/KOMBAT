@@ -10,9 +10,9 @@ public class KombatFetchingBackApplication
 
 	public static void main(String[] args)
 	{
-//        SpringApplication.run(KombatFetchingBackApplication.class, args);
-		ConsoleRunner cr = new ConsoleRunner();
-		cr.run();
+        SpringApplication.run(KombatFetchingBackApplication.class, args);
+//		ConsoleRunner cr = new ConsoleRunner();
+//		cr.run();
 
 	}
 

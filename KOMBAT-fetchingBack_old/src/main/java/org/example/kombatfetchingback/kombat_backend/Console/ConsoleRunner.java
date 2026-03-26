@@ -27,38 +27,38 @@ public class ConsoleRunner
 
 	private void runGame()
 	{
-//		Config cfg = Config.defaultConfig();
-		Config cfg = Config.builder()
-		.spawnCost(100)
-		.hexPurchaseCost(100)
-		.initBudget(1000)
-		.initHp(100)
-		.turnBudget(100)
-		.maxBudget(10000)
-		.interestPct(10)
-		.maxTurns(1)
-		.maxSpawns(1)
-		.mapWidth(8)
-		.mapHeight(8)
-		.startHexPosP1(
-			Set.of
-				(
-					new HexPos(1, 1),
-					new HexPos(1, 2),
-					new HexPos(1, 3),
-					new HexPos(2, 1),
-					new HexPos(2, 2)
-				))
-		.startHexPosP2(
-			Set.of
-				(
-					new HexPos(7, 7),
-					new HexPos(7, 8),
-					new HexPos(8, 6),
-					new HexPos(8, 7),
-					new HexPos(8, 8)
-				))
-		.build();
+		Config cfg = Config.defaultConfig();
+//		Config cfg = Config.builder()
+//		.spawnCost(100)
+//		.hexPurchaseCost(100)
+//		.initBudget(1000)
+//		.initHp(100)
+//		.turnBudget(100)
+//		.maxBudget(10000)
+//		.interestPct(10)
+//		.maxTurns(1)
+//		.maxSpawns(1)
+//		.mapWidth(8)
+//		.mapHeight(8)
+//		.startHexPosP1(
+//			Set.of
+//				(
+//					new HexPos(1, 1),
+//					new HexPos(1, 2),
+//					new HexPos(1, 3),
+//					new HexPos(2, 1),
+//					new HexPos(2, 2)
+//				))
+//		.startHexPosP2(
+//			Set.of
+//				(
+//					new HexPos(7, 7),
+//					new HexPos(7, 8),
+//					new HexPos(8, 6),
+//					new HexPos(8, 7),
+//					new HexPos(8, 8)
+//				))
+//		.build();
 
 
 		Map<String, Strategy> strategyStorage = parseStrategy(List.of("simpleC","turret"));
