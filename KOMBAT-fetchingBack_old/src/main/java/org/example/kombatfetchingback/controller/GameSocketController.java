@@ -4,8 +4,11 @@ import lombok.RequiredArgsConstructor;
 import org.example.kombatfetchingback.kombat_backend.Console.ConsoleCanvas;
 import org.example.kombatfetchingback.kombat_backend.Games.Configs.Config;
 import org.example.kombatfetchingback.kombat_backend.Games.DTO.GameDTO;
+import org.example.kombatfetchingback.kombat_backend.Games.Game;
+import org.example.kombatfetchingback.kombat_backend.Games.Map.Hex;
 import org.example.kombatfetchingback.kombat_backend.Games.Minion.Minion;
 import org.example.kombatfetchingback.kombat_backend.Games.Player.PlayerIntent;
+import org.example.kombatfetchingback.kombat_backend.Games.Player.PlayerIntentEnum;
 import org.example.kombatfetchingback.kombat_backend.Games.StartInfo;
 import org.example.kombatfetchingback.kombat_backend.MVC.Canvas;
 import org.example.kombatfetchingback.kombat_backend.Tuples.Pair;
@@ -190,6 +193,69 @@ public class GameSocketController
 		messagingTemplate.convertAndSend("/topic/update", dto);
 	}
 
+    @MessageMapping("/game/useBot")
+    public void useBot(String botName)
+    {
+        Game game = gameRepository.getGame();
+        if (game == null) {
+            messagingTemplate.convertAndSend("/topic/nogame", "Game does not exist");
+            return;
+        }
+        PlayerIntent botIntent = this.botMove(game);
+        GameDTO dto = gameRepository.updateGame(botIntent);
+        messagingTemplate.convertAndSend("/topic/update", dto);
+    }
+
+    public PlayerIntent botMove(Game game)
+    {
+        var player = game.getPlayers().get(game.getTeam());
+        String state = game.getStateString();
+        Random rand = new Random();
+        int availableMinionsCount = player.getDeck().size();
+        int randomMinionIndex = rand.nextInt(availableMinionsCount);
+        if(state.equals(Game.State.START_STATE)){
+            for (Hex hex : game.getMap().getMap().values())
+            {
+                if (!hex.isOwner(player)) continue;
+                if (hex.haveMinion()) continue;
+                return new PlayerIntent(
+                        PlayerIntentEnum.buyMinion,
+                        hex.Pos,
+                        randomMinionIndex
+                );
+            }
+        }
+        if(state.equals(Game.State.BUY_STATE_HEX)){
+            for (Hex hex : game.getMap().getMap().values())
+            {
+                if (!hex.isAdjacentToTerritory(player)) continue;
+                if (hex.haveOwner()) continue;
+                return new PlayerIntent(
+                        PlayerIntentEnum.buyHex,
+                        hex.Pos,
+                        null
+                        );
+
+            }
+        }
+        if (!state.equals(Game.State.BUY_STATE_MINION))
+            return PlayerIntent.SKIP();
+        if (player.getBudget().getBudget() < game.getCfg().spawnCost())
+            return PlayerIntent.SKIP();
+
+
+        for (Hex hex : game.getMap().getMap().values())
+        {
+            if (!hex.isOwner(player)) continue;
+            if (hex.haveMinion()) continue;
+            return new PlayerIntent(
+                    PlayerIntentEnum.buyMinion,
+                    hex.Pos,
+                    randomMinionIndex
+            );
+        }
+        return PlayerIntent.SKIP();
+    }
 
 
 

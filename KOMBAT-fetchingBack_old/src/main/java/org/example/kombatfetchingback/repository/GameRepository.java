@@ -17,7 +17,7 @@ import java.util.List;
 @Repository
 public class GameRepository
 {
-	@Getter
+	@Getter @Setter
 	private Game game;
 	private StartInfo.StartInfoBuilder builder;
 	@Getter
