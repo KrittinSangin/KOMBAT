@@ -1,11 +1,13 @@
 package org.example.kombatfetchingback.controller;
 
 import lombok.RequiredArgsConstructor;
+import org.example.kombatfetchingback.kombat_backend.Console.ConsoleCanvas;
 import org.example.kombatfetchingback.kombat_backend.Games.Configs.Config;
 import org.example.kombatfetchingback.kombat_backend.Games.DTO.GameDTO;
 import org.example.kombatfetchingback.kombat_backend.Games.Minion.Minion;
 import org.example.kombatfetchingback.kombat_backend.Games.Player.PlayerIntent;
 import org.example.kombatfetchingback.kombat_backend.Games.StartInfo;
+import org.example.kombatfetchingback.kombat_backend.MVC.Canvas;
 import org.example.kombatfetchingback.kombat_backend.Tuples.Pair;
 import org.example.kombatfetchingback.model.MinionBlueprint;
 import org.example.kombatfetchingback.model.PlayerReadyDTO;
@@ -178,6 +180,9 @@ public class GameSocketController
 		}
 
 		GameDTO dto = gameRepository.updateGame(intent);
+		Canvas canvas = new ConsoleCanvas(gameRepository.getGame());
+		canvas.draw();
+
 		messagingTemplate.convertAndSend("/topic/update", dto);
 	}
 

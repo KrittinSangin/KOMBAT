@@ -14,7 +14,7 @@ import {useConfigStore} from "./Store/useConfigStore";
 import {useJoinedHandler} from "./Store/useJoinedHandler";
 import GameLayout from "../gameInit/components/GameLayout";
 import {useDuelOriginStore} from "../gamemode/Store/DuelOriginStore";
-import {RandomStateStore} from "../gamemode/Store/RandomStateStore";
+import {useRandomStateStore} from "../gamemode/Store/UseRandomStateStore";
 
 
 export default function CreateRoomPage() {
@@ -23,7 +23,7 @@ export default function CreateRoomPage() {
     const mode = searchParams.get("mode")?.split("/")[0];
 
     const router = useRouter();
-    const ac = useDuelOriginStore.getState().checkOrigin() == "CREATE" ? RandomStateStore.getState().code : useDuelOriginStore.getState().checkOrigin();
+    const roomCode = useDuelOriginStore.getState().checkOrigin() == "CREATE" ? useRandomStateStore.getState().code : useDuelOriginStore.getState().checkOrigin();
 
     const routerHandle = () => {
         if (mode === "Duel") {
@@ -132,7 +132,7 @@ export default function CreateRoomPage() {
                         </div>
                     </h1>
                 </div>
-                <CodeHost number_={ac}></CodeHost>
+                <CodeHost number_={roomCode}></CodeHost>
                 <ProfileConfig online1={hostID != "null"} online2={clientID != "null"} team={1} left={900}
                                top={310}></ProfileConfig>
                 {/* <ProfileConfig online={false} team={2} left={900} top={425}></ProfileConfig> */}

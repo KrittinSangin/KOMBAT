@@ -13,6 +13,7 @@ public record StartInfo(
 	PlayerInfo info1,
 	PlayerInfo info2,
 	List<Minion> deck1,
-	List<Minion> deck2)
+	List<Minion> deck2
+)
 {
 }

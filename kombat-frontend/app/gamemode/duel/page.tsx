@@ -8,7 +8,7 @@ import {create} from "zustand";
 import {MessageHolder} from "../../../ttypes/type";
 import GameLayout from "../../gameInit/components/GameLayout";
 import {useDuelOriginStore} from "../Store/DuelOriginStore";
-import {RandomStateStore} from "../Store/RandomStateStore";
+import {useRandomStateStore} from "../Store/UseRandomStateStore";
 
 
 
@@ -34,10 +34,10 @@ export default function DuelPage() {
     const moveToConfigPage = async (mode: string) => {
         useDuelOriginStore.getState().setOrigin("CREATE");
         checkState.getState().setState("duel_create_room");
-        RandomStateStore.getState().randomize();
+        useRandomStateStore.getState().randomize();
 
         try {
-            const test2: MessageHolder = await fetch(`${process.env.NEXT_PUBLIC_LINK}/data/send/${RandomStateStore.getState().code}`, {
+            const test2: MessageHolder = await fetch(`${process.env.NEXT_PUBLIC_LINK}/data/send/${useRandomStateStore.getState().code}`, {
                 method: 'POST'
             }).then(response => response.json());
 

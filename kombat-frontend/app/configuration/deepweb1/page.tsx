@@ -8,19 +8,30 @@ import {useState} from "react";
 import CreateRoomPage from "../page";
 import {_useConfigStore} from "../../../components/DTOHandler";
 import {useShallow} from "zustand/react/shallow";
-import {Global2Players} from "../components/ProfileConfig";
 
 import {checkState} from "../../page";
-import type {_joinedHandler, NameOf2Players} from "../../../ttypes/type";
+import type {_joinedHandler} from "../../../ttypes/type";
 import {useRouter} from "next/navigation";
 import {METHODS} from "http";
 import {useJoinedHandler} from "../Store/useJoinedHandler";
 import {PermsConfig2ConfigAdapter, useConfigStore} from "../Store/useConfigStore";
 import {useDuelOriginStore} from "../../gamemode/Store/DuelOriginStore";
-import {RandomStateStore} from "../../gamemode/Store/RandomStateStore";
+import {useRandomStateStore} from "../../gamemode/Store/UseRandomStateStore";
+import {globalPlayerStore, useGlobalPlayerStore} from "../Store/GlobalPlayerStore";
+
+type PlayerNameDTO = {
+    p1name: string,
+    p2name: string
+}
 
 export default function Chat() {
-    const [isReady, setIsReady] = useState(false);
+    const router = useRouter();
+
+    //Zustand
+    const {checkOrigin} = useDuelOriginStore();
+    const {player1,player2,setPlayer1Name,setPlayer2Name} = useGlobalPlayerStore();
+    const {code} = useRandomStateStore();
+
     const {config, setAll} = useConfigStore(
         useShallow((state) => ({
             config: state.config,
@@ -28,10 +39,16 @@ export default function Chat() {
         }))
     );
 
-    const [page, setPage] = useState("CreateRoomPage");
-    const clientRef = useRef<Client | null>(null);
-    const roomCode = (useDuelOriginStore.getState().checkOrigin() == "CREATE") ? RandomStateStore.getState().code : useDuelOriginStore.getState().checkOrigin()
+    //useState
+    const [isReady, setIsReady] = useState(false);
     const [clientReady, setClientReady] = useState(false);
+    const [page, setPage] = useState("CreateRoomPage");
+
+    //variables
+    const isHost = checkOrigin() == "CREATE";
+
+    const clientRef = useRef<Client | null>(null);
+    const roomCode = (isHost)? code : checkOrigin();
 
     //Websocket Connection Handle
     const connectAndSubscribe = () => {
@@ -41,39 +58,56 @@ export default function Chat() {
 
                 console.log("Connected");
 
-
+                //room code
                 client.subscribe(`/topic/room/${roomCode}`, message => {
                     console.log("Received:", message.body);
                 });
 
+                //host&client ID
                 client.subscribe(`/topic/user-number`, message => {
                     const data: _joinedHandler = JSON.parse(message.body)
                     useJoinedHandler.getState().setHostID(data?.hostID == null ? "null" : String(data.hostID))
                     useJoinedHandler.getState().setClientID(data?.clientID == null ? "null" : String(data.clientID))
                 });
 
+                //on config change
                 client.subscribe(`/topic/config/`, message => {
                     const IntelligentMessage = JSON.parse(message.body)
                     setAll(IntelligentMessage)
                 })
+
+                //on username change
                 client.subscribe("/topic/usernames", message => {
-                    const IntelligentMessage: NameOf2Players = JSON.parse(message.body)
-                    Global2Players.getState().setPlayer1Name(IntelligentMessage.player1)
-                    Global2Players.getState().setPlayer2Name(IntelligentMessage.player2)
+                    const playerNameDTO: PlayerNameDTO = JSON.parse(message.body)
+                    const store = useGlobalPlayerStore.getState();
+
+                    console.log("current name of Player 1 is " + store.player1);
+                    console.log("current name of Player 2 is " + store.player2);
+                    console.log("new name of Player 1 is " + playerNameDTO.p1name);
+                    console.log("new name of Player 2 is " + playerNameDTO.p2name);
+
+                    store.setPlayer1Name(playerNameDTO.p1name)
+                    store.setPlayer2Name(playerNameDTO.p2name)
                 })
+
+                //on player ready
                 client.subscribe("/topic/ready", message => {
+                    const store = useGlobalPlayerStore.getState();
+
                     if (message.body == "true") setClientReady(true);
                     else if (message.body == "false") setClientReady(false);
                     else { //go to next page
                         //Send config data to backend with both players' name
+
                         fetch(`${process.env.NEXT_PUBLIC_LINK}/data/config`, {
                             method: "POST",
                             body: JSON.stringify(
                                 {
                                     config: PermsConfig2ConfigAdapter(config),
-                                    Player1Name: player1,
-                                    Player2Name: player2
+                                    playerTeam: isHost? 0: 1,
+                                    playerName: isHost? store.player1: store.player2,
                                 }
+                                //int playerTeam, String playerName
                             ),
                             headers: {
                                 "content-type": "application/json"
@@ -88,7 +122,6 @@ export default function Chat() {
         client.activate();
         clientRef.current = client;
     };
-
 
     //Connect to ws on mount
     useEffect(() => {
@@ -116,19 +149,24 @@ export default function Chat() {
         return () => clearTimeout(timeout);
     }, [config]);
 
-    const player1 = Global2Players((state) => state.player1);
-    const player2 = Global2Players((state) => state.player2);
-
     //update online status of the player
     useEffect(() => {
         const client = clientRef.current;
         if (client && client.connected) {
             const timeout = setTimeout(() => {
+
+                const playerNames:PlayerNameDTO = {
+                    p1name: player1,
+                    p2name: player2
+                }
+
                 client.publish({
                     destination: "/app/config/userOnline",
-                    body: JSON.stringify(Global2Players.getState())
+                    body: JSON.stringify(playerNames)
                 });
             }, 200);
+
+            return () => clearTimeout(timeout);
         }
     }, [player1, player2]);
 
@@ -144,7 +182,6 @@ export default function Chat() {
 
     };
 
-    const isThisDudeAHost = useDuelOriginStore.getState().checkOrigin() == "CREATE";
     const Ready = () => {
         setIsReady(!isReady)
         clientRef.current?.publish({
@@ -152,16 +189,17 @@ export default function Chat() {
             body: (!isReady).toString()
         })
     }
-    const router = useRouter();
     const handleBackButton = () => {
         if (!clientRef.current || !clientRef.current.connected) {
             console.log("Not connected");
             return;
         }
-        if (!isThisDudeAHost) clientRef.current.publish({
+        if (!isHost) clientRef.current.publish({
             destination: "/topic/ready",
             body: "false"
         })
+
+        //unsubscribes
         clientRef.current.unsubscribe(`/topic/room/${roomCode}`);
         clientRef.current.unsubscribe(`/topic/user-number`)
         clientRef.current.unsubscribe(`/topic/config/`)
@@ -175,46 +213,46 @@ export default function Chat() {
     return (
         <div>
             {page === "CreateRoomPage" && <CreateRoomPage/>}
-            {isThisDudeAHost && clientReady &&
+            {isHost && clientReady &&
                 <Button src="/purple_btn.PNG" alt="Join Room" overlayText="Start" font_size="50" height="150"
                         width="250" color="grey" bottom="65" left="1100" onClick={(moveToGameInitPage)}></Button>}
 
-            {isThisDudeAHost && !clientReady &&
+            {isHost && !clientReady &&
                 <Button src="/purple_opaque.PNG" alt="Join Room" overlayText="Start" font_size="50" height="150"
                         width="250" color="grey" bottom="65" left="1100" onClick={() => {
                 }}></Button>}
 
-            {isThisDudeAHost && clientReady &&
+            {isHost && clientReady &&
                 <div className="text-2xl absolute bottom-[80px] left-[850px] text-green-900 bg-green-100/50">Opponent
                     ready!</div>}
-            {isThisDudeAHost && !clientReady &&
+            {isHost && !clientReady &&
                 <div className="text-2xl absolute bottom-[80px] left-[850px] text-yellow-900 bg-yellow-100/50">waiting
                     for the opponent to be ready...</div>}
 
-            {isReady && !isThisDudeAHost &&
+            {isReady && !isHost &&
                 <Button src="/purple_btn.PNG" alt="Join Room" overlayText="Ready" font_size="50" height="150"
                         width="250" color="grey" bottom="65" left="1100" onClick={(Ready)}></Button>}
 
-            {!isReady && !isThisDudeAHost &&
+            {!isReady && !isHost &&
                 <div className="text-2xl absolute bottom-[80px] left-[850px] text-yellow-900 bg-yellow-100/50">waiting
                     for you to be ready...</div>}
-            {isReady && !isThisDudeAHost &&
+            {isReady && !isHost &&
                 <div className="text-2xl absolute bottom-[80px] left-[850px] text-green-900 bg-green-100/50">you are
                     ready!</div>}
 
-            {!isReady && !isThisDudeAHost &&
+            {!isReady && !isHost &&
                 <Button src="/purple_opaque.PNG" alt="Join Room" overlayText="Not Ready" font_size="50" height="150"
                         width="250" color="grey" bottom="65" left="1100" onClick={(Ready)}></Button>}
 
-            {!isThisDudeAHost && !isReady &&
+            {!isHost && !isReady &&
                 <Button src="/purple_btn.PNG" alt="Back" overlayText="Back" onClick={handleBackButton} bottom="65"
                         left="800" color="#6a0dad" font_size="50" height="150" width="250"></Button>}
 
-            {!isThisDudeAHost && isReady &&
+            {!isHost && isReady &&
                 <Button src="/purple_opaque.PNG" alt="Back" overlayText="Back" onClick={() => {
                 }} bottom="65" left="800" color="#6a0dad" font_size="50" height="150" width="250"></Button>}
 
-            {isThisDudeAHost &&
+            {isHost &&
                 <Button src="/purple_btn.PNG" alt="Back" overlayText="Back" onClick={handleBackButton} bottom="65"
                         left="800" color="#6a0dad" font_size="50" height="150" width="250"></Button>}
 

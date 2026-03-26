@@ -178,13 +178,15 @@ export default function Dropdown({selectingMinionIndex, selectedSprite}: Props) 
                                     "Content-Type": "application/json",
                                 },
                                 body: JSON.stringify({
-                                    name: (isHost?"0":"1")+"#"+foundFile.name,
+                                    name: (isHost?"0":"1") + "#"+ foundFile.name,
                                     strategy: foundFile.content
                                 }),
                             });
 
+                            //submit success
                             if (response.ok)
                             {
+                                //set data to the blueprint
                                 const data = await response.json();
 
                                 if (data)
@@ -192,7 +194,7 @@ export default function Dropdown({selectingMinionIndex, selectedSprite}: Props) 
                                     setBlueprint(selectingMinionIndex, {
                                         ...minionBlueprints[selectingMinionIndex],
                                         isStrategyParsedOk: true,
-                                        strategyFileName: foundFile.name
+                                        strategyFileName: (isHost?"0":"1") + "#"+ foundFile.name
                                     })
                                     setOwner(foundFile.ownerIndex + 1);
 

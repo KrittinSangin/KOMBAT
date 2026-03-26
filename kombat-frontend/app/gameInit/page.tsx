@@ -3,7 +3,6 @@
 import {useRouter} from "next/navigation";
 import Button from "../../components/Button";
 import {useEffect, useState} from "react";
-import {Global2Players} from "../configuration/components/ProfileConfig";
 import {Client} from "@stomp/stompjs";
 import {create} from "zustand"
 import SockJS from "sockjs-client";
@@ -20,6 +19,8 @@ import {useGameState} from "../../components/game/model/useGameState";
 import {Game} from "../../components/game/type/GameTypes";
 import {startGame} from "../../components/game/model/game";
 import {useMinionPreviewStore} from "./Store/MinionPreviewStore";
+
+import {useGlobalPlayerStore} from "../configuration/Store/GlobalPlayerStore";
 
 export type joinedHandler = {
     hostID: string
@@ -39,7 +40,7 @@ export default function GameInitPage() {
 
     //zustand
     const {checkOrigin} = useDuelOriginStore();
-    const {player1, player2} = Global2Players();
+    const {player1, player2} = useGlobalPlayerStore();
     const {config} = useConfigStore();
     const {minionBlueprints, initializeBlueprintCount} = useMinionBlueprintsStore();
 
