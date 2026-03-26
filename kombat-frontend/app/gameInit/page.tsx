@@ -33,15 +33,7 @@ type GameStartDTO = {
     initGameDTO: GameDTO,
 }
 
-type PreviewExporter = {
-    exportedDeck:MinionBlueprint[],
-    setExportedDeck:(setter:MinionBlueprint[]) => void
-}
 
-export const minionPreview = create<PreviewExporter>((set) => ({
-    exportedDeck: [],
-    setExportedDeck: (setter) => set({exportedDeck: setter})
-}))
 
 export default function GameInitPage() {
     const router = useRouter();
@@ -70,7 +62,7 @@ export default function GameInitPage() {
                 }else{
                     const intelligentMessage : GameStartDTO = JSON.parse(message.body)
                     console.log(intelligentMessage.universalDeck);
-                    minionPreview.getState().setExportedDeck(intelligentMessage.universalDeck)
+                    useMinionPreviewStore.getState().setExportedDeck(intelligentMessage.universalDeck)
 
                     //start game
                     start(intelligentMessage.startInfoDTO)

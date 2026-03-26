@@ -2,9 +2,9 @@ import Image from "next/image";
 import {useEffect, useState} from "react";
 import Slider from "./Slider";
 
-import {minionPreview} from "../app/gameInit/page";
+import {useMinionPreviewStore} from "../app/gameInit/page";
 
-const MinionArr = minionPreview.getState().exportedDeck
+const MinionArr = useMinionPreviewStore.getState().exportedDeck
 
 
 interface MinionpreviewProps {
