@@ -263,7 +263,6 @@ public class Game
 		@Override
 		public void exit()
 		{
-
 			nextTurn();
 		}
 
@@ -447,7 +446,7 @@ public class Game
 	private boolean endStateCondition()
 	{
 		//any player minion count reach 0 or turn exceeds max turns
-		return currentPlayer().getMinionCount() == 0 || otherPlayer().getMinionCount() == 0 || turn > cfg.maxTurns();
+		return currentPlayer().getMinionCount() == 0 || otherPlayer().getMinionCount() == 0 ||(team == 1 && turn + 1 > cfg.maxTurns());
 	}
 
 	private Player calculateWinner()

@@ -27,9 +27,9 @@ export type joinedHandler = {
 }
 
 type GameStartDTO = {
-    p1Blueprint:MinionBlueprint,
-    p2Blueprint:MinionBlueprint,
-    universalDeck:MinionBlueprint[],
+    p1Blueprint: MinionBlueprint,
+    p2Blueprint: MinionBlueprint,
+    universalDeck: MinionBlueprint[],
     startInfoDTO: StartInfoDTO,
     initGameDTO: GameDTO,
 }
@@ -39,9 +39,9 @@ export default function GameInitPage() {
 
     //zustand
     const {checkOrigin} = useDuelOriginStore();
-    const {player1,player2} = Global2Players();
+    const {player1, player2} = Global2Players();
     const {config} = useConfigStore();
-    const {minionBlueprints,initializeBlueprintCount} = useMinionBlueprintsStore();
+    const {minionBlueprints, initializeBlueprintCount} = useMinionBlueprintsStore();
 
     //useState
     const [ready, setReady] = useState(false);
@@ -55,24 +55,24 @@ export default function GameInitPage() {
     const minionCount = config._minions;
 
 
-    const {start} = useGameState()
+    const {game, start} = useGameState()
 
     //Web Socket Handle
     const client = new Client({
         webSocketFactory: () => new SockJS(`${process.env.NEXT_PUBLIC_LINK}/ws`),
         onConnect: () => {
             client.subscribe("/topic/startGame", message => {
-                if(message.body == "Both players ready"){
-                    router.push("/RandomPage")
-                    
-                }else{
-                    const intelligentMessage : GameStartDTO = JSON.parse(message.body)
-                    console.log(intelligentMessage.universalDeck);
-                    useMinionPreviewStore.getState().setExportedDeck(intelligentMessage.universalDeck)
+                const intelligentMessage: GameStartDTO = JSON.parse(message.body)
+                console.log(intelligentMessage.universalDeck);
+                useMinionPreviewStore.getState().setExportedDeck(intelligentMessage.universalDeck)
 
-                    //start game
-                    start(intelligentMessage.startInfoDTO)
-                }
+                //start game
+                console.log(intelligentMessage.startInfoDTO)
+                start(intelligentMessage.startInfoDTO)
+                console.log("Game Started!");
+                console.log(game);
+
+                router.push("/RandomPage")
             });
         }
     });
@@ -85,7 +85,15 @@ export default function GameInitPage() {
     }, [])
 
     const readyUp = async () => {
-        console.log(minionBlueprints);
+        console.log(ready);
+        console.log(minionBlueprints.some((bp) => !bp.isStrategyParsedOk));
+
+        if (ready || minionBlueprints.some((bp) => !bp.isStrategyParsedOk)) {
+            setReady(false);
+        } else {
+            setReady(true);
+        }
+
         useSocketStore.getState().client?.publish({
             destination: "/app/game/ready",
             body: JSON.stringify({
@@ -95,8 +103,6 @@ export default function GameInitPage() {
                 minions: minionBlueprints
             })
         });
-        setReady(!ready);
-
     }
 
     return (
