@@ -1,8 +1,7 @@
 import Image from "next/image";
 import {useEffect, useState} from "react";
-import Slider from "./Slider";
 
-import {useMinionPreviewStore} from "../app/gameInit/page";
+import { useMinionPreviewStore } from "../app/gameInit/Store/MinionPreviewStore";
 
 const MinionArr = useMinionPreviewStore.getState().exportedDeck
 
