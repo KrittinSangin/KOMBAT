@@ -87,7 +87,7 @@ export default function DuelPage() {
                 <Button src="/grey_btn.PNG" alt="Join Room" overlayText="Join Room" font_size="50" height="300"
                         width="500" color="grey" bottom="-50" left="100" onClick={moveToJoinRoomPage}></Button>
                 <Button src="/purple_btn.PNG" alt="Back" overlayText="Back" font_size="70" height="150" width="250"
-                        color="#6a0dad" bottom="-269" left="-550" onClick={moveToGameModePage}></Button>
+                        color="#6a0dad" bottom="-269" left="-30" onClick={moveToGameModePage}></Button>
             </GameLayout>
         </>
     )

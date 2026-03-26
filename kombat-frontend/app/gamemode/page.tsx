@@ -46,18 +46,24 @@ export default function gamemodePage() {
     bottom-75 left-2
     font-jersey25 
     text-[#000] 
-    text-[100px]  
+    text-7xl  
     tracking-[5px] ">
                     Select Game Mode
                 </h1>
-                <Button src="/orange_btn.PNG" alt="Duel"  overlayText="Duel" bottom="95" left="265" color="orange" onClick={moveToDuelPage} font_size="70" height="150" width="300">
+                <Button src="/orange_btn.PNG" alt="Duel"  overlayText="Duel" bottom="85" left="170" color="orange" onClick={moveToDuelPage} font_size="70" height="150" width="300">
                 </Button>
+<<<<<<< Updated upstream
                 <Button src="/brown_btn.PNG" alt="Solitaire"  overlayText="Solitaire" bottom="-25" left="265" color="brown" font_size="70" height="150" width="300" onClick={() =>  router.push(`/configuration/Solitaire?mode=Solitaire`)}>
                 </Button>
                 <Button src="/green_btn.PNG" alt="Auto"  overlayText="Auto" bottom="-145" left="265" color="green" font_size="70" height="150" width="300" onClick={() =>  router.push(`/configuration/Auto?mode=Auto`)}>
+=======
+                <Button src="/brown_btn.PNG" alt="Solitaire"  overlayText="Solitaire" bottom="-45" left="170" color="brown" font_size="70" height="150" width="300" onClick={() => moveToConfigPage("Solitaire")}>
+                </Button>
+                <Button src="/green_btn.PNG" alt="Auto"  overlayText="Auto" bottom="-165" left="170" color="green" font_size="70" height="150" width="300" onClick={() => moveToConfigPage("Auto")}>
+>>>>>>> Stashed changes
                 </Button>
                 {/* send gamemode to back-end */}
-                <Button src="/purple_btn.PNG" alt="Back" overlayText="Back" onClick={moveToHomePage} bottom="-265" left="265" color="#6a0dad" font_size="50" height="150" width="300">
+                <Button src="/purple_btn.PNG" alt="Back" overlayText="Back" onClick={moveToHomePage} bottom="-285" left="170" color="#6a0dad" font_size="50" height="150" width="300">
                 </Button>
             </GameLayout>
         </>

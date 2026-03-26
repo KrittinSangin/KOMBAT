@@ -65,8 +65,8 @@ export default function JoinRoomPage(){
                     </div>
                     <p className="absolute left-10 text-[50px] top-2 text-black font-jersey25">Code</p>
                 </div>
-            <Button src="/purple_btn.PNG" alt="Back"  overlayText="Back" bottom="-295" left="-439" color="#6a0dad" font_size="70" height="150" width="250" onClick={moveToDuelSelectPage}/>
-            <Button src="/purple_btn.PNG" alt="Join"  overlayText="Join" bottom="-295" left="600" color="#6a0dad" font_size="70" height="150" width="250" onClick={attemptToJoin}/>
+            <Button src="/purple_btn.PNG" alt="Back"  overlayText="Back" bottom="-295" left="-60" color="#6a0dad" font_size="70" height="150" width="250" onClick={moveToDuelSelectPage}/>
+            <Button src="/purple_btn.PNG" alt="Join"  overlayText="Join" bottom="-295" left="230" color="#6a0dad" font_size="70" height="150" width="250" onClick={attemptToJoin}/>
             </GameLayout>
         </>
     )
