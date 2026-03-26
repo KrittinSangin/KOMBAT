@@ -51,7 +51,7 @@ export default function ProfileConfig({ team, left, top, online1, online2 }: Pro
                 className="w-8 h-8 rounded-full absolute left-[330px] top-[140px]"
                 style={{ backgroundColor: online2 ? Online : Offline }}
             >
-            {team == 2 || 3 ? <img
+            {team == 2 || team == 3 ? <img
                 src="/robot.jpg"
                 ></img> : <></>
                 }
