@@ -29,6 +29,17 @@ public class GameRepository
 	@Getter @Setter
 	private boolean p2Ready = false;
 
+	public void resetRepositoryFull()
+	{
+		builder = null;
+		p1Bluepirnt = null;
+		p2Bluepirnt = null;
+		p1Ready = false;
+		p2Ready = false;
+		game = null;
+	}
+
+
 	public void resetRepositoryExceptGame()
 	{
 		builder = null;

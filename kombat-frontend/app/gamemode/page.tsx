@@ -53,11 +53,11 @@ export default function gamemodePage() {
                 <Button src="/orange_btn.PNG" alt="Duel" overlayText="Duel" bottom="85" left="170" color="orange"
                         onClick={moveToDuelPage} font_size="70" height="150" width="300">
                 </Button>
-                <Button src="/brown_btn.PNG" alt="Solitaire" overlayText="Solitaire" bottom="-25" left="265"
+                <Button src="/brown_btn.PNG" alt="Solitaire" overlayText="Solitaire" bottom="-25" left="170"
                         color="brown" font_size="70" height="150" width="300"
                         onClick={() => router.push(`/configuration/Solitaire?mode=Solitaire`)}>
                 </Button>
-                <Button src="/green_btn.PNG" alt="Auto" overlayText="Auto" bottom="-145" left="265" color="green"
+                <Button src="/green_btn.PNG" alt="Auto" overlayText="Auto" bottom="-145" left="170" color="green"
                         font_size="70" height="150" width="300"
                         onClick={() => router.push(`/configuration/Auto?mode=Auto`)}>
 

@@ -1,18 +1,26 @@
 "use client"
 import GameLayout from "../../gameInit/components/GameLayout"
-import { PermsConfig2ConfigAdapter, useConfigStore } from "../Store/useConfigStore"
+import {PermsConfig2ConfigAdapter, useConfigStore} from "../Store/useConfigStore"
 import Slider from "../../../components/Slider"
 import CodeHost from "../components/CodeHost"
 import ProfileConfig from "../components/ProfileConfig"
 import Button from "../../../components/Button"
-import { useOriginStore } from "../../gamemode/Store/DuelOriginStore"
-import { useRouter } from "next/navigation"
+import {useOriginStore} from "../../gamemode/Store/DuelOriginStore"
+import {useRouter} from "next/navigation"
 import {useGlobalPlayerStore} from "../Store/GlobalPlayerStore";
+import {Config} from "../../../ttypes/type";
 
-export default function ABCD() {
+export type InitWithBotDTO = {
+    config: Config,
+    name1: string,
+    name2: string
+}
+
+export default function SolitairePage() {
     const router = useRouter();
 
-    const {player1,player2} = useGlobalPlayerStore();
+    const {player1, player2} = useGlobalPlayerStore();
+    const {setOrigin,setModeSolitaire} = useOriginStore()
 
     const sliderRange = {
         initHp: {min: 1, max: 100},
@@ -46,23 +54,25 @@ export default function ABCD() {
     } = useConfigStore()
 
     const SendDirectlyToBack = async () => {
-        useOriginStore.getState().setOrigin("BOT_MODE")
-        
+        setOrigin("CREATE")
+        setModeSolitaire()
+
         try {
-            const res = await fetch(`${process.env.NEXT_PUBLIC_LINK}/data/config`, {
+            const send: InitWithBotDTO = {
+                config: PermsConfig2ConfigAdapter(config),
+                name1: player1,
+                name2: player2
+            };
+            const res = await fetch(`${process.env.NEXT_PUBLIC_LINK}/data/initWithBot`, {
                 method: "POST",
-                body: JSON.stringify({
-                    config: PermsConfig2ConfigAdapter(config),
-                    Player1Name: player1,
-                    Player2Name: player2
-                }),
+                body: JSON.stringify(send),
                 headers: {
                     "content-type": "application/json"
                 }
             });
 
             if (res.ok) {
-                router.push("/gameInit"); 
+                router.push("/gameInit");
             } else {
                 console.error("Backend rejected the configuration.");
             }
@@ -74,7 +84,8 @@ export default function ABCD() {
     return (
         <>
             <GameLayout src="/homepage_bg.jpeg" alt="Create Room">
-                <p className="text-color-[#000] w-[800px] text-[70px] font-jersey25 tracking-[5px] absolute top-[-380px] text-center">Mode Solitaire</p>
+                <p className="text-color-[#000] w-[800px] text-[70px] font-jersey25 tracking-[5px] absolute top-[-380px] text-center">Mode
+                    Solitaire</p>
                 <div className="box-content fixed left-0 top-0 w-[50%] h-full" style={{backgroundColor: "#B8B8B8"}}>
                     <h1 className="text-color-[#000] text-[70px] font-jersey25 tracking-[2px] absolute top-5 left-44">
                         Configuration
@@ -136,8 +147,8 @@ export default function ABCD() {
                 <CodeHost number_={"><:>"}></CodeHost>
                 <ProfileConfig online1={true} online2={true} team={2} left={900}
                                top={310}></ProfileConfig>
-                 <Button src="/purple_btn.PNG" alt="Back" overlayText="Start" onClick={SendDirectlyToBack} bottom="-350"
-                                        left="300" color="#6a0dad" font_size="50" height="150" width="250"></Button>
+                <Button src="/purple_btn.PNG" alt="Back" overlayText="Start" onClick={SendDirectlyToBack} bottom="-350"
+                        left="300" color="#6a0dad" font_size="50" height="150" width="250"></Button>
             </GameLayout>
         </>
     )

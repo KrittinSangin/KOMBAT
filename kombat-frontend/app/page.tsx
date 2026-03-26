@@ -58,17 +58,17 @@ export default function Homepage() {
   ">
                 KOMBAT
             </h1>
-            <PlayButton src="/green_btn.PNG" alt="play" overlayText="Play" onClick={moveToGameMode} bottom="20" left="170"
+            <PlayButton src="/green_btn.PNG" alt="play" overlayText="Play" onClick={moveToGameMode} bottom="-50" left="170"
                         color="#6a0dad" font_size="70" height="175" width="220"></PlayButton>
             {/* /// */}
             {/* <button onClick={testGameInit}
                     className="border-2 border-black bg-white text-black px-4 py-2 rounded-md">Init
             </button> */}
             {/* This one is for going to game scene */}
-            <button onClick={toGameScene}
+            <button onClick={toGameScene} hidden={true}
                     className="border-2 border-black bg-white text-black px-4 py-2 rounded-md">Game
             </button>
-            <button onClick={toRandomPage}
+            <button onClick={toRandomPage} hidden={true}
                     className="border-2 border-black bg-white text-black px-4 py-2 rounded-md">Random
             </button>
         </GameLayout>

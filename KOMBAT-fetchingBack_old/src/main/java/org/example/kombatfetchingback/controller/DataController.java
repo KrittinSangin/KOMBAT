@@ -6,6 +6,7 @@ import org.example.kombatfetchingback.handler.MessageHolder;
 import org.example.kombatfetchingback.handler.MyDataHandler;
 import org.example.kombatfetchingback.kombat_backend.Games.Player.PlayerInfo;
 import org.example.kombatfetchingback.model.ConfigPageDTO;
+import org.example.kombatfetchingback.model.InitSoloDTO;
 import org.example.kombatfetchingback.repository.GameRepository;
 import org.springframework.web.bind.annotation.*;
 
@@ -39,5 +40,15 @@ public class DataController
 		gameRepository.createNewStartInfoBuilderIfNull();
 		gameRepository.setStartConfig(dto.config());
 		gameRepository.setStartPlayer(new PlayerInfo(dto.playerName(), dto.playerTeam()));
+	}
+
+	@PostMapping("/initWithBot")
+	public void toInitGameWithBot(@RequestBody InitSoloDTO dto)
+	{
+		gameRepository.resetRepositoryFull();
+		gameRepository.createNewStartInfoBuilderIfNull();
+		gameRepository.setStartConfig(dto.config());
+		gameRepository.setStartPlayer(new PlayerInfo(dto.name1(),0));
+		gameRepository.setStartPlayer(new PlayerInfo(dto.name2(),1));
 	}
 }

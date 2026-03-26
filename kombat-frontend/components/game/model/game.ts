@@ -121,8 +121,8 @@ export const startGame: (info:StartInfoDTO) => Game = (info) => {
 }
 
 const updatePlayer: (player:Player,dto:PlayerDTO) => Player = (player:Player,dto:PlayerDTO) => {
-    player.budget = dto.budget;
-    player.interestRatePercentage = dto.interestRatePercentage;
+    player.budget = Math.floor(dto.budget);
+    player.interestRatePercentage = Math.round(dto.interestRatePercentage * 100) / 100;
     player.spawnCount = dto.spawnCount;
 
     return player;

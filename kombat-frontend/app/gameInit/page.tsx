@@ -39,7 +39,7 @@ export default function GameInitPage() {
     const router = useRouter();
 
     //zustand
-    const {checkOrigin} = useOriginStore();
+    const {isHost, myTeam, mode} = useOriginStore();
     const {player1, player2} = useGlobalPlayerStore();
     const {config} = useConfigStore();
     const {minionBlueprints, initializeBlueprintCount} = useMinionBlueprintsStore();
@@ -51,8 +51,7 @@ export default function GameInitPage() {
     const [selectedMinion, setSelectedMinion] = useState(0);
 
     //consts
-    const playerName = checkOrigin() == "CREATE" ? player1 : player2;
-    const checkOrg = checkOrigin() == "CREATE";
+    const playerName = isHost() ? player1 : player2;
     const minionCount = config._minions;
 
 
@@ -88,34 +87,29 @@ export default function GameInitPage() {
         initializeBlueprintCount(minionCount);
     }, [])
 
-   const readyUp = async () => {
+    const readyUp = async () => {
         const hasBrokenStrategy = minionBlueprints.some((bp) => !bp.isStrategyParsedOk);
- 
+
         const nextReadyState = ready ? false : !hasBrokenStrategy;
         setReady(nextReadyState);
-
-        const origin = checkOrigin();
-        const isP1Bot = origin === "BOT_VS_BOT"; 
-        const isP2Bot = origin === "BOT_MODE" || origin === "BOT_VS_BOT";
 
         useSocketStore.getState().client?.publish({
             destination: "/app/game/ready",
             body: JSON.stringify({
-                IsReady: nextReadyState, 
+                IsReady: nextReadyState,
                 playerName: playerName,
-                playerTeam: checkOrg ? 0 : 1,
+                playerTeam: myTeam() ? 0 : 1,
                 minions: minionBlueprints,
-                isP1Bot: isP1Bot,
-                isP2Bot: isP2Bot
+                gamemode: mode,
             })
         });
     }
 
     return (
         <>
-            <GameLayout src={checkOrg ? "/Blue_bg.jpeg" : "/Red_bg.jpg"} alt="Background Image"></GameLayout>
+            <GameLayout src={isHost() ? "/Blue_bg.jpeg" : "/Red_bg.jpg"} alt="Background Image"></GameLayout>
 
-            <Navbar title={playerName} minionCount={minionCount} team={checkOrg ? TeamSide.Blue : TeamSide.Red}
+            <Navbar title={playerName} minionCount={minionCount} team={isHost() ? TeamSide.Blue : TeamSide.Red}
                     selectedMinion={selectedMinion} onSelect={setSelectedMinion}/>
 
             <StrategyBox selectedMinion={selectedMinion} selectingMinionSprite={minionSpriteName}></StrategyBox>

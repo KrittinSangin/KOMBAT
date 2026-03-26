@@ -32,7 +32,7 @@ type PlayerNameDTO = {
 export default function Chat() {
     const router = useRouter();
     //Zustand
-    const {checkOrigin,myTeam} = useOriginStore();
+    const {checkOrigin,myTeam,setModeDuel} = useOriginStore();
     const {player1, player2} = useGlobalPlayerStore();
     const {code} = useRandomStateStore();
 
@@ -130,6 +130,7 @@ export default function Chat() {
                                 "content-type": "application/json"
                             }
                         })
+
                         router.push("/gameInit")
                     }
 
@@ -145,8 +146,8 @@ export default function Chat() {
 
     //Connect to ws on mount
     useEffect(() => {
-
         connectAndSubscribe();
+        setModeDuel();
         return () => {
             if (clientRef.current) {
                 clientRef.current.deactivate();

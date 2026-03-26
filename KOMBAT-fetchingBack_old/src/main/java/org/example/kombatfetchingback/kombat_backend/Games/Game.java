@@ -290,6 +290,8 @@ public class Game
 		public EndState(State prev)
 		{
 			super(prev, GameStateEnum.end);
+			if (turn > cfg.maxTurns()) turn = (int)cfg.maxTurns();
+
 			IO.println("Game End");
 			isGameOver = true;
 			winner = calculateWinner();

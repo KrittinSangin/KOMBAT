@@ -141,15 +141,22 @@ export default function EndScreen({game}: Props) {
             </div>
         </div>
 
+        <div className="absolute top-1/2 left-1/2 z-25 rounded-xl
+            -translate-x-1/2 -translate-y-1/4
+            w-150 h-100 bg-gray-200">
+        </div>
+
         {/*Game Result*/}
         <div className="absolute w-full top-11/24 left-0 z-50
                         flex gap-4 flex-col justify-center items-center
                         text-5xl ">
             <span>Turn : {turn}/{maxTurn}</span>
+            <span>P1 : Result : P2</span>
             <span>{minionLefts[0]} : Minion : {minionLefts[1]}</span>
             <span>{minionHPSums[0]} : hp : {minionHPSums[1]}</span>
             <span>{totalBudget[0]} : Budget : {totalBudget[1]}</span>
         </div>
+
 
         {/*To Menu button Button*/}
         <div className={"absolute w-full top-27/32 flex flex-col justify-center items-center z-50"}>

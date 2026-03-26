@@ -7,8 +7,7 @@ public record PlayerReadyDTO(
         String playerName,
         int playerTeam,
         List<MinionBlueprint> minions,
-        boolean isP1Bot,
-        boolean isP2Bot
+		String gamemode
 )
 {
 }

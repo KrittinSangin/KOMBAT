@@ -13,7 +13,7 @@ interface Props {
 
 export default function GameInfoBar({game}: Props) {
     const {myTeam} = useOriginStore();
-    const {setIntent, submitIntent} = useIntent();
+    const {setIntent, submitIntent,askBotIntent} = useIntent();
     const {client} = useSocketStore();
 
     const [dotCount, setDotCount] = useState<number>(0);
@@ -43,11 +43,17 @@ export default function GameInfoBar({game}: Props) {
     const interestRate = game.players[team].interestRatePercentage;
 
     const handleIntent = (intent: PlayerIntentEnum) => {
+
         if (game.team == myTeam()) {
             setIntent(intent);
             if (client)
                 submitIntent(client);
         }
+    }
+
+    const handleBot = (intent: PlayerIntentEnum) => {
+            if (client)
+                askBotIntent(client);
     }
 
     function noticeWindowHandle() {
@@ -140,6 +146,21 @@ export default function GameInfoBar({game}: Props) {
             onClick={() => handleIntent(PlayerIntentEnum.skip)}
         >
             Skip
+        </button>
+
+        {/*advance button*/}
+        <button
+            className=" absolute top-0 left-1/2 translate-x-56 translate-y-10 rounded-md
+                    h-22 w-28 flex flex-col justify-center items-center drop-shadow-2xl
+                    bg-lime-700 text-white
+                    text-2xl z-10
+                    transition active:scale-95"
+            onClick={() => {
+
+                handleBot(PlayerIntentEnum.skip)
+            }}
+        >
+            Advance Bot
         </button>
     </nav>
 }

@@ -8,9 +8,13 @@ import Button from "../../../components/Button"
 import { useOriginStore } from "../../gamemode/Store/DuelOriginStore"
 import { useRouter } from "next/navigation"
 import {useGlobalPlayerStore} from "../Store/GlobalPlayerStore";
+import {InitWithBotDTO} from "../Solitaire/page";
 
-export function AutoPage() {
+export default function AutoPage() {
     const router = useRouter();
+
+    const {player1,player2} = useGlobalPlayerStore();
+    const {setOrigin,setModeAuto} = useOriginStore()
 
     const sliderRange = {
         initHp: {min: 1, max: 100},
@@ -44,16 +48,19 @@ export function AutoPage() {
     } = useConfigStore()
 
     const SendDirectlyToBack = async () => {
-        useOriginStore.getState().setOrigin("BOT_VS_BOT")
+        setOrigin("CREATE")
+        setModeAuto()
 
         try {
-            const res = await fetch(`${process.env.NEXT_PUBLIC_LINK}/data/config`, {
+            const send: InitWithBotDTO = {
+                config: PermsConfig2ConfigAdapter(config),
+                name1: player1,
+                name2: player2
+            };
+
+            const res = await fetch(`${process.env.NEXT_PUBLIC_LINK}/data/initWithBot`, {
                 method: "POST",
-                body: JSON.stringify({
-                    config: PermsConfig2ConfigAdapter(config),
-                    Player1Name: useGlobalPlayerStore.getState().player1,
-                    Player2Name: useGlobalPlayerStore.getState().player2
-                }),
+                body: JSON.stringify(send),
                 headers: {
                     "content-type": "application/json"
                 }

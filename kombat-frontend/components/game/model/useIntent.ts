@@ -11,6 +11,7 @@ type useIntent = {
     setMinion: (minion: number) => void,
     setHex: (pos: HexPos) => void,
     submitIntent: (wsClient:Client) => void,
+    askBotIntent: (wsClient:Client) => void,
 }
 
 const emptyIntent:PlayerIntent = {intent: PlayerIntentEnum.empty, hex: undefined, minion: undefined};
@@ -41,5 +42,14 @@ export const useIntent = create<useIntent>((set) => ({
         console.log("submit intent to back-end");
         console.log(state.intent);
         return {intent:emptyIntent};
-    })
+    }),
+
+    askBotIntent: (wsClient:Client) => set(() => {
+        wsClient.publish({
+            destination: "/app/game/useBot",
+            body: "bot"
+        });
+        console.log("ask bot at back-end");
+        return {intent:emptyIntent};
+    }),
 }))
