@@ -100,18 +100,17 @@ public class GameSocketController
 
 		for (int i = 0; i < count; i++)
 		{
-			rands[i] = rand.nextInt(2);
+			rands[i] = rand.nextInt(0,2);
 		}
 
-		//make the select value become universal
 		List<Minion> universalDeck = new ArrayList<>();
 		List<MinionBlueprint> universalBlueprint = new ArrayList<>();
 
 		for (int i = 0; i < rands.length; i++)
 		{
-			universalDeck.add(rand.nextInt() % 2 == 0 ? decks.fst().get(rands[i]) : decks.snd().get(rands[i]));
+			universalDeck.add(rands[i] % 2 == 0 ? decks.fst().get(i) : decks.snd().get(i));
 
-			var blueprint = rand.nextInt() % 2 == 0 ? blueprintses.fst().get(rands[i]) : blueprintses.snd().get(rands[i]);
+			var blueprint = rands[i] % 2 == 0 ? blueprintses.fst().get(i) : blueprintses.snd().get(i);
 
 			blueprint = MinionBlueprint.builder()
 				.name(blueprint.name())
