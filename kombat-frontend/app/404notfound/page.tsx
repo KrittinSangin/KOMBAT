@@ -1,6 +1,6 @@
 "use client";
 
-import GameLayout from "../../components/GameLayout";
+import GameLayout from "../gameInit/components/GameLayout";
 import PlayButton from "../../components/Button";
 import { useRouter } from "next/navigation";
 

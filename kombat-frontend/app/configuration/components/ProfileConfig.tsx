@@ -17,7 +17,7 @@ export default function ProfileConfig({ team, left, top, online1, online2 }: Pro
 
     const Online = "#3ee64c";
     const Offline = "#c62323";
-
+   
     return (
         <div
             className="fixed w-[400px] h-[210px] border-3"
@@ -33,7 +33,12 @@ export default function ProfileConfig({ team, left, top, online1, online2 }: Pro
             <div
                 className="w-8 h-8 rounded-full absolute left-[330px] top-[30px]"
                 style={{ backgroundColor: online1 ? Online : Offline }}
-            ></div>
+            >
+                {team == 3 ? <img
+                src="/robot.jpg"
+                ></img> : <></>
+                }
+            </div>
 
             <div className="absolute left-3.5 top-32.5 w-[60px] h-[60px] bg-white"></div>
             <input
@@ -45,7 +50,12 @@ export default function ProfileConfig({ team, left, top, online1, online2 }: Pro
             <div
                 className="w-8 h-8 rounded-full absolute left-[330px] top-[140px]"
                 style={{ backgroundColor: online2 ? Online : Offline }}
-            ></div>
+            >
+            {team == 2 || 3 ? <img
+                src="/robot.jpg"
+                ></img> : <></>
+                }
+            </div>
         </div>
     );
 }
