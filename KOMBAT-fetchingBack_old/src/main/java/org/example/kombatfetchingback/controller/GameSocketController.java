@@ -39,6 +39,7 @@ public class GameSocketController
 	@MessageMapping("/game/ready")
 	public void markReadyAndSetDeck(@Payload PlayerReadyDTO dto)
 	{
+
 		//mark ready
 		if (dto.playerTeam() == 0)
 		{
@@ -66,11 +67,8 @@ public class GameSocketController
 		if (gameRepository.isBothReady())
 		{
 			startGame();
-			messagingTemplate.convertAndSend("/topic/startGame", "Both players ready");
-			//Randomization goes here
 			return;
 		}
-		messagingTemplate.convertAndSend("/topic/startGame", "Both players not ready");
 	}
 
 //	@MessageMapping("/game/unready")

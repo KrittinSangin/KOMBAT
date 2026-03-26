@@ -158,6 +158,6 @@ export interface StartInfoDTO {
     config: Config,
     info1:PlayerInfo,
     info2:PlayerInfo,
-    universalDeck:MinionBlueprint[],
+    deck:MinionBlueprint[],
 
 }

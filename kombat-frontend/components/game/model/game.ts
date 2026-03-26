@@ -105,7 +105,7 @@ export const startGame: (info:StartInfoDTO) => Game = (info) => {
 
     game.cfg = info.config;
 
-    const universalDeck: Minion[] = info.universalDeck.map((m) => minionBlueprint2MinionAdapter(m))
+    const universalDeck: Minion[] = info.deck.map((m) => minionBlueprint2MinionAdapter(m))
 
     const p0 = createPlayer(info.info1,universalDeck)
     const p1 = createPlayer(info.info2,universalDeck)
