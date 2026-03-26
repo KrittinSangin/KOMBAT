@@ -295,6 +295,14 @@ public class Game
 			winner = calculateWinner();
 		}
 
+		public EndState()
+		{
+			super(GameStateEnum.end);
+			IO.println("Game End");
+			isGameOver = true;
+			winner = calculateWinner();
+		}
+
 		@Override
 		public void resolve(PlayerIntent intent)
 		{
@@ -430,7 +438,7 @@ public class Game
 		if (intent.intent().equals(PlayerIntentEnum.resign))
 		{
 			isGameResign = true;
-			gameState = new EndState(gameState);
+			gameState = new EndState();
 		}
 	}
 

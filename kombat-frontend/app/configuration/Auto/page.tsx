@@ -4,12 +4,12 @@ import { PermsConfig2ConfigAdapter, useConfigStore } from "../Store/useConfigSto
 import Slider from "../../../components/Slider"
 import CodeHost from "../components/CodeHost"
 import ProfileConfig from "../components/ProfileConfig"
-import { Global2Players } from "../components/ProfileConfig" 
-import Button from "../../../components/Button" 
+import Button from "../../../components/Button"
 import { useOriginStore } from "../../gamemode/Store/DuelOriginStore"
 import { useRouter } from "next/navigation"
+import {useGlobalPlayerStore} from "../Store/GlobalPlayerStore";
 
-export default function AutoPage() { 
+export function AutoPage() {
     const router = useRouter();
 
     const sliderRange = {
@@ -45,14 +45,14 @@ export default function AutoPage() {
 
     const SendDirectlyToBack = async () => {
         useOriginStore.getState().setOrigin("BOT_VS_BOT")
-        
+
         try {
             const res = await fetch(`${process.env.NEXT_PUBLIC_LINK}/data/config`, {
                 method: "POST",
                 body: JSON.stringify({
                     config: PermsConfig2ConfigAdapter(config),
-                    Player1Name: Global2Players.getState().player1,
-                    Player2Name: Global2Players.getState().player2
+                    Player1Name: useGlobalPlayerStore.getState().player1,
+                    Player2Name: useGlobalPlayerStore.getState().player2
                 }),
                 headers: {
                     "content-type": "application/json"
@@ -60,7 +60,7 @@ export default function AutoPage() {
             });
 
             if (res.ok) {
-                router.push("/gameInit"); 
+                router.push("/gameInit");
             } else {
                 console.error("Failed to send config to backend.");
             }
@@ -72,7 +72,8 @@ export default function AutoPage() {
     return (
         <>
             <GameLayout src="/homepage_bg.jpeg" alt="Create Room">
-                <p className="text-color-[#000] w-[800px] text-[70px] font-jersey25 tracking-[5px] absolute top-[-380px] text-center">Mode Auto</p>
+                <p className="text-color-[#000] w-[800px] text-[70px] font-jersey25 tracking-[5px] absolute top-[-380px] text-center">Mode
+                    Auto</p>
                 <div className="box-content fixed left-0 top-0 w-[50%] h-full" style={{backgroundColor: "#B8B8B8"}}>
                     <h1 className="text-color-[#000] text-[70px] font-jersey25 tracking-[2px] absolute top-5 left-44">
                         Configuration

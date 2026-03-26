@@ -29,22 +29,32 @@ public class GameRepository
 	@Getter @Setter
 	private boolean p2Ready = false;
 
-	public void createNewStartInfoBuilder()
+	public void resetRepositoryExceptGame()
 	{
-		IO.println("builder created");
-		builder = StartInfo.builder();
+		builder = null;
+		p1Bluepirnt = null;
+		p2Bluepirnt = null;
+		p1Ready = false;
+		p2Ready = false;
+	}
+
+	public void createNewStartInfoBuilderIfNull()
+	{
+		if (builder == null)
+		{
+			IO.println("builder created");
+			builder = StartInfo.builder();
+		}
 	}
 
 	public void setStartConfig(Config cfg)
 	{
-		IO.println("set config");
-		IO.println(cfg);
 		builder.config(cfg);
 	}
 
 	public void setStartPlayer(PlayerInfo info)
 	{
-		IO.println("set startPlayer");
+		IO.println("set startPlayer : %s".formatted(info));
 		if (info.team() == 0)
 		{
 			builder.info1(info);
@@ -99,6 +109,9 @@ public class GameRepository
 
 		game = new Game(info);
 		game.start();
+
+		//other value is used. now only the game matters
+		resetRepositoryExceptGame();
 	}
 
 	public GameDTO updateGame(PlayerIntent intent)
@@ -112,6 +125,14 @@ public class GameRepository
 	{
 		return builder.build();
 	}
+
+	public StartInfo getStartInfoAndDestroyBuilder()
+	{
+		StartInfo info = builder.build();
+		builder = null;
+		return info;
+	}
+
 
 	public boolean isBothReady()
 	{

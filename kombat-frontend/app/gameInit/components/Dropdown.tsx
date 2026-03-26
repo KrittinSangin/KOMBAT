@@ -18,7 +18,7 @@ interface Props {
 }
 
 export default function Dropdown({selectingMinionIndex, selectedSprite}: Props) {
-    const {files, setFiles} = useStrategyFilesStore()
+    const {files, setFiles,reset} = useStrategyFilesStore()
     const {minionBlueprints,setBlueprint} = useMinionBlueprintsStore();
 
     const isHost = useOriginStore.getState().checkOrigin() == "CREATE"
@@ -30,7 +30,6 @@ export default function Dropdown({selectingMinionIndex, selectedSprite}: Props) 
     const [showStrategy, setShowStrategy] = useState("Select Strategy"); //✅
     const [showContent, setShowContent] = useState(false); //open text area
 
-    const [currentFileParsePassed, setPassed] = useState(false);
     const [currentFileSaved, setSaved] = useState(false);
     const [savedNoDelay, setSavedNoDelay] = useState(false);
 
@@ -51,8 +50,9 @@ export default function Dropdown({selectingMinionIndex, selectedSprite}: Props) 
     };
 
     useEffect(() => {
-        useStrategyFilesStore.getState().setFiles(files)
-    }, [files])
+        reset()
+    }, []);
+
     const minionName = useMinionStore(state => state.minionName);
 
     const handleUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -135,7 +135,6 @@ export default function Dropdown({selectingMinionIndex, selectedSprite}: Props) 
         setContent(file.content);
         setShowStrategy(file.name);
         setIsDropdownVisible(false);
-        setPassed(file.isParsedSuccess);
         setOwner(file.ownerIndex == null? null : file.ownerIndex+1);
     };
 
@@ -224,9 +223,7 @@ export default function Dropdown({selectingMinionIndex, selectedSprite}: Props) 
                         })
 
                     }
-                    setPassed(data);
                     foundFile.isParsedSuccess = data;
-                    console.log(useMinionStore.getState().minionName)
                     foundFile.spriteName = minionName // LazyLargeFish
                     foundFile.defenseFactor = useMinionStore.getState().defFactor
                     

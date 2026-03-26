@@ -12,9 +12,11 @@ export type StrategyFile = {
 interface StrategyFilesStore {
     files: StrategyFile[];
     setFiles: (min: StrategyFile[]) => void
+    reset: () => void
 }
 
 export const useStrategyFilesStore = create<StrategyFilesStore>((set) => ({
     files: [],
-    setFiles: (min: StrategyFile[]) => set({files: min})
+    setFiles: (min: StrategyFile[]) => set({files: min}),
+    reset: () => set({files:[]}),
 }));

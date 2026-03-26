@@ -124,6 +124,7 @@ public class ConsoleRunner
 			}
 			cv.draw();
 		}
+		IO.println("The Winner is %s".formatted(instance.getWinner().getInfo().name()));
 	}
 
 	private Map<String,Strategy> parseStrategy(List<String> filenames)

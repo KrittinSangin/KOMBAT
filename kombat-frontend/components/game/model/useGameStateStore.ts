@@ -17,15 +17,23 @@ export const useGameStateStore = create<useGameState>((set) => ({
     gameDTO: emptyGameDTO,
 
     start: (startInfo) =>
-        set({game: startGame(startInfo)}),
+        set(() => {
+            return {game: startGame(startInfo)}
+        }),
 
     set: (game) =>
-        set({game: game}),
+        set(() => {
+            return {game: game}
+        }),
 
-    update: (dto) => set((state) => ({
-        game: updateGame(state.game,dto),
-        gameDTO: dto
-    })),
+    update: (dto) => set((state) => {
+        const newGame = updateGame(state.game,dto);
+
+        return {
+            game: {...newGame},
+            gameDTO: {...dto}
+        }
+    }),
 
     reset: () => set({game:emptyGame, gameDTO:emptyGameDTO}),
 }))

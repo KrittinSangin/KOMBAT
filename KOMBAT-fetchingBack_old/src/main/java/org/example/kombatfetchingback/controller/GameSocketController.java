@@ -88,17 +88,21 @@ public class GameSocketController
                 )));
         return deck;
     }
-//	@MessageMapping("/game/unready")
-//	public void markUnready(@Payload PlayerReadyDTO dto)
-//	{
-//		//mark not ready
-//		if (dto.playerTeam() == 1) {gameRepository.setP1Ready(true);} else {gameRepository.setP2Ready(true);}
-//	}
 
-	//start the game
+	//start info
 	public void startGame()
 	{
-		var unprocessStartInfo = gameRepository.getStartInfo();
+		var unprocessStartInfo = gameRepository.getStartInfoAndDestroyBuilder();
+
+		//malform info guard
+		if (unprocessStartInfo.info1() == null
+		|| unprocessStartInfo.info2() == null
+		|| unprocessStartInfo.deck1() == null
+		|| unprocessStartInfo.deck2() == null
+		|| unprocessStartInfo.config() == null)
+		{
+			throw new RuntimeException("Malform Start Info");
+		}
 
 		//unpack data
 		List<Minion> deck1 = unprocessStartInfo.deck1();

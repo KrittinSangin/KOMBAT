@@ -63,13 +63,16 @@ export default function GameInitPage() {
         webSocketFactory: () => new SockJS(`${process.env.NEXT_PUBLIC_LINK}/ws`),
         onConnect: () => {
             client.subscribe("/topic/startGame", message => {
+                const state = useGameStateStore.getState()
+
                 const intelligentMessage: GameStartDTO = JSON.parse(message.body)
                 console.log(intelligentMessage.universalDeck);
                 useMinionPreviewStore.getState().setExportedDeck(intelligentMessage.universalDeck)
 
                 //start game
-                console.log(intelligentMessage.startInfoDTO)
-                start(intelligentMessage.startInfoDTO)
+                state.reset();
+                console.log(intelligentMessage.startInfoDTO);
+                state.start(intelligentMessage.startInfoDTO);
                 console.log("Game Started!");
                 console.log(game);
 

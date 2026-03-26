@@ -36,7 +36,7 @@ public class DataController
 		IO.print("Config dto : ");
 		IO.println(dto);
 
-		gameRepository.createNewStartInfoBuilder();
+		gameRepository.createNewStartInfoBuilderIfNull();
 		gameRepository.setStartConfig(dto.config());
 		gameRepository.setStartPlayer(new PlayerInfo(dto.playerName(), dto.playerTeam()));
 	}

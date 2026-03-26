@@ -133,9 +133,9 @@ export const updateGame: (game:Game, dto:GameDTO) => Game = (game:Game, dto:Game
     game.map = createHexMap(game.cfg.mapHeight,game.cfg.mapWidth)
     game.minion = [];
 
-    game.players.forEach((player,i) => // "i" is current team
+    game.players.forEach((_,i) => // "i" is current team
         {
-            updatePlayer(player,dto.players[i]);
+            updatePlayer(game.players[i],dto.players[i]);
 
             //update territory.
             dto.players[i].territories.forEach((pos) => {
@@ -151,11 +151,17 @@ export const updateGame: (game:Game, dto:GameDTO) => Game = (game:Game, dto:Game
                 const hex = game.map.map.get(hexKey(mdto.pos))
                 if (hex)
                 {
-                    const newMinion = player.deck[mdto.deckIndex];
-                    newMinion.hp = mdto.hp;
-                    newMinion.team = i;
+                    const baseMinion = game.players[i].deck[mdto.deckIndex]
+                    const newMinion = {
+                            ...baseMinion,
+                        hp: mdto.hp,
+                        team: mdto.team
+                        };
                     hex.minion = newMinion;
                     game.minion.push(newMinion);
+
+                    console.log("index is : " + i);
+                    console.log(newMinion);
                 }
             })
         }

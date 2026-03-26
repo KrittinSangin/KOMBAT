@@ -160,7 +160,7 @@ export default function EndScreen({game}: Props) {
                     bg-teal-600 text-white
                     text-3xl z-10
                     transition active:scale-95 hover:bg-teal-700"
-                onClick={() => window.location.reload()}
+                onClick={() => router.push("/")}
             >
                 Back to Menu
             </button>
