@@ -12,7 +12,7 @@ interface Props {
 }
 
 export default function GameInfoBar({game}: Props) {
-    const {myTeam} = useOriginStore();
+    const {myTeam,isMode} = useOriginStore();
     const {setIntent, submitIntent,askBotIntent} = useIntent();
     const {client} = useSocketStore();
 
@@ -31,7 +31,7 @@ export default function GameInfoBar({game}: Props) {
     }, [running]);
 
 
-    const team = myTeam();
+    const team = isMode("AUTO") ? game.team : myTeam();
 
     const budgetMax = game.cfg.maxBudget;
     const turn = game.turn;
@@ -43,17 +43,27 @@ export default function GameInfoBar({game}: Props) {
     const interestRate = game.players[team].interestRatePercentage;
 
     const handleIntent = (intent: PlayerIntentEnum) => {
-
-        if (game.team == myTeam()) {
-            setIntent(intent);
+        if(isMode("DUEL") || isMode("SOLITAIRE"))
+        {
+            if (game.team == myTeam()) {
+                setIntent(intent);
+                if (client)
+                    submitIntent(client);
+            }
+        }
+        else if (isMode("AUTO"))
+        {
             if (client)
                 submitIntent(client);
         }
     }
 
-    const handleBot = (intent: PlayerIntentEnum) => {
-            if (client)
-                askBotIntent(client);
+    const handleBot = () => {
+        if (isMode("DUEL")) return;
+        if (isMode("SOLITAIRE") && myTeam() == game.team) return;
+
+        if (client)
+            askBotIntent(client);
     }
 
     function noticeWindowHandle() {
@@ -149,7 +159,9 @@ export default function GameInfoBar({game}: Props) {
         </button>
 
         {/*advance button*/}
-        <button
+        <button hidden={
+            isMode("DUEL") || (isMode("SOLITAIRE") && myTeam() == game.team )
+        }
             className=" absolute top-0 left-1/2 translate-x-56 translate-y-10 rounded-md
                     h-22 w-28 flex flex-col justify-center items-center drop-shadow-2xl
                     bg-lime-700 text-white
@@ -157,7 +169,7 @@ export default function GameInfoBar({game}: Props) {
                     transition active:scale-95"
             onClick={() => {
 
-                handleBot(PlayerIntentEnum.skip)
+                handleBot()
             }}
         >
             Advance Bot

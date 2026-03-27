@@ -7,6 +7,9 @@ const medicine_T = c_Texture("/game/texture/minion/Medicine.png",c_Vec2(240,320)
 const knight_T = c_Texture("/game/texture/minion/Knight.png",c_Vec2(1398,1362))
 const scarlet_T = c_Texture("/game/texture/minion/Scarlet.png",c_Vec2(260,410))
 const ryuu_T = c_Texture("/game/texture/minion/Ryuu-chan.png",c_Vec2(340,460))
+const warrior_gif = c_Texture("/game/texture/minion/Warrior.gif",c_Vec2(115,155));
+const archer_gif = c_Texture("/game/texture/minion/Archer.gif",c_Vec2(80,155));
+const mage_gif = c_Texture("/game/texture/minion/Mage.gif",c_Vec2(115,165));
 
 const gamHexN_T = c_Texture("/game/texture/hex/Gam-Hex.png",c_Vec2(3210,2090))
 const gamHexB_T = c_Texture("/game/texture/hex/Gam-Hex-blue.png",c_Vec2(3330,2010))
@@ -24,7 +27,8 @@ const crown_R_T = c_Texture("/game/texture/ui/CrownRed.png",c_Vec2(400,255))
 
 const heart_T = c_Texture("/game/texture/icon/Hearth.png",c_Vec2(90,80));
 
-export {madoka_T,medicine_T,knight_T,scarlet_T,ryuu_T,
+
+export {madoka_T,medicine_T,knight_T,scarlet_T,ryuu_T, warrior_gif, archer_gif, mage_gif,
     gamHexN_T,gamHexB_T,gamHexR_T,
     card_BG_T, card_FG_T,
     ribbon_R_T, ribbon_B_T, ribbon_P_T,

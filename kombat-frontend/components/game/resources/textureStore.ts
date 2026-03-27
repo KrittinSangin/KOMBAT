@@ -1,5 +1,5 @@
 import {Texture} from "../type/Rendering";
-import {knight_T, madoka_T, medicine_T, ryuu_T, scarlet_T} from "./textureResource";
+import {archer_gif, knight_T, madoka_T, mage_gif, medicine_T, ryuu_T, scarlet_T, warrior_gif} from "./textureResource";
 
 function createTextureMap(entries: [string, Texture][]) {
     const map: Record<string, Texture> = {};
@@ -18,5 +18,8 @@ export const textureStore = (textureName:string) => {
         ["Knight", knight_T],
         ["Scarlet", scarlet_T],
         ["Ryuu-chan", ryuu_T],
+        ["Warrior", warrior_gif],
+        ["Mage", mage_gif],
+        ["Archer", archer_gif],
     ])[textureName]
 }

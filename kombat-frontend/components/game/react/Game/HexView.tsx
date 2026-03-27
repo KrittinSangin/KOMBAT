@@ -25,9 +25,8 @@ export default function HexView({
                                     highlight,
                                     hex
                                 }: Props) {
-    const {state} = useOriginStore()
+    const {myTeam,isMode} = useOriginStore()
     const {game} = useGameStateStore()
-    const myTeam = state == "CREATE"? 0: 1;
 
     const [hover, setHover] = useState(false)
     const {intent,setIntent,setHex, submitIntent} = useIntent();
@@ -85,7 +84,7 @@ export default function HexView({
     }
 
     const handleIntent = () => {
-        if (myTeam != game.team) return;
+        if (myTeam() != game.team || isMode("AUTO")) return;
 
         setHex(hex.hexPos);
 

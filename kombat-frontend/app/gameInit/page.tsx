@@ -93,6 +93,8 @@ export default function GameInitPage() {
         const nextReadyState = ready ? false : !hasBrokenStrategy;
         setReady(nextReadyState);
 
+        if (!nextReadyState) return;
+
         useSocketStore.getState().client?.publish({
             destination: "/app/game/ready",
             body: JSON.stringify({

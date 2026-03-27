@@ -18,7 +18,7 @@ interface Props {
 
 export default function UnitCard({minion, index, transform}: Props) {
     const {game} = useGameStateStore();
-    const {myTeam} = useOriginStore();
+    const {myTeam,isMode} = useOriginStore();
 
     const [hover, setHover] = useState(false)
     const {intent, setMinion, setIntent} = useIntent();
@@ -82,13 +82,12 @@ export default function UnitCard({minion, index, transform}: Props) {
     )
 
     const onClickHandle = () => {
-        if (myTeam() != game.team)
+        if (myTeam() == game.team && !isMode("AUTO"))
         {
-            return;
+            console.log(`selected ${minion.name}`);
+            setMinion(index);
+            setIntent(PlayerIntentEnum.buyMinion);
         }
-        console.log(`selected ${minion.name}`);
-        setMinion(index);
-        setIntent(PlayerIntentEnum.buyMinion);
     }
 
     return <div style={{

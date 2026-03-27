@@ -27,7 +27,7 @@ export const useMinionStore = create<MinionStore>((set) => ({
 }));
 
 export default function MinionProfile({minionIndex, onReturn}: minionProfileProps) {
-    const {minionBlueprints,isInitialized,setBlueprint} = useMinionBlueprintsStore();
+    const {minionBlueprints, isInitialized, setBlueprint} = useMinionBlueprintsStore();
 
     const sliderRange = {
         defFactor: {min: 1, max: 999}
@@ -35,25 +35,25 @@ export default function MinionProfile({minionIndex, onReturn}: minionProfileProp
     const [config, setConfig] = useState({defFactor: sliderRange.defFactor.max})
     const [minionSpriteIndex, setMinionSpriteIndex] = useState(0)
 
-    const images = ["Knight", "Madoka", "Medicine", "Ryuu-chan", "Scarlet"];
+    const images = ["Knight", "Madoka", "Medicine", "Ryuu-chan", "Scarlet", "Warrior", "Mage", "Archer"];
 
     useEffect(() => {
         onReturn(images[minionIndex]);
         if (isInitialized)
-        setMinionSpriteIndex(images.indexOf(minionBlueprints[minionIndex].spriteName == "" ? "Knight" : minionBlueprints[minionIndex].spriteName ));
-        
+            setMinionSpriteIndex(images.indexOf(minionBlueprints[minionIndex].spriteName == "" ? "Knight" : minionBlueprints[minionIndex].spriteName));
+
         console.log(useMinionStore.getState().minionName)
     }, [minionIndex]);
 
     if (!isInitialized) return <></>
 
     const changeMinionName = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setBlueprint(minionIndex,{...minionBlueprints[minionIndex],name:e.target.value});
+        setBlueprint(minionIndex, {...minionBlueprints[minionIndex], name: e.target.value});
     };
 
 
     const handleDefFactorChange = (value: number) => {
-        setBlueprint(minionIndex,{...minionBlueprints[minionIndex],def:value});
+        setBlueprint(minionIndex, {...minionBlueprints[minionIndex], def: value});
     }
 
     const left: number = 590;
@@ -62,17 +62,27 @@ export default function MinionProfile({minionIndex, onReturn}: minionProfileProp
 
 
     const incrementUp = () => {
-        const next = (minionSpriteIndex + 1) % 5;
+        const next = (minionSpriteIndex + 1) % 8;
         setMinionSpriteIndex(next);
         useMinionStore.getState().setMinionNameZus(images[next])
-        setBlueprint(minionIndex,{...minionBlueprints[minionIndex],spriteName:images[next]})
+        setBlueprint(minionIndex, {...minionBlueprints[minionIndex], spriteName: images[next]})
     }
 
     const incrementDown = () => {
-        const next = (minionSpriteIndex + 4) % 5;
+        const next = (minionSpriteIndex + 7) % 8;
         setMinionSpriteIndex(next);
         useMinionStore.getState().setMinionNameZus(images[next])
-        setBlueprint(minionIndex,{...minionBlueprints[minionIndex],spriteName:images[next]})
+        setBlueprint(minionIndex, {...minionBlueprints[minionIndex], spriteName: images[next]})
+    }
+
+    function previewSprite() {
+        const name = images[minionSpriteIndex];
+        if (!name) return "";
+
+        if (name === "Warrior" || name === "Mage" || name === "Archer") {
+            return `/minions/${name}.gif`;
+        }
+        return `/minions/${name}.png`;
     }
 
     return (
@@ -80,8 +90,8 @@ export default function MinionProfile({minionIndex, onReturn}: minionProfileProp
             {/*Minion Images*/}
             <div className=" absolute top-[190px] left-[990px]">
                 <img src="/forest.jpg" alt="minion_bg w-full h-full" className="w-60 h-80"/>
-                <img className="absolute left-[60px] bottom-[80px]" src={"/minions/" + images[minionSpriteIndex] + ".png"}
-                     alt="slide" width={100} height={100}/>
+                <img className="absolute left-[60px] bottom-[80px]" src={previewSprite()}
+                     width={100} height={100}/>
             </div>
 
             {/*Change Images*/}
@@ -94,7 +104,7 @@ export default function MinionProfile({minionIndex, onReturn}: minionProfileProp
                 <input type="text" value={minionBlueprints[minionIndex].name} onChange={changeMinionName}
                        className="absolute top-[0px] left-[0px] w-full h-full text-[30px] text-center font-jersey25"/>
             </div>
-            <div className="bg-white absolute">
+            <div className="bg-white absolute top-13/16 left-27/48 w-100">
                 <Slider min={sliderRange.defFactor.min} max={sliderRange.defFactor.max} bottom={120} left={left}
                         overlayText="Defense Factor" borderColor={borderColor} sliderColor={sliderColor}
                         value={minionBlueprints[minionIndex].def} setState={handleDefFactorChange}></Slider>

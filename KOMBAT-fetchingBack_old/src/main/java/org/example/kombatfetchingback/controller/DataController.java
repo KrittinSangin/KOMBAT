@@ -4,11 +4,17 @@ package org.example.kombatfetchingback.controller;
 import lombok.RequiredArgsConstructor;
 import org.example.kombatfetchingback.handler.MessageHolder;
 import org.example.kombatfetchingback.handler.MyDataHandler;
+import org.example.kombatfetchingback.kombat_backend.Games.Configs.Config;
+import org.example.kombatfetchingback.kombat_backend.Games.Configs.ConfigReader;
 import org.example.kombatfetchingback.kombat_backend.Games.Player.PlayerInfo;
 import org.example.kombatfetchingback.model.ConfigPageDTO;
 import org.example.kombatfetchingback.model.InitSoloDTO;
 import org.example.kombatfetchingback.repository.GameRepository;
 import org.springframework.web.bind.annotation.*;
+
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
 
 
 @RestController
@@ -50,5 +56,21 @@ public class DataController
 		gameRepository.setStartConfig(dto.config());
 		gameRepository.setStartPlayer(new PlayerInfo(dto.name1(),0));
 		gameRepository.setStartPlayer(new PlayerInfo(dto.name2(),1));
+	}
+	
+	@GetMapping("/defaultConfig")
+	public Config getDefaultConfig()
+	{
+		ConfigReader cr = new ConfigReader();
+		Config cfg = null;
+		try (BufferedReader br = new BufferedReader(new FileReader("src/main/resources/config/default.txt")))
+		{
+			cfg = cr.readConfig(br.readAllAsString());
+		}
+		catch (IOException _)
+		{
+		}
+
+		return cfg;
 	}
 }

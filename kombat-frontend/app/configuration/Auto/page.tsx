@@ -17,16 +17,17 @@ export default function AutoPage() {
     const {setOrigin,setModeAuto} = useOriginStore()
 
     const sliderRange = {
-        initHp: {min: 1, max: 100},
+        initHp: {min: 1, max: 1000},
         minionCount: {min: 1, max: 5},
         maxTurn: {min: 1, max: 100},
-        initBudget: {min: 1, max: 100},
-        maxBudget: {min: 1, max: 100},
+        initBudget: {min: 1, max: 100000},
+        maxBudget: {min: 1, max: 1000000},
         interestPct: {min: 1, max: 100},
-        hexPurchaseCost: {min: 1, max: 100},
-        spawnCost: {min: 1, max: 100},
-        maxSpawn: {min: 1, max: 100},
+        hexPurchaseCost: {min: 1, max: 10000},
+        spawnCost: {min: 1, max: 10000},
+        maxSpawn: {min: 1, max: 1000},
     }
+
     const left: number = -100;
     const borderColor: string = "grey";
     const sliderColor: string = "white";
@@ -44,7 +45,8 @@ export default function AutoPage() {
         setMaximumSpawn,
         setTurnBudget,
         setAll,
-        reset
+        reset,
+        fetchDefaultConfig
     } = useConfigStore()
 
     const SendDirectlyToBack = async () => {
@@ -132,7 +134,7 @@ export default function AutoPage() {
                                     setState={setMinions}></Slider>
                             <div className="absolute w-[200px] h-[40px] bottom-[30px] left-[35%]"
                                  style={{backgroundColor: "#a8a8a8"}}>
-                                <p className="text-white text-[25px] text-center" onClick={reset}>Set to
+                                <p className="text-white text-[25px] text-center" onClick={fetchDefaultConfig}>Set to
                                     default</p>
                             </div>
 
